@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yz.shopping.mapper.ShoppingDemandMapper">
+    
+    <resultMap type="ShoppingDemand" id="ShoppingDemandResult">
+        <result property="demandId"    column="demand_id"    />
+        <result property="demandMaId"    column="demand_ma_id"    />
+        <result property="demandCount"    column="demand_count"    />
+        <result property="demandTime"    column="demand_time"    />
+        <result property="remark"    column="remark"    />
+        <result property="budgetAmount"    column="budget_amount"    />
+        <result property="orderCount"    column="order_count"    />
+        <result property="warehousingCount"    column="warehousing_count"    />
+    </resultMap>
+
+    <sql id="selectShoppingDemandVo">
+        select demand_id, demand_ma_id, demand_count, demand_time, remark, budget_amount, order_count, warehousing_count from shopping_demand
+    </sql>
+
+    <select id="selectShoppingDemandList" parameterType="ShoppingDemand" resultMap="ShoppingDemandResult">
+        <include refid="selectShoppingDemandVo"/>
+        <where>  
+            <if test="demandMaId != null "> and demand_ma_id = #{demandMaId}</if>
+            <if test="demandCount != null "> and demand_count = #{demandCount}</if>
+            <if test="demandTime != null "> and demand_time = #{demandTime}</if>
+            <if test="budgetAmount != null "> and budget_amount = #{budgetAmount}</if>
+            <if test="orderCount != null "> and order_count = #{orderCount}</if>
+            <if test="warehousingCount != null "> and warehousing_count = #{warehousingCount}</if>
+        </where>
+    </select>
+    
+    <select id="selectShoppingDemandByDemandId" parameterType="Long" resultMap="ShoppingDemandResult">
+        <include refid="selectShoppingDemandVo"/>
+        where demand_id = #{demandId}
+    </select>
+        
+    <insert id="insertShoppingDemand" parameterType="ShoppingDemand" useGeneratedKeys="true" keyProperty="demandId">
+        insert into shopping_demand
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="demandMaId != null">demand_ma_id,</if>
+            <if test="demandCount != null">demand_count,</if>
+            <if test="demandTime != null">demand_time,</if>
+            <if test="remark != null">remark,</if>
+            <if test="budgetAmount != null">budget_amount,</if>
+            <if test="orderCount != null">order_count,</if>
+            <if test="warehousingCount != null">warehousing_count,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="demandMaId != null">#{demandMaId},</if>
+            <if test="demandCount != null">#{demandCount},</if>
+            <if test="demandTime != null">#{demandTime},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="budgetAmount != null">#{budgetAmount},</if>
+            <if test="orderCount != null">#{orderCount},</if>
+            <if test="warehousingCount != null">#{warehousingCount},</if>
+         </trim>
+    </insert>
+
+    <update id="updateShoppingDemand" parameterType="ShoppingDemand">
+        update shopping_demand
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="demandMaId != null">demand_ma_id = #{demandMaId},</if>
+            <if test="demandCount != null">demand_count = #{demandCount},</if>
+            <if test="demandTime != null">demand_time = #{demandTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="budgetAmount != null">budget_amount = #{budgetAmount},</if>
+            <if test="orderCount != null">order_count = #{orderCount},</if>
+            <if test="warehousingCount != null">warehousing_count = #{warehousingCount},</if>
+        </trim>
+        where demand_id = #{demandId}
+    </update>
+
+    <delete id="deleteShoppingDemandByDemandId" parameterType="Long">
+        delete from shopping_demand where demand_id = #{demandId}
+    </delete>
+
+    <delete id="deleteShoppingDemandByDemandIds" parameterType="String">
+        delete from shopping_demand where demand_id in 
+        <foreach item="demandId" collection="array" open="(" separator="," close=")">
+            #{demandId}
+        </foreach>
+    </delete>
+</mapper>

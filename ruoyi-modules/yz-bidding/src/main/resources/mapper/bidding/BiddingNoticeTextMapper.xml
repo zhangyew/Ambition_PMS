@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yz.bidding.mapper.BiddingNoticeTextMapper">
+    
+    <resultMap type="BiddingNoticeText" id="BiddingNoticeTextResult">
+        <result property="noticeTextId"    column="notice_text_id"    />
+        <result property="tenderNoticeId"    column="tender_notice_id"    />
+        <result property="noticeAddress"    column="notice_address"    />
+        <result property="uploadTime"    column="upload_time"    />
+        <result property="uploadBy"    column="upload_by"    />
+    </resultMap>
+
+    <sql id="selectBiddingNoticeTextVo">
+        select notice_text_id, tender_notice_id, notice_address, upload_time, upload_by from bidding_notice_text
+    </sql>
+
+    <select id="selectBiddingNoticeTextList" parameterType="BiddingNoticeText" resultMap="BiddingNoticeTextResult">
+        <include refid="selectBiddingNoticeTextVo"/>
+        <where>  
+            <if test="tenderNoticeId != null "> and tender_notice_id = #{tenderNoticeId}</if>
+            <if test="noticeAddress != null  and noticeAddress != ''"> and notice_address = #{noticeAddress}</if>
+            <if test="uploadTime != null "> and upload_time = #{uploadTime}</if>
+            <if test="uploadBy != null "> and upload_by = #{uploadBy}</if>
+        </where>
+    </select>
+    
+    <select id="selectBiddingNoticeTextByNoticeTextId" parameterType="Long" resultMap="BiddingNoticeTextResult">
+        <include refid="selectBiddingNoticeTextVo"/>
+        where notice_text_id = #{noticeTextId}
+    </select>
+        
+    <insert id="insertBiddingNoticeText" parameterType="BiddingNoticeText" useGeneratedKeys="true" keyProperty="noticeTextId">
+        insert into bidding_notice_text
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="tenderNoticeId != null">tender_notice_id,</if>
+            <if test="noticeAddress != null">notice_address,</if>
+            <if test="uploadTime != null">upload_time,</if>
+            <if test="uploadBy != null">upload_by,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="tenderNoticeId != null">#{tenderNoticeId},</if>
+            <if test="noticeAddress != null">#{noticeAddress},</if>
+            <if test="uploadTime != null">#{uploadTime},</if>
+            <if test="uploadBy != null">#{uploadBy},</if>
+         </trim>
+    </insert>
+
+    <update id="updateBiddingNoticeText" parameterType="BiddingNoticeText">
+        update bidding_notice_text
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="tenderNoticeId != null">tender_notice_id = #{tenderNoticeId},</if>
+            <if test="noticeAddress != null">notice_address = #{noticeAddress},</if>
+            <if test="uploadTime != null">upload_time = #{uploadTime},</if>
+            <if test="uploadBy != null">upload_by = #{uploadBy},</if>
+        </trim>
+        where notice_text_id = #{noticeTextId}
+    </update>
+
+    <delete id="deleteBiddingNoticeTextByNoticeTextId" parameterType="Long">
+        delete from bidding_notice_text where notice_text_id = #{noticeTextId}
+    </delete>
+
+    <delete id="deleteBiddingNoticeTextByNoticeTextIds" parameterType="String">
+        delete from bidding_notice_text where notice_text_id in 
+        <foreach item="noticeTextId" collection="array" open="(" separator="," close=")">
+            #{noticeTextId}
+        </foreach>
+    </delete>
+</mapper>

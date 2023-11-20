@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yz.bidding.mapper.PublicExpertMapper">
+    
+    <resultMap type="com.ruoyi.system.api.domain.PublicExpert" id="PublicExpertResult">
+        <result property="expertId"    column="expert_id"    />
+        <result property="name"    column="name"    />
+        <result property="idCard"    column="id_card"    />
+        <result property="expetTypeId"    column="expet_type_id"    />
+        <result property="address"    column="address"    />
+        <result property="phone"    column="phone"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="isDelete"    column="is_delete"    />
+    </resultMap>
+
+    <sql id="selectPublicExpertVo">
+        select expert_id, name, id_card, expet_type_id, address, phone, create_by, create_time, update_by, update_time, is_delete from public_expert
+    </sql>
+
+    <select id="selectPublicExpertList" parameterType="com.ruoyi.system.api.domain.PublicExpert" resultMap="PublicExpertResult">
+        <include refid="selectPublicExpertVo"/>
+        <where>  
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="idCard != null  and idCard != ''"> and id_card = #{idCard}</if>
+            <if test="expetTypeId != null "> and expet_type_id = #{expetTypeId}</if>
+            <if test="address != null  and address != ''"> and address = #{address}</if>
+            <if test="phone != null  and phone != ''"> and phone = #{phone}</if>
+            <if test="isDelete != null "> and is_delete = #{isDelete}</if>
+        </where>
+    </select>
+    
+    <select id="selectPublicExpertByExpertId" parameterType="Long" resultMap="PublicExpertResult">
+        <include refid="selectPublicExpertVo"/>
+        where expert_id = #{expertId}
+    </select>
+        
+    <insert id="insertPublicExpert" parameterType="com.ruoyi.system.api.domain.PublicExpert" useGeneratedKeys="true" keyProperty="expertId">
+        insert into public_expert
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null">name,</if>
+            <if test="idCard != null">id_card,</if>
+            <if test="expetTypeId != null">expet_type_id,</if>
+            <if test="address != null">address,</if>
+            <if test="phone != null">phone,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="isDelete != null">is_delete,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="name != null">#{name},</if>
+            <if test="idCard != null">#{idCard},</if>
+            <if test="expetTypeId != null">#{expetTypeId},</if>
+            <if test="address != null">#{address},</if>
+            <if test="phone != null">#{phone},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="isDelete != null">#{isDelete},</if>
+         </trim>
+    </insert>
+
+    <update id="updatePublicExpert" parameterType="com.ruoyi.system.api.domain.PublicExpert">
+        update public_expert
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null">name = #{name},</if>
+            <if test="idCard != null">id_card = #{idCard},</if>
+            <if test="expetTypeId != null">expet_type_id = #{expetTypeId},</if>
+            <if test="address != null">address = #{address},</if>
+            <if test="phone != null">phone = #{phone},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="isDelete != null">is_delete = #{isDelete},</if>
+        </trim>
+        where expert_id = #{expertId}
+    </update>
+
+    <delete id="deletePublicExpertByExpertId" parameterType="Long">
+        delete from public_expert where expert_id = #{expertId}
+    </delete>
+
+    <delete id="deletePublicExpertByExpertIds" parameterType="String">
+        delete from public_expert where expert_id in 
+        <foreach item="expertId" collection="array" open="(" separator="," close=")">
+            #{expertId}
+        </foreach>
+    </delete>
+</mapper>

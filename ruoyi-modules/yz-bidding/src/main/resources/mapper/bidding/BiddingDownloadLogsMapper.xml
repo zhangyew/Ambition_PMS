@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yz.bidding.mapper.BiddingDownloadLogsMapper">
+    
+    <resultMap type="BiddingDownloadLogs" id="BiddingDownloadLogsResult">
+        <result property="downloadLogsId"    column="download_logs_id"    />
+        <result property="noticeTextId"    column="notice_text_id"    />
+        <result property="tenderName"    column="tender_name"    />
+        <result property="contact"    column="contact"    />
+        <result property="phone"    column="phone"    />
+        <result property="email"    column="email"    />
+        <result property="downloadTime"    column="download_time"    />
+        <result property="isDelete"    column="is_delete"    />
+    </resultMap>
+
+    <sql id="selectBiddingDownloadLogsVo">
+        select download_logs_id, notice_text_id, tender_name, contact, phone, email, download_time, is_delete from bidding_download_logs
+    </sql>
+
+    <select id="selectBiddingDownloadLogsList" parameterType="BiddingDownloadLogs" resultMap="BiddingDownloadLogsResult">
+        <include refid="selectBiddingDownloadLogsVo"/>
+        <where>  
+            <if test="noticeTextId != null "> and notice_text_id = #{noticeTextId}</if>
+            <if test="tenderName != null  and tenderName != ''"> and tender_name like concat('%', #{tenderName}, '%')</if>
+            <if test="contact != null  and contact != ''"> and contact = #{contact}</if>
+            <if test="phone != null  and phone != ''"> and phone = #{phone}</if>
+            <if test="email != null  and email != ''"> and email = #{email}</if>
+            <if test="downloadTime != null "> and download_time = #{downloadTime}</if>
+            <if test="isDelete != null "> and is_delete = #{isDelete}</if>
+        </where>
+    </select>
+    
+    <select id="selectBiddingDownloadLogsByDownloadLogsId" parameterType="Long" resultMap="BiddingDownloadLogsResult">
+        <include refid="selectBiddingDownloadLogsVo"/>
+        where download_logs_id = #{downloadLogsId}
+    </select>
+        
+    <insert id="insertBiddingDownloadLogs" parameterType="BiddingDownloadLogs" useGeneratedKeys="true" keyProperty="downloadLogsId">
+        insert into bidding_download_logs
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="noticeTextId != null">notice_text_id,</if>
+            <if test="tenderName != null">tender_name,</if>
+            <if test="contact != null">contact,</if>
+            <if test="phone != null">phone,</if>
+            <if test="email != null">email,</if>
+            <if test="downloadTime != null">download_time,</if>
+            <if test="isDelete != null">is_delete,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="noticeTextId != null">#{noticeTextId},</if>
+            <if test="tenderName != null">#{tenderName},</if>
+            <if test="contact != null">#{contact},</if>
+            <if test="phone != null">#{phone},</if>
+            <if test="email != null">#{email},</if>
+            <if test="downloadTime != null">#{downloadTime},</if>
+            <if test="isDelete != null">#{isDelete},</if>
+         </trim>
+    </insert>
+
+    <update id="updateBiddingDownloadLogs" parameterType="BiddingDownloadLogs">
+        update bidding_download_logs
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="noticeTextId != null">notice_text_id = #{noticeTextId},</if>
+            <if test="tenderName != null">tender_name = #{tenderName},</if>
+            <if test="contact != null">contact = #{contact},</if>
+            <if test="phone != null">phone = #{phone},</if>
+            <if test="email != null">email = #{email},</if>
+            <if test="downloadTime != null">download_time = #{downloadTime},</if>
+            <if test="isDelete != null">is_delete = #{isDelete},</if>
+        </trim>
+        where download_logs_id = #{downloadLogsId}
+    </update>
+
+    <delete id="deleteBiddingDownloadLogsByDownloadLogsId" parameterType="Long">
+        delete from bidding_download_logs where download_logs_id = #{downloadLogsId}
+    </delete>
+
+    <delete id="deleteBiddingDownloadLogsByDownloadLogsIds" parameterType="String">
+        delete from bidding_download_logs where download_logs_id in 
+        <foreach item="downloadLogsId" collection="array" open="(" separator="," close=")">
+            #{downloadLogsId}
+        </foreach>
+    </delete>
+</mapper>

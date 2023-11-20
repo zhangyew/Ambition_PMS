@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yz.bidding.mapper.BiddingTenderMapper">
+    
+    <resultMap type="BiddingTender" id="BiddingTenderResult">
+        <result property="tenderId"    column="tender_id"    />
+        <result property="tenderNoticeId"    column="tender_notice_id"    />
+        <result property="tenderSupplierId"    column="tender_supplier_id"    />
+        <result property="tenderSupplierName"    column="tender_supplier_name"    />
+        <result property="tenderName"    column="tender_name"    />
+        <result property="contact"    column="contact"    />
+        <result property="phone"    column="phone"    />
+        <result property="tenderTime"    column="tender_time"    />
+        <result property="ipAddress"    column="ip_address"    />
+        <result property="prices"    column="prices"    />
+        <result property="score"    column="score"    />
+        <result property="recommend"    column="recommend"    />
+        <result property="ranking"    column="ranking"    />
+        <result property="state"    column="state"    />
+    </resultMap>
+
+    <sql id="selectBiddingTenderVo">
+        select tender_id, tender_notice_id, tender_supplier_id, tender_supplier_name, tender_name, contact, phone, tender_time, ip_address, prices, score, recommend, ranking, state from bidding_tender
+    </sql>
+
+    <select id="selectBiddingTenderList" parameterType="BiddingTender" resultMap="BiddingTenderResult">
+        <include refid="selectBiddingTenderVo"/>
+        <where>  
+            <if test="tenderNoticeId != null "> and tender_notice_id = #{tenderNoticeId}</if>
+            <if test="tenderSupplierId != null "> and tender_supplier_id = #{tenderSupplierId}</if>
+            <if test="tenderSupplierName != null  and tenderSupplierName != ''"> and tender_supplier_name like concat('%', #{tenderSupplierName}, '%')</if>
+            <if test="tenderName != null  and tenderName != ''"> and tender_name like concat('%', #{tenderName}, '%')</if>
+            <if test="contact != null  and contact != ''"> and contact = #{contact}</if>
+            <if test="phone != null  and phone != ''"> and phone = #{phone}</if>
+            <if test="tenderTime != null "> and tender_time = #{tenderTime}</if>
+            <if test="ipAddress != null  and ipAddress != ''"> and ip_address = #{ipAddress}</if>
+            <if test="prices != null "> and prices = #{prices}</if>
+            <if test="score != null  and score != ''"> and score = #{score}</if>
+            <if test="recommend != null "> and recommend = #{recommend}</if>
+            <if test="ranking != null "> and ranking = #{ranking}</if>
+            <if test="state != null "> and state = #{state}</if>
+        </where>
+    </select>
+    
+    <select id="selectBiddingTenderByTenderId" parameterType="Long" resultMap="BiddingTenderResult">
+        <include refid="selectBiddingTenderVo"/>
+        where tender_id = #{tenderId}
+    </select>
+        
+    <insert id="insertBiddingTender" parameterType="BiddingTender" useGeneratedKeys="true" keyProperty="tenderId">
+        insert into bidding_tender
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="tenderNoticeId != null">tender_notice_id,</if>
+            <if test="tenderSupplierId != null">tender_supplier_id,</if>
+            <if test="tenderSupplierName != null">tender_supplier_name,</if>
+            <if test="tenderName != null">tender_name,</if>
+            <if test="contact != null">contact,</if>
+            <if test="phone != null">phone,</if>
+            <if test="tenderTime != null">tender_time,</if>
+            <if test="ipAddress != null">ip_address,</if>
+            <if test="prices != null">prices,</if>
+            <if test="score != null">score,</if>
+            <if test="recommend != null">recommend,</if>
+            <if test="ranking != null">ranking,</if>
+            <if test="state != null">state,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="tenderNoticeId != null">#{tenderNoticeId},</if>
+            <if test="tenderSupplierId != null">#{tenderSupplierId},</if>
+            <if test="tenderSupplierName != null">#{tenderSupplierName},</if>
+            <if test="tenderName != null">#{tenderName},</if>
+            <if test="contact != null">#{contact},</if>
+            <if test="phone != null">#{phone},</if>
+            <if test="tenderTime != null">#{tenderTime},</if>
+            <if test="ipAddress != null">#{ipAddress},</if>
+            <if test="prices != null">#{prices},</if>
+            <if test="score != null">#{score},</if>
+            <if test="recommend != null">#{recommend},</if>
+            <if test="ranking != null">#{ranking},</if>
+            <if test="state != null">#{state},</if>
+         </trim>
+    </insert>
+
+    <update id="updateBiddingTender" parameterType="BiddingTender">
+        update bidding_tender
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="tenderNoticeId != null">tender_notice_id = #{tenderNoticeId},</if>
+            <if test="tenderSupplierId != null">tender_supplier_id = #{tenderSupplierId},</if>
+            <if test="tenderSupplierName != null">tender_supplier_name = #{tenderSupplierName},</if>
+            <if test="tenderName != null">tender_name = #{tenderName},</if>
+            <if test="contact != null">contact = #{contact},</if>
+            <if test="phone != null">phone = #{phone},</if>
+            <if test="tenderTime != null">tender_time = #{tenderTime},</if>
+            <if test="ipAddress != null">ip_address = #{ipAddress},</if>
+            <if test="prices != null">prices = #{prices},</if>
+            <if test="score != null">score = #{score},</if>
+            <if test="recommend != null">recommend = #{recommend},</if>
+            <if test="ranking != null">ranking = #{ranking},</if>
+            <if test="state != null">state = #{state},</if>
+        </trim>
+        where tender_id = #{tenderId}
+    </update>
+
+    <delete id="deleteBiddingTenderByTenderId" parameterType="Long">
+        delete from bidding_tender where tender_id = #{tenderId}
+    </delete>
+
+    <delete id="deleteBiddingTenderByTenderIds" parameterType="String">
+        delete from bidding_tender where tender_id in 
+        <foreach item="tenderId" collection="array" open="(" separator="," close=")">
+            #{tenderId}
+        </foreach>
+    </delete>
+</mapper>

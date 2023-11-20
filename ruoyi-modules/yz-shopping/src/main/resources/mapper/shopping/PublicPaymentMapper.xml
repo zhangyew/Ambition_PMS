@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yz.shopping.mapper.PublicPaymentMapper">
+    
+    <resultMap type="com.ruoyi.system.api.domain.PublicPayment" id="PublicPaymentResult">
+        <result property="paymentId"    column="payment_id"    />
+        <result property="content"    column="content"    />
+        <result property="payTime"    column="pay_time"    />
+        <result property="unit"    column="unit"    />
+        <result property="paymentVendorId"    column="payment_vendor_id"    />
+        <result property="terms"    column="terms"    />
+        <result property="sum"    column="sum"    />
+        <result property="duty"    column="duty"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectPublicPaymentVo">
+        select payment_id, content, pay_time, unit, payment_vendor_id, terms, sum, duty, create_by, create_time, update_by, update_time from public_payment
+    </sql>
+
+    <select id="selectPublicPaymentList" parameterType="com.ruoyi.system.api.domain.PublicPayment" resultMap="PublicPaymentResult">
+        <include refid="selectPublicPaymentVo"/>
+        <where>  
+            <if test="content != null "> and content = #{content}</if>
+            <if test="payTime != null "> and pay_time = #{payTime}</if>
+            <if test="unit != null  and unit != ''"> and unit = #{unit}</if>
+            <if test="paymentVendorId != null "> and payment_vendor_id = #{paymentVendorId}</if>
+            <if test="terms != null  and terms != ''"> and terms = #{terms}</if>
+            <if test="sum != null "> and sum = #{sum}</if>
+            <if test="duty != null  and duty != ''"> and duty = #{duty}</if>
+        </where>
+    </select>
+    
+    <select id="selectPublicPaymentByPaymentId" parameterType="Long" resultMap="PublicPaymentResult">
+        <include refid="selectPublicPaymentVo"/>
+        where payment_id = #{paymentId}
+    </select>
+        
+    <insert id="insertPublicPayment" parameterType="com.ruoyi.system.api.domain.PublicPayment" useGeneratedKeys="true" keyProperty="paymentId">
+        insert into public_payment
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="content != null">content,</if>
+            <if test="payTime != null">pay_time,</if>
+            <if test="unit != null">unit,</if>
+            <if test="paymentVendorId != null">payment_vendor_id,</if>
+            <if test="terms != null">terms,</if>
+            <if test="sum != null">sum,</if>
+            <if test="duty != null">duty,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="content != null">#{content},</if>
+            <if test="payTime != null">#{payTime},</if>
+            <if test="unit != null">#{unit},</if>
+            <if test="paymentVendorId != null">#{paymentVendorId},</if>
+            <if test="terms != null">#{terms},</if>
+            <if test="sum != null">#{sum},</if>
+            <if test="duty != null">#{duty},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updatePublicPayment" parameterType="com.ruoyi.system.api.domain.PublicPayment">
+        update public_payment
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="content != null">content = #{content},</if>
+            <if test="payTime != null">pay_time = #{payTime},</if>
+            <if test="unit != null">unit = #{unit},</if>
+            <if test="paymentVendorId != null">payment_vendor_id = #{paymentVendorId},</if>
+            <if test="terms != null">terms = #{terms},</if>
+            <if test="sum != null">sum = #{sum},</if>
+            <if test="duty != null">duty = #{duty},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where payment_id = #{paymentId}
+    </update>
+
+    <delete id="deletePublicPaymentByPaymentId" parameterType="Long">
+        delete from public_payment where payment_id = #{paymentId}
+    </delete>
+
+    <delete id="deletePublicPaymentByPaymentIds" parameterType="String">
+        delete from public_payment where payment_id in 
+        <foreach item="paymentId" collection="array" open="(" separator="," close=")">
+            #{paymentId}
+        </foreach>
+    </delete>
+</mapper>

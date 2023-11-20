@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yz.bidding.mapper.PublicQualificationMapper">
+    
+    <resultMap type="com.ruoyi.system.api.domain.PublicQualification" id="PublicQualificationResult">
+        <result property="qualificationId"    column="qualification_id"    />
+        <result property="qualificationVendorId"    column="qualification_vendor_id"    />
+        <result property="qualificationName"    column="qualification_name"    />
+        <result property="startTime"    column="start_time"    />
+        <result property="stopTime"    column="stop_time"    />
+        <result property="documents"    column="documents"    />
+        <result property="remark"    column="remark"    />
+        <result property="isDelete"    column="is_delete"    />
+    </resultMap>
+
+    <sql id="selectPublicQualificationVo">
+        select qualification_id, qualification_vendor_id, qualification_name, start_time, stop_time, documents, remark, is_delete from public_qualification
+    </sql>
+
+    <select id="selectPublicQualificationList" parameterType="com.ruoyi.system.api.domain.PublicQualification" resultMap="PublicQualificationResult">
+        <include refid="selectPublicQualificationVo"/>
+        <where>  
+            <if test="qualificationVendorId != null "> and qualification_vendor_id = #{qualificationVendorId}</if>
+            <if test="qualificationName != null  and qualificationName != ''"> and qualification_name like concat('%', #{qualificationName}, '%')</if>
+            <if test="startTime != null "> and start_time = #{startTime}</if>
+            <if test="stopTime != null "> and stop_time = #{stopTime}</if>
+            <if test="documents != null  and documents != ''"> and documents = #{documents}</if>
+            <if test="isDelete != null "> and is_delete = #{isDelete}</if>
+        </where>
+    </select>
+    
+    <select id="selectPublicQualificationByQualificationId" parameterType="Long" resultMap="PublicQualificationResult">
+        <include refid="selectPublicQualificationVo"/>
+        where qualification_id = #{qualificationId}
+    </select>
+        
+    <insert id="insertPublicQualification" parameterType="com.ruoyi.system.api.domain.PublicQualification" useGeneratedKeys="true" keyProperty="qualificationId">
+        insert into public_qualification
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="qualificationVendorId != null">qualification_vendor_id,</if>
+            <if test="qualificationName != null">qualification_name,</if>
+            <if test="startTime != null">start_time,</if>
+            <if test="stopTime != null">stop_time,</if>
+            <if test="documents != null">documents,</if>
+            <if test="remark != null">remark,</if>
+            <if test="isDelete != null">is_delete,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="qualificationVendorId != null">#{qualificationVendorId},</if>
+            <if test="qualificationName != null">#{qualificationName},</if>
+            <if test="startTime != null">#{startTime},</if>
+            <if test="stopTime != null">#{stopTime},</if>
+            <if test="documents != null">#{documents},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="isDelete != null">#{isDelete},</if>
+         </trim>
+    </insert>
+
+    <update id="updatePublicQualification" parameterType="com.ruoyi.system.api.domain.PublicQualification">
+        update public_qualification
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="qualificationVendorId != null">qualification_vendor_id = #{qualificationVendorId},</if>
+            <if test="qualificationName != null">qualification_name = #{qualificationName},</if>
+            <if test="startTime != null">start_time = #{startTime},</if>
+            <if test="stopTime != null">stop_time = #{stopTime},</if>
+            <if test="documents != null">documents = #{documents},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="isDelete != null">is_delete = #{isDelete},</if>
+        </trim>
+        where qualification_id = #{qualificationId}
+    </update>
+
+    <delete id="deletePublicQualificationByQualificationId" parameterType="Long">
+        delete from public_qualification where qualification_id = #{qualificationId}
+    </delete>
+
+    <delete id="deletePublicQualificationByQualificationIds" parameterType="String">
+        delete from public_qualification where qualification_id in 
+        <foreach item="qualificationId" collection="array" open="(" separator="," close=")">
+            #{qualificationId}
+        </foreach>
+    </delete>
+</mapper>

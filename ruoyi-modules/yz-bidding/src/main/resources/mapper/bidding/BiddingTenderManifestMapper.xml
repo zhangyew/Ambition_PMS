@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yz.bidding.mapper.BiddingTenderManifestMapper">
+    
+    <resultMap type="BiddingTenderManifest" id="BiddingTenderManifestResult">
+        <result property="tenderManifestId"    column="tender_manifest_id"    />
+        <result property="manifestProjectsId"    column="manifest_projects_id"    />
+        <result property="manifestGoodsId"    column="manifest_goods_id"    />
+        <result property="number"    column="number"    />
+        <result property="manifestTypeId"    column="manifest_type_id"    />
+        <result property="price"    column="price"    />
+        <result property="prices"    column="prices"    />
+        <result property="explain"    column="explain"    />
+        <result property="remark"    column="remark"    />
+        <result property="isDelete"    column="is_delete"    />
+    </resultMap>
+
+    <sql id="selectBiddingTenderManifestVo">
+        select tender_manifest_id, manifest_projects_id, manifest_goods_id, number, manifest_type_id, price, prices, explain, remark, is_delete from bidding_tender_manifest
+    </sql>
+
+    <select id="selectBiddingTenderManifestList" parameterType="BiddingTenderManifest" resultMap="BiddingTenderManifestResult">
+        <include refid="selectBiddingTenderManifestVo"/>
+        <where>  
+            <if test="manifestProjectsId != null "> and manifest_projects_id = #{manifestProjectsId}</if>
+            <if test="manifestGoodsId != null "> and manifest_goods_id = #{manifestGoodsId}</if>
+            <if test="number != null  and number != ''"> and number = #{number}</if>
+            <if test="manifestTypeId != null "> and manifest_type_id = #{manifestTypeId}</if>
+            <if test="price != null "> and price = #{price}</if>
+            <if test="prices != null "> and prices = #{prices}</if>
+            <if test="explain != null  and explain != ''"> and explain = #{explain}</if>
+            <if test="isDelete != null "> and is_delete = #{isDelete}</if>
+        </where>
+    </select>
+    
+    <select id="selectBiddingTenderManifestByTenderManifestId" parameterType="Long" resultMap="BiddingTenderManifestResult">
+        <include refid="selectBiddingTenderManifestVo"/>
+        where tender_manifest_id = #{tenderManifestId}
+    </select>
+        
+    <insert id="insertBiddingTenderManifest" parameterType="BiddingTenderManifest" useGeneratedKeys="true" keyProperty="tenderManifestId">
+        insert into bidding_tender_manifest
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="manifestProjectsId != null">manifest_projects_id,</if>
+            <if test="manifestGoodsId != null">manifest_goods_id,</if>
+            <if test="number != null">number,</if>
+            <if test="manifestTypeId != null">manifest_type_id,</if>
+            <if test="price != null">price,</if>
+            <if test="prices != null">prices,</if>
+            <if test="explain != null">explain,</if>
+            <if test="remark != null">remark,</if>
+            <if test="isDelete != null">is_delete,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="manifestProjectsId != null">#{manifestProjectsId},</if>
+            <if test="manifestGoodsId != null">#{manifestGoodsId},</if>
+            <if test="number != null">#{number},</if>
+            <if test="manifestTypeId != null">#{manifestTypeId},</if>
+            <if test="price != null">#{price},</if>
+            <if test="prices != null">#{prices},</if>
+            <if test="explain != null">#{explain},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="isDelete != null">#{isDelete},</if>
+         </trim>
+    </insert>
+
+    <update id="updateBiddingTenderManifest" parameterType="BiddingTenderManifest">
+        update bidding_tender_manifest
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="manifestProjectsId != null">manifest_projects_id = #{manifestProjectsId},</if>
+            <if test="manifestGoodsId != null">manifest_goods_id = #{manifestGoodsId},</if>
+            <if test="number != null">number = #{number},</if>
+            <if test="manifestTypeId != null">manifest_type_id = #{manifestTypeId},</if>
+            <if test="price != null">price = #{price},</if>
+            <if test="prices != null">prices = #{prices},</if>
+            <if test="explain != null">explain = #{explain},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="isDelete != null">is_delete = #{isDelete},</if>
+        </trim>
+        where tender_manifest_id = #{tenderManifestId}
+    </update>
+
+    <delete id="deleteBiddingTenderManifestByTenderManifestId" parameterType="Long">
+        delete from bidding_tender_manifest where tender_manifest_id = #{tenderManifestId}
+    </delete>
+
+    <delete id="deleteBiddingTenderManifestByTenderManifestIds" parameterType="String">
+        delete from bidding_tender_manifest where tender_manifest_id in 
+        <foreach item="tenderManifestId" collection="array" open="(" separator="," close=")">
+            #{tenderManifestId}
+        </foreach>
+    </delete>
+</mapper>

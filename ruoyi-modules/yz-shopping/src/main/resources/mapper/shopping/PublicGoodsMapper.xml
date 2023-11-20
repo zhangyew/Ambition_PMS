@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yz.shopping.mapper.PublicGoodsMapper">
+    
+    <resultMap type="com.ruoyi.system.api.domain.PublicGoods" id="PublicGoodsResult">
+        <result property="goodsId"    column="goods_id"    />
+        <result property="categoryId"    column="category_id"    />
+        <result property="goodsName"    column="goods_name"    />
+        <result property="goodsType"    column="goods_type"    />
+        <result property="specs"    column="specs"    />
+        <result property="model"    column="model"    />
+        <result property="brand"    column="brand"    />
+        <result property="weight"    column="weight"    />
+        <result property="goodsNumber"    column="goods_number"    />
+        <result property="volume"    column="volume"    />
+        <result property="buyer"    column="buyer"    />
+        <result property="state"    column="state"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectPublicGoodsVo">
+        select goods_id, category_id, goods_name, goods_type, specs, model, brand, weight, goods_number, volume, buyer, state, create_by, create_time, update_by, update_time from public_goods
+    </sql>
+
+    <select id="selectPublicGoodsList" parameterType="com.ruoyi.system.api.domain.PublicGoods" resultMap="PublicGoodsResult">
+        <include refid="selectPublicGoodsVo"/>
+        <where>  
+            <if test="categoryId != null "> and category_id = #{categoryId}</if>
+            <if test="goodsName != null  and goodsName != ''"> and goods_name like concat('%', #{goodsName}, '%')</if>
+            <if test="goodsType != null "> and goods_type = #{goodsType}</if>
+            <if test="specs != null  and specs != ''"> and specs = #{specs}</if>
+            <if test="model != null  and model != ''"> and model = #{model}</if>
+            <if test="brand != null  and brand != ''"> and brand = #{brand}</if>
+            <if test="weight != null "> and weight = #{weight}</if>
+            <if test="goodsNumber != null "> and goods_number = #{goodsNumber}</if>
+            <if test="volume != null "> and volume = #{volume}</if>
+            <if test="buyer != null  and buyer != ''"> and buyer = #{buyer}</if>
+            <if test="state != null "> and state = #{state}</if>
+        </where>
+    </select>
+    
+    <select id="selectPublicGoodsByGoodsId" parameterType="Long" resultMap="PublicGoodsResult">
+        <include refid="selectPublicGoodsVo"/>
+        where goods_id = #{goodsId}
+    </select>
+        
+    <insert id="insertPublicGoods" parameterType="com.ruoyi.system.api.domain.PublicGoods" useGeneratedKeys="true" keyProperty="goodsId">
+        insert into public_goods
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="categoryId != null">category_id,</if>
+            <if test="goodsName != null">goods_name,</if>
+            <if test="goodsType != null">goods_type,</if>
+            <if test="specs != null">specs,</if>
+            <if test="model != null">model,</if>
+            <if test="brand != null">brand,</if>
+            <if test="weight != null">weight,</if>
+            <if test="goodsNumber != null">goods_number,</if>
+            <if test="volume != null">volume,</if>
+            <if test="buyer != null">buyer,</if>
+            <if test="state != null">state,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="categoryId != null">#{categoryId},</if>
+            <if test="goodsName != null">#{goodsName},</if>
+            <if test="goodsType != null">#{goodsType},</if>
+            <if test="specs != null">#{specs},</if>
+            <if test="model != null">#{model},</if>
+            <if test="brand != null">#{brand},</if>
+            <if test="weight != null">#{weight},</if>
+            <if test="goodsNumber != null">#{goodsNumber},</if>
+            <if test="volume != null">#{volume},</if>
+            <if test="buyer != null">#{buyer},</if>
+            <if test="state != null">#{state},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updatePublicGoods" parameterType="com.ruoyi.system.api.domain.PublicGoods">
+        update public_goods
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="categoryId != null">category_id = #{categoryId},</if>
+            <if test="goodsName != null">goods_name = #{goodsName},</if>
+            <if test="goodsType != null">goods_type = #{goodsType},</if>
+            <if test="specs != null">specs = #{specs},</if>
+            <if test="model != null">model = #{model},</if>
+            <if test="brand != null">brand = #{brand},</if>
+            <if test="weight != null">weight = #{weight},</if>
+            <if test="goodsNumber != null">goods_number = #{goodsNumber},</if>
+            <if test="volume != null">volume = #{volume},</if>
+            <if test="buyer != null">buyer = #{buyer},</if>
+            <if test="state != null">state = #{state},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where goods_id = #{goodsId}
+    </update>
+
+    <delete id="deletePublicGoodsByGoodsId" parameterType="Long">
+        delete from public_goods where goods_id = #{goodsId}
+    </delete>
+
+    <delete id="deletePublicGoodsByGoodsIds" parameterType="String">
+        delete from public_goods where goods_id in 
+        <foreach item="goodsId" collection="array" open="(" separator="," close=")">
+            #{goodsId}
+        </foreach>
+    </delete>
+</mapper>

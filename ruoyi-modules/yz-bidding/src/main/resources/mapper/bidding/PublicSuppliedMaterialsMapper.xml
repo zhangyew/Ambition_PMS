@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yz.bidding.mapper.PublicSuppliedMaterialsMapper">
+    
+    <resultMap type="com.ruoyi.system.api.domain.PublicSuppliedMaterials" id="PublicSuppliedMaterialsResult">
+        <result property="suppliedMaterialsId"    column="supplied_materials_id"    />
+        <result property="supplyId"    column="supply_id"    />
+        <result property="available"    column="available"    />
+        <result property="demandMaId"    column="demand_ma_id"    />
+        <result property="exempt"    column="exempt"    />
+        <result property="grade"    column="grade"    />
+    </resultMap>
+
+    <sql id="selectPublicSuppliedMaterialsVo">
+        select supplied_materials_id, supply_id, available, demand_ma_id, exempt, grade from public_supplied_materials
+    </sql>
+
+    <select id="selectPublicSuppliedMaterialsList" parameterType="com.ruoyi.system.api.domain.PublicSuppliedMaterials" resultMap="PublicSuppliedMaterialsResult">
+        <include refid="selectPublicSuppliedMaterialsVo"/>
+        <where>  
+            <if test="supplyId != null "> and supply_id = #{supplyId}</if>
+            <if test="available != null "> and available = #{available}</if>
+            <if test="demandMaId != null "> and demand_ma_id = #{demandMaId}</if>
+            <if test="exempt != null "> and exempt = #{exempt}</if>
+            <if test="grade != null "> and grade = #{grade}</if>
+        </where>
+    </select>
+    
+    <select id="selectPublicSuppliedMaterialsBySuppliedMaterialsId" parameterType="Long" resultMap="PublicSuppliedMaterialsResult">
+        <include refid="selectPublicSuppliedMaterialsVo"/>
+        where supplied_materials_id = #{suppliedMaterialsId}
+    </select>
+        
+    <insert id="insertPublicSuppliedMaterials" parameterType="com.ruoyi.system.api.domain.PublicSuppliedMaterials" useGeneratedKeys="true" keyProperty="suppliedMaterialsId">
+        insert into public_supplied_materials
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="supplyId != null">supply_id,</if>
+            <if test="available != null">available,</if>
+            <if test="demandMaId != null">demand_ma_id,</if>
+            <if test="exempt != null">exempt,</if>
+            <if test="grade != null">grade,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="supplyId != null">#{supplyId},</if>
+            <if test="available != null">#{available},</if>
+            <if test="demandMaId != null">#{demandMaId},</if>
+            <if test="exempt != null">#{exempt},</if>
+            <if test="grade != null">#{grade},</if>
+         </trim>
+    </insert>
+
+    <update id="updatePublicSuppliedMaterials" parameterType="com.ruoyi.system.api.domain.PublicSuppliedMaterials">
+        update public_supplied_materials
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="supplyId != null">supply_id = #{supplyId},</if>
+            <if test="available != null">available = #{available},</if>
+            <if test="demandMaId != null">demand_ma_id = #{demandMaId},</if>
+            <if test="exempt != null">exempt = #{exempt},</if>
+            <if test="grade != null">grade = #{grade},</if>
+        </trim>
+        where supplied_materials_id = #{suppliedMaterialsId}
+    </update>
+
+    <delete id="deletePublicSuppliedMaterialsBySuppliedMaterialsId" parameterType="Long">
+        delete from public_supplied_materials where supplied_materials_id = #{suppliedMaterialsId}
+    </delete>
+
+    <delete id="deletePublicSuppliedMaterialsBySuppliedMaterialsIds" parameterType="String">
+        delete from public_supplied_materials where supplied_materials_id in 
+        <foreach item="suppliedMaterialsId" collection="array" open="(" separator="," close=")">
+            #{suppliedMaterialsId}
+        </foreach>
+    </delete>
+</mapper>

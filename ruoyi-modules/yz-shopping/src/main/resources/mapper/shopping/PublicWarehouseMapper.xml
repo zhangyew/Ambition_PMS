@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yz.shopping.mapper.PublicWarehouseMapper">
+    
+    <resultMap type="com.ruoyi.system.api.domain.PublicWarehouse" id="PublicWarehouseResult">
+        <result property="warehouseId"    column="warehouse_id"    />
+        <result property="warehouseAddress"    column="warehouse_address"    />
+        <result property="warehouseNumber"    column="warehouse_number"    />
+    </resultMap>
+
+    <sql id="selectPublicWarehouseVo">
+        select warehouse_id, warehouse_address, warehouse_number from public_warehouse
+    </sql>
+
+    <select id="selectPublicWarehouseList" parameterType="com.ruoyi.system.api.domain.PublicWarehouse" resultMap="PublicWarehouseResult">
+        <include refid="selectPublicWarehouseVo"/>
+        <where>  
+            <if test="warehouseAddress != null  and warehouseAddress != ''"> and warehouse_address = #{warehouseAddress}</if>
+            <if test="warehouseNumber != null  and warehouseNumber != ''"> and warehouse_number = #{warehouseNumber}</if>
+        </where>
+    </select>
+    
+    <select id="selectPublicWarehouseByWarehouseId" parameterType="Long" resultMap="PublicWarehouseResult">
+        <include refid="selectPublicWarehouseVo"/>
+        where warehouse_id = #{warehouseId}
+    </select>
+        
+    <insert id="insertPublicWarehouse" parameterType="com.ruoyi.system.api.domain.PublicWarehouse" useGeneratedKeys="true" keyProperty="warehouseId">
+        insert into public_warehouse
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="warehouseAddress != null">warehouse_address,</if>
+            <if test="warehouseNumber != null">warehouse_number,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="warehouseAddress != null">#{warehouseAddress},</if>
+            <if test="warehouseNumber != null">#{warehouseNumber},</if>
+         </trim>
+    </insert>
+
+    <update id="updatePublicWarehouse" parameterType="com.ruoyi.system.api.domain.PublicWarehouse">
+        update public_warehouse
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="warehouseAddress != null">warehouse_address = #{warehouseAddress},</if>
+            <if test="warehouseNumber != null">warehouse_number = #{warehouseNumber},</if>
+        </trim>
+        where warehouse_id = #{warehouseId}
+    </update>
+
+    <delete id="deletePublicWarehouseByWarehouseId" parameterType="Long">
+        delete from public_warehouse where warehouse_id = #{warehouseId}
+    </delete>
+
+    <delete id="deletePublicWarehouseByWarehouseIds" parameterType="String">
+        delete from public_warehouse where warehouse_id in 
+        <foreach item="warehouseId" collection="array" open="(" separator="," close=")">
+            #{warehouseId}
+        </foreach>
+    </delete>
+</mapper>

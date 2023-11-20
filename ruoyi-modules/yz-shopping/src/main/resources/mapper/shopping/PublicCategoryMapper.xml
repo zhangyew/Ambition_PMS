@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yz.shopping.mapper.PublicCategoryMapper">
+    
+    <resultMap type="com.ruoyi.system.api.domain.PublicCategory" id="PublicCategoryResult">
+        <result property="categoryId"    column="category_id"    />
+        <result property="categoryNumber"    column="category_number"    />
+        <result property="contractdetailsName"    column="contractdetails_name"    />
+        <result property="parentCategory"    column="parent_category"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="isDelete"    column="is_delete"    />
+    </resultMap>
+
+    <sql id="selectPublicCategoryVo">
+        select category_id, category_number, contractdetails_name, parent_category, create_by, create_time, update_by, update_time, is_delete from public_category
+    </sql>
+
+    <select id="selectPublicCategoryList" parameterType="com.ruoyi.system.api.domain.PublicCategory" resultMap="PublicCategoryResult">
+        <include refid="selectPublicCategoryVo"/>
+        <where>  
+            <if test="categoryNumber != null  and categoryNumber != ''"> and category_number = #{categoryNumber}</if>
+            <if test="contractdetailsName != null  and contractdetailsName != ''"> and contractdetails_name like concat('%', #{contractdetailsName}, '%')</if>
+            <if test="parentCategory != null "> and parent_category = #{parentCategory}</if>
+            <if test="isDelete != null "> and is_delete = #{isDelete}</if>
+        </where>
+    </select>
+    
+    <select id="selectPublicCategoryByCategoryId" parameterType="Long" resultMap="PublicCategoryResult">
+        <include refid="selectPublicCategoryVo"/>
+        where category_id = #{categoryId}
+    </select>
+        
+    <insert id="insertPublicCategory" parameterType="com.ruoyi.system.api.domain.PublicCategory" useGeneratedKeys="true" keyProperty="categoryId">
+        insert into public_category
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="categoryNumber != null">category_number,</if>
+            <if test="contractdetailsName != null">contractdetails_name,</if>
+            <if test="parentCategory != null">parent_category,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="isDelete != null">is_delete,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="categoryNumber != null">#{categoryNumber},</if>
+            <if test="contractdetailsName != null">#{contractdetailsName},</if>
+            <if test="parentCategory != null">#{parentCategory},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="isDelete != null">#{isDelete},</if>
+         </trim>
+    </insert>
+
+    <update id="updatePublicCategory" parameterType="com.ruoyi.system.api.domain.PublicCategory">
+        update public_category
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="categoryNumber != null">category_number = #{categoryNumber},</if>
+            <if test="contractdetailsName != null">contractdetails_name = #{contractdetailsName},</if>
+            <if test="parentCategory != null">parent_category = #{parentCategory},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="isDelete != null">is_delete = #{isDelete},</if>
+        </trim>
+        where category_id = #{categoryId}
+    </update>
+
+    <delete id="deletePublicCategoryByCategoryId" parameterType="Long">
+        delete from public_category where category_id = #{categoryId}
+    </delete>
+
+    <delete id="deletePublicCategoryByCategoryIds" parameterType="String">
+        delete from public_category where category_id in 
+        <foreach item="categoryId" collection="array" open="(" separator="," close=")">
+            #{categoryId}
+        </foreach>
+    </delete>
+</mapper>

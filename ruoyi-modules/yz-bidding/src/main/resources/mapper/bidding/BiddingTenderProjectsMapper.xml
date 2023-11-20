@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yz.bidding.mapper.BiddingTenderProjectsMapper">
+    
+    <resultMap type="BiddingTenderProjects" id="BiddingTenderProjectsResult">
+        <result property="tenderProjectsId"    column="tender_projects_id"    />
+        <result property="tenderProjectsName"    column="tender_projects_name"    />
+        <result property="projectsType"    column="projects_type"    />
+        <result property="tenderProjectsMoney"    column="tender_projects_money"    />
+        <result property="tenderProjectsContact"    column="tender_projects_contact"    />
+        <result property="tenderProjectsPhone"    column="tender_projects_phone"    />
+        <result property="tenderProjectsAddress"    column="tender_projects_address"    />
+        <result property="tenderProjectsEmail"    column="tender_projects_email"    />
+        <result property="remark"    column="remark"    />
+        <result property="manner"    column="manner"    />
+        <result property="censor"    column="censor"    />
+        <result property="must"    column="must"    />
+        <result property="auditState"    column="audit_state"    />
+        <result property="creatBy"    column="creat_by"    />
+        <result property="creatTime"    column="creat_time"    />
+        <result property="isDelete"    column="is_delete"    />
+    </resultMap>
+
+    <sql id="selectBiddingTenderProjectsVo">
+        select tender_projects_id, tender_projects_name, projects_type, tender_projects_money, tender_projects_contact, tender_projects_phone, tender_projects_address, tender_projects_email, remark, manner, censor, must, audit_state, creat_by, creat_time, is_delete from bidding_tender_projects
+    </sql>
+
+    <select id="selectBiddingTenderProjectsList" parameterType="BiddingTenderProjects" resultMap="BiddingTenderProjectsResult">
+        <include refid="selectBiddingTenderProjectsVo"/>
+        <where>  
+            <if test="tenderProjectsName != null  and tenderProjectsName != ''"> and tender_projects_name like concat('%', #{tenderProjectsName}, '%')</if>
+            <if test="projectsType != null "> and projects_type = #{projectsType}</if>
+            <if test="tenderProjectsMoney != null "> and tender_projects_money = #{tenderProjectsMoney}</if>
+            <if test="tenderProjectsContact != null  and tenderProjectsContact != ''"> and tender_projects_contact = #{tenderProjectsContact}</if>
+            <if test="tenderProjectsPhone != null  and tenderProjectsPhone != ''"> and tender_projects_phone = #{tenderProjectsPhone}</if>
+            <if test="tenderProjectsAddress != null  and tenderProjectsAddress != ''"> and tender_projects_address = #{tenderProjectsAddress}</if>
+            <if test="tenderProjectsEmail != null  and tenderProjectsEmail != ''"> and tender_projects_email = #{tenderProjectsEmail}</if>
+            <if test="manner != null "> and manner = #{manner}</if>
+            <if test="censor != null  and censor != ''"> and censor = #{censor}</if>
+            <if test="must != null "> and must = #{must}</if>
+            <if test="auditState != null "> and audit_state = #{auditState}</if>
+            <if test="creatBy != null  and creatBy != ''"> and creat_by = #{creatBy}</if>
+            <if test="creatTime != null "> and creat_time = #{creatTime}</if>
+            <if test="isDelete != null "> and is_delete = #{isDelete}</if>
+        </where>
+    </select>
+    
+    <select id="selectBiddingTenderProjectsByTenderProjectsId" parameterType="Long" resultMap="BiddingTenderProjectsResult">
+        <include refid="selectBiddingTenderProjectsVo"/>
+        where tender_projects_id = #{tenderProjectsId}
+    </select>
+        
+    <insert id="insertBiddingTenderProjects" parameterType="BiddingTenderProjects" useGeneratedKeys="true" keyProperty="tenderProjectsId">
+        insert into bidding_tender_projects
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="tenderProjectsName != null">tender_projects_name,</if>
+            <if test="projectsType != null">projects_type,</if>
+            <if test="tenderProjectsMoney != null">tender_projects_money,</if>
+            <if test="tenderProjectsContact != null">tender_projects_contact,</if>
+            <if test="tenderProjectsPhone != null">tender_projects_phone,</if>
+            <if test="tenderProjectsAddress != null">tender_projects_address,</if>
+            <if test="tenderProjectsEmail != null">tender_projects_email,</if>
+            <if test="remark != null">remark,</if>
+            <if test="manner != null">manner,</if>
+            <if test="censor != null">censor,</if>
+            <if test="must != null">must,</if>
+            <if test="auditState != null">audit_state,</if>
+            <if test="creatBy != null">creat_by,</if>
+            <if test="creatTime != null">creat_time,</if>
+            <if test="isDelete != null">is_delete,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="tenderProjectsName != null">#{tenderProjectsName},</if>
+            <if test="projectsType != null">#{projectsType},</if>
+            <if test="tenderProjectsMoney != null">#{tenderProjectsMoney},</if>
+            <if test="tenderProjectsContact != null">#{tenderProjectsContact},</if>
+            <if test="tenderProjectsPhone != null">#{tenderProjectsPhone},</if>
+            <if test="tenderProjectsAddress != null">#{tenderProjectsAddress},</if>
+            <if test="tenderProjectsEmail != null">#{tenderProjectsEmail},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="manner != null">#{manner},</if>
+            <if test="censor != null">#{censor},</if>
+            <if test="must != null">#{must},</if>
+            <if test="auditState != null">#{auditState},</if>
+            <if test="creatBy != null">#{creatBy},</if>
+            <if test="creatTime != null">#{creatTime},</if>
+            <if test="isDelete != null">#{isDelete},</if>
+         </trim>
+    </insert>
+
+    <update id="updateBiddingTenderProjects" parameterType="BiddingTenderProjects">
+        update bidding_tender_projects
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="tenderProjectsName != null">tender_projects_name = #{tenderProjectsName},</if>
+            <if test="projectsType != null">projects_type = #{projectsType},</if>
+            <if test="tenderProjectsMoney != null">tender_projects_money = #{tenderProjectsMoney},</if>
+            <if test="tenderProjectsContact != null">tender_projects_contact = #{tenderProjectsContact},</if>
+            <if test="tenderProjectsPhone != null">tender_projects_phone = #{tenderProjectsPhone},</if>
+            <if test="tenderProjectsAddress != null">tender_projects_address = #{tenderProjectsAddress},</if>
+            <if test="tenderProjectsEmail != null">tender_projects_email = #{tenderProjectsEmail},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="manner != null">manner = #{manner},</if>
+            <if test="censor != null">censor = #{censor},</if>
+            <if test="must != null">must = #{must},</if>
+            <if test="auditState != null">audit_state = #{auditState},</if>
+            <if test="creatBy != null">creat_by = #{creatBy},</if>
+            <if test="creatTime != null">creat_time = #{creatTime},</if>
+            <if test="isDelete != null">is_delete = #{isDelete},</if>
+        </trim>
+        where tender_projects_id = #{tenderProjectsId}
+    </update>
+
+    <delete id="deleteBiddingTenderProjectsByTenderProjectsId" parameterType="Long">
+        delete from bidding_tender_projects where tender_projects_id = #{tenderProjectsId}
+    </delete>
+
+    <delete id="deleteBiddingTenderProjectsByTenderProjectsIds" parameterType="String">
+        delete from bidding_tender_projects where tender_projects_id in 
+        <foreach item="tenderProjectsId" collection="array" open="(" separator="," close=")">
+            #{tenderProjectsId}
+        </foreach>
+    </delete>
+</mapper>

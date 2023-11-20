@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yz.bidding.mapper.BiddingNoticeMapper">
+    
+    <resultMap type="BiddingNotice" id="BiddingNoticeResult">
+        <result property="noticeId"    column="notice_id"    />
+        <result property="tenderNoticeId"    column="tender_notice_id"    />
+        <result property="noticeDate"    column="notice_date"    />
+        <result property="buyer"    column="buyer"    />
+        <result property="noticeTitle"    column="notice_title"    />
+        <result property="noticeContext"    column="notice_context"    />
+        <result property="bidMoney"    column="bid_money"    />
+        <result property="noticeSupplierId"    column="notice_supplier_id"    />
+    </resultMap>
+
+    <sql id="selectBiddingNoticeVo">
+        select notice_id, tender_notice_id, notice_date, buyer, notice_title, notice_context, bid_money, notice_supplier_id from bidding_notice
+    </sql>
+
+    <select id="selectBiddingNoticeList" parameterType="BiddingNotice" resultMap="BiddingNoticeResult">
+        <include refid="selectBiddingNoticeVo"/>
+        <where>  
+            <if test="tenderNoticeId != null "> and tender_notice_id = #{tenderNoticeId}</if>
+            <if test="noticeDate != null "> and notice_date = #{noticeDate}</if>
+            <if test="buyer != null  and buyer != ''"> and buyer = #{buyer}</if>
+            <if test="noticeTitle != null  and noticeTitle != ''"> and notice_title = #{noticeTitle}</if>
+            <if test="noticeContext != null  and noticeContext != ''"> and notice_context = #{noticeContext}</if>
+            <if test="bidMoney != null "> and bid_money = #{bidMoney}</if>
+            <if test="noticeSupplierId != null "> and notice_supplier_id = #{noticeSupplierId}</if>
+        </where>
+    </select>
+    
+    <select id="selectBiddingNoticeByNoticeId" parameterType="Long" resultMap="BiddingNoticeResult">
+        <include refid="selectBiddingNoticeVo"/>
+        where notice_id = #{noticeId}
+    </select>
+        
+    <insert id="insertBiddingNotice" parameterType="BiddingNotice" useGeneratedKeys="true" keyProperty="noticeId">
+        insert into bidding_notice
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="tenderNoticeId != null">tender_notice_id,</if>
+            <if test="noticeDate != null">notice_date,</if>
+            <if test="buyer != null">buyer,</if>
+            <if test="noticeTitle != null">notice_title,</if>
+            <if test="noticeContext != null">notice_context,</if>
+            <if test="bidMoney != null">bid_money,</if>
+            <if test="noticeSupplierId != null">notice_supplier_id,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="tenderNoticeId != null">#{tenderNoticeId},</if>
+            <if test="noticeDate != null">#{noticeDate},</if>
+            <if test="buyer != null">#{buyer},</if>
+            <if test="noticeTitle != null">#{noticeTitle},</if>
+            <if test="noticeContext != null">#{noticeContext},</if>
+            <if test="bidMoney != null">#{bidMoney},</if>
+            <if test="noticeSupplierId != null">#{noticeSupplierId},</if>
+         </trim>
+    </insert>
+
+    <update id="updateBiddingNotice" parameterType="BiddingNotice">
+        update bidding_notice
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="tenderNoticeId != null">tender_notice_id = #{tenderNoticeId},</if>
+            <if test="noticeDate != null">notice_date = #{noticeDate},</if>
+            <if test="buyer != null">buyer = #{buyer},</if>
+            <if test="noticeTitle != null">notice_title = #{noticeTitle},</if>
+            <if test="noticeContext != null">notice_context = #{noticeContext},</if>
+            <if test="bidMoney != null">bid_money = #{bidMoney},</if>
+            <if test="noticeSupplierId != null">notice_supplier_id = #{noticeSupplierId},</if>
+        </trim>
+        where notice_id = #{noticeId}
+    </update>
+
+    <delete id="deleteBiddingNoticeByNoticeId" parameterType="Long">
+        delete from bidding_notice where notice_id = #{noticeId}
+    </delete>
+
+    <delete id="deleteBiddingNoticeByNoticeIds" parameterType="String">
+        delete from bidding_notice where notice_id in 
+        <foreach item="noticeId" collection="array" open="(" separator="," close=")">
+            #{noticeId}
+        </foreach>
+    </delete>
+</mapper>
