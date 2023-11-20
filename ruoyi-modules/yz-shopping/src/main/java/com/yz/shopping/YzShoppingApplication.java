@@ -19,6 +19,7 @@ public class YzShoppingApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(YzShoppingApplication.class, args);
+        System.out.println("***** 采购模块启动！！！ *****");
     }
 
 }
