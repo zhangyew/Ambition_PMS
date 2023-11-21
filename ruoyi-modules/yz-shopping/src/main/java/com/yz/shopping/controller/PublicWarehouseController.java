@@ -34,7 +34,6 @@ public class PublicWarehouseController extends BaseController
 {
     @Autowired
     private IPublicWarehouseService publicWarehouseService;
-
     /**
      * 查询仓库列表
      */

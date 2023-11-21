@@ -31,12 +31,17 @@ public class PublicWarehouse extends BaseEntity {
     @Excel(name = "仓库编码")
     private String warehouseNumber;
 
+    public String getWarehouseName() {
+        return warehouseName;
+    }
+
+    public void setWarehouseName(String warehouseName) {
+        this.warehouseName = warehouseName;
+    }
+
     /**
      * 仓库名称
      */
-    @Excel(name = "仓库名称")
-    private String warehouseName;
-
     @Excel(name = "仓库名称")
     private String warehouseName;
 
@@ -64,26 +69,11 @@ public class PublicWarehouse extends BaseEntity {
     public String getWarehouseNumber() {
         return warehouseNumber;
     }
-    public void setWarehouseName(String warehouseName) {
-        this.warehouseName = warehouseName;
-    }
-
-    public String getWarehouseName() {
-        return warehouseName;
-    }
 
     public static long getSerialVersionUID() {
         return serialVersionUID;
     }
 
-    public String getWarehouseName() {
-        return warehouseName;
-    }
-
-    public PublicWarehouse setWarehouseName(String warehouseName) {
-        this.warehouseName = warehouseName;
-        return this;
-    }
 
     @Override
     public String toString() {
