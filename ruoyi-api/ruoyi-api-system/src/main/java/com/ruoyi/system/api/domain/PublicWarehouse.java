@@ -31,6 +31,12 @@ public class PublicWarehouse extends BaseEntity {
     @Excel(name = "仓库编码")
     private String warehouseNumber;
 
+    /**
+     * 仓库名称
+     */
+    @Excel(name = "仓库名称")
+    private String warehouseName;
+
     public void setWarehouseId(Long warehouseId) {
         this.warehouseId = warehouseId;
     }
@@ -53,6 +59,19 @@ public class PublicWarehouse extends BaseEntity {
 
     public String getWarehouseNumber() {
         return warehouseNumber;
+    }
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
+
+    public String getWarehouseName() {
+        return warehouseName;
+    }
+
+    public PublicWarehouse setWarehouseName(String warehouseName) {
+        this.warehouseName = warehouseName;
+        return this;
     }
 
     @Override

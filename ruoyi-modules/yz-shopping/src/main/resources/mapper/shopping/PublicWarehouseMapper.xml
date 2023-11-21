@@ -8,10 +8,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="warehouseId"    column="warehouse_id"    />
         <result property="warehouseAddress"    column="warehouse_address"    />
         <result property="warehouseNumber"    column="warehouse_number"    />
+        <result property="warehouseName"    column="warehouse_name"    />
     </resultMap>
 
     <sql id="selectPublicWarehouseVo">
-        select warehouse_id, warehouse_address, warehouse_number from public_warehouse
+        select warehouse_id, warehouse_address, warehouse_number,warehouse_name from public_warehouse
     </sql>
 
     <select id="selectPublicWarehouseList" parameterType="com.ruoyi.system.api.domain.PublicWarehouse" resultMap="PublicWarehouseResult">
@@ -19,6 +20,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <where>  
             <if test="warehouseAddress != null  and warehouseAddress != ''"> and warehouse_address = #{warehouseAddress}</if>
             <if test="warehouseNumber != null  and warehouseNumber != ''"> and warehouse_number = #{warehouseNumber}</if>
+            <if test="warehouseName != null  and warehouseName != ''"> and warehouse_name = #{warehouseName}</if>
         </where>
     </select>
     
@@ -32,10 +34,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="warehouseAddress != null">warehouse_address,</if>
             <if test="warehouseNumber != null">warehouse_number,</if>
+            <if test="warehouseName != null">warehouse_name,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="warehouseAddress != null">#{warehouseAddress},</if>
             <if test="warehouseNumber != null">#{warehouseNumber},</if>
+            <if test="warehouseName != null">#{warehouse_name},</if>
          </trim>
     </insert>
 
@@ -44,6 +48,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <trim prefix="SET" suffixOverrides=",">
             <if test="warehouseAddress != null">warehouse_address = #{warehouseAddress},</if>
             <if test="warehouseNumber != null">warehouse_number = #{warehouseNumber},</if>
+            <if test="warehouseName != null">warehouse_name = #{warehouseName},</if>
         </trim>
         where warehouse_id = #{warehouseId}
     </update>
