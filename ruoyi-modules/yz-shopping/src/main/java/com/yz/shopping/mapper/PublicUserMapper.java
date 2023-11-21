@@ -11,6 +11,16 @@ import com.ruoyi.system.api.domain.PublicUser;
  */
 public interface PublicUserMapper 
 {
+
+    /**
+     * 采购部登录
+     * @param account
+     * @param password
+     * @return
+     */
+    public PublicUser login(String account,String password);
+
+
     /**
      * 查询用户表
      * 

@@ -38,7 +38,7 @@ public class PublicWarehouseController extends BaseController
     /**
      * 查询仓库列表
      */
-    @RequiresPermissions("pms.public:warehouse:list")
+    @RequiresPermissions("shopping/public:warehouse:list")
     @GetMapping("/list")
     public TableDataInfo list(PublicWarehouse publicWarehouse)
     {
@@ -50,7 +50,7 @@ public class PublicWarehouseController extends BaseController
     /**
      * 导出仓库列表
      */
-    @RequiresPermissions("pms.public:warehouse:export")
+    @RequiresPermissions("shopping/public:warehouse:export")
     @Log(title = "仓库", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, PublicWarehouse publicWarehouse)
@@ -63,7 +63,7 @@ public class PublicWarehouseController extends BaseController
     /**
      * 获取仓库详细信息
      */
-    @RequiresPermissions("pms.public:warehouse:query")
+    @RequiresPermissions("shopping/public:warehouse:query")
     @GetMapping(value = "/{warehouseId}")
     public AjaxResult getInfo(@PathVariable("warehouseId") Long warehouseId)
     {
@@ -73,7 +73,7 @@ public class PublicWarehouseController extends BaseController
     /**
      * 新增仓库
      */
-    @RequiresPermissions("pms.public:warehouse:add")
+    @RequiresPermissions("shopping/public:warehouse:add")
     @Log(title = "仓库", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody PublicWarehouse publicWarehouse)
@@ -84,7 +84,7 @@ public class PublicWarehouseController extends BaseController
     /**
      * 修改仓库
      */
-    @RequiresPermissions("pms.public:warehouse:edit")
+    @RequiresPermissions("shopping/public:warehouse:edit")
     @Log(title = "仓库", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody PublicWarehouse publicWarehouse)
@@ -95,7 +95,7 @@ public class PublicWarehouseController extends BaseController
     /**
      * 删除仓库
      */
-    @RequiresPermissions("pms.public:warehouse:remove")
+    @RequiresPermissions("shopping/public:warehouse:remove")
     @Log(title = "仓库", businessType = BusinessType.DELETE)
 	@DeleteMapping("/{warehouseIds}")
     public AjaxResult remove(@PathVariable Long[] warehouseIds)

@@ -20,6 +20,11 @@ public class PublicUserServiceImpl implements IPublicUserService
     @Autowired
     private PublicUserMapper publicUserMapper;
 
+    @Override
+    public PublicUser login(String account, String password) {
+        return publicUserMapper.login(account, password);
+    }
+
     /**
      * 查询用户表
      * 
