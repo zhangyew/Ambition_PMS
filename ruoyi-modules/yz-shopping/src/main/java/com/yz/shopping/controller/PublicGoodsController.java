@@ -38,7 +38,7 @@ public class PublicGoodsController extends BaseController
     /**
      * 查询物料列表
      */
-    @RequiresPermissions("pms.public:goods:list")
+    @RequiresPermissions("shopping/public:goods:list")
     @GetMapping("/list")
     public TableDataInfo list(PublicGoods publicGoods)
     {
@@ -50,7 +50,7 @@ public class PublicGoodsController extends BaseController
     /**
      * 导出物料列表
      */
-    @RequiresPermissions("pms.public:goods:export")
+    @RequiresPermissions("shopping/public:goods:export")
     @Log(title = "物料", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, PublicGoods publicGoods)
@@ -63,7 +63,7 @@ public class PublicGoodsController extends BaseController
     /**
      * 获取物料详细信息
      */
-    @RequiresPermissions("pms.public:goods:query")
+    @RequiresPermissions("shopping/public:goods:query")
     @GetMapping(value = "/{goodsId}")
     public AjaxResult getInfo(@PathVariable("goodsId") Long goodsId)
     {
@@ -73,7 +73,7 @@ public class PublicGoodsController extends BaseController
     /**
      * 新增物料
      */
-    @RequiresPermissions("pms.public:goods:add")
+    @RequiresPermissions("shopping/public:goods:add")
     @Log(title = "物料", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody PublicGoods publicGoods)
@@ -84,7 +84,7 @@ public class PublicGoodsController extends BaseController
     /**
      * 修改物料
      */
-    @RequiresPermissions("pms.public:goods:edit")
+    @RequiresPermissions("shopping/public:goods:edit")
     @Log(title = "物料", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody PublicGoods publicGoods)
@@ -95,7 +95,7 @@ public class PublicGoodsController extends BaseController
     /**
      * 删除物料
      */
-    @RequiresPermissions("pms.public:goods:remove")
+    @RequiresPermissions("shopping/public:goods:remove")
     @Log(title = "物料", businessType = BusinessType.DELETE)
 	@DeleteMapping("/{goodsIds}")
     public AjaxResult remove(@PathVariable Long[] goodsIds)
