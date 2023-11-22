@@ -38,7 +38,7 @@ public class PublicCategoryController extends BaseController
     /**
      * 查询物料类别列表
      */
-    @RequiresPermissions("pms.public:category:list")
+    @RequiresPermissions("shopping/public:category:list")
     @GetMapping("/list")
     public TableDataInfo list(PublicCategory publicCategory)
     {
@@ -50,7 +50,7 @@ public class PublicCategoryController extends BaseController
     /**
      * 导出物料类别列表
      */
-    @RequiresPermissions("pms.public:category:export")
+    @RequiresPermissions("shopping/public:category:export")
     @Log(title = "物料类别", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, PublicCategory publicCategory)
@@ -63,7 +63,7 @@ public class PublicCategoryController extends BaseController
     /**
      * 获取物料类别详细信息
      */
-    @RequiresPermissions("pms.public:category:query")
+    @RequiresPermissions("shopping/public:category:query")
     @GetMapping(value = "/{categoryId}")
     public AjaxResult getInfo(@PathVariable("categoryId") Long categoryId)
     {
@@ -73,7 +73,7 @@ public class PublicCategoryController extends BaseController
     /**
      * 新增物料类别
      */
-    @RequiresPermissions("pms.public:category:add")
+    @RequiresPermissions("shopping/public:category:add")
     @Log(title = "物料类别", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody PublicCategory publicCategory)
@@ -84,7 +84,7 @@ public class PublicCategoryController extends BaseController
     /**
      * 修改物料类别
      */
-    @RequiresPermissions("pms.public:category:edit")
+    @RequiresPermissions("shopping/public:category:edit")
     @Log(title = "物料类别", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody PublicCategory publicCategory)
@@ -95,7 +95,7 @@ public class PublicCategoryController extends BaseController
     /**
      * 删除物料类别
      */
-    @RequiresPermissions("pms.public:category:remove")
+    @RequiresPermissions("shopping/public:category:remove")
     @Log(title = "物料类别", businessType = BusinessType.DELETE)
 	@DeleteMapping("/{categoryIds}")
     public AjaxResult remove(@PathVariable Long[] categoryIds)

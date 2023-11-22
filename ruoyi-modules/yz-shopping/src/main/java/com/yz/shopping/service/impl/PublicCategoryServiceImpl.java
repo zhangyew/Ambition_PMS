@@ -8,6 +8,8 @@ import com.yz.shopping.mapper.PublicCategoryMapper;
 import com.ruoyi.system.api.domain.PublicCategory;
 import com.yz.shopping.service.IPublicCategoryService;
 
+import javax.annotation.Resource;
+
 /**
  * 物料类别Service业务层处理
  * 
@@ -17,12 +19,12 @@ import com.yz.shopping.service.IPublicCategoryService;
 @Service
 public class PublicCategoryServiceImpl implements IPublicCategoryService 
 {
-    @Autowired
+    @Resource
     private PublicCategoryMapper publicCategoryMapper;
 
     /**
      * 查询物料类别
-     * 
+     *
      * @param categoryId 物料类别主键
      * @return 物料类别
      */
@@ -34,7 +36,7 @@ public class PublicCategoryServiceImpl implements IPublicCategoryService
 
     /**
      * 查询物料类别列表
-     * 
+     *
      * @param publicCategory 物料类别
      * @return 物料类别
      */
@@ -46,7 +48,7 @@ public class PublicCategoryServiceImpl implements IPublicCategoryService
 
     /**
      * 新增物料类别
-     * 
+     *
      * @param publicCategory 物料类别
      * @return 结果
      */
@@ -59,7 +61,7 @@ public class PublicCategoryServiceImpl implements IPublicCategoryService
 
     /**
      * 修改物料类别
-     * 
+     *
      * @param publicCategory 物料类别
      * @return 结果
      */
@@ -72,7 +74,7 @@ public class PublicCategoryServiceImpl implements IPublicCategoryService
 
     /**
      * 批量删除物料类别
-     * 
+     *
      * @param categoryIds 需要删除的物料类别主键
      * @return 结果
      */
@@ -84,7 +86,7 @@ public class PublicCategoryServiceImpl implements IPublicCategoryService
 
     /**
      * 删除物料类别信息
-     * 
+     *
      * @param categoryId 物料类别主键
      * @return 结果
      */
