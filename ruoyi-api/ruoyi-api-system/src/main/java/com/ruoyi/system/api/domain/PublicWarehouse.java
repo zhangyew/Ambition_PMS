@@ -17,6 +17,7 @@ public class PublicWarehouse extends BaseEntity {
     /**
      * 仓库ID
      */
+    @Excel(name = "仓库ID")
     private Long warehouseId;
 
     /**
@@ -31,6 +32,12 @@ public class PublicWarehouse extends BaseEntity {
     @Excel(name = "仓库编码")
     private String warehouseNumber;
 
+    /**
+     * 仓库名称
+     */
+    @Excel(name = "仓库名称")
+    private String warehouseName;
+
     public String getWarehouseName() {
         return warehouseName;
     }
@@ -38,12 +45,6 @@ public class PublicWarehouse extends BaseEntity {
     public void setWarehouseName(String warehouseName) {
         this.warehouseName = warehouseName;
     }
-
-    /**
-     * 仓库名称
-     */
-    @Excel(name = "仓库名称")
-    private String warehouseName;
 
 
     public void setWarehouseId(Long warehouseId) {
