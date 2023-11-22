@@ -3,6 +3,7 @@ package com.yz.shopping.controller;
 import java.util.List;
 import java.io.IOException;
 import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,14 +25,13 @@ import com.ruoyi.common.core.web.page.TableDataInfo;
 
 /**
  * 仓库Controller
- * 
+ *
  * @author zhangye
  * @date 2023-11-21
  */
 @RestController
 @RequestMapping("/warehouse")
-public class PublicWarehouseController extends BaseController
-{
+public class PublicWarehouseController extends BaseController {
     @Autowired
     private IPublicWarehouseService publicWarehouseService;
     /**
@@ -39,8 +39,7 @@ public class PublicWarehouseController extends BaseController
      */
     @RequiresPermissions("shopping/public:warehouse:list")
     @GetMapping("/list")
-    public TableDataInfo list(PublicWarehouse publicWarehouse)
-    {
+    public TableDataInfo list(PublicWarehouse publicWarehouse) {
         startPage();
         List<PublicWarehouse> list = publicWarehouseService.selectPublicWarehouseList(publicWarehouse);
         return getDataTable(list);
@@ -52,8 +51,7 @@ public class PublicWarehouseController extends BaseController
     @RequiresPermissions("shopping/public:warehouse:export")
     @Log(title = "仓库", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
-    public void export(HttpServletResponse response, PublicWarehouse publicWarehouse)
-    {
+    public void export(HttpServletResponse response, PublicWarehouse publicWarehouse) {
         List<PublicWarehouse> list = publicWarehouseService.selectPublicWarehouseList(publicWarehouse);
         ExcelUtil<PublicWarehouse> util = new ExcelUtil<PublicWarehouse>(PublicWarehouse.class);
         util.exportExcel(response, list, "仓库数据");
@@ -64,8 +62,7 @@ public class PublicWarehouseController extends BaseController
      */
     @RequiresPermissions("shopping/public:warehouse:query")
     @GetMapping(value = "/{warehouseId}")
-    public AjaxResult getInfo(@PathVariable("warehouseId") Long warehouseId)
-    {
+    public AjaxResult getInfo(@PathVariable("warehouseId") Long warehouseId) {
         return success(publicWarehouseService.selectPublicWarehouseByWarehouseId(warehouseId));
     }
 
@@ -75,8 +72,7 @@ public class PublicWarehouseController extends BaseController
     @RequiresPermissions("shopping/public:warehouse:add")
     @Log(title = "仓库", businessType = BusinessType.INSERT)
     @PostMapping
-    public AjaxResult add(@RequestBody PublicWarehouse publicWarehouse)
-    {
+    public AjaxResult add(@RequestBody PublicWarehouse publicWarehouse) {
         return toAjax(publicWarehouseService.insertPublicWarehouse(publicWarehouse));
     }
 
@@ -86,8 +82,7 @@ public class PublicWarehouseController extends BaseController
     @RequiresPermissions("shopping/public:warehouse:edit")
     @Log(title = "仓库", businessType = BusinessType.UPDATE)
     @PutMapping
-    public AjaxResult edit(@RequestBody PublicWarehouse publicWarehouse)
-    {
+    public AjaxResult edit(@RequestBody PublicWarehouse publicWarehouse) {
         return toAjax(publicWarehouseService.updatePublicWarehouse(publicWarehouse));
     }
 
@@ -96,9 +91,8 @@ public class PublicWarehouseController extends BaseController
      */
     @RequiresPermissions("shopping/public:warehouse:remove")
     @Log(title = "仓库", businessType = BusinessType.DELETE)
-	@DeleteMapping("/{warehouseIds}")
-    public AjaxResult remove(@PathVariable Long[] warehouseIds)
-    {
+    @DeleteMapping("/{warehouseIds}")
+    public AjaxResult remove(@PathVariable Long[] warehouseIds) {
         return toAjax(publicWarehouseService.deletePublicWarehouseByWarehouseIds(warehouseIds));
     }
 }
