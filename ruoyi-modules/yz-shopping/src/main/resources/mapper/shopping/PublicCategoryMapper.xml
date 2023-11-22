@@ -7,7 +7,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <resultMap type="com.ruoyi.system.api.domain.PublicCategory" id="PublicCategoryResult">
         <result property="categoryId"    column="category_id"    />
         <result property="categoryNumber"    column="category_number"    />
-        <result property="contractdetailsName"    column="contractdetails_name"    />
+        <result property="categoryName"    column="category_name"    />
         <result property="parentCategory"    column="parent_category"    />
         <result property="createBy"    column="create_by"    />
         <result property="createTime"    column="create_time"    />
@@ -17,14 +17,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectPublicCategoryVo">
-        select category_id, category_number, contractdetails_name, parent_category, create_by, create_time, update_by, update_time, is_delete from public_category
+        select category_id, category_number, category_name, parent_category, create_by, create_time, update_by, update_time, is_delete from public_category
     </sql>
 
     <select id="selectPublicCategoryList" parameterType="com.ruoyi.system.api.domain.PublicCategory" resultMap="PublicCategoryResult">
         <include refid="selectPublicCategoryVo"/>
         <where>
             <if test="categoryNumber != null  and categoryNumber != ''"> and category_number = #{categoryNumber}</if>
-            <if test="contractdetailsName != null  and contractdetailsName != ''"> and contractdetails_name like concat('%', #{contractdetailsName}, '%')</if>
+            <if test="categoryName != null  and categoryName != ''"> and category_name like concat('%', #{categoryName}, '%')</if>
             <if test="parentCategory != null "> and parent_category = #{parentCategory}</if>
             <if test="isDelete != null "> and is_delete = #{isDelete}</if>
         </where>
@@ -39,7 +39,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         insert into public_category
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="categoryNumber != null">category_number,</if>
-            <if test="contractdetailsName != null">contractdetails_name,</if>
+            <if test="categoryName != null">category_name,</if>
             <if test="parentCategory != null">parent_category,</if>
             <if test="createBy != null">create_by,</if>
             <if test="createTime != null">create_time,</if>
@@ -49,7 +49,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="categoryNumber != null">#{categoryNumber},</if>
-            <if test="contractdetailsName != null">#{contractdetailsName},</if>
+            <if test="categoryName != null">#{categoryName},</if>
             <if test="parentCategory != null">#{parentCategory},</if>
             <if test="createBy != null">#{createBy},</if>
             <if test="createTime != null">#{createTime},</if>
@@ -63,7 +63,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         update public_category
         <trim prefix="SET" suffixOverrides=",">
             <if test="categoryNumber != null">category_number = #{categoryNumber},</if>
-            <if test="contractdetailsName != null">contractdetails_name = #{contractdetailsName},</if>
+            <if test="categoryName != null">category_name = #{categoryName},</if>
             <if test="parentCategory != null">parent_category = #{parentCategory},</if>
             <if test="createBy != null">create_by = #{createBy},</if>
             <if test="createTime != null">create_time = #{createTime},</if>

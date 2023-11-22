@@ -25,11 +25,10 @@ public class PublicCategory extends BaseEntity {
     @Excel(name = "类别编码，用户自定义")
     private String categoryNumber;
 
-    /**
-     * 仓库名称
-     */
-    @Excel(name = "仓库名称")
-    private String contractdetailsName;
+
+    /** 类别名称 */
+    @Excel(name = "类别名称")
+    private String categoryName;
 
     /**
      * 上级品类
@@ -59,12 +58,14 @@ public class PublicCategory extends BaseEntity {
         return categoryNumber;
     }
 
-    public void setContractdetailsName(String contractdetailsName) {
-        this.contractdetailsName = contractdetailsName;
+    public void setCategoryName(String categoryName)
+    {
+        this.categoryName = categoryName;
     }
 
-    public String getContractdetailsName() {
-        return contractdetailsName;
+    public String getCategoryName()
+    {
+        return categoryName;
     }
 
     public void setParentCategory(Long parentCategory) {
@@ -88,7 +89,7 @@ public class PublicCategory extends BaseEntity {
         return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE)
                 .append("categoryId", getCategoryId())
                 .append("categoryNumber", getCategoryNumber())
-                .append("contractdetailsName", getContractdetailsName())
+                .append("categoryNumber", getCategoryName())
                 .append("parentCategory", getParentCategory())
                 .append("createBy", getCreateBy())
                 .append("createTime", getCreateTime())
