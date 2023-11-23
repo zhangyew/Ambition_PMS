@@ -38,7 +38,7 @@ public class ShoppingProRequireController extends BaseController
     /**
      * 查询采购需求表列表
      */
-    @RequiresPermissions("pms/shopping:pro_require:list")
+    @RequiresPermissions("shopping/public:pro_require:list")
     @GetMapping("/list")
     public TableDataInfo list(ShoppingProRequire shoppingProRequire)
     {
@@ -50,7 +50,7 @@ public class ShoppingProRequireController extends BaseController
     /**
      * 导出采购需求表列表
      */
-    @RequiresPermissions("pms/shopping:pro_require:export")
+    @RequiresPermissions("shopping/public:pro_require:export")
     @Log(title = "采购需求表", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, ShoppingProRequire shoppingProRequire)
@@ -63,7 +63,7 @@ public class ShoppingProRequireController extends BaseController
     /**
      * 获取采购需求表详细信息
      */
-    @RequiresPermissions("pms/shopping:pro_require:query")
+    @RequiresPermissions("shopping/public:pro_require:query")
     @GetMapping(value = "/{requireId}")
     public AjaxResult getInfo(@PathVariable("requireId") Long requireId)
     {
@@ -73,7 +73,7 @@ public class ShoppingProRequireController extends BaseController
     /**
      * 新增采购需求表
      */
-    @RequiresPermissions("pms/shopping:pro_require:add")
+    @RequiresPermissions("shopping/public:pro_require:add")
     @Log(title = "采购需求表", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody ShoppingProRequire shoppingProRequire)
@@ -84,7 +84,7 @@ public class ShoppingProRequireController extends BaseController
     /**
      * 修改采购需求表
      */
-    @RequiresPermissions("pms/shopping:pro_require:edit")
+    @RequiresPermissions("shopping/public:pro_require:edit")
     @Log(title = "采购需求表", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody ShoppingProRequire shoppingProRequire)
@@ -95,9 +95,9 @@ public class ShoppingProRequireController extends BaseController
     /**
      * 删除采购需求表
      */
-    @RequiresPermissions("pms/shopping:pro_require:remove")
+    @RequiresPermissions("shopping/public:pro_require:remove")
     @Log(title = "采购需求表", businessType = BusinessType.DELETE)
-	@DeleteMapping("/{requireIds}")
+    @DeleteMapping("/{requireIds}")
     public AjaxResult remove(@PathVariable Long[] requireIds)
     {
         return toAjax(shoppingProRequireService.deleteShoppingProRequireByRequireIds(requireIds));

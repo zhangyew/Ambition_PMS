@@ -3,8 +3,8 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yz.shopping.mapper.ShoppingProRequireMapper">
-    
-    <resultMap type="ShoppingProRequire" id="ShoppingProRequireResult">
+
+    <resultMap type="com.yz.shopping.domain.ShoppingProRequire" id="ShoppingProRequireResult">
         <result property="requireId"    column="require_id"    />
         <result property="requireDemandId"    column="require_demand_id"    />
         <result property="requireNumber"    column="require_number"    />
@@ -28,39 +28,29 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         select require_id, require_demand_id, require_number, require_person, require_dept, require_type, total_money, require_contact, main_purpose, require_address, require_phone, require_state, create_by, create_time, update_by, update_time, is_delete from shopping_pro_require
     </sql>
 
-    <select id="selectShoppingProRequireList" parameterType="ShoppingProRequire" resultMap="ShoppingProRequireResult">
+    <select id="selectShoppingProRequireList" parameterType="com.yz.shopping.domain.ShoppingProRequire" resultMap="ShoppingProRequireResult">
         <include refid="selectShoppingProRequireVo"/>
-        <where>  
-            <if test="requireDemandId != null "> and require_demand_id = #{requireDemandId}</if>
-            <if test="requireNumber != null  and requireNumber != ''"> and require_number = #{requireNumber}</if>
-            <if test="requirePerson != null  and requirePerson != ''"> and require_person = #{requirePerson}</if>
-            <if test="requireDept != null  and requireDept != ''"> and require_dept = #{requireDept}</if>
+        <where>
             <if test="requireType != null "> and require_type = #{requireType}</if>
-            <if test="totalMoney != null "> and total_money = #{totalMoney}</if>
-            <if test="requireContact != null  and requireContact != ''"> and require_contact = #{requireContact}</if>
-            <if test="mainPurpose != null  and mainPurpose != ''"> and main_purpose = #{mainPurpose}</if>
-            <if test="requireAddress != null  and requireAddress != ''"> and require_address = #{requireAddress}</if>
-            <if test="requirePhone != null  and requirePhone != ''"> and require_phone = #{requirePhone}</if>
             <if test="requireState != null "> and require_state = #{requireState}</if>
-            <if test="isDelete != null "> and is_delete = #{isDelete}</if>
         </where>
     </select>
-    
+
     <select id="selectShoppingProRequireByRequireId" parameterType="Long" resultMap="ShoppingProRequireResult">
         <include refid="selectShoppingProRequireVo"/>
         where require_id = #{requireId}
     </select>
-        
-    <insert id="insertShoppingProRequire" parameterType="ShoppingProRequire" useGeneratedKeys="true" keyProperty="requireId">
+
+    <insert id="insertShoppingProRequire" parameterType="com.yz.shopping.domain.ShoppingProRequire" useGeneratedKeys="true" keyProperty="requireId">
         insert into shopping_pro_require
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="requireDemandId != null">require_demand_id,</if>
-            <if test="requireNumber != null">require_number,</if>
-            <if test="requirePerson != null">require_person,</if>
-            <if test="requireDept != null">require_dept,</if>
+            <if test="requireNumber != null and requireNumber != ''">require_number,</if>
+            <if test="requirePerson != null and requirePerson != ''">require_person,</if>
+            <if test="requireDept != null and requireDept != ''">require_dept,</if>
             <if test="requireType != null">require_type,</if>
             <if test="totalMoney != null">total_money,</if>
-            <if test="requireContact != null">require_contact,</if>
+            <if test="requireContact != null and requireContact != ''">require_contact,</if>
             <if test="mainPurpose != null">main_purpose,</if>
             <if test="requireAddress != null">require_address,</if>
             <if test="requirePhone != null">require_phone,</if>
@@ -70,15 +60,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="updateBy != null">update_by,</if>
             <if test="updateTime != null">update_time,</if>
             <if test="isDelete != null">is_delete,</if>
-         </trim>
+        </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="requireDemandId != null">#{requireDemandId},</if>
-            <if test="requireNumber != null">#{requireNumber},</if>
-            <if test="requirePerson != null">#{requirePerson},</if>
-            <if test="requireDept != null">#{requireDept},</if>
+            <if test="requireNumber != null and requireNumber != ''">#{requireNumber},</if>
+            <if test="requirePerson != null and requirePerson != ''">#{requirePerson},</if>
+            <if test="requireDept != null and requireDept != ''">#{requireDept},</if>
             <if test="requireType != null">#{requireType},</if>
             <if test="totalMoney != null">#{totalMoney},</if>
-            <if test="requireContact != null">#{requireContact},</if>
+            <if test="requireContact != null and requireContact != ''">#{requireContact},</if>
             <if test="mainPurpose != null">#{mainPurpose},</if>
             <if test="requireAddress != null">#{requireAddress},</if>
             <if test="requirePhone != null">#{requirePhone},</if>
@@ -88,19 +78,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="updateBy != null">#{updateBy},</if>
             <if test="updateTime != null">#{updateTime},</if>
             <if test="isDelete != null">#{isDelete},</if>
-         </trim>
+        </trim>
     </insert>
 
-    <update id="updateShoppingProRequire" parameterType="ShoppingProRequire">
+    <update id="updateShoppingProRequire" parameterType="com.yz.shopping.domain.ShoppingProRequire">
         update shopping_pro_require
         <trim prefix="SET" suffixOverrides=",">
             <if test="requireDemandId != null">require_demand_id = #{requireDemandId},</if>
-            <if test="requireNumber != null">require_number = #{requireNumber},</if>
-            <if test="requirePerson != null">require_person = #{requirePerson},</if>
-            <if test="requireDept != null">require_dept = #{requireDept},</if>
+            <if test="requireNumber != null and requireNumber != ''">require_number = #{requireNumber},</if>
+            <if test="requirePerson != null and requirePerson != ''">require_person = #{requirePerson},</if>
+            <if test="requireDept != null and requireDept != ''">require_dept = #{requireDept},</if>
             <if test="requireType != null">require_type = #{requireType},</if>
             <if test="totalMoney != null">total_money = #{totalMoney},</if>
-            <if test="requireContact != null">require_contact = #{requireContact},</if>
+            <if test="requireContact != null and requireContact != ''">require_contact = #{requireContact},</if>
             <if test="mainPurpose != null">main_purpose = #{mainPurpose},</if>
             <if test="requireAddress != null">require_address = #{requireAddress},</if>
             <if test="requirePhone != null">require_phone = #{requirePhone},</if>
@@ -119,7 +109,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </delete>
 
     <delete id="deleteShoppingProRequireByRequireIds" parameterType="String">
-        delete from shopping_pro_require where require_id in 
+        delete from shopping_pro_require where require_id in
         <foreach item="requireId" collection="array" open="(" separator="," close=")">
             #{requireId}
         </foreach>

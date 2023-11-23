@@ -24,7 +24,7 @@
                 #{warehouseAddress}
             </if>
             <if test="warehouseNumber != null  and warehouseNumber != ''">and warehouse_number = #{warehouseNumber}</if>
-            <if test="warehouseName != null  and warehouseName != ''">and warehouse_name = #{warehouseName}</if>
+            <if test="warehouseName != null  and warehouseName != ''">and warehouse_name like concat('%', #{warehouseName}, '%')</if>
         </where>
     </select>
 
