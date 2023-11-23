@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.api.mapper.PublicCodeRulesMapper">
+    
+    <resultMap type="com.ruoyi.system.api.domain.PublicCodeRules" id="PublicCodeRulesResult">
+        <result property="codeRulesId"    column="code_rules_id"    />
+        <result property="targets"    column="targets"    />
+        <result property="prefixs"    column="prefixs"    />
+        <result property="timeRules"    column="time_rules"    />
+        <result property="codingRules"    column="coding_rules"    />
+        <result property="lengths"    column="lengths"    />
+    </resultMap>
+
+    <sql id="selectPublicCodeRulesVo">
+        select code_rules_id, targets, prefixs, time_rules, coding_rules, lengths from public_code_rules
+    </sql>
+
+    <select id="selectPublicCodeRulesList" parameterType="com.ruoyi.system.api.domain.PublicCodeRules" resultMap="PublicCodeRulesResult">
+        <include refid="selectPublicCodeRulesVo"/>
+        <where>  
+            <if test="targets != null  and targets != ''"> and targets like concat('%', #{targets}, '%')</if>
+            <if test="prefixs != null  and prefixs != ''"> and prefixs = #{prefixs}</if>
+            <if test="params.beginTimeRules != null and params.beginTimeRules != '' and params.endTimeRules != null and params.endTimeRules != ''"> and time_rules between #{params.beginTimeRules} and #{params.endTimeRules}</if>
+            <if test="codingRules != null "> and coding_rules = #{codingRules}</if>
+        </where>
+    </select>
+    
+    <select id="selectPublicCodeRulesByCodeRulesId" parameterType="Long" resultMap="PublicCodeRulesResult">
+        <include refid="selectPublicCodeRulesVo"/>
+        where code_rules_id = #{codeRulesId}
+    </select>
+        
+    <insert id="insertPublicCodeRules" parameterType="com.ruoyi.system.api.domain.PublicCodeRules" useGeneratedKeys="true" keyProperty="codeRulesId">
+        insert into public_code_rules
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="targets != null">targets,</if>
+            <if test="prefixs != null">prefixs,</if>
+            <if test="timeRules != null">time_rules,</if>
+            <if test="codingRules != null">coding_rules,</if>
+            <if test="lengths != null">lengths,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="targets != null">#{targets},</if>
+            <if test="prefixs != null">#{prefixs},</if>
+            <if test="timeRules != null">#{timeRules},</if>
+            <if test="codingRules != null">#{codingRules},</if>
+            <if test="lengths != null">#{lengths},</if>
+         </trim>
+    </insert>
+
+    <update id="updatePublicCodeRules" parameterType="com.ruoyi.system.api.domain.PublicCodeRules">
+        update public_code_rules
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="targets != null">targets = #{targets},</if>
+            <if test="prefixs != null">prefixs = #{prefixs},</if>
+            <if test="timeRules != null">time_rules = #{timeRules},</if>
+            <if test="codingRules != null">coding_rules = #{codingRules},</if>
+            <if test="lengths != null">lengths = #{lengths},</if>
+        </trim>
+        where code_rules_id = #{codeRulesId}
+    </update>
+
+    <delete id="deletePublicCodeRulesByCodeRulesId" parameterType="Long">
+        delete from public_code_rules where code_rules_id = #{codeRulesId}
+    </delete>
+
+    <delete id="deletePublicCodeRulesByCodeRulesIds" parameterType="String">
+        delete from public_code_rules where code_rules_id in 
+        <foreach item="codeRulesId" collection="array" open="(" separator="," close=")">
+            #{codeRulesId}
+        </foreach>
+    </delete>
+</mapper>
