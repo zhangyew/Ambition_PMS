@@ -4,6 +4,7 @@ import java.util.List;
 import java.io.IOException;
 import javax.servlet.http.HttpServletResponse;
 
+import com.ruoyi.system.api.util.SnowflakeGetId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -41,9 +42,15 @@ public class PublicVendorController extends BaseController {
     @RequiresPermissions("bidding/public:vendor:list")
     @GetMapping("/list")
     public TableDataInfo list(PublicVendor publicVendor) {
-        startPage();
-        List<PublicVendor> list = publicVendorService.selectPublicVendorList(publicVendor);
-        return getDataTable(list);
+
+        SnowflakeGetId sid = new SnowflakeGetId();
+        String id = sid.getSnowflakesId("GYS",2003,15);
+        System.out.println(id);
+
+//        startPage();
+        return null;
+//        List<PublicVendor> list = publicVendorService.selectPublicVendorList(publicVendor);
+//        return getDataTable(list);
     }
 
     /**
