@@ -47,6 +47,15 @@ public class PublicCategoryServiceImpl implements IPublicCategoryService
     }
 
     /**
+     * 查询物料分类的父级id
+     *
+     */
+    @Override
+    public List<PublicCategory> selectPublicParentCategoryList(Long parentCategory) {
+        return publicCategoryMapper.selectPublicParentCategoryList(parentCategory);
+    }
+
+    /**
      * 新增物料类别
      *
      * @param publicCategory 物料类别

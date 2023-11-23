@@ -48,6 +48,18 @@ public class PublicCategoryController extends BaseController
     }
 
     /**
+     * 查询物料类别列表
+     */
+    @RequiresPermissions("shopping/public:category:ParentCategoryList")
+    @GetMapping("/ParentCategoryList")
+    public TableDataInfo ParentCategoryList(Long parentCategory)
+    {
+        startPage();
+        List<PublicCategory> list = publicCategoryService.selectPublicParentCategoryList(parentCategory);
+        return getDataTable(list);
+    }
+
+    /**
      * 导出物料类别列表
      */
     @RequiresPermissions("shopping/public:category:export")

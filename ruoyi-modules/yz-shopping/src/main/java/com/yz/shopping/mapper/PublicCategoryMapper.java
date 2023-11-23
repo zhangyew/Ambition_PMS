@@ -3,6 +3,7 @@ package com.yz.shopping.mapper;
 import java.util.List;
 
 import com.ruoyi.system.api.domain.PublicCategory;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * 物料类别Mapper接口
@@ -27,6 +28,12 @@ public interface PublicCategoryMapper
      * @return 物料类别集合
      */
     public List<PublicCategory> selectPublicCategoryList(PublicCategory publicCategory);
+
+    /**
+     * 查询物料分类的父级id
+     *
+     */
+    public List<PublicCategory> selectPublicParentCategoryList(@Param("parentCategory")Long parentCategory);
 
     /**
      * 新增物料类别
