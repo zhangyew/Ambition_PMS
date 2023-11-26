@@ -57,5 +57,7 @@ public interface IPublicGoodsService
      * @param goodsId 物料主键
      * @return 结果
      */
-    public int deletePublicGoodsByGoodsId(Long goodsId);
+    public int deletePublicGoodsByGoodsId1(Long goodsId);
+
+    public int deletePublicGoodsByGoodsId2(Long goodsId);
 }

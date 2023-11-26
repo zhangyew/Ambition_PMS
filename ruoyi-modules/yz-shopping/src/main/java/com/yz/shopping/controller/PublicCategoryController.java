@@ -35,6 +35,7 @@ public class PublicCategoryController extends BaseController
     @Autowired
     private IPublicCategoryService publicCategoryService;
 
+
     /**
      * 查询物料类别列表
      */

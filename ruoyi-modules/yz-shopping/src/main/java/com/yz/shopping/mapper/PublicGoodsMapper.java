@@ -44,12 +44,19 @@ public interface PublicGoodsMapper {
     public int updatePublicGoods(PublicGoods publicGoods);
 
     /**
-     * 删除物料
+     * 下架物料
      *
      * @param goodsId 物料主键
      * @return 结果
      */
-    public int deletePublicGoodsByGoodsId(Long goodsId);
+    public int deletePublicGoodsByGoodsId1(Long goodsId);
+    /**
+     * 上架物料
+     *
+     * @param goodsId 物料主键
+     * @return 结果
+     */
+    public int deletePublicGoodsByGoodsId2(Long goodsId);
 
     /**
      * 批量删除物料
@@ -58,4 +65,5 @@ public interface PublicGoodsMapper {
      * @return 结果
      */
     public int deletePublicGoodsByGoodsIds(Long[] goodsIds);
+
 }

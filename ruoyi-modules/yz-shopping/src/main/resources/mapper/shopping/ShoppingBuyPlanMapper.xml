@@ -3,8 +3,8 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yz.shopping.mapper.ShoppingBuyPlanMapper">
-    
-    <resultMap type="ShoppingBuyPlan" id="ShoppingBuyPlanResult">
+
+    <resultMap type="com.yz.shopping.domain.ShoppingBuyPlan" id="ShoppingBuyPlanResult">
         <result property="buyPlanId"    column="buy_plan_id"    />
         <result property="planClod"    column="plan_clod"    />
         <result property="buyPlanVendorId"    column="buy_plan_vendor_id"    />
@@ -22,9 +22,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         select buy_plan_id, plan_clod, buy_plan_vendor_id, buy_plan_warehouse_id, buy_type_id, state, create_by, create_time, update_by, update_time, is_delete from shopping_buy_plan
     </sql>
 
-    <select id="selectShoppingBuyPlanList" parameterType="ShoppingBuyPlan" resultMap="ShoppingBuyPlanResult">
+    <select id="selectShoppingBuyPlanList" parameterType="com.yz.shopping.domain.ShoppingBuyPlan" resultMap="ShoppingBuyPlanResult">
         <include refid="selectShoppingBuyPlanVo"/>
-        <where>  
+        <where>
             <if test="planClod != null  and planClod != ''"> and plan_clod = #{planClod}</if>
             <if test="buyPlanVendorId != null "> and buy_plan_vendor_id = #{buyPlanVendorId}</if>
             <if test="buyPlanWarehouseId != null "> and buy_plan_warehouse_id = #{buyPlanWarehouseId}</if>
@@ -33,13 +33,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="isDelete != null "> and is_delete = #{isDelete}</if>
         </where>
     </select>
-    
+
     <select id="selectShoppingBuyPlanByBuyPlanId" parameterType="Long" resultMap="ShoppingBuyPlanResult">
         <include refid="selectShoppingBuyPlanVo"/>
         where buy_plan_id = #{buyPlanId}
     </select>
-        
-    <insert id="insertShoppingBuyPlan" parameterType="ShoppingBuyPlan" useGeneratedKeys="true" keyProperty="buyPlanId">
+
+    <insert id="insertShoppingBuyPlan" parameterType="com.yz.shopping.domain.ShoppingBuyPlan" useGeneratedKeys="true" keyProperty="buyPlanId">
         insert into shopping_buy_plan
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="planClod != null">plan_clod,</if>
@@ -67,7 +67,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
          </trim>
     </insert>
 
-    <update id="updateShoppingBuyPlan" parameterType="ShoppingBuyPlan">
+    <update id="updateShoppingBuyPlan" parameterType="com.yz.shopping.domain.ShoppingBuyPlan">
         update shopping_buy_plan
         <trim prefix="SET" suffixOverrides=",">
             <if test="planClod != null">plan_clod = #{planClod},</if>
@@ -89,7 +89,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </delete>
 
     <delete id="deleteShoppingBuyPlanByBuyPlanIds" parameterType="String">
-        delete from shopping_buy_plan where buy_plan_id in 
+        delete from shopping_buy_plan where buy_plan_id in
         <foreach item="buyPlanId" collection="array" open="(" separator="," close=")">
             #{buyPlanId}
         </foreach>

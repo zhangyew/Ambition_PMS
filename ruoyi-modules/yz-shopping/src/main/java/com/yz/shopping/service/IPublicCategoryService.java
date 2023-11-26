@@ -66,4 +66,15 @@ public interface IPublicCategoryService
      * @return 结果
      */
     public int deletePublicCategoryByCategoryId(Long categoryId);
+
+    /**
+     * 查询所有的一级菜单
+     * @return
+     */
+    public PublicCategory selectOne();
+    /**
+     * 根据一级分类查询对应的二级的分类菜单
+     * @return
+     */
+    public List<PublicCategory> selectTwoByOne();
 }

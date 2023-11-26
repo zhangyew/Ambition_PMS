@@ -3,6 +3,8 @@ package com.yz.shopping.controller;
 import java.util.List;
 import java.io.IOException;
 import javax.servlet.http.HttpServletResponse;
+
+import com.yz.shopping.service.IPublicCategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -34,6 +36,9 @@ public class PublicGoodsController extends BaseController
 {
     @Autowired
     private IPublicGoodsService publicGoodsService;
+
+    @Autowired
+    private IPublicCategoryService publicCategoryService;
 
     /**
      * 查询物料列表
@@ -101,5 +106,16 @@ public class PublicGoodsController extends BaseController
     public AjaxResult remove(@PathVariable Long[] goodsIds)
     {
         return toAjax(publicGoodsService.deletePublicGoodsByGoodsIds(goodsIds));
+    }
+
+    /**|
+     * 查询一级分类
+     * @return
+     */
+    @RequiresPermissions("shopping/public:goods:findCategoryList")
+    @GetMapping("/findCategoryList")
+    public AjaxResult selOne()
+    {
+        return success(publicCategoryService.selectTwoByOne());
     }
 }

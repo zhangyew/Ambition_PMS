@@ -5,6 +5,8 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.core.annotation.Excel;
 import com.ruoyi.common.core.web.domain.BaseEntity;
 
+import java.util.List;
+
 /**
  * 物料类别对象 public_category
  *
@@ -41,6 +43,19 @@ public class PublicCategory extends BaseEntity {
      */
     @Excel(name = "删除")
     private Long isDelete;
+
+    /**
+     * 二级分类
+     */
+    private List<PublicCategory> list;
+
+    public List<PublicCategory> getList() {
+        return list;
+    }
+
+    public void setList(List<PublicCategory> list) {
+        this.list = list;
+    }
 
     public void setCategoryId(Long categoryId) {
         this.categoryId = categoryId;

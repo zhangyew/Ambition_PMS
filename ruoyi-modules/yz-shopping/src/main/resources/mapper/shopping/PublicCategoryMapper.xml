@@ -39,7 +39,23 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <select id="selectPublicCategoryByCategoryId" parameterType="Long" resultMap="PublicCategoryResult">
         <include refid="selectPublicCategoryVo"/>
-        where category_id = #{categoryId}
+        where category_id = #{categoryId} and is_delete = 0
+    </select>
+    <select id="selectTwoByOne" resultMap="PublicCategoryResult">
+        <include refid="selectPublicCategoryVo"/>
+        where is_delete = 0
+        <if test="parentCategory != null">
+            and parent_category = #{parentCategory}
+        </if>
+        <if test="parentCategory == null">
+            and parent_category is null
+        </if>
+    </select>
+
+    <!--根据类别编码查询一级分类-->
+    <select id="selectOne" resultMap="PublicCategoryResult">
+        <include refid="selectPublicCategoryVo"/>
+        where is_delete = 0 and category_number = #{parentCategory}
     </select>
 
     <insert id="insertPublicCategory" parameterType="com.ruoyi.system.api.domain.PublicCategory" useGeneratedKeys="true" keyProperty="categoryId">
