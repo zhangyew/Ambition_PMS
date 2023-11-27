@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yz.bidding.mapper.PublicAgreementMapper">
+
+    <resultMap type="com.ruoyi.system.api.domain.PublicAgreement" id="PublicAgreementResult">
+        <result property="contractId"    column="contract_id"    />
+        <result property="applicant"    column="applicant"    />
+        <result property="applicantTime"    column="applicant_time"    />
+        <result property="contractTypeTypeId"    column="contract_type_type_id"    />
+        <result property="firm"    column="firm"    />
+        <result property="vendorContractId"    column="vendor_contract_id"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <resultMap id="PublicAgreementPublicContractdetailsResult" type="com.ruoyi.system.api.domain.PublicAgreement" extends="PublicAgreementResult">
+        <collection property="publicContractdetailsList" notNullColumn="sub_contractdetails_id" javaType="java.util.List" resultMap="PublicContractdetailsResult" />
+    </resultMap>
+
+    <resultMap type="com.ruoyi.system.api.domain.PublicContractdetails" id="PublicContractdetailsResult">
+        <result property="contractdetailsId"    column="sub_contractdetails_id"    />
+        <result property="conContractId"    column="sub_con_contract_id"    />
+        <result property="contractdetailsPaymentId"    column="sub_contractdetails_payment_id"    />
+        <result property="contractdetailsName"    column="sub_contractdetails_name"    />
+        <result property="contractdetailsType"    column="sub_contractdetails_type"    />
+        <result property="openTime"    column="sub_open_time"    />
+        <result property="contractdetailsAmount"    column="sub_contractdetails_amount"    />
+        <result property="illustrate"    column="sub_illustrate"    />
+        <result property="bidEnd"    column="sub_bid_end"    />
+        <result property="createBy"    column="sub_create_by"    />
+        <result property="createTime"    column="sub_create_time"    />
+        <result property="updateBy"    column="sub_update_by"    />
+        <result property="updateTime"    column="sub_update_time"    />
+    </resultMap>
+
+    <sql id="selectPublicAgreementVo">
+        select contract_id, applicant, applicant_time, contract_type_type_id, firm, vendor_contract_id, create_by, create_time, update_by, update_time from public_agreement
+    </sql>
+
+    <select id="selectPublicAgreementList" parameterType="com.ruoyi.system.api.domain.PublicAgreement" resultMap="PublicAgreementResult">
+        <include refid="selectPublicAgreementVo"/>
+        <where>
+            <if test="applicant != null  and applicant != ''"> and applicant = #{applicant}</if>
+            <if test="applicantTime != null "> and applicant_time = #{applicantTime}</if>
+            <if test="contractTypeTypeId != null "> and contract_type_type_id = #{contractTypeTypeId}</if>
+            <if test="firm != null  and firm != ''"> and firm = #{firm}</if>
+            <if test="vendorContractId != null "> and vendor_contract_id = #{vendorContractId}</if>
+        </where>
+    </select>
+
+    <select id="selectPublicAgreementByContractId" parameterType="Long" resultMap="PublicAgreementPublicContractdetailsResult">
+        select a.contract_id, a.applicant, a.applicant_time, a.contract_type_type_id, a.firm, a.vendor_contract_id, a.create_by, a.create_time, a.update_by, a.update_time,
+               b.contractdetails_id as sub_contractdetails_id, b.con_contract_id as sub_con_contract_id, b.contractdetails_payment_id as sub_contractdetails_payment_id, b.contractdetails_name as sub_contractdetails_name, b.contractdetails_type as sub_contractdetails_type, b.open_time as sub_open_time, b.contractdetails_amount as sub_contractdetails_amount, b.illustrate as sub_illustrate, b.bid_end as sub_bid_end, b.create_by as sub_create_by, b.create_time as sub_create_time, b.update_by as sub_update_by, b.update_time as sub_update_time
+        from public_agreement a
+                 left join public_contractdetails b on b.con_contract_id = a.contract_id
+        where a.contract_id = #{contractId}
+    </select>
+
+    <insert id="insertPublicAgreement" parameterType="com.ruoyi.system.api.domain.PublicAgreement" useGeneratedKeys="true" keyProperty="contractId">
+        insert into public_agreement
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="applicant != null">applicant,</if>
+            <if test="applicantTime != null">applicant_time,</if>
+            <if test="contractTypeTypeId != null">contract_type_type_id,</if>
+            <if test="firm != null">firm,</if>
+            <if test="vendorContractId != null">vendor_contract_id,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="applicant != null">#{applicant},</if>
+            <if test="applicantTime != null">#{applicantTime},</if>
+            <if test="contractTypeTypeId != null">#{contractTypeTypeId},</if>
+            <if test="firm != null">#{firm},</if>
+            <if test="vendorContractId != null">#{vendorContractId},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+        </trim>
+    </insert>
+
+    <update id="updatePublicAgreement" parameterType="com.ruoyi.system.api.domain.PublicAgreement">
+        update public_agreement
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="applicant != null">applicant = #{applicant},</if>
+            <if test="applicantTime != null">applicant_time = #{applicantTime},</if>
+            <if test="contractTypeTypeId != null">contract_type_type_id = #{contractTypeTypeId},</if>
+            <if test="firm != null">firm = #{firm},</if>
+            <if test="vendorContractId != null">vendor_contract_id = #{vendorContractId},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where contract_id = #{contractId}
+    </update>
+
+    <delete id="deletePublicAgreementByContractId" parameterType="Long">
+        delete from public_agreement where contract_id = #{contractId}
+    </delete>
+
+    <delete id="deletePublicAgreementByContractIds" parameterType="String">
+        delete from public_agreement where contract_id in
+        <foreach item="contractId" collection="array" open="(" separator="," close=")">
+            #{contractId}
+        </foreach>
+    </delete>
+
+    <delete id="deletePublicContractdetailsByConContractIds" parameterType="String">
+        delete from public_contractdetails where con_contract_id in
+        <foreach item="conContractId" collection="array" open="(" separator="," close=")">
+            #{conContractId}
+        </foreach>
+    </delete>
+
+    <delete id="deletePublicContractdetailsByConContractId" parameterType="Long">
+        delete from public_contractdetails where con_contract_id = #{conContractId}
+    </delete>
+
+    <insert id="batchPublicContractdetails">
+        insert into public_contractdetails( contractdetails_id, con_contract_id, contractdetails_payment_id, contractdetails_name, contractdetails_type, open_time, contractdetails_amount, illustrate, bid_end, create_by, create_time, update_by, update_time) values
+        <foreach item="item" index="index" collection="list" separator=",">
+            ( #{item.contractdetailsId}, #{item.conContractId}, #{item.contractdetailsPaymentId}, #{item.contractdetailsName}, #{item.contractdetailsType}, #{item.openTime}, #{item.contractdetailsAmount}, #{item.illustrate}, #{item.bidEnd}, #{item.createBy}, #{item.createTime}, #{item.updateBy}, #{item.updateTime})
+        </foreach>
+    </insert>
+</mapper>

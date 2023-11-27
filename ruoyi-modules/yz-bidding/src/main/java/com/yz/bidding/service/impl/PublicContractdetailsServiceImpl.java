@@ -8,6 +8,8 @@ import com.yz.bidding.mapper.PublicContractdetailsMapper;
 import com.ruoyi.system.api.domain.PublicContractdetails;
 import com.yz.bidding.service.IPublicContractdetailsService;
 
+import javax.annotation.Resource;
+
 /**
  * 合同明细Service业务层处理
  * 
@@ -17,7 +19,7 @@ import com.yz.bidding.service.IPublicContractdetailsService;
 @Service
 public class PublicContractdetailsServiceImpl implements IPublicContractdetailsService 
 {
-    @Autowired
+    @Resource
     private PublicContractdetailsMapper publicContractdetailsMapper;
 
     /**

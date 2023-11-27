@@ -51,6 +51,13 @@ public interface PublicCategoryMapper {
     public int updatePublicCategory(PublicCategory publicCategory);
 
     /**
+     * 查看要删除的物料类别中有没有商品
+     * @param categoryId
+     * @return
+     */
+    public int selectCounts(Long[] categoryId);
+
+    /**
      * 删除物料类别
      *
      * @param categoryId 物料类别主键

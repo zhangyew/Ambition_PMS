@@ -8,6 +8,8 @@ import com.yz.shopping.mapper.PublicUserMapper;
 import com.ruoyi.system.api.domain.PublicUser;
 import com.yz.shopping.service.IPublicUserService;
 
+import javax.annotation.Resource;
+
 /**
  * 用户表Service业务层处理
  * 
@@ -17,7 +19,7 @@ import com.yz.shopping.service.IPublicUserService;
 @Service
 public class PublicUserServiceImpl implements IPublicUserService 
 {
-    @Autowired
+    @Resource
     private PublicUserMapper publicUserMapper;
 
     @Override

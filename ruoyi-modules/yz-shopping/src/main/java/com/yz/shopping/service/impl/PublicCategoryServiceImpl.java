@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.yz.shopping.mapper.PublicCategoryMapper;
 import com.ruoyi.system.api.domain.PublicCategory;
 import com.yz.shopping.service.IPublicCategoryService;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 
@@ -18,7 +19,9 @@ import javax.annotation.Resource;
  * @date 2023-11-21
  */
 @Service
-public class PublicCategoryServiceImpl implements IPublicCategoryService {
+@Transactional
+public class PublicCategoryServiceImpl implements IPublicCategoryService
+{
     @Resource
     private PublicCategoryMapper publicCategoryMapper;
 
@@ -29,7 +32,8 @@ public class PublicCategoryServiceImpl implements IPublicCategoryService {
      * @return 物料类别
      */
     @Override
-    public PublicCategory selectPublicCategoryByCategoryId(Long categoryId) {
+    public PublicCategory selectPublicCategoryByCategoryId(Long categoryId)
+    {
         return publicCategoryMapper.selectPublicCategoryByCategoryId(categoryId);
     }
 
@@ -40,12 +44,14 @@ public class PublicCategoryServiceImpl implements IPublicCategoryService {
      * @return 物料类别
      */
     @Override
-    public List<PublicCategory> selectPublicCategoryList(PublicCategory publicCategory) {
+    public List<PublicCategory> selectPublicCategoryList(PublicCategory publicCategory)
+    {
         return publicCategoryMapper.selectPublicCategoryList(publicCategory);
     }
 
     /**
      * 查询物料分类的父级id
+     *
      */
     @Override
     public List<PublicCategory> selectPublicParentCategoryList(Long parentCategory) {
@@ -59,7 +65,8 @@ public class PublicCategoryServiceImpl implements IPublicCategoryService {
      * @return 结果
      */
     @Override
-    public int insertPublicCategory(PublicCategory publicCategory) {
+    public int insertPublicCategory(PublicCategory publicCategory)
+    {
         publicCategory.setCreateTime(DateUtils.getNowDate());
         return publicCategoryMapper.insertPublicCategory(publicCategory);
     }
@@ -71,7 +78,8 @@ public class PublicCategoryServiceImpl implements IPublicCategoryService {
      * @return 结果
      */
     @Override
-    public int updatePublicCategory(PublicCategory publicCategory) {
+    public int updatePublicCategory(PublicCategory publicCategory)
+    {
         publicCategory.setUpdateTime(DateUtils.getNowDate());
         return publicCategoryMapper.updatePublicCategory(publicCategory);
     }
@@ -83,8 +91,13 @@ public class PublicCategoryServiceImpl implements IPublicCategoryService {
      * @return 结果
      */
     @Override
-    public int deletePublicCategoryByCategoryIds(Long[] categoryIds) {
-        return publicCategoryMapper.deletePublicCategoryByCategoryIds(categoryIds);
+    public int deletePublicCategoryByCategoryIds(Long[] categoryIds)
+    {
+        int res=0;
+        if (publicCategoryMapper.selectCounts(categoryIds)<=0) {
+            res= publicCategoryMapper.deletePublicCategoryByCategoryIds(categoryIds);
+        }
+        return res;
     }
 
     /**
@@ -94,7 +107,8 @@ public class PublicCategoryServiceImpl implements IPublicCategoryService {
      * @return 结果
      */
     @Override
-    public int deletePublicCategoryByCategoryId(Long categoryId) {
+    public int deletePublicCategoryByCategoryId(Long categoryId)
+    {
         return publicCategoryMapper.deletePublicCategoryByCategoryId(categoryId);
     }
 
