@@ -67,6 +67,7 @@ public class PublicCategoryServiceImpl implements IPublicCategoryService
     @Override
     public int insertPublicCategory(PublicCategory publicCategory)
     {
+
         publicCategory.setCreateTime(DateUtils.getNowDate());
         return publicCategoryMapper.insertPublicCategory(publicCategory);
     }
