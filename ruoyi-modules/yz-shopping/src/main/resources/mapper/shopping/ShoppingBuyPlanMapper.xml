@@ -30,7 +30,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="buyPlanWarehouseId != null "> and buy_plan_warehouse_id = #{buyPlanWarehouseId}</if>
             <if test="buyTypeId != null "> and buy_type_id = #{buyTypeId}</if>
             <if test="state != null "> and state = #{state}</if>
-            <if test="isDelete != null "> and is_delete = #{isDelete}</if>
+            <if test="createBy != null  and createBy != ''"> and create_by = #{createBy}</if>
+            <if test="createTime != null "> and create_time = #{createTime}</if>
         </where>
     </select>
 
@@ -52,7 +53,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="updateBy != null">update_by,</if>
             <if test="updateTime != null">update_time,</if>
             <if test="isDelete != null">is_delete,</if>
-         </trim>
+        </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="planClod != null">#{planClod},</if>
             <if test="buyPlanVendorId != null">#{buyPlanVendorId},</if>
@@ -64,7 +65,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="updateBy != null">#{updateBy},</if>
             <if test="updateTime != null">#{updateTime},</if>
             <if test="isDelete != null">#{isDelete},</if>
-         </trim>
+        </trim>
     </insert>
 
     <update id="updateShoppingBuyPlan" parameterType="com.yz.shopping.domain.ShoppingBuyPlan">

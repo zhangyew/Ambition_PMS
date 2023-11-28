@@ -4,6 +4,8 @@ import java.util.List;
 import java.io.IOException;
 import javax.servlet.http.HttpServletResponse;
 
+import com.ruoyi.system.api.domain.PublicCodeRules;
+import com.ruoyi.system.api.util.SnowflakeGetId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -73,6 +75,10 @@ public class PublicWarehouseController extends BaseController {
     @Log(title = "仓库", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody PublicWarehouse publicWarehouse) {
+        PublicCodeRules rules=new PublicCodeRules();
+        SnowflakeGetId so=new SnowflakeGetId(1,1);
+        String id=so.getCode(rules);
+        publicWarehouse.setWarehouseNumber(id);
         return toAjax(publicWarehouseService.insertPublicWarehouse(publicWarehouse));
     }
 

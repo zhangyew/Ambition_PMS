@@ -51,6 +51,7 @@
         left join public_category c on g.category_id = c.category_id
         <where>
             <if test="goodsName != null  and goodsName != ''">and g.goods_name like concat('%', #{goodsName}, '%')</if>
+            <if test="categoryId != null  and categoryId != ''">and g.category_id = #{categoryId}</if>
         </where>
     </select>
     <resultMap type="com.ruoyi.system.api.domain.PublicGoods" id="PublicGoodsResult1">

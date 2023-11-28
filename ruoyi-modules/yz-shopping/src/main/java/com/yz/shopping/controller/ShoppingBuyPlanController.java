@@ -43,11 +43,10 @@ public class ShoppingBuyPlanController extends BaseController {
     /**
      * 查询采购计划表列表
      */
-    @RequiresPermissions("pms/shopping:buy_plan:list")
+    @RequiresPermissions("shopping/buy_plan:list")
     @GetMapping("/list")
-    public TableDataInfo list(ShoppingBuyPlan shoppingBuyPlan) {
-        List<PublicCategory> l = publicCategoryService.selectPublicCategoryList(null);
-        System.out.println(l.size());
+    public TableDataInfo list(ShoppingBuyPlan shoppingBuyPlan)
+    {
         startPage();
         List<ShoppingBuyPlan> list = shoppingBuyPlanService.selectShoppingBuyPlanList(shoppingBuyPlan);
         return getDataTable(list);
@@ -56,10 +55,11 @@ public class ShoppingBuyPlanController extends BaseController {
     /**
      * 导出采购计划表列表
      */
-    @RequiresPermissions("pms/shopping:buy_plan:export")
+    @RequiresPermissions("shopping/buy_plan:export")
     @Log(title = "采购计划表", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
-    public void export(HttpServletResponse response, ShoppingBuyPlan shoppingBuyPlan) {
+    public void export(HttpServletResponse response, ShoppingBuyPlan shoppingBuyPlan)
+    {
         List<ShoppingBuyPlan> list = shoppingBuyPlanService.selectShoppingBuyPlanList(shoppingBuyPlan);
         ExcelUtil<ShoppingBuyPlan> util = new ExcelUtil<ShoppingBuyPlan>(ShoppingBuyPlan.class);
         util.exportExcel(response, list, "采购计划表数据");
@@ -68,39 +68,43 @@ public class ShoppingBuyPlanController extends BaseController {
     /**
      * 获取采购计划表详细信息
      */
-    @RequiresPermissions("pms/shopping:buy_plan:query")
+    @RequiresPermissions("shopping/buy_plan:query")
     @GetMapping(value = "/{buyPlanId}")
-    public AjaxResult getInfo(@PathVariable("buyPlanId") Long buyPlanId) {
+    public AjaxResult getInfo(@PathVariable("buyPlanId") Long buyPlanId)
+    {
         return success(shoppingBuyPlanService.selectShoppingBuyPlanByBuyPlanId(buyPlanId));
     }
 
     /**
      * 新增采购计划表
      */
-    @RequiresPermissions("pms/shopping:buy_plan:add")
+    @RequiresPermissions("shopping/buy_plan:add")
     @Log(title = "采购计划表", businessType = BusinessType.INSERT)
     @PostMapping
-    public AjaxResult add(@RequestBody ShoppingBuyPlan shoppingBuyPlan) {
+    public AjaxResult add(@RequestBody ShoppingBuyPlan shoppingBuyPlan)
+    {
         return toAjax(shoppingBuyPlanService.insertShoppingBuyPlan(shoppingBuyPlan));
     }
 
     /**
      * 修改采购计划表
      */
-    @RequiresPermissions("pms/shopping:buy_plan:edit")
+    @RequiresPermissions("shopping/buy_plan:edit")
     @Log(title = "采购计划表", businessType = BusinessType.UPDATE)
     @PutMapping
-    public AjaxResult edit(@RequestBody ShoppingBuyPlan shoppingBuyPlan) {
+    public AjaxResult edit(@RequestBody ShoppingBuyPlan shoppingBuyPlan)
+    {
         return toAjax(shoppingBuyPlanService.updateShoppingBuyPlan(shoppingBuyPlan));
     }
 
     /**
      * 删除采购计划表
      */
-    @RequiresPermissions("pms/shopping:buy_plan:remove")
+    @RequiresPermissions("shopping/buy_plan:remove")
     @Log(title = "采购计划表", businessType = BusinessType.DELETE)
     @DeleteMapping("/{buyPlanIds}")
-    public AjaxResult remove(@PathVariable Long[] buyPlanIds) {
+    public AjaxResult remove(@PathVariable Long[] buyPlanIds)
+    {
         return toAjax(shoppingBuyPlanService.deleteShoppingBuyPlanByBuyPlanIds(buyPlanIds));
     }
 }
