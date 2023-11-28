@@ -43,14 +43,9 @@ public class PublicVendorController extends BaseController {
     @GetMapping("/list")
     public TableDataInfo list(PublicVendor publicVendor) {
 
-//        SnowflakeGetId sid = new SnowflakeGetId();
-//        String id = sid.getSnowflakesId("GYS", 15);
-//        System.out.println(id);
-
-//        startPage();
-        return null;
-//        List<PublicVendor> list = publicVendorService.selectPublicVendorList(publicVendor);
-//        return getDataTable(list);
+        startPage();
+        List<PublicVendor> list = publicVendorService.selectPublicVendorList(publicVendor);
+        return getDataTable(list);
     }
 
     /**
