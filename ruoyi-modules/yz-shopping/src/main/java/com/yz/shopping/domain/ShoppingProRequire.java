@@ -1,9 +1,12 @@
 package com.yz.shopping.domain;
 
+import com.ruoyi.system.api.domain.PublicGoods;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.core.annotation.Excel;
 import com.ruoyi.common.core.web.domain.BaseEntity;
+
+import java.util.List;
 
 /**
  * 采购需求表对象 shopping_pro_require
@@ -20,7 +23,10 @@ public class ShoppingProRequire extends BaseEntity
 
     /** 需求物料id（外键） */
     @Excel(name = "需求物料id", readConverterExp = "外=键")
-    private Long requireDemandId;
+    private String requireDemandId;
+
+    @Excel(name = "需求物料id", readConverterExp = "外=键")
+    private List<String> publicGoodsList;
 
     /** 需求编号 */
     @Excel(name = "需求编号")
@@ -66,7 +72,15 @@ public class ShoppingProRequire extends BaseEntity
     @Excel(name = "删除")
     private Long isDelete;
 
-    public void setRequireId(Long requireId) 
+    public List<String> getPublicGoodsList() {
+        return publicGoodsList;
+    }
+
+    public void setPublicGoodsList(List<String> publicGoodsList) {
+        this.publicGoodsList = publicGoodsList;
+    }
+
+    public void setRequireId(Long requireId)
     {
         this.requireId = requireId;
     }
@@ -75,12 +89,12 @@ public class ShoppingProRequire extends BaseEntity
     {
         return requireId;
     }
-    public void setRequireDemandId(Long requireDemandId) 
+    public void setRequireDemandId(String requireDemandId)
     {
         this.requireDemandId = requireDemandId;
     }
 
-    public Long getRequireDemandId() 
+    public String getRequireDemandId()
     {
         return requireDemandId;
     }

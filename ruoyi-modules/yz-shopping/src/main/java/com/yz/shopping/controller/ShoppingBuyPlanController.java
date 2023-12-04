@@ -4,7 +4,12 @@ import java.util.List;
 import java.io.IOException;
 import javax.servlet.http.HttpServletResponse;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.ruoyi.system.api.RemoteCodeRulesService;
 import com.ruoyi.system.api.domain.PublicCategory;
+import com.ruoyi.system.api.domain.PublicCodeRules;
+import com.ruoyi.system.api.util.SnowflakeGetId;
 import com.yz.shopping.service.IPublicCategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -40,6 +45,8 @@ public class ShoppingBuyPlanController extends BaseController {
     @Autowired
     private IPublicCategoryService publicCategoryService;
 
+    @Autowired
+    private RemoteCodeRulesService remoteCodeRulesService;
     /**
      * 查询采购计划表列表
      */
@@ -83,6 +90,13 @@ public class ShoppingBuyPlanController extends BaseController {
     @PostMapping
     public AjaxResult add(@RequestBody ShoppingBuyPlan shoppingBuyPlan)
     {
+        AjaxResult ajaxResult = remoteCodeRulesService.getInfo(11L);
+        Object obj = ajaxResult.get("data");
+        String str = JSON.toJSONString(obj);
+        PublicCodeRules p = JSONObject.parseObject(str,PublicCodeRules.class);
+        SnowflakeGetId snowflakeGetId = new SnowflakeGetId(11, 1);
+        String id = snowflakeGetId.getCode(p);
+        shoppingBuyPlan.setPlanClod(id);
         return toAjax(shoppingBuyPlanService.insertShoppingBuyPlan(shoppingBuyPlan));
     }
 

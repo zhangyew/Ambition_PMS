@@ -4,8 +4,14 @@ import java.util.List;
 import java.io.IOException;
 import javax.servlet.http.HttpServletResponse;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ruoyi.system.api.RemoteCodeRulesService;
 import com.ruoyi.system.api.domain.PublicCodeRules;
 import com.ruoyi.system.api.util.SnowflakeGetId;
+import com.yz.bidding.service.IPublicCodeRulesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -36,6 +42,10 @@ import com.ruoyi.common.core.web.page.TableDataInfo;
 public class PublicWarehouseController extends BaseController {
     @Autowired
     private IPublicWarehouseService publicWarehouseService;
+
+    @Autowired
+    private RemoteCodeRulesService remoteCodeRulesService;
+
     /**
      * 查询仓库列表
      */
@@ -74,10 +84,13 @@ public class PublicWarehouseController extends BaseController {
     @RequiresPermissions("shopping/public:warehouse:add")
     @Log(title = "仓库", businessType = BusinessType.INSERT)
     @PostMapping
-    public AjaxResult add(@RequestBody PublicWarehouse publicWarehouse) {
-        PublicCodeRules rules=new PublicCodeRules();
-        SnowflakeGetId so=new SnowflakeGetId(1,1);
-        String id=so.getCode(rules);
+    public AjaxResult add(@RequestBody PublicWarehouse publicWarehouse) throws IOException {
+        AjaxResult ajaxResult = remoteCodeRulesService.getInfo(7L);
+        Object obj = ajaxResult.get("data");
+        String str = JSON.toJSONString(obj);
+        PublicCodeRules p = JSONObject.parseObject(str,PublicCodeRules.class);
+        SnowflakeGetId snowflakeGetId = new SnowflakeGetId(7, 1);
+        String id = snowflakeGetId.getCode(p);
         publicWarehouse.setWarehouseNumber(id);
         return toAjax(publicWarehouseService.insertPublicWarehouse(publicWarehouse));
     }

@@ -4,6 +4,11 @@ import java.util.List;
 import java.io.IOException;
 import javax.servlet.http.HttpServletResponse;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.ruoyi.system.api.RemoteCodeRulesService;
+import com.ruoyi.system.api.domain.PublicCodeRules;
+import com.ruoyi.system.api.util.SnowflakeGetId;
 import com.yz.shopping.service.IPublicCategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -39,6 +44,9 @@ public class PublicGoodsController extends BaseController
 
     @Autowired
     private IPublicCategoryService publicCategoryService;
+
+    @Autowired
+    private RemoteCodeRulesService remoteCodeRulesService;
 
     /**
      * 查询物料列表
@@ -83,6 +91,13 @@ public class PublicGoodsController extends BaseController
     @PostMapping
     public AjaxResult add(@RequestBody PublicGoods publicGoods)
     {
+        AjaxResult ajaxResult = remoteCodeRulesService.getInfo(2L);
+        Object obj = ajaxResult.get("data");
+        String str = JSON.toJSONString(obj);
+        PublicCodeRules p = JSONObject.parseObject(str,PublicCodeRules.class);
+        SnowflakeGetId snowflakeGetId = new SnowflakeGetId(2, 1);
+        String id = snowflakeGetId.getCode(p);
+        publicGoods.setGoodsCode(id);
         return toAjax(publicGoodsService.insertPublicGoods(publicGoods));
     }
 

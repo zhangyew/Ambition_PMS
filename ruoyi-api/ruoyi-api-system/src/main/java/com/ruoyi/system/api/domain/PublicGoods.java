@@ -40,6 +40,20 @@ public class PublicGoods extends BaseEntity {
     private Long goodsType;
 
     /**
+     * 物料编码
+     */
+    @Excel(name = "物料编码")
+    private String goodsCode;
+
+    public String getGoodsCode() {
+        return goodsCode;
+    }
+
+    public void setGoodsCode(String goodsCode) {
+        this.goodsCode = goodsCode;
+    }
+
+    /**
      * 规格
      */
     @Excel(name = "规格")

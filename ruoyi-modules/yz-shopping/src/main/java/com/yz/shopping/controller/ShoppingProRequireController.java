@@ -3,6 +3,12 @@ package com.yz.shopping.controller;
 import java.util.List;
 import java.io.IOException;
 import javax.servlet.http.HttpServletResponse;
+
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.ruoyi.system.api.RemoteCodeRulesService;
+import com.ruoyi.system.api.domain.PublicCodeRules;
+import com.ruoyi.system.api.util.SnowflakeGetId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -34,6 +40,8 @@ public class ShoppingProRequireController extends BaseController
 {
     @Autowired
     private IShoppingProRequireService shoppingProRequireService;
+    @Autowired
+    private RemoteCodeRulesService remoteCodeRulesService;
 
     /**
      * 查询采购需求表列表
@@ -78,6 +86,13 @@ public class ShoppingProRequireController extends BaseController
     @PostMapping
     public AjaxResult add(@RequestBody ShoppingProRequire shoppingProRequire)
     {
+        AjaxResult ajaxResult = remoteCodeRulesService.getInfo(8L);
+        Object obj = ajaxResult.get("data");
+        String str = JSON.toJSONString(obj);
+        PublicCodeRules p = JSONObject.parseObject(str,PublicCodeRules.class);
+        SnowflakeGetId snowflakeGetId = new SnowflakeGetId(8, 1);
+        String id = snowflakeGetId.getCode(p);
+        shoppingProRequire.setRequireNumber(id);
         return toAjax(shoppingProRequireService.insertShoppingProRequire(shoppingProRequire));
     }
 
