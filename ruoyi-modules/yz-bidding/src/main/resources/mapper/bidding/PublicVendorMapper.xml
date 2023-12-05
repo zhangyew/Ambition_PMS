@@ -11,8 +11,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="contractTypeTypeId"    column="contract_type_type_id"    />
         <result property="vendorTypeStateId"    column="vendor_type_state_id"    />
         <result property="isBlacklist"    column="is_blacklist"    />
-        <result property="range"    column="ranges"    />
-        <result property="cause"    column="causes"    />
+        <result property="ranges"    column="ranges"    />
+        <result property="causes"    column="causes"    />
         <result property="warehouseAddress"    column="warehouse_address"    />
         <result property="profile"    column="profile"    />
         <result property="delegates"    column="delegates"    />
@@ -115,7 +115,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </where>
     </select>
 
-    <insert id="insertPublicVendor" parameterType="com.ruoyi.system.api.domain.PublicVendor" useGeneratedKeys="true" keyProperty="vendorId">
     <select id="findVendorDetailed" resultMap="findVendorDetailed">
         SELECT *
         FROM `public_vendor` v
@@ -135,8 +134,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="contractTypeTypeId != null">contract_type_type_id,</if>
             <if test="vendorTypeStateId != null">vendor_type_state_id,</if>
             <if test="isBlacklist != null">is_blacklist,</if>
-            <if test="range != null">ranges,</if>
-            <if test="cause != null">causes,</if>
+            <if test="ranges != null">ranges,</if>
+            <if test="causes != null">causes,</if>
             <if test="warehouseAddress != null">warehouse_address,</if>
             <if test="profile != null">profile,</if>
             <if test="delegates != null">delegates,</if>
@@ -159,8 +158,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="contractTypeTypeId != null">#{contractTypeTypeId},</if>
             <if test="vendorTypeStateId != null">#{vendorTypeStateId},</if>
             <if test="isBlacklist != null">#{isBlacklist},</if>
-            <if test="range != null">#{range},</if>
-            <if test="cause != null">#{cause},</if>
+            <if test="ranges != null">#{ranges},</if>
+            <if test="causes != null">#{causes},</if>
             <if test="warehouseAddress != null">#{warehouseAddress},</if>
             <if test="profile != null">#{profile},</if>
             <if test="delegates != null">#{delegates},</if>
