@@ -3,9 +3,10 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yz.bidding.mapper.BiddingTenderProjectsMapper">
-    
-    <resultMap type="BiddingTenderProjects" id="BiddingTenderProjectsResult">
+
+    <resultMap type="com.yz.bidding.domain.BiddingTenderProjects" id="BiddingTenderProjectsResult">
         <result property="tenderProjectsId"    column="tender_projects_id"    />
+        <result property="tenderProjectsNumber"    column="tender_projects_number"    />
         <result property="tenderProjectsName"    column="tender_projects_name"    />
         <result property="projectsType"    column="projects_type"    />
         <result property="tenderProjectsMoney"    column="tender_projects_money"    />
@@ -27,7 +28,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         select tender_projects_id, tender_projects_name, projects_type, tender_projects_money, tender_projects_contact, tender_projects_phone, tender_projects_address, tender_projects_email, remark, manner, censor, must, audit_state, creat_by, creat_time, is_delete from bidding_tender_projects
     </sql>
 
-    <select id="selectBiddingTenderProjectsList" parameterType="BiddingTenderProjects" resultMap="BiddingTenderProjectsResult">
+    <select id="selectBiddingTenderProjectsList" parameterType="com.yz.bidding.domain.BiddingTenderProjects" resultMap="BiddingTenderProjectsResult">
         <include refid="selectBiddingTenderProjectsVo"/>
         <where>  
             <if test="tenderProjectsName != null  and tenderProjectsName != ''"> and tender_projects_name like concat('%', #{tenderProjectsName}, '%')</if>
@@ -52,7 +53,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where tender_projects_id = #{tenderProjectsId}
     </select>
         
-    <insert id="insertBiddingTenderProjects" parameterType="BiddingTenderProjects" useGeneratedKeys="true" keyProperty="tenderProjectsId">
+    <insert id="insertBiddingTenderProjects" parameterType="com.yz.bidding.domain.BiddingTenderProjects" useGeneratedKeys="true" keyProperty="tenderProjectsId">
         insert into bidding_tender_projects
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="tenderProjectsName != null">tender_projects_name,</if>
@@ -90,7 +91,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
          </trim>
     </insert>
 
-    <update id="updateBiddingTenderProjects" parameterType="BiddingTenderProjects">
+    <update id="updateBiddingTenderProjects" parameterType="com.yz.bidding.domain.BiddingTenderProjects">
         update bidding_tender_projects
         <trim prefix="SET" suffixOverrides=",">
             <if test="tenderProjectsName != null">tender_projects_name = #{tenderProjectsName},</if>

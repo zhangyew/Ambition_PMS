@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.ruoyi.system.api.domain.PublicVendor;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * 供应商Service接口
@@ -45,6 +46,11 @@ public interface IPublicVendorService
      */
     public List<PublicVendor> selectPublicVendorList(PublicVendor publicVendor);
 
+    /**
+     * 显示所有的供应商(合同管理下拉框)
+     * @param
+     */
+    public List<PublicVendor> showsPublicVendorList(Long vendor_id);
     /**
      * 新增供应商
      * 

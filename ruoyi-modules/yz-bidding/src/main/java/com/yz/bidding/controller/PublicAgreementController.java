@@ -35,45 +35,12 @@ public class PublicAgreementController extends BaseController
     @Autowired
     private IPublicAgreementService publicAgreementService;
 
-    /**
-     * 查询合同申请表列表
-     */
-    @RequiresPermissions("bidding/public:agreement:list")
-    @GetMapping("/list")
-    public TableDataInfo list(PublicAgreement publicAgreement)
-    {
-        startPage();
-        List<PublicAgreement> list = publicAgreementService.selectPublicAgreementList(publicAgreement);
-        return getDataTable(list);
-    }
 
-    /**
-     * 导出合同申请表列表
-     */
-    @RequiresPermissions("bidding/public:agreement:export")
-    @Log(title = "合同申请表", businessType = BusinessType.EXPORT)
-    @PostMapping("/export")
-    public void export(HttpServletResponse response, PublicAgreement publicAgreement)
-    {
-        List<PublicAgreement> list = publicAgreementService.selectPublicAgreementList(publicAgreement);
-        ExcelUtil<PublicAgreement> util = new ExcelUtil<PublicAgreement>(PublicAgreement.class);
-        util.exportExcel(response, list, "合同申请表数据");
-    }
-
-    /**
-     * 获取合同申请表详细信息
-     */
-    @RequiresPermissions("bidding/public:agreement:query")
-    @GetMapping(value = "/{contractId}")
-    public AjaxResult getInfo(@PathVariable("contractId") Long contractId)
-    {
-        return success(publicAgreementService.selectPublicAgreementByContractId(contractId));
-    }
 
     /**
      * 新增合同申请表
      */
-    @RequiresPermissions("bidding/public:agreement:add")
+    @RequiresPermissions("pms.public:agreement:add")
     @Log(title = "合同申请表", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody PublicAgreement publicAgreement)
@@ -84,7 +51,7 @@ public class PublicAgreementController extends BaseController
     /**
      * 修改合同申请表
      */
-    @RequiresPermissions("bidding/public:agreement:edit")
+    @RequiresPermissions("pms.public:agreement:edit")
     @Log(title = "合同申请表", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody PublicAgreement publicAgreement)
@@ -95,7 +62,7 @@ public class PublicAgreementController extends BaseController
     /**
      * 删除合同申请表
      */
-    @RequiresPermissions("bidding/public:agreement:remove")
+    @RequiresPermissions("pms.public:agreement:remove")
     @Log(title = "合同申请表", businessType = BusinessType.DELETE)
     @DeleteMapping("/{contractIds}")
     public AjaxResult remove(@PathVariable Long[] contractIds)

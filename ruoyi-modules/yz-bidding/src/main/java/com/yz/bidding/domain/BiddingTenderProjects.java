@@ -17,8 +17,12 @@ public class BiddingTenderProjects extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
 
-    /** 项目编号 */
+    /** 项目ID */
     private Long tenderProjectsId;
+
+    /** 项目编号 */
+    @Excel(name = "项目编号")
+    private String tenderProjectsNumber;
 
     /** 项目名称 */
     @Excel(name = "项目名称")
@@ -77,138 +81,147 @@ public class BiddingTenderProjects extends BaseEntity
     @Excel(name = "删除")
     private Long isDelete;
 
-    public void setTenderProjectsId(Long tenderProjectsId) 
+    public void setTenderProjectsId(Long tenderProjectsId)
     {
         this.tenderProjectsId = tenderProjectsId;
     }
 
-    public Long getTenderProjectsId() 
+    public Long getTenderProjectsId()
     {
         return tenderProjectsId;
     }
-    public void setTenderProjectsName(String tenderProjectsName) 
+    public void setTenderProjectsNumber(String tenderProjectsNumber)
+    {
+        this.tenderProjectsNumber = tenderProjectsNumber;
+    }
+
+    public String getTenderProjectsNumber()
+    {
+        return tenderProjectsNumber;
+    }
+    public void setTenderProjectsName(String tenderProjectsName)
     {
         this.tenderProjectsName = tenderProjectsName;
     }
 
-    public String getTenderProjectsName() 
+    public String getTenderProjectsName()
     {
         return tenderProjectsName;
     }
-    public void setProjectsType(Long projectsType) 
+    public void setProjectsType(Long projectsType)
     {
         this.projectsType = projectsType;
     }
 
-    public Long getProjectsType() 
+    public Long getProjectsType()
     {
         return projectsType;
     }
-    public void setTenderProjectsMoney(Long tenderProjectsMoney) 
+    public void setTenderProjectsMoney(Long tenderProjectsMoney)
     {
         this.tenderProjectsMoney = tenderProjectsMoney;
     }
 
-    public Long getTenderProjectsMoney() 
+    public Long getTenderProjectsMoney()
     {
         return tenderProjectsMoney;
     }
-    public void setTenderProjectsContact(String tenderProjectsContact) 
+    public void setTenderProjectsContact(String tenderProjectsContact)
     {
         this.tenderProjectsContact = tenderProjectsContact;
     }
 
-    public String getTenderProjectsContact() 
+    public String getTenderProjectsContact()
     {
         return tenderProjectsContact;
     }
-    public void setTenderProjectsPhone(String tenderProjectsPhone) 
+    public void setTenderProjectsPhone(String tenderProjectsPhone)
     {
         this.tenderProjectsPhone = tenderProjectsPhone;
     }
 
-    public String getTenderProjectsPhone() 
+    public String getTenderProjectsPhone()
     {
         return tenderProjectsPhone;
     }
-    public void setTenderProjectsAddress(String tenderProjectsAddress) 
+    public void setTenderProjectsAddress(String tenderProjectsAddress)
     {
         this.tenderProjectsAddress = tenderProjectsAddress;
     }
 
-    public String getTenderProjectsAddress() 
+    public String getTenderProjectsAddress()
     {
         return tenderProjectsAddress;
     }
-    public void setTenderProjectsEmail(String tenderProjectsEmail) 
+    public void setTenderProjectsEmail(String tenderProjectsEmail)
     {
         this.tenderProjectsEmail = tenderProjectsEmail;
     }
 
-    public String getTenderProjectsEmail() 
+    public String getTenderProjectsEmail()
     {
         return tenderProjectsEmail;
     }
-    public void setManner(Long manner) 
+    public void setManner(Long manner)
     {
         this.manner = manner;
     }
 
-    public Long getManner() 
+    public Long getManner()
     {
         return manner;
     }
-    public void setCensor(String censor) 
+    public void setCensor(String censor)
     {
         this.censor = censor;
     }
 
-    public String getCensor() 
+    public String getCensor()
     {
         return censor;
     }
-    public void setMust(Long must) 
+    public void setMust(Long must)
     {
         this.must = must;
     }
 
-    public Long getMust() 
+    public Long getMust()
     {
         return must;
     }
-    public void setAuditState(Long auditState) 
+    public void setAuditState(Long auditState)
     {
         this.auditState = auditState;
     }
 
-    public Long getAuditState() 
+    public Long getAuditState()
     {
         return auditState;
     }
-    public void setCreatBy(String creatBy) 
+    public void setCreatBy(String creatBy)
     {
         this.creatBy = creatBy;
     }
 
-    public String getCreatBy() 
+    public String getCreatBy()
     {
         return creatBy;
     }
-    public void setCreatTime(Date creatTime) 
+    public void setCreatTime(Date creatTime)
     {
         this.creatTime = creatTime;
     }
 
-    public Date getCreatTime() 
+    public Date getCreatTime()
     {
         return creatTime;
     }
-    public void setIsDelete(Long isDelete) 
+    public void setIsDelete(Long isDelete)
     {
         this.isDelete = isDelete;
     }
 
-    public Long getIsDelete() 
+    public Long getIsDelete()
     {
         return isDelete;
     }
@@ -216,22 +229,23 @@ public class BiddingTenderProjects extends BaseEntity
     @Override
     public String toString() {
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
-            .append("tenderProjectsId", getTenderProjectsId())
-            .append("tenderProjectsName", getTenderProjectsName())
-            .append("projectsType", getProjectsType())
-            .append("tenderProjectsMoney", getTenderProjectsMoney())
-            .append("tenderProjectsContact", getTenderProjectsContact())
-            .append("tenderProjectsPhone", getTenderProjectsPhone())
-            .append("tenderProjectsAddress", getTenderProjectsAddress())
-            .append("tenderProjectsEmail", getTenderProjectsEmail())
-            .append("remark", getRemark())
-            .append("manner", getManner())
-            .append("censor", getCensor())
-            .append("must", getMust())
-            .append("auditState", getAuditState())
-            .append("creatBy", getCreatBy())
-            .append("creatTime", getCreatTime())
-            .append("isDelete", getIsDelete())
-            .toString();
+                .append("tenderProjectsId", getTenderProjectsId())
+                .append("tenderProjectsNumber", getTenderProjectsNumber())
+                .append("tenderProjectsName", getTenderProjectsName())
+                .append("projectsType", getProjectsType())
+                .append("tenderProjectsMoney", getTenderProjectsMoney())
+                .append("tenderProjectsContact", getTenderProjectsContact())
+                .append("tenderProjectsPhone", getTenderProjectsPhone())
+                .append("tenderProjectsAddress", getTenderProjectsAddress())
+                .append("tenderProjectsEmail", getTenderProjectsEmail())
+                .append("remark", getRemark())
+                .append("manner", getManner())
+                .append("censor", getCensor())
+                .append("must", getMust())
+                .append("auditState", getAuditState())
+                .append("creatBy", getCreatBy())
+                .append("creatTime", getCreatTime())
+                .append("isDelete", getIsDelete())
+                .toString();
     }
 }

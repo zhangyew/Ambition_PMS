@@ -1,33 +1,33 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
-        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yz.bidding.mapper.PublicVendorMapper">
 
     <resultMap type="com.ruoyi.system.api.domain.PublicVendor" id="PublicVendorResult">
-        <result property="vendorId" column="vendor_id"/>
-        <result property="vendorNumber" column="vendor_number"/>
-        <result property="abbreviated" column="abbreviated"/>
-        <result property="contractTypeTypeId" column="contract_type_type_id"/>
-        <result property="vendorTypeStateId" column="vendor_type_state_id"/>
-        <result property="isBlacklist" column="is_blacklist"/>
-        <result property="ranges" column="ranges"/>
-        <result property="causes" column="causes"/>
-        <result property="warehouseAddress" column="warehouse_address"/>
-        <result property="profile" column="profile"/>
-        <result property="delegates" column="delegates"/>
-        <result property="addTime" column="add_time"/>
-        <result property="email" column="email"/>
-        <result property="fax" column="fax"/>
-        <result property="responsible" column="responsible"/>
-        <result property="responsiblePhone" column="responsible_phone"/>
-        <result property="industrialCommercial" column="industrial_commercial"/>
-        <result property="createBy" column="create_by"/>
-        <result property="createTime" column="create_time"/>
-        <result property="updateBy" column="update_by"/>
-        <result property="updateTime" column="update_time"/>
-        <result property="isExist" column="is_exist"/>
-        <result property="isDelete" column="is_delete"/>
+        <result property="vendorId"    column="vendor_id"    />
+        <result property="vendorNumber"    column="vendor_number"    />
+        <result property="abbreviated"    column="abbreviated"    />
+        <result property="contractTypeTypeId"    column="contract_type_type_id"    />
+        <result property="vendorTypeStateId"    column="vendor_type_state_id"    />
+        <result property="isBlacklist"    column="is_blacklist"    />
+        <result property="range"    column="ranges"    />
+        <result property="cause"    column="causes"    />
+        <result property="warehouseAddress"    column="warehouse_address"    />
+        <result property="profile"    column="profile"    />
+        <result property="delegates"    column="delegates"    />
+        <result property="addTime"    column="add_time"    />
+        <result property="email"    column="email"    />
+        <result property="fax"    column="fax"    />
+        <result property="responsible"    column="responsible"    />
+        <result property="responsiblePhone"    column="responsible_phone"    />
+        <result property="industrialCommercial"    column="industrial_commercial"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="isExist"    column="is_exist"    />
+        <result property="isDelete"    column="is_delete"    />
     </resultMap>
 
     <resultMap id="findVendorDetailed" type="com.ruoyi.system.api.domain.PublicVendor">
@@ -76,30 +76,7 @@
     </resultMap>
 
     <sql id="selectPublicVendorVo">
-        select vendor_id,
-               vendor_number,
-               abbreviated,
-               contract_type_type_id,
-               vendor_type_state_id,
-               is_blacklist,
-               ranges,
-               causes,
-               warehouse_address,
-               profile,
-               delegates,
-               add_time,
-               email,
-               fax,
-               responsible,
-               responsible_phone,
-               industrial_commercial,
-               create_by,
-               create_time,
-               update_by,
-               update_time,
-               is_exist,
-               is_delete
-        from public_vendor
+        select vendor_id, vendor_number, abbreviated, contract_type_type_id, vendor_type_state_id, is_blacklist, ranges, causes, warehouse_address, profile, delegates, add_time, email, fax, responsible, responsible_phone, industrial_commercial, create_by, create_time, update_by, update_time, is_exist, is_delete from public_vendor
     </sql>
 
     <select id="selectPublicVendorList" parameterType="com.ruoyi.system.api.domain.PublicVendor"
@@ -131,6 +108,14 @@
         where vendor_id = #{vendorId}
     </select>
 
+    <select id="showsPublicVendorList" resultMap="PublicVendorResult" parameterType="com.ruoyi.system.api.domain.PublicVendor">
+        SELECT vendor_id,vendor_number,abbreviated FROM public_vendor
+        <where>
+            <if test="vendor_id != null "> vendor_id like concat('%', #{vendor_id}, '%')</if>
+        </where>
+    </select>
+
+    <insert id="insertPublicVendor" parameterType="com.ruoyi.system.api.domain.PublicVendor" useGeneratedKeys="true" keyProperty="vendorId">
     <select id="findVendorDetailed" resultMap="findVendorDetailed">
         SELECT *
         FROM `public_vendor` v
@@ -150,8 +135,8 @@
             <if test="contractTypeTypeId != null">contract_type_type_id,</if>
             <if test="vendorTypeStateId != null">vendor_type_state_id,</if>
             <if test="isBlacklist != null">is_blacklist,</if>
-            <if test="ranges != null">ranges,</if>
-            <if test="causes != null">causes,</if>
+            <if test="range != null">ranges,</if>
+            <if test="cause != null">causes,</if>
             <if test="warehouseAddress != null">warehouse_address,</if>
             <if test="profile != null">profile,</if>
             <if test="delegates != null">delegates,</if>
@@ -174,60 +159,8 @@
             <if test="contractTypeTypeId != null">#{contractTypeTypeId},</if>
             <if test="vendorTypeStateId != null">#{vendorTypeStateId},</if>
             <if test="isBlacklist != null">#{isBlacklist},</if>
-            <if test="ranges != null">#{ranges},</if>
-            <if test="causes != null">#{causes},</if>
-            <if test="warehouseAddress != null">#{warehouseAddress},</if>
-            <if test="profile != null">#{profile},</if>
-            <if test="delegates != null">#{delegates},</if>
-            <if test="addTime != null">#{addTime},</if>
-            <if test="email != null">#{email},</if>
-            <if test="fax != null">#{fax},</if>
-            <if test="responsible != null">#{responsible},</if>
-            <if test="responsiblePhone != null">#{responsiblePhone},</if>
-            <if test="industrialCommercial != null">#{industrialCommercial},</if>
-            <if test="createBy != null">#{createBy},</if>
-            <if test="createTime != null">#{createTime},</if>
-            <if test="updateBy != null">#{updateBy},</if>
-            <if test="updateTime != null">#{updateTime},</if>
-            <if test="isExist != null">#{isExist},</if>
-            <if test="isDelete != null">#{isDelete},</if>
-        </trim>
-    </insert>
-    <insert id="insertVendor" parameterType="com.ruoyi.system.api.domain.PublicVendor" useGeneratedKeys="true"
-            keyProperty="vendorId">
-        insert into public_vendor
-        <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="vendorNumber != null">vendor_number,</if>
-            <if test="abbreviated != null">abbreviated,</if>
-            <if test="contractTypeTypeId != null">contract_type_type_id,</if>
-            <if test="vendorTypeStateId != null">vendor_type_state_id,</if>
-            <if test="isBlacklist != null">is_blacklist,</if>
-            <if test="ranges != null">ranges,</if>
-            <if test="causes != null">causes,</if>
-            <if test="warehouseAddress != null">warehouse_address,</if>
-            <if test="profile != null">profile,</if>
-            <if test="delegates != null">delegates,</if>
-            <if test="addTime != null">add_time,</if>
-            <if test="email != null">email,</if>
-            <if test="fax != null">fax,</if>
-            <if test="responsible != null">responsible,</if>
-            <if test="responsiblePhone != null">responsible_phone,</if>
-            <if test="industrialCommercial != null">industrial_commercial,</if>
-            <if test="createBy != null">create_by,</if>
-            <if test="createTime != null">create_time,</if>
-            <if test="updateBy != null">update_by,</if>
-            <if test="updateTime != null">update_time,</if>
-            <if test="isExist != null">is_exist,</if>
-            <if test="isDelete != null">is_delete,</if>
-        </trim>
-        <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="vendorNumber != null">#{vendorNumber},</if>
-            <if test="abbreviated != null">#{abbreviated},</if>
-            <if test="contractTypeTypeId != null">#{contractTypeTypeId},</if>
-            <if test="vendorTypeStateId != null">#{vendorTypeStateId},</if>
-            <if test="isBlacklist != null">#{isBlacklist},</if>
-            <if test="ranges != null">#{ranges},</if>
-            <if test="causes != null">#{causes},</if>
+            <if test="range != null">#{range},</if>
+            <if test="cause != null">#{cause},</if>
             <if test="warehouseAddress != null">#{warehouseAddress},</if>
             <if test="profile != null">#{profile},</if>
             <if test="delegates != null">#{delegates},</if>

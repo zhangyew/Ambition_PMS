@@ -3,6 +3,10 @@ package com.yz.bidding.controller;
 import java.util.List;
 import java.io.IOException;
 import javax.servlet.http.HttpServletResponse;
+
+import com.ruoyi.system.api.domain.PublicCategory;
+import com.ruoyi.system.api.domain.PublicVendor;
+import com.yz.bidding.service.IPublicVendorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -34,11 +38,15 @@ public class PublicContractdetailsController extends BaseController
 {
     @Autowired
     private IPublicContractdetailsService publicContractdetailsService;
+    @Autowired
+    private IPublicVendorService publicVendorService;
+
+
 
     /**
      * 查询合同明细列表
      */
-    @RequiresPermissions("pms.public:contractdetails:list")
+    @RequiresPermissions("bidding/public:contractdetails:list")
     @GetMapping("/list")
     public TableDataInfo list(PublicContractdetails publicContractdetails)
     {
@@ -48,9 +56,23 @@ public class PublicContractdetailsController extends BaseController
     }
 
     /**
+     * 显示所有供应商
+     * @param
+     * @return
+     */
+    @RequiresPermissions("shopping/public:contractdetails:showsPublicVendorList")
+    @GetMapping("/showsPublicVendorList")
+    public TableDataInfo ShowsPublicVendorList(Long vendor_id)
+    {
+        startPage();
+        List<PublicVendor> list = publicVendorService.showsPublicVendorList(vendor_id);
+        return getDataTable(list);
+    }
+
+    /**
      * 导出合同明细列表
      */
-    @RequiresPermissions("pms.public:contractdetails:export")
+    @RequiresPermissions("bidding/public:contractdetails:export")
     @Log(title = "合同明细", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, PublicContractdetails publicContractdetails)
@@ -63,7 +85,7 @@ public class PublicContractdetailsController extends BaseController
     /**
      * 获取合同明细详细信息
      */
-    @RequiresPermissions("pms.public:contractdetails:query")
+    @RequiresPermissions("bidding/public:contractdetails:query")
     @GetMapping(value = "/{contractdetailsId}")
     public AjaxResult getInfo(@PathVariable("contractdetailsId") Long contractdetailsId)
     {
@@ -73,7 +95,7 @@ public class PublicContractdetailsController extends BaseController
     /**
      * 新增合同明细
      */
-    @RequiresPermissions("pms.public:contractdetails:add")
+    @RequiresPermissions("bidding/public:contractdetails:add")
     @Log(title = "合同明细", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody PublicContractdetails publicContractdetails)
@@ -84,7 +106,7 @@ public class PublicContractdetailsController extends BaseController
     /**
      * 修改合同明细
      */
-    @RequiresPermissions("pms.public:contractdetails:edit")
+    @RequiresPermissions("bidding/public:contractdetails:edit")
     @Log(title = "合同明细", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody PublicContractdetails publicContractdetails)
@@ -95,7 +117,7 @@ public class PublicContractdetailsController extends BaseController
     /**
      * 删除合同明细
      */
-    @RequiresPermissions("pms.public:contractdetails:remove")
+    @RequiresPermissions("bidding/public:contractdetails:remove")
     @Log(title = "合同明细", businessType = BusinessType.DELETE)
 	@DeleteMapping("/{contractdetailsIds}")
     public AjaxResult remove(@PathVariable Long[] contractdetailsIds)

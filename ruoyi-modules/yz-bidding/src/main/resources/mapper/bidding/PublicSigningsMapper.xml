@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yz.bidding.mapper.PublicSigningsMapper">
+    
+    <resultMap type="com.ruoyi.system.api.domain.PublicSignings" id="PublicSigningsResult">
+        <result property="signingStatusId"    column="signing_status_id"    />
+        <result property="signingContractdetailsId"    column="signing_contractdetails_id"    />
+        <result property="signatoriesNumber"    column="signatories_number"    />
+        <result property="signingSubject"    column="signing_subject"    />
+        <result property="signingVendorId"    column="signing_vendor_id"    />
+        <result property="signingAddress"    column="signing_address"    />
+        <result property="signingContact"    column="signing_contact"    />
+        <result property="signingContactMode"    column="signing_contact_mode"    />
+        <result property="signingBank"    column="signing_bank"    />
+        <result property="signingBankAccount"    column="signing_bank_account"    />
+        <result property="sigingAmount"    column="siging_amount"    />
+        <result property="currency"    column="currency"    />
+    </resultMap>
+
+    <sql id="selectPublicSigningsVo">
+        select signing_status_id, signing_contractdetails_id, signatories_number, signing_subject, signing_vendor_id, signing_address, signing_contact, signing_contact_mode, signing_bank, signing_bank_account, siging_amount, currency from public_signings
+    </sql>
+
+    <select id="selectPublicSigningsList" parameterType="com.ruoyi.system.api.domain.PublicSignings" resultMap="PublicSigningsResult">
+        <include refid="selectPublicSigningsVo"/>
+        <where>  
+            <if test="signingContractdetailsId != null "> and signing_contractdetails_id = #{signingContractdetailsId}</if>
+            <if test="signatoriesNumber != null "> and signatories_number = #{signatoriesNumber}</if>
+            <if test="signingSubject != null  and signingSubject != ''"> and signing_subject = #{signingSubject}</if>
+            <if test="signingVendorId != null "> and signing_vendor_id = #{signingVendorId}</if>
+            <if test="signingAddress != null  and signingAddress != ''"> and signing_address = #{signingAddress}</if>
+            <if test="signingContact != null  and signingContact != ''"> and signing_contact = #{signingContact}</if>
+            <if test="signingContactMode != null  and signingContactMode != ''"> and signing_contact_mode = #{signingContactMode}</if>
+            <if test="signingBank != null  and signingBank != ''"> and signing_bank = #{signingBank}</if>
+            <if test="signingBankAccount != null  and signingBankAccount != ''"> and signing_bank_account = #{signingBankAccount}</if>
+            <if test="sigingAmount != null "> and siging_amount = #{sigingAmount}</if>
+            <if test="currency != null  and currency != ''"> and currency = #{currency}</if>
+        </where>
+    </select>
+    
+    <select id="selectPublicSigningsBySigningStatusId" parameterType="Long" resultMap="PublicSigningsResult">
+        <include refid="selectPublicSigningsVo"/>
+        where signing_status_id = #{signingStatusId}
+    </select>
+        
+    <insert id="insertPublicSignings" parameterType="com.ruoyi.system.api.domain.PublicSignings" useGeneratedKeys="true" keyProperty="signingStatusId">
+        insert into public_signings
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="signingContractdetailsId != null">signing_contractdetails_id,</if>
+            <if test="signatoriesNumber != null">signatories_number,</if>
+            <if test="signingSubject != null">signing_subject,</if>
+            <if test="signingVendorId != null">signing_vendor_id,</if>
+            <if test="signingAddress != null">signing_address,</if>
+            <if test="signingContact != null">signing_contact,</if>
+            <if test="signingContactMode != null">signing_contact_mode,</if>
+            <if test="signingBank != null">signing_bank,</if>
+            <if test="signingBankAccount != null">signing_bank_account,</if>
+            <if test="sigingAmount != null">siging_amount,</if>
+            <if test="currency != null">currency,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="signingContractdetailsId != null">#{signingContractdetailsId},</if>
+            <if test="signatoriesNumber != null">#{signatoriesNumber},</if>
+            <if test="signingSubject != null">#{signingSubject},</if>
+            <if test="signingVendorId != null">#{signingVendorId},</if>
+            <if test="signingAddress != null">#{signingAddress},</if>
+            <if test="signingContact != null">#{signingContact},</if>
+            <if test="signingContactMode != null">#{signingContactMode},</if>
+            <if test="signingBank != null">#{signingBank},</if>
+            <if test="signingBankAccount != null">#{signingBankAccount},</if>
+            <if test="sigingAmount != null">#{sigingAmount},</if>
+            <if test="currency != null">#{currency},</if>
+         </trim>
+    </insert>
+
+    <update id="updatePublicSignings" parameterType="com.ruoyi.system.api.domain.PublicSignings">
+        update public_signings
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="signingContractdetailsId != null">signing_contractdetails_id = #{signingContractdetailsId},</if>
+            <if test="signatoriesNumber != null">signatories_number = #{signatoriesNumber},</if>
+            <if test="signingSubject != null">signing_subject = #{signingSubject},</if>
+            <if test="signingVendorId != null">signing_vendor_id = #{signingVendorId},</if>
+            <if test="signingAddress != null">signing_address = #{signingAddress},</if>
+            <if test="signingContact != null">signing_contact = #{signingContact},</if>
+            <if test="signingContactMode != null">signing_contact_mode = #{signingContactMode},</if>
+            <if test="signingBank != null">signing_bank = #{signingBank},</if>
+            <if test="signingBankAccount != null">signing_bank_account = #{signingBankAccount},</if>
+            <if test="sigingAmount != null">siging_amount = #{sigingAmount},</if>
+            <if test="currency != null">currency = #{currency},</if>
+        </trim>
+        where signing_status_id = #{signingStatusId}
+    </update>
+
+    <delete id="deletePublicSigningsBySigningStatusId" parameterType="Long">
+        delete from public_signings where signing_status_id = #{signingStatusId}
+    </delete>
+
+    <delete id="deletePublicSigningsBySigningStatusIds" parameterType="String">
+        delete from public_signings where signing_status_id in 
+        <foreach item="signingStatusId" collection="array" open="(" separator="," close=")">
+            #{signingStatusId}
+        </foreach>
+    </delete>
+</mapper>

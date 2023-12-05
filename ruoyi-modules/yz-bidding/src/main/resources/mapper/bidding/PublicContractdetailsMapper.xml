@@ -3,89 +3,116 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yz.bidding.mapper.PublicContractdetailsMapper">
-    
+
     <resultMap type="com.ruoyi.system.api.domain.PublicContractdetails" id="PublicContractdetailsResult">
         <result property="contractdetailsId"    column="contractdetails_id"    />
-        <result property="conContractId"    column="con_contract_id"    />
+        <result property="contractId"    column="contract_id"    />
+        <result property="contractdetailsNumber"    column="contractdetails_number"    />
         <result property="contractdetailsPaymentId"    column="contractdetails_payment_id"    />
         <result property="contractdetailsName"    column="contractdetails_name"    />
         <result property="contractdetailsType"    column="contractdetails_type"    />
         <result property="openTime"    column="open_time"    />
         <result property="contractdetailsAmount"    column="contractdetails_amount"    />
+        <result property="contractdetailsLevel"    column="contractdetails_level"    />
         <result property="illustrate"    column="illustrate"    />
         <result property="bidEnd"    column="bid_end"    />
+        <result property="vendorContractId"    column="vendor_contract_id"    />
+        <result property="contractdetailsState"    column="contractdetails_state"    />
+        <result property="procurementMethod"    column="procurement_method"    />
+        <result property="contractdetailsTenderProjectsId"    column="contractdetails_tender_projects_id"    />
+        <result property="purchaseListId"    column="purchase_list_id"    />
         <result property="createBy"    column="create_by"    />
         <result property="createTime"    column="create_time"    />
         <result property="updateBy"    column="update_by"    />
         <result property="updateTime"    column="update_time"    />
+        <result property="tenderProjectsName"    column="tender_projects_name"    />
+
     </resultMap>
 
     <sql id="selectPublicContractdetailsVo">
-        select contractdetails_id, con_contract_id, contractdetails_payment_id, contractdetails_name, contractdetails_type, open_time, contractdetails_amount, illustrate, bid_end, create_by, create_time, update_by, update_time from public_contractdetails
+        select contractdetails_id, contract_id, contractdetails_number, contractdetails_payment_id, contractdetails_name, contractdetails_type, open_time, contractdetails_amount, contractdetails_level, illustrate, bid_end, vendor_contract_id, contractdetails_state, procurement_method, contractdetails_tender_projects_id, purchase_list_id, create_by, create_time, update_by, update_time from public_contractdetails
     </sql>
 
     <select id="selectPublicContractdetailsList" parameterType="com.ruoyi.system.api.domain.PublicContractdetails" resultMap="PublicContractdetailsResult">
-        <include refid="selectPublicContractdetailsVo"/>
-        <where>  
-            <if test="conContractId != null "> and con_contract_id = #{conContractId}</if>
-            <if test="contractdetailsPaymentId != null "> and contractdetails_payment_id = #{contractdetailsPaymentId}</if>
+        SELECT co.contractdetails_id,btp.tender_projects_name,co.contractdetails_name,co.contractdetails_number,ve.abbreviated,ag.applicant,co.open_time,co.contractdetails_amount,co.contractdetails_state FROM public_agreement AS ag
+        INNER JOIN public_contractdetails AS co ON(ag.contract_id=co.contract_id)
+        INNER JOIN public_vendor AS ve ON(co.vendor_contract_id=ve.vendor_id)
+        INNER JOIN bidding_tender_projects AS btp ON(ag.contract_projects_id=btp.tender_projects_id)
+        <where>
+            <if test="contractdetailsNumber != null "> co.contractdetails_number = #{contractdetails_number}</if>
             <if test="contractdetailsName != null  and contractdetailsName != ''"> and contractdetails_name like concat('%', #{contractdetailsName}, '%')</if>
-            <if test="contractdetailsType != null "> and contractdetails_type = #{contractdetailsType}</if>
-            <if test="openTime != null "> and open_time = #{openTime}</if>
-            <if test="contractdetailsAmount != null "> and contractdetails_amount = #{contractdetailsAmount}</if>
-            <if test="illustrate != null  and illustrate != ''"> and illustrate = #{illustrate}</if>
-            <if test="bidEnd != null "> and bid_end = #{bidEnd}</if>
+            <if test="contractdetailsState != null  and contractdetailsState != ''"> and contractdetails_state = #{contractdetailsState}</if>
+            <if test="tenderProjectsName != null  and tenderProjectsName != ''"> and tender_projects_name like concat('%', #{tenderProjectsName}, '%')</if>
         </where>
+        ORDER BY co.open_time DESC
     </select>
-    
+
     <select id="selectPublicContractdetailsByContractdetailsId" parameterType="Long" resultMap="PublicContractdetailsResult">
         <include refid="selectPublicContractdetailsVo"/>
         where contractdetails_id = #{contractdetailsId}
     </select>
-        
+
     <insert id="insertPublicContractdetails" parameterType="com.ruoyi.system.api.domain.PublicContractdetails" useGeneratedKeys="true" keyProperty="contractdetailsId">
         insert into public_contractdetails
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="conContractId != null">con_contract_id,</if>
+            <if test="contractId != null">contract_id,</if>
+            <if test="contractdetailsNumber != null and contractdetailsNumber != ''">contractdetails_number,</if>
             <if test="contractdetailsPaymentId != null">contractdetails_payment_id,</if>
             <if test="contractdetailsName != null">contractdetails_name,</if>
             <if test="contractdetailsType != null">contractdetails_type,</if>
             <if test="openTime != null">open_time,</if>
             <if test="contractdetailsAmount != null">contractdetails_amount,</if>
+            <if test="contractdetailsLevel != null">contractdetails_level,</if>
             <if test="illustrate != null">illustrate,</if>
             <if test="bidEnd != null">bid_end,</if>
+            <if test="vendorContractId != null">vendor_contract_id,</if>
+            <if test="contractdetailsState != null">contractdetails_state,</if>
+            <if test="procurementMethod != null">procurement_method,</if>
+            <if test="contractdetailsTenderProjectsId != null">contractdetails_tender_projects_id,</if>
+            <if test="purchaseListId != null">purchase_list_id,</if>
             <if test="createBy != null">create_by,</if>
             <if test="createTime != null">create_time,</if>
             <if test="updateBy != null">update_by,</if>
             <if test="updateTime != null">update_time,</if>
-         </trim>
+        </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="conContractId != null">#{conContractId},</if>
+            <if test="contractId != null">#{contractId},</if>
+            <if test="contractdetailsNumber != null and contractdetailsNumber != ''">#{contractdetailsNumber},</if>
             <if test="contractdetailsPaymentId != null">#{contractdetailsPaymentId},</if>
             <if test="contractdetailsName != null">#{contractdetailsName},</if>
             <if test="contractdetailsType != null">#{contractdetailsType},</if>
             <if test="openTime != null">#{openTime},</if>
             <if test="contractdetailsAmount != null">#{contractdetailsAmount},</if>
+            <if test="contractdetailsLevel != null">#{contractdetailsLevel},</if>
             <if test="illustrate != null">#{illustrate},</if>
             <if test="bidEnd != null">#{bidEnd},</if>
+            <if test="vendorContractId != null">#{vendorContractId},</if>
+            <if test="contractdetailsState != null">#{contractdetailsState},</if>
+            <if test="procurementMethod != null">#{procurementMethod},</if>
+            <if test="contractdetailsTenderProjectsId != null">#{contractdetailsTenderProjectsId},</if>
+            <if test="purchaseListId != null">#{purchaseListId},</if>
             <if test="createBy != null">#{createBy},</if>
             <if test="createTime != null">#{createTime},</if>
             <if test="updateBy != null">#{updateBy},</if>
             <if test="updateTime != null">#{updateTime},</if>
-         </trim>
+        </trim>
     </insert>
 
     <update id="updatePublicContractdetails" parameterType="com.ruoyi.system.api.domain.PublicContractdetails">
         update public_contractdetails
         <trim prefix="SET" suffixOverrides=",">
-            <if test="conContractId != null">con_contract_id = #{conContractId},</if>
+            <if test="contractId != null">contract_id = #{contractId},</if>
+            <if test="contractdetailsNumber != null">contractdetails_number = #{contractdetailsNumber},</if>
             <if test="contractdetailsPaymentId != null">contractdetails_payment_id = #{contractdetailsPaymentId},</if>
             <if test="contractdetailsName != null">contractdetails_name = #{contractdetailsName},</if>
             <if test="contractdetailsType != null">contractdetails_type = #{contractdetailsType},</if>
             <if test="openTime != null">open_time = #{openTime},</if>
             <if test="contractdetailsAmount != null">contractdetails_amount = #{contractdetailsAmount},</if>
+            <if test="contractdetailsLevel != null">contractdetails_level = #{contractdetailsLevel},</if>
             <if test="illustrate != null">illustrate = #{illustrate},</if>
             <if test="bidEnd != null">bid_end = #{bidEnd},</if>
+            <if test="vendorContractId != null">vendor_contract_id = #{vendorContractId},</if>
+            <if test="contractdetailsState != null">contractdetails_state = #{contractdetailsState},</if>
             <if test="createBy != null">create_by = #{createBy},</if>
             <if test="createTime != null">create_time = #{createTime},</if>
             <if test="updateBy != null">update_by = #{updateBy},</if>
@@ -99,7 +126,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </delete>
 
     <delete id="deletePublicContractdetailsByContractdetailsIds" parameterType="String">
-        delete from public_contractdetails where contractdetails_id in 
+        delete from public_contractdetails where contractdetails_id in
         <foreach item="contractdetailsId" collection="array" open="(" separator="," close=")">
             #{contractdetailsId}
         </foreach>

@@ -11,8 +11,6 @@ import com.ruoyi.system.api.domain.PublicAgreement;
  */
 public interface IPublicAgreementService
 {
-
-
     /**
      * 查询合同申请表
      *
@@ -60,5 +58,4 @@ public interface IPublicAgreementService
      * @return 结果
      */
     public int deletePublicAgreementByContractId(Long contractId);
-
 }

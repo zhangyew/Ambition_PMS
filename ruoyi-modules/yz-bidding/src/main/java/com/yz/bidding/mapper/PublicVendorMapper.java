@@ -1,7 +1,10 @@
 package com.yz.bidding.mapper;
 
 import java.util.List;
+
+import com.ruoyi.system.api.domain.PublicCategory;
 import com.ruoyi.system.api.domain.PublicVendor;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * 供应商Mapper接口
@@ -33,6 +36,12 @@ public interface PublicVendorMapper
      * @return 供应商集合
      */
     public List<PublicVendor> selectPublicVendorList(PublicVendor publicVendor);
+
+    /**
+     * 显示所有的供应商(合同管理下拉框)
+     * @param
+     */
+    public List<PublicVendor> showsPublicVendorList(@Param("vendor_id") Long vendor_id);
 
     /**
      * 新增供应商
@@ -73,4 +82,5 @@ public interface PublicVendorMapper
      * @return 结果
      */
     public int deletePublicVendorByVendorIds(Long[] vendorIds);
+
 }

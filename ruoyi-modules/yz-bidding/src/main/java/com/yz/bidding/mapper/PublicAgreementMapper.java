@@ -66,7 +66,7 @@ public interface PublicAgreementMapper
      * @param contractIds 需要删除的数据主键集合
      * @return 结果
      */
-    public int deletePublicContractdetailsByConContractIds(Long[] contractIds);
+    public int deletePublicContractdetailsByContractIds(Long[] contractIds);
 
     /**
      * 批量新增合同明细
@@ -83,6 +83,5 @@ public interface PublicAgreementMapper
      * @param contractId 合同申请表ID
      * @return 结果
      */
-    public int deletePublicContractdetailsByConContractId(Long contractId);
-
+    public int deletePublicContractdetailsByContractId(Long contractId);
 }

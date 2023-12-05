@@ -77,7 +77,7 @@ public class PublicAgreementServiceImpl implements IPublicAgreementService
     public int updatePublicAgreement(PublicAgreement publicAgreement)
     {
         publicAgreement.setUpdateTime(DateUtils.getNowDate());
-        publicAgreementMapper.deletePublicContractdetailsByConContractId(publicAgreement.getContractId());
+        publicAgreementMapper.deletePublicContractdetailsByContractId(publicAgreement.getContractId());
         insertPublicContractdetails(publicAgreement);
         return publicAgreementMapper.updatePublicAgreement(publicAgreement);
     }
@@ -92,7 +92,7 @@ public class PublicAgreementServiceImpl implements IPublicAgreementService
     @Override
     public int deletePublicAgreementByContractIds(Long[] contractIds)
     {
-        publicAgreementMapper.deletePublicContractdetailsByConContractIds(contractIds);
+        publicAgreementMapper.deletePublicContractdetailsByContractIds(contractIds);
         return publicAgreementMapper.deletePublicAgreementByContractIds(contractIds);
     }
 
@@ -106,7 +106,7 @@ public class PublicAgreementServiceImpl implements IPublicAgreementService
     @Override
     public int deletePublicAgreementByContractId(Long contractId)
     {
-        publicAgreementMapper.deletePublicContractdetailsByConContractId(contractId);
+        publicAgreementMapper.deletePublicContractdetailsByContractId(contractId);
         return publicAgreementMapper.deletePublicAgreementByContractId(contractId);
     }
 
@@ -124,7 +124,7 @@ public class PublicAgreementServiceImpl implements IPublicAgreementService
             List<PublicContractdetails> list = new ArrayList<PublicContractdetails>();
             for (PublicContractdetails publicContractdetails : publicContractdetailsList)
             {
-                publicContractdetails.setConContractId(contractId);
+                publicContractdetails.setContractId(contractId);
                 list.add(publicContractdetails);
             }
             if (list.size() > 0)

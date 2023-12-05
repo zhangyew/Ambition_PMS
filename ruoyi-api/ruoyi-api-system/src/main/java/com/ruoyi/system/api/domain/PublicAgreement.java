@@ -1,5 +1,6 @@
 package com.ruoyi.system.api.domain;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -31,17 +32,33 @@ public class PublicAgreement extends BaseEntity
     @Excel(name = "申请日期", width = 30, dateFormat = "yyyy-MM-dd")
     private Date applicantTime;
 
-    /** 字典类型（外键） */
-    @Excel(name = "字典类型", readConverterExp = "外=键")
-    private Long contractTypeTypeId;
+    /** 申请部门 */
+    @Excel(name = "申请部门")
+    private String contractSector;
 
     /** 申请公司 */
     @Excel(name = "申请公司")
     private String firm;
 
-    /** 供应商外键 */
-    @Excel(name = "供应商外键")
-    private Long vendorContractId;
+    /** 项目相关合同（1：不相关 2：相关） */
+    @Excel(name = "项目相关合同", readConverterExp = "1=：不相关,2=：相关")
+    private Long contractProjectRelated;
+
+    /** 相关招标的编号 */
+    @Excel(name = "相关招标的编号")
+    private Long contractProjectsId;
+
+    /** 是否为主子合同 */
+    @Excel(name = "是否为主子合同")
+    private Long contractMaster;
+
+    /** 关联主合同 */
+    @Excel(name = "关联主合同")
+    private Long contractPrimeId;
+
+    /** 项目总预算 */
+    @Excel(name = "项目总预算")
+    private BigDecimal contractTotalBudget;
 
     /** 合同明细信息 */
     private List<PublicContractdetails> publicContractdetailsList;
@@ -73,14 +90,14 @@ public class PublicAgreement extends BaseEntity
     {
         return applicantTime;
     }
-    public void setContractTypeTypeId(Long contractTypeTypeId)
+    public void setContractSector(String contractSector)
     {
-        this.contractTypeTypeId = contractTypeTypeId;
+        this.contractSector = contractSector;
     }
 
-    public Long getContractTypeTypeId()
+    public String getContractSector()
     {
-        return contractTypeTypeId;
+        return contractSector;
     }
     public void setFirm(String firm)
     {
@@ -91,14 +108,50 @@ public class PublicAgreement extends BaseEntity
     {
         return firm;
     }
-    public void setVendorContractId(Long vendorContractId)
+    public void setContractProjectRelated(Long contractProjectRelated)
     {
-        this.vendorContractId = vendorContractId;
+        this.contractProjectRelated = contractProjectRelated;
     }
 
-    public Long getVendorContractId()
+    public Long getContractProjectRelated()
     {
-        return vendorContractId;
+        return contractProjectRelated;
+    }
+    public void setContractProjectsId(Long contractProjectsId)
+    {
+        this.contractProjectsId = contractProjectsId;
+    }
+
+    public Long getContractProjectsId()
+    {
+        return contractProjectsId;
+    }
+    public void setContractMaster(Long contractMaster)
+    {
+        this.contractMaster = contractMaster;
+    }
+
+    public Long getContractMaster()
+    {
+        return contractMaster;
+    }
+    public void setContractPrimeId(Long contractPrimeId)
+    {
+        this.contractPrimeId = contractPrimeId;
+    }
+
+    public Long getContractPrimeId()
+    {
+        return contractPrimeId;
+    }
+    public void setContractTotalBudget(BigDecimal contractTotalBudget)
+    {
+        this.contractTotalBudget = contractTotalBudget;
+    }
+
+    public BigDecimal getContractTotalBudget()
+    {
+        return contractTotalBudget;
     }
 
     public List<PublicContractdetails> getPublicContractdetailsList()
@@ -117,9 +170,13 @@ public class PublicAgreement extends BaseEntity
                 .append("contractId", getContractId())
                 .append("applicant", getApplicant())
                 .append("applicantTime", getApplicantTime())
-                .append("contractTypeTypeId", getContractTypeTypeId())
+                .append("contractSector", getContractSector())
                 .append("firm", getFirm())
-                .append("vendorContractId", getVendorContractId())
+                .append("contractProjectRelated", getContractProjectRelated())
+                .append("contractProjectsId", getContractProjectsId())
+                .append("contractMaster", getContractMaster())
+                .append("contractPrimeId", getContractPrimeId())
+                .append("contractTotalBudget", getContractTotalBudget())
                 .append("createBy", getCreateBy())
                 .append("createTime", getCreateTime())
                 .append("updateBy", getUpdateBy())
