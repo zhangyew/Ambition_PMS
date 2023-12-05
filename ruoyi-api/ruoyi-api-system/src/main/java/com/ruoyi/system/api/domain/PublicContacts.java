@@ -29,7 +29,7 @@ public class PublicContacts extends BaseEntity {
      * 称呼
      */
     @Excel(name = "称呼")
-    private String call;
+    private String calls;
 
     /**
      * 岗位
@@ -72,11 +72,11 @@ public class PublicContacts extends BaseEntity {
     }
 
     public void setCall(String call) {
-        this.call = call;
+        this.calls = call;
     }
 
     public String getCall() {
-        return call;
+        return calls;
     }
 
     public void setJob(String job) {

@@ -80,6 +80,7 @@ public class SnowflakeGetId {
 
     /**
      * 获取编码
+     *
      * @param rules
      * @return
      */

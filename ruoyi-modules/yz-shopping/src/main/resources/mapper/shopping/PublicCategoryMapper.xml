@@ -25,7 +25,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <where>
             <if test="categoryNumber != null  and categoryNumber != ''"> and category_number = #{categoryNumber}</if>
             <if test="categoryName != null  and categoryName != ''"> and category_name like concat('%', #{categoryName}, '%')</if>
-            <if test="parentCategory != null "> and parent_category = #{parentCategory}</if>
+            <if test="parentCategory != null and parentCategory != '' "> and parent_category = #{parentCategory}</if>
              and is_delete = 0
         </where>
     </select>

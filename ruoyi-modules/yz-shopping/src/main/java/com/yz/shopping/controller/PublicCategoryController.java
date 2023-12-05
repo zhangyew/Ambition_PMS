@@ -45,6 +45,7 @@ public class PublicCategoryController extends BaseController
     {
         startPage();
         List<PublicCategory> list = publicCategoryService.selectPublicCategoryList(publicCategory);
+        System.out.println("1111111111111");
         return getDataTable(list);
     }
 
@@ -57,6 +58,7 @@ public class PublicCategoryController extends BaseController
     {
         startPage();
         List<PublicCategory> list = publicCategoryService.selectPublicParentCategoryList(parentCategory);
+        System.out.println("222222222222");
         return getDataTable(list);
     }
 

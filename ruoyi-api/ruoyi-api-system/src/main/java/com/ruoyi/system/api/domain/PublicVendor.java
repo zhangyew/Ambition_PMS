@@ -1,6 +1,7 @@
 package com.ruoyi.system.api.domain;
 
 import java.util.Date;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -62,13 +63,13 @@ public class PublicVendor extends BaseEntity {
      * 服务范围
      */
     @Excel(name = "服务范围")
-    private String range;
+    private String ranges;
 
     /**
      * 原因
      */
     @Excel(name = "原因")
-    private String cause;
+    private String causes;
 
     /**
      * 仓库地址
@@ -137,6 +138,31 @@ public class PublicVendor extends BaseEntity {
     @Excel(name = "删除")
     private Long isDelete;
 
+    @Excel(name = "供应商联系人")
+    private PublicContacts publicContacts;
+
+    @Excel(name = "供应商资质")
+    private List<PublicQualification> publicQualificationList;
+
+
+    public PublicContacts getPublicContacts() {
+        return publicContacts;
+    }
+
+    public PublicVendor setPublicContacts(PublicContacts publicContacts) {
+        this.publicContacts = publicContacts;
+        return this;
+    }
+
+    public List<PublicQualification> getPublicQualificationList() {
+        return publicQualificationList;
+    }
+
+    public PublicVendor setPublicQualificationList(List<PublicQualification> publicQualificationList) {
+        this.publicQualificationList = publicQualificationList;
+        return this;
+    }
+
     public void setVendorId(Long vendorId) {
         this.vendorId = vendorId;
     }
@@ -193,20 +219,20 @@ public class PublicVendor extends BaseEntity {
         return isBlacklist;
     }
 
-    public void setRange(String range) {
-        this.range = range;
+    public void setRanges(String ranges) {
+        this.ranges = ranges;
     }
 
-    public String getRange() {
-        return range;
+    public String getRanges() {
+        return ranges;
     }
 
-    public void setCause(String cause) {
-        this.cause = cause;
+    public void setCauses(String causes) {
+        this.causes = causes;
     }
 
-    public String getCause() {
-        return cause;
+    public String getCauses() {
+        return causes;
     }
 
     public void setWarehouseAddress(String warehouseAddress) {
@@ -307,8 +333,8 @@ public class PublicVendor extends BaseEntity {
                 .append("contractTypeTypeId", getContractTypeTypeId())
                 .append("vendorTypeStateId", getVendorTypeStateId())
                 .append("isBlacklist", getIsBlacklist())
-                .append("range", getRange())
-                .append("cause", getCause())
+                .append("ranges", getRanges())
+                .append("causes", getCauses())
                 .append("warehouseAddress", getWarehouseAddress())
                 .append("profile", getProfile())
                 .append("delegates", getDelegates())

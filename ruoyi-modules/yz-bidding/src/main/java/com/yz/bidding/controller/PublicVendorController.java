@@ -1,19 +1,16 @@
 package com.yz.bidding.controller;
 
+import java.util.Arrays;
 import java.util.List;
 import java.io.IOException;
+import java.util.Map;
 import javax.servlet.http.HttpServletResponse;
 
 import com.ruoyi.system.api.util.SnowflakeGetId;
+import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.*;
 import com.ruoyi.common.log.annotation.Log;
 import com.ruoyi.common.log.enums.BusinessType;
 import com.ruoyi.common.security.annotation.RequiresPermissions;
@@ -23,6 +20,7 @@ import com.ruoyi.common.core.web.controller.BaseController;
 import com.ruoyi.common.core.web.domain.AjaxResult;
 import com.ruoyi.common.core.utils.poi.ExcelUtil;
 import com.ruoyi.common.core.web.page.TableDataInfo;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * 供应商Controller
@@ -35,6 +33,30 @@ import com.ruoyi.common.core.web.page.TableDataInfo;
 public class PublicVendorController extends BaseController {
     @Autowired
     private IPublicVendorService publicVendorService;
+
+    @PostMapping("/findVendorDetailed")
+    public AjaxResult findVendorDetailed(String vid) {
+        PublicVendor publicVendor = publicVendorService.findVendorDetailed(Integer.parseInt(vid));
+        System.out.println(publicVendor);
+        return success(publicVendor);
+    }
+
+    //@RequiresPermissions("bidding/public:vendor:ftpFile")
+//    @PostMapping("/ftpFile")
+//    public void ftpFile(@RequestParam("file")  MultipartFile file){
+//        System.out.println(file);
+//    }
+//, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(value = "/insertVendor")
+    public int insertVendor(@RequestPart("map") Map<String, String> map) {//, @RequestParam("files") MultipartFile[] files) {
+        System.out.println("1111111111");
+        System.out.println(map);
+        //System.out.println(files);
+
+            return publicVendorService.insertVendor(map);
+
+    }
+
 
     /**
      * 查询供应商列表

@@ -43,7 +43,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="qualificationName != null">qualification_name,</if>
             <if test="startTime != null">start_time,</if>
             <if test="stopTime != null">stop_time,</if>
-            <if test="documents != null">documents,</if>
+            <if test="documents != null and documents != '' ">documents,</if>
             <if test="remark != null">remark,</if>
             <if test="isDelete != null">is_delete,</if>
          </trim>
@@ -52,7 +52,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="qualificationName != null">#{qualificationName},</if>
             <if test="startTime != null">#{startTime},</if>
             <if test="stopTime != null">#{stopTime},</if>
-            <if test="documents != null">#{documents},</if>
+            <if test="documents != null  and documents != ''">#{documents},</if>
             <if test="remark != null">#{remark},</if>
             <if test="isDelete != null">#{isDelete},</if>
          </trim>

@@ -1,6 +1,9 @@
 package com.yz.bidding.service;
 
+import java.text.ParseException;
 import java.util.List;
+import java.util.Map;
+
 import com.ruoyi.system.api.domain.PublicVendor;
 
 /**
@@ -11,6 +14,21 @@ import com.ruoyi.system.api.domain.PublicVendor;
  */
 public interface IPublicVendorService 
 {
+
+    /**
+     * 供应商注册
+     * @param map
+     * @return
+     */
+    public int insertVendor(Map<String, String> map) ;
+
+    /**
+     * 查询供应商详细信息
+     * @param vid
+     * @return
+     */
+    public PublicVendor findVendorDetailed(int vid);
+
     /**
      * 查询供应商
      * 

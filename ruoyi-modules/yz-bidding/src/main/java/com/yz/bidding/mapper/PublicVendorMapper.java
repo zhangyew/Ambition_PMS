@@ -20,6 +20,13 @@ public interface PublicVendorMapper
     public PublicVendor selectPublicVendorByVendorId(Long vendorId);
 
     /**
+     * 查询供应商详细信息
+     * @param vid
+     * @return
+     */
+    public PublicVendor findVendorDetailed(int vid);
+
+    /**
      * 查询供应商列表
      * 
      * @param publicVendor 供应商
@@ -34,6 +41,14 @@ public interface PublicVendorMapper
      * @return 结果
      */
     public int insertPublicVendor(PublicVendor publicVendor);
+
+    /**
+     * 注册供应商
+     *
+     * @param publicVendor 供应商
+     * @return 结果
+     */
+    public PublicVendor insertVendor(PublicVendor publicVendor);
 
     /**
      * 修改供应商
