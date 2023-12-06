@@ -51,6 +51,8 @@ public interface PublicSuppliedMaterialsMapper
      */
     public int deletePublicSuppliedMaterialsBySuppliedMaterialsId(Long suppliedMaterialsId);
 
+    public int deleteSupplieById(Long sid);
+
     /**
      * 批量删除供应商供货物料表
      * 

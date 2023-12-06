@@ -51,6 +51,7 @@ public interface PublicQualificationMapper
      */
     public int deletePublicQualificationByQualificationId(Long qualificationId);
 
+    public int deleteVendorId(String vid);
     /**
      * 批量删除供应商资质
      * 

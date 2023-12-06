@@ -1,42 +1,105 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
-PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yz.bidding.mapper.PublicSupplyMapper">
-    
+
     <resultMap type="com.ruoyi.system.api.domain.PublicSupply" id="PublicSupplyResult">
-        <result property="supplyId"    column="supply_id"    />
-        <result property="supplyVendorId"    column="supply_vendor_id"    />
-        <result property="supplierCode"    column="supplier_code"    />
-        <result property="supplierName"    column="supplier_name"    />
-        <result property="remark"    column="remark"    />
-        <result property="createBy"    column="create_by"    />
-        <result property="createTime"    column="create_time"    />
-        <result property="updateBy"    column="update_by"    />
-        <result property="updateTime"    column="update_time"    />
-        <result property="isDelete"    column="is_delete"    />
+        <result property="supplyId" column="supply_id"/>
+        <result property="supplyVendorId" column="supply_vendor_id"/>
+        <result property="supplierCode" column="supplier_code"/>
+        <result property="supplierName" column="supplier_name"/>
+        <result property="remark" column="remark"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="isDelete" column="is_delete"/>
     </resultMap>
 
-    <sql id="selectPublicSupplyVo">
-        select supply_id, supply_vendor_id, supplier_code, supplier_name, remark, create_by, create_time, update_by, update_time, is_delete from public_supply
+    <resultMap id="findSupply" type="com.ruoyi.system.api.domain.PublicSupply">
+        <result property="supplyId" column="supply_id"/>
+        <result property="supplyVendorId" column="supply_vendor_id"/>
+        <result property="supplierCode" column="supplier_code"/>
+        <result property="supplierName" column="supplier_name"/>
+        <result property="remark" column="remark"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="isDelete" column="is_delete"/>
+        <collection property="suppliedMaterialsList" ofType="Map">
+            <result property="suppliedMaterialsId" column="supplied_materials_id"/>
+            <result property="supplyId" column="supply_id"/>
+            <result property="available" column="available"/>
+            <result property="demandMaId" column="demand_ma_id"/>
+            <result property="exempt" column="exempt"/>
+            <result property="grade" column="grade"/>
+            <result property="goodsName" column="goods_name"/>
+            <result property="goodsCode" column="goods_code"/>
+        </collection>
+    </resultMap>
+
+    <sql id="selectPublicSupplyVo" >
+        select supply_id,
+               supply_vendor_id,
+               supplier_code,
+               supplier_name,
+               remark,
+               create_by,
+               create_time,
+               update_by,
+               update_time,
+               is_delete
+        from public_supply
     </sql>
 
-    <select id="selectPublicSupplyList" parameterType="com.ruoyi.system.api.domain.PublicSupply" resultMap="PublicSupplyResult">
+    <select id="selectPublicSupplyList" parameterType="com.ruoyi.system.api.domain.PublicSupply"
+            resultMap="PublicSupplyResult">
         <include refid="selectPublicSupplyVo"/>
-        <where>  
-            <if test="supplyVendorId != null "> and supply_vendor_id = #{supplyVendorId}</if>
-            <if test="supplierCode != null  and supplierCode != ''"> and supplier_code = #{supplierCode}</if>
-            <if test="supplierName != null  and supplierName != ''"> and supplier_name like concat('%', #{supplierName}, '%')</if>
-            <if test="isDelete != null "> and is_delete = #{isDelete}</if>
+        <where>
+            <if test="supplyVendorId != null ">and supply_vendor_id = #{supplyVendorId}</if>
+            <if test="supplierCode != null  and supplierCode != ''">and supplier_code = #{supplierCode}</if>
+            <if test="supplierName != null  and supplierName != ''">and supplier_name like concat('%', #{supplierName},
+                '%')
+            </if>
+            <if test="isDelete != null ">and is_delete = #{isDelete}</if>
         </where>
     </select>
-    
+
     <select id="selectPublicSupplyBySupplyId" parameterType="Long" resultMap="PublicSupplyResult">
         <include refid="selectPublicSupplyVo"/>
         where supply_id = #{supplyId}
     </select>
-        
-    <insert id="insertPublicSupply" parameterType="com.ruoyi.system.api.domain.PublicSupply" useGeneratedKeys="true" keyProperty="supplyId">
+    <select id="findPublicSupplyById" resultMap="findSupply" >
+        SELECT s.supply_id,
+               supply_vendor_id,
+               supplier_code,
+               supplier_name,
+               remark,
+               s.create_by,
+               s.create_time,
+               s.update_by,
+               s.update_time,
+               is_delete,
+               supplied_materials_id,
+               m.supply_id,
+               available,
+               demand_ma_id,
+               exempt,
+               grade,
+               g.goods_name,
+               g.goods_code
+        FROM `public_supply` s
+                 left join public_supplied_materials m
+                           on s.supply_id = m.supply_id
+                 inner join public_goods g
+                            on m.demand_ma_id = g.goods_id
+        where s.supply_id = #{sid}
+    </select>
+
+    <insert id="insertPublicSupply" parameterType="com.ruoyi.system.api.domain.PublicSupply" useGeneratedKeys="true"
+            keyProperty="supplyId">
         insert into public_supply
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="supplyVendorId != null">supply_vendor_id,</if>
@@ -48,7 +111,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="updateBy != null">update_by,</if>
             <if test="updateTime != null">update_time,</if>
             <if test="isDelete != null">is_delete,</if>
-         </trim>
+        </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="supplyVendorId != null">#{supplyVendorId},</if>
             <if test="supplierCode != null">#{supplierCode},</if>
@@ -59,7 +122,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="updateBy != null">#{updateBy},</if>
             <if test="updateTime != null">#{updateTime},</if>
             <if test="isDelete != null">#{isDelete},</if>
-         </trim>
+        </trim>
     </insert>
 
     <update id="updatePublicSupply" parameterType="com.ruoyi.system.api.domain.PublicSupply">
@@ -79,11 +142,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </update>
 
     <delete id="deletePublicSupplyBySupplyId" parameterType="Long">
-        delete from public_supply where supply_id = #{supplyId}
+        delete
+        from public_supply
+        where supply_id = #{supplyId}
     </delete>
 
     <delete id="deletePublicSupplyBySupplyIds" parameterType="String">
-        delete from public_supply where supply_id in 
+        delete from public_supply where supply_id in
         <foreach item="supplyId" collection="array" open="(" separator="," close=")">
             #{supplyId}
         </foreach>

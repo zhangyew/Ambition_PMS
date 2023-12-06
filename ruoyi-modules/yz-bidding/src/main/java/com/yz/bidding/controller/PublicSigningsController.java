@@ -4,16 +4,12 @@ import java.util.List;
 import java.io.IOException;
 import javax.servlet.http.HttpServletResponse;
 
+import cn.hutool.json.JSONUtil;
 import com.ruoyi.system.api.domain.PublicSignings;
+import com.ruoyi.system.api.domain.PublicSuppliedMaterials;
+import com.ruoyi.system.api.domain.PublicSupply;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import com.ruoyi.common.log.annotation.Log;
 import com.ruoyi.common.log.enums.BusinessType;
 import com.ruoyi.common.security.annotation.RequiresPermissions;
@@ -25,14 +21,13 @@ import com.ruoyi.common.core.web.page.TableDataInfo;
 
 /**
  * 签署执行状态表Controller
- * 
+ *
  * @author zhangye
  * @date 2023-12-04
  */
 @RestController
 @RequestMapping("/signings")
-public class PublicSigningsController extends BaseController
-{
+public class PublicSigningsController extends BaseController {
     @Autowired
     private IPublicSigningsService publicSigningsService;
 
@@ -41,8 +36,7 @@ public class PublicSigningsController extends BaseController
      */
     @RequiresPermissions("pms.public:signings:list")
     @GetMapping("/list")
-    public TableDataInfo list(PublicSignings publicSignings)
-    {
+    public TableDataInfo list(PublicSignings publicSignings) {
         startPage();
         List<PublicSignings> list = publicSigningsService.selectPublicSigningsList(publicSignings);
         return getDataTable(list);
@@ -54,8 +48,7 @@ public class PublicSigningsController extends BaseController
     @RequiresPermissions("pms.public:signings:export")
     @Log(title = "签署执行状态表", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
-    public void export(HttpServletResponse response, PublicSignings publicSignings)
-    {
+    public void export(HttpServletResponse response, PublicSignings publicSignings) {
         List<PublicSignings> list = publicSigningsService.selectPublicSigningsList(publicSignings);
         ExcelUtil<PublicSignings> util = new ExcelUtil<PublicSignings>(PublicSignings.class);
         util.exportExcel(response, list, "签署执行状态表数据");
@@ -66,8 +59,7 @@ public class PublicSigningsController extends BaseController
      */
     @RequiresPermissions("pms.public:signings:query")
     @GetMapping(value = "/{signingStatusId}")
-    public AjaxResult getInfo(@PathVariable("signingStatusId") Long signingStatusId)
-    {
+    public AjaxResult getInfo(@PathVariable("signingStatusId") Long signingStatusId) {
         return success(publicSigningsService.selectPublicSigningsBySigningStatusId(signingStatusId));
     }
 
@@ -77,8 +69,7 @@ public class PublicSigningsController extends BaseController
     @RequiresPermissions("pms.public:signings:add")
     @Log(title = "签署执行状态表", businessType = BusinessType.INSERT)
     @PostMapping
-    public AjaxResult add(@RequestBody PublicSignings publicSignings)
-    {
+    public AjaxResult add(@RequestBody PublicSignings publicSignings) {
         return toAjax(publicSigningsService.insertPublicSignings(publicSignings));
     }
 
@@ -88,8 +79,7 @@ public class PublicSigningsController extends BaseController
     @RequiresPermissions("pms.public:signings:edit")
     @Log(title = "签署执行状态表", businessType = BusinessType.UPDATE)
     @PutMapping
-    public AjaxResult edit(@RequestBody PublicSignings publicSignings)
-    {
+    public AjaxResult edit(@RequestBody PublicSignings publicSignings) {
         return toAjax(publicSigningsService.updatePublicSignings(publicSignings));
     }
 
@@ -98,9 +88,8 @@ public class PublicSigningsController extends BaseController
      */
     @RequiresPermissions("pms.public:signings:remove")
     @Log(title = "签署执行状态表", businessType = BusinessType.DELETE)
-	@DeleteMapping("/{signingStatusIds}")
-    public AjaxResult remove(@PathVariable Long[] signingStatusIds)
-    {
+    @DeleteMapping("/{signingStatusIds}")
+    public AjaxResult remove(@PathVariable Long[] signingStatusIds) {
         return toAjax(publicSigningsService.deletePublicSigningsBySigningStatusIds(signingStatusIds));
     }
 }

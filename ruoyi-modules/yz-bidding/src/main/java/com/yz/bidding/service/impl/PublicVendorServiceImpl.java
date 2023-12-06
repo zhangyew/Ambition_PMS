@@ -119,13 +119,18 @@ public class PublicVendorServiceImpl implements IPublicVendorService {
         List<PublicQualification> qualificationList = null;
         JSONArray objects = JSONUtil.parseArray(strQualification);
         qualificationList = JSONUtil.toList(objects, PublicQualification.class);
-
+        if (map.get("vendorId") != null)
+            x = publicQualificationMapper.deleteVendorId(map.get("vendorId"));
         for (PublicQualification q : qualificationList) {
             q.setQualificationVendorId((long) vid);
             if (map.get("vendorId") == null) // 添加
+            {
                 x = publicQualificationMapper.insertPublicQualification(q);
-            else // 修改
-                x = publicQualificationMapper.updatePublicQualification(q);
+            } else {
+                // 修改
+                x = publicQualificationMapper.insertPublicQualification(q);
+            }
+
         }
 
         return x;
