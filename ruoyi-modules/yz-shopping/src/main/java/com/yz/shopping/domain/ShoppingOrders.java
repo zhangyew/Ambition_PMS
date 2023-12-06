@@ -60,7 +60,7 @@ public class ShoppingOrders extends BaseEntity
 
     /** 合同id */
     @Excel(name = "合同id")
-    private Long 合同ID;
+    private Long ordeContractId;
 
     /** 订单说明 */
     @Excel(name = "订单说明")
@@ -185,21 +185,21 @@ public class ShoppingOrders extends BaseEntity
     {
         return driverPhone;
     }
-    public void set合同ID(Long 合同ID) 
-    {
-        this.合同ID = 合同ID;
-    }
 
-    public Long get合同ID() 
-    {
-        return 合同ID;
-    }
     public void setOrderContext(String orderContext) 
     {
         this.orderContext = orderContext;
     }
 
-    public String getOrderContext() 
+    public Long getOrdeContractId() {
+        return ordeContractId;
+    }
+
+    public void setOrdeContractId(Long ordeContractId) {
+        this.ordeContractId = ordeContractId;
+    }
+
+    public String getOrderContext()
     {
         return orderContext;
     }
@@ -263,7 +263,6 @@ public class ShoppingOrders extends BaseEntity
             .append("isZt", getIsZt())
             .append("carNumber", getCarNumber())
             .append("driverPhone", getDriverPhone())
-            .append("合同ID", get合同ID())
             .append("orderContext", getOrderContext())
             .append("contractdetailsAmount", getContractdetailsAmount())
             .append("orderSupplierId", getOrderSupplierId())

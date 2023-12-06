@@ -7,6 +7,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <resultMap type="com.yz.shopping.domain.ShoppingBuyPlan" id="ShoppingBuyPlanResult">
         <result property="buyPlanId"    column="buy_plan_id"    />
         <result property="planClod"    column="plan_clod"    />
+        <result property="planName"    column="plan_name"    />
         <result property="buyPlanVendorId"    column="buy_plan_vendor_id"    />
         <result property="buyPlanWarehouseId"    column="buy_plan_warehouse_id"    />
         <result property="buyTypeId"    column="buy_type_id"    />
@@ -19,19 +20,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectShoppingBuyPlanVo">
-        select buy_plan_id, plan_clod, buy_plan_vendor_id, buy_plan_warehouse_id, buy_type_id, state, create_by, create_time, update_by, update_time, is_delete from shopping_buy_plan
+        select buy_plan_id, plan_clod,plan_name,buy_plan_vendor_id, buy_plan_warehouse_id, buy_type_id, state, create_by, create_time, update_by, update_time, is_delete from shopping_buy_plan
     </sql>
 
     <select id="selectShoppingBuyPlanList" parameterType="com.yz.shopping.domain.ShoppingBuyPlan" resultMap="ShoppingBuyPlanResult">
         <include refid="selectShoppingBuyPlanVo"/>
         <where>
-            <if test="planClod != null  and planClod != ''"> and plan_clod = #{planClod}</if>
+            <if test="planClod != null  and planClod != ''"> and plan_clod like concat('%', #{plan_clod}, '%')</if>
             <if test="buyPlanVendorId != null "> and buy_plan_vendor_id = #{buyPlanVendorId}</if>
             <if test="buyPlanWarehouseId != null "> and buy_plan_warehouse_id = #{buyPlanWarehouseId}</if>
             <if test="buyTypeId != null "> and buy_type_id = #{buyTypeId}</if>
             <if test="state != null "> and state = #{state}</if>
-            <if test="createBy != null  and createBy != ''"> and create_by = #{createBy}</if>
-            <if test="createTime != null "> and create_time = #{createTime}</if>
+            <if test="planName != null  and planName != ''"> and plan_name like concat('%', #{planName}, '%')</if>
         </where>
     </select>
 
@@ -45,6 +45,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="planClod != null">plan_clod,</if>
             <if test="buyPlanVendorId != null">buy_plan_vendor_id,</if>
+            <if test="planName != null">plan_name,</if>
             <if test="buyPlanWarehouseId != null">buy_plan_warehouse_id,</if>
             <if test="buyTypeId != null">buy_type_id,</if>
             <if test="state != null">state,</if>
@@ -56,6 +57,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="planClod != null">#{planClod},</if>
+            <if test="planName != null">#{planName),</if>
             <if test="buyPlanVendorId != null">#{buyPlanVendorId},</if>
             <if test="buyPlanWarehouseId != null">#{buyPlanWarehouseId},</if>
             <if test="buyTypeId != null">#{buyTypeId},</if>
@@ -72,6 +74,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         update shopping_buy_plan
         <trim prefix="SET" suffixOverrides=",">
             <if test="planClod != null">plan_clod = #{planClod},</if>
+            <if test="planName != null">plan_name= #{planName},</if>
             <if test="buyPlanVendorId != null">buy_plan_vendor_id = #{buyPlanVendorId},</if>
             <if test="buyPlanWarehouseId != null">buy_plan_warehouse_id = #{buyPlanWarehouseId},</if>
             <if test="buyTypeId != null">buy_type_id = #{buyTypeId},</if>

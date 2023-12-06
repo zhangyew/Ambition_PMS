@@ -3,8 +3,8 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yz.shopping.mapper.ShoppingOrdersMapper">
-    
-    <resultMap type="ShoppingOrders" id="ShoppingOrdersResult">
+
+    <resultMap type="com.yz.shopping.domain.ShoppingOrders" id="ShoppingOrdersResult">
         <result property="orderId"    column="order_id"    />
         <result property="requireId"    column="require_id"    />
         <result property="buyPlanId"    column="buy_plan_id"    />
@@ -16,7 +16,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="isZt"    column="is_zt"    />
         <result property="carNumber"    column="car_number"    />
         <result property="driverPhone"    column="driver_phone"    />
-        <result property="合同ID"    column="合同ID"    />
+        <result property="ordeContractId"    column="orde_contract_id"    />
         <result property="orderContext"    column="order_context"    />
         <result property="contractdetailsAmount"    column="contractdetails_amount"    />
         <result property="orderSupplierId"    column="order_supplier_id"    />
@@ -30,38 +30,25 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectShoppingOrdersVo">
-        select order_id, require_id, buy_plan_id, order_title, order_source, order_number, order_purchaser, total_money, is_zt, car_number, driver_phone, 合同ID, order_context, contractdetails_amount, order_supplier_id, order_material_id, type_order_state, create_by, create_time, update_by, update_time, is_delete from shopping_orders
+        select order_id, require_id, buy_plan_id, order_title, order_source, order_number, order_purchaser, total_money, is_zt, car_number, driver_phone, orde_contract_id, order_context, contractdetails_amount, order_supplier_id, order_material_id, type_order_state, create_by, create_time, update_by, update_time, is_delete from shopping_orders
     </sql>
 
-    <select id="selectShoppingOrdersList" parameterType="ShoppingOrders" resultMap="ShoppingOrdersResult">
+    <select id="selectShoppingOrdersList" parameterType="com.yz.shopping.domain.ShoppingOrders" resultMap="ShoppingOrdersResult">
         <include refid="selectShoppingOrdersVo"/>
-        <where>  
-            <if test="requireId != null "> and require_id = #{requireId}</if>
-            <if test="buyPlanId != null "> and buy_plan_id = #{buyPlanId}</if>
-            <if test="orderTitle != null  and orderTitle != ''"> and order_title = #{orderTitle}</if>
-            <if test="orderSource != null "> and order_source = #{orderSource}</if>
-            <if test="orderNumber != null  and orderNumber != ''"> and order_number = #{orderNumber}</if>
-            <if test="orderPurchaser != null  and orderPurchaser != ''"> and order_purchaser = #{orderPurchaser}</if>
-            <if test="totalMoney != null "> and total_money = #{totalMoney}</if>
-            <if test="isZt != null "> and is_zt = #{isZt}</if>
-            <if test="carNumber != null  and carNumber != ''"> and car_number = #{carNumber}</if>
-            <if test="driverPhone != null  and driverPhone != ''"> and driver_phone = #{driverPhone}</if>
-            <if test="合同ID != null "> and 合同ID = #{合同ID}</if>
-            <if test="orderContext != null  and orderContext != ''"> and order_context = #{orderContext}</if>
-            <if test="contractdetailsAmount != null "> and contractdetails_amount = #{contractdetailsAmount}</if>
+        <where>
+            <if test="orderTitle != null  and orderTitle != ''"> and order_title like concat('%', #{orderTitle}, '%')</if>
+            <if test="orderNumber != null  and orderNumber != ''"> and order_number like concat('%', #{orderNumber}, '%')</if>
             <if test="orderSupplierId != null "> and order_supplier_id = #{orderSupplierId}</if>
-            <if test="orderMaterialId != null "> and order_material_id = #{orderMaterialId}</if>
             <if test="typeOrderState != null "> and type_order_state = #{typeOrderState}</if>
-            <if test="isDelete != null "> and is_delete = #{isDelete}</if>
         </where>
     </select>
-    
+
     <select id="selectShoppingOrdersByOrderId" parameterType="Long" resultMap="ShoppingOrdersResult">
         <include refid="selectShoppingOrdersVo"/>
         where order_id = #{orderId}
     </select>
-        
-    <insert id="insertShoppingOrders" parameterType="ShoppingOrders" useGeneratedKeys="true" keyProperty="orderId">
+
+    <insert id="insertShoppingOrders" parameterType="com.yz.shopping.domain.ShoppingOrders" useGeneratedKeys="true" keyProperty="orderId">
         insert into shopping_orders
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="requireId != null">require_id,</if>
@@ -74,7 +61,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="isZt != null">is_zt,</if>
             <if test="carNumber != null">car_number,</if>
             <if test="driverPhone != null">driver_phone,</if>
-            <if test="合同ID != null">合同ID,</if>
+            <if test="ordeContractId!= null">orde_contract_id,</if>
             <if test="orderContext != null">order_context,</if>
             <if test="contractdetailsAmount != null">contractdetails_amount,</if>
             <if test="orderSupplierId != null">order_supplier_id,</if>
@@ -85,7 +72,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="updateBy != null">update_by,</if>
             <if test="updateTime != null">update_time,</if>
             <if test="isDelete != null">is_delete,</if>
-         </trim>
+        </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="requireId != null">#{requireId},</if>
             <if test="buyPlanId != null">#{buyPlanId},</if>
@@ -97,7 +84,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="isZt != null">#{isZt},</if>
             <if test="carNumber != null">#{carNumber},</if>
             <if test="driverPhone != null">#{driverPhone},</if>
-            <if test="合同ID != null">#{合同ID},</if>
+            <if test="ordeContractId!= null">#{ordeContractId},</if>
             <if test="orderContext != null">#{orderContext},</if>
             <if test="contractdetailsAmount != null">#{contractdetailsAmount},</if>
             <if test="orderSupplierId != null">#{orderSupplierId},</if>
@@ -108,10 +95,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="updateBy != null">#{updateBy},</if>
             <if test="updateTime != null">#{updateTime},</if>
             <if test="isDelete != null">#{isDelete},</if>
-         </trim>
+        </trim>
     </insert>
 
-    <update id="updateShoppingOrders" parameterType="ShoppingOrders">
+    <update id="updateShoppingOrders" parameterType="com.yz.shopping.domain.ShoppingOrders">
         update shopping_orders
         <trim prefix="SET" suffixOverrides=",">
             <if test="requireId != null">require_id = #{requireId},</if>
@@ -124,7 +111,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="isZt != null">is_zt = #{isZt},</if>
             <if test="carNumber != null">car_number = #{carNumber},</if>
             <if test="driverPhone != null">driver_phone = #{driverPhone},</if>
-            <if test="合同ID != null">合同ID = #{合同ID},</if>
+            <if test="ordeContractId!= null">orde_contract_id = #{ordeContractId},</if>
             <if test="orderContext != null">order_context = #{orderContext},</if>
             <if test="contractdetailsAmount != null">contractdetails_amount = #{contractdetailsAmount},</if>
             <if test="orderSupplierId != null">order_supplier_id = #{orderSupplierId},</if>
@@ -144,7 +131,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </delete>
 
     <delete id="deleteShoppingOrdersByOrderIds" parameterType="String">
-        delete from shopping_orders where order_id in 
+        delete from shopping_orders where order_id in
         <foreach item="orderId" collection="array" open="(" separator="," close=")">
             #{orderId}
         </foreach>

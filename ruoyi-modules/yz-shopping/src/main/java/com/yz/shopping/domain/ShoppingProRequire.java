@@ -72,6 +72,20 @@ public class ShoppingProRequire extends BaseEntity
     @Excel(name = "删除")
     private Long isDelete;
 
+    /**
+     * 物料集合
+     * @return
+     */
+    public List<ShoppingDemand> getBcglXiangXiList() {
+        return bcglXiangXiList;
+    }
+
+    public void setBcglXiangXiList(List<ShoppingDemand> bcglXiangXiList) {
+        this.bcglXiangXiList = bcglXiangXiList;
+    }
+
+    private List<ShoppingDemand> bcglXiangXiList;
+
     public List<String> getPublicGoodsList() {
         return publicGoodsList;
     }

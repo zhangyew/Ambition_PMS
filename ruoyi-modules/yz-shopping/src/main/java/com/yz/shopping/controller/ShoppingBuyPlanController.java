@@ -97,6 +97,7 @@ public class ShoppingBuyPlanController extends BaseController {
         SnowflakeGetId snowflakeGetId = new SnowflakeGetId(11, 1);
         String id = snowflakeGetId.getCode(p);
         shoppingBuyPlan.setPlanClod(id);
+        shoppingBuyPlan.setCreateBy("fm");
         return toAjax(shoppingBuyPlanService.insertShoppingBuyPlan(shoppingBuyPlan));
     }
 

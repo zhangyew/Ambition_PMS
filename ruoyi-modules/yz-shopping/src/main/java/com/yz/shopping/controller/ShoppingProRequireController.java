@@ -30,14 +30,13 @@ import com.ruoyi.common.core.web.page.TableDataInfo;
 
 /**
  * 采购需求表Controller
- * 
+ *
  * @author zhangye
  * @date 2023-11-20
  */
 @RestController
 @RequestMapping("/pro_require")
-public class ShoppingProRequireController extends BaseController
-{
+public class ShoppingProRequireController extends BaseController {
     @Autowired
     private IShoppingProRequireService shoppingProRequireService;
     @Autowired
@@ -48,8 +47,7 @@ public class ShoppingProRequireController extends BaseController
      */
     @RequiresPermissions("shopping/public:pro_require:list")
     @GetMapping("/list")
-    public TableDataInfo list(ShoppingProRequire shoppingProRequire)
-    {
+    public TableDataInfo list(ShoppingProRequire shoppingProRequire) {
         startPage();
         List<ShoppingProRequire> list = shoppingProRequireService.selectShoppingProRequireList(shoppingProRequire);
         return getDataTable(list);
@@ -61,8 +59,7 @@ public class ShoppingProRequireController extends BaseController
     @RequiresPermissions("shopping/public:pro_require:export")
     @Log(title = "采购需求表", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
-    public void export(HttpServletResponse response, ShoppingProRequire shoppingProRequire)
-    {
+    public void export(HttpServletResponse response, ShoppingProRequire shoppingProRequire) {
         List<ShoppingProRequire> list = shoppingProRequireService.selectShoppingProRequireList(shoppingProRequire);
         ExcelUtil<ShoppingProRequire> util = new ExcelUtil<ShoppingProRequire>(ShoppingProRequire.class);
         util.exportExcel(response, list, "采购需求表数据");
@@ -73,8 +70,7 @@ public class ShoppingProRequireController extends BaseController
      */
     @RequiresPermissions("shopping/public:pro_require:query")
     @GetMapping(value = "/{requireId}")
-    public AjaxResult getInfo(@PathVariable("requireId") Long requireId)
-    {
+    public AjaxResult getInfo(@PathVariable("requireId") Long requireId) {
         return success(shoppingProRequireService.selectShoppingProRequireByRequireId(requireId));
     }
 
@@ -84,15 +80,15 @@ public class ShoppingProRequireController extends BaseController
     @RequiresPermissions("shopping/public:pro_require:add")
     @Log(title = "采购需求表", businessType = BusinessType.INSERT)
     @PostMapping
-    public AjaxResult add(@RequestBody ShoppingProRequire shoppingProRequire)
-    {
+    public AjaxResult add(@RequestBody ShoppingProRequire shoppingProRequire) {
         AjaxResult ajaxResult = remoteCodeRulesService.getInfo(8L);
         Object obj = ajaxResult.get("data");
         String str = JSON.toJSONString(obj);
-        PublicCodeRules p = JSONObject.parseObject(str,PublicCodeRules.class);
+        PublicCodeRules p = JSONObject.parseObject(str, PublicCodeRules.class);
         SnowflakeGetId snowflakeGetId = new SnowflakeGetId(8, 1);
         String id = snowflakeGetId.getCode(p);
         shoppingProRequire.setRequireNumber(id);
+        shoppingProRequire.setCreateBy("zy");
         return toAjax(shoppingProRequireService.insertShoppingProRequire(shoppingProRequire));
     }
 
@@ -102,8 +98,10 @@ public class ShoppingProRequireController extends BaseController
     @RequiresPermissions("shopping/public:pro_require:edit")
     @Log(title = "采购需求表", businessType = BusinessType.UPDATE)
     @PutMapping
-    public AjaxResult edit(@RequestBody ShoppingProRequire shoppingProRequire)
-    {
+    public AjaxResult edit(@RequestBody ShoppingProRequire shoppingProRequire) {
+//        if (shoppingProRequire.getRequireState() != 1) {
+//            shoppingProRequire.setRequireState(0L);
+//        }
         return toAjax(shoppingProRequireService.updateShoppingProRequire(shoppingProRequire));
     }
 
@@ -113,8 +111,7 @@ public class ShoppingProRequireController extends BaseController
     @RequiresPermissions("shopping/public:pro_require:remove")
     @Log(title = "采购需求表", businessType = BusinessType.DELETE)
     @DeleteMapping("/{requireIds}")
-    public AjaxResult remove(@PathVariable Long[] requireIds)
-    {
+    public AjaxResult remove(@PathVariable Long[] requireIds) {
         return toAjax(shoppingProRequireService.deleteShoppingProRequireByRequireIds(requireIds));
     }
 }

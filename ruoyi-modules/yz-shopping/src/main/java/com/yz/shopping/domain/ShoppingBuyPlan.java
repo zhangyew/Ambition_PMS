@@ -22,6 +22,19 @@ public class ShoppingBuyPlan extends BaseEntity
     @Excel(name = "采购计划编码", readConverterExp = "转=订单编码，不需要修改")
     private String planClod;
 
+    public String getPlanName() {
+        return planName;
+    }
+
+    public void setPlanName(String planName) {
+        this.planName = planName;
+    }
+
+    /**
+     * 采购计划名称
+     */
+    @Excel(name = "采购计划名称")
+    private String planName;
     /** 供应商主键 */
     @Excel(name = "供应商主键")
     private Long buyPlanVendorId;
