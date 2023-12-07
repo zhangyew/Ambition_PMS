@@ -121,9 +121,15 @@ public class PublicVendor extends BaseEntity {
     private String responsiblePhone;
 
     /**
-     * 工商注册号
+     * 银行名称
      */
-    @Excel(name = "工商注册号")
+    @Excel(name = "银行名称")
+    private String bankingName;
+
+    /**
+     * 银行卡号
+     */
+    @Excel(name = "银行卡号")
     private String industrialCommercial;
 
     /**
@@ -144,6 +150,19 @@ public class PublicVendor extends BaseEntity {
     @Excel(name = "供应商资质")
     private List<PublicQualification> publicQualificationList;
 
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
+
+    public String getBankingName() {
+        return bankingName;
+    }
+
+    public PublicVendor setBankingName(String bankingName) {
+        this.bankingName = bankingName;
+        return this;
+    }
 
     public PublicContacts getPublicContacts() {
         return publicContacts;
@@ -343,6 +362,7 @@ public class PublicVendor extends BaseEntity {
                 .append("fax", getFax())
                 .append("responsible", getResponsible())
                 .append("responsiblePhone", getResponsiblePhone())
+                .append("bankingName",getBankingName())
                 .append("industrial Commercial", getIndustrialCommercial())
                 .append("createBy", getCreateBy())
                 .append("createTime", getCreateTime())

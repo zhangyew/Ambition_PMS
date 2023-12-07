@@ -11,6 +11,14 @@ import com.yz.bidding.domain.BiddingTenderManifest;
  */
 public interface BiddingTenderManifestMapper 
 {
+
+    /**
+     * 根据项目ID删除详情表
+     * @param pid
+     * @return
+     */
+    public int deleteByProjectId(Long pid);
+
     /**
      * 查询招标项目详情
      * 

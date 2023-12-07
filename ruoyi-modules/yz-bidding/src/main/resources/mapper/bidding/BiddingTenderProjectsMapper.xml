@@ -4,7 +4,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yz.bidding.mapper.BiddingTenderProjectsMapper">
 
-    <resultMap type="com.yz.bidding.domain.BiddingTenderProjects" id="BiddingTenderProjectsResult">
+    <resultMap type="BiddingTenderProjects" id="BiddingTenderProjectsResult">
         <result property="tenderProjectsId"    column="tender_projects_id"    />
         <result property="tenderProjectsNumber"    column="tender_projects_number"    />
         <result property="tenderProjectsName"    column="tender_projects_name"    />
@@ -25,37 +25,27 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectBiddingTenderProjectsVo">
-        select tender_projects_id, tender_projects_name, projects_type, tender_projects_money, tender_projects_contact, tender_projects_phone, tender_projects_address, tender_projects_email, remark, manner, censor, must, audit_state, creat_by, creat_time, is_delete from bidding_tender_projects
+        select tender_projects_id, tender_projects_number, tender_projects_name, projects_type, tender_projects_money, tender_projects_contact, tender_projects_phone, tender_projects_address, tender_projects_email, remark, manner, censor, must, audit_state, creat_by, creat_time, is_delete from bidding_tender_projects
     </sql>
 
-    <select id="selectBiddingTenderProjectsList" parameterType="com.yz.bidding.domain.BiddingTenderProjects" resultMap="BiddingTenderProjectsResult">
+    <select id="selectBiddingTenderProjectsList" parameterType="BiddingTenderProjects" resultMap="BiddingTenderProjectsResult">
         <include refid="selectBiddingTenderProjectsVo"/>
-        <where>  
+        <where>
             <if test="tenderProjectsName != null  and tenderProjectsName != ''"> and tender_projects_name like concat('%', #{tenderProjectsName}, '%')</if>
-            <if test="projectsType != null "> and projects_type = #{projectsType}</if>
-            <if test="tenderProjectsMoney != null "> and tender_projects_money = #{tenderProjectsMoney}</if>
-            <if test="tenderProjectsContact != null  and tenderProjectsContact != ''"> and tender_projects_contact = #{tenderProjectsContact}</if>
-            <if test="tenderProjectsPhone != null  and tenderProjectsPhone != ''"> and tender_projects_phone = #{tenderProjectsPhone}</if>
-            <if test="tenderProjectsAddress != null  and tenderProjectsAddress != ''"> and tender_projects_address = #{tenderProjectsAddress}</if>
-            <if test="tenderProjectsEmail != null  and tenderProjectsEmail != ''"> and tender_projects_email = #{tenderProjectsEmail}</if>
-            <if test="manner != null "> and manner = #{manner}</if>
-            <if test="censor != null  and censor != ''"> and censor = #{censor}</if>
-            <if test="must != null "> and must = #{must}</if>
             <if test="auditState != null "> and audit_state = #{auditState}</if>
-            <if test="creatBy != null  and creatBy != ''"> and creat_by = #{creatBy}</if>
-            <if test="creatTime != null "> and creat_time = #{creatTime}</if>
-            <if test="isDelete != null "> and is_delete = #{isDelete}</if>
+            <if test="params.beginCreatTime != null and params.beginCreatTime != '' and params.endCreatTime != null and params.endCreatTime != ''"> and creat_time between #{params.beginCreatTime} and #{params.endCreatTime}</if>
         </where>
     </select>
-    
+
     <select id="selectBiddingTenderProjectsByTenderProjectsId" parameterType="Long" resultMap="BiddingTenderProjectsResult">
         <include refid="selectBiddingTenderProjectsVo"/>
         where tender_projects_id = #{tenderProjectsId}
     </select>
-        
-    <insert id="insertBiddingTenderProjects" parameterType="com.yz.bidding.domain.BiddingTenderProjects" useGeneratedKeys="true" keyProperty="tenderProjectsId">
+
+    <insert id="insertBiddingTenderProjects" parameterType="BiddingTenderProjects" useGeneratedKeys="true" keyProperty="tenderProjectsId">
         insert into bidding_tender_projects
         <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="tenderProjectsNumber != null">tender_projects_number,</if>
             <if test="tenderProjectsName != null">tender_projects_name,</if>
             <if test="projectsType != null">projects_type,</if>
             <if test="tenderProjectsMoney != null">tender_projects_money,</if>
@@ -71,8 +61,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="creatBy != null">creat_by,</if>
             <if test="creatTime != null">creat_time,</if>
             <if test="isDelete != null">is_delete,</if>
-         </trim>
+        </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="tenderProjectsNumber != null">#{tenderProjectsNumber},</if>
             <if test="tenderProjectsName != null">#{tenderProjectsName},</if>
             <if test="projectsType != null">#{projectsType},</if>
             <if test="tenderProjectsMoney != null">#{tenderProjectsMoney},</if>
@@ -88,12 +79,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="creatBy != null">#{creatBy},</if>
             <if test="creatTime != null">#{creatTime},</if>
             <if test="isDelete != null">#{isDelete},</if>
-         </trim>
+        </trim>
     </insert>
 
-    <update id="updateBiddingTenderProjects" parameterType="com.yz.bidding.domain.BiddingTenderProjects">
+    <update id="updateBiddingTenderProjects" parameterType="BiddingTenderProjects">
         update bidding_tender_projects
         <trim prefix="SET" suffixOverrides=",">
+            <if test="tenderProjectsNumber != null">tender_projects_number = #{tenderProjectsNumber},</if>
             <if test="tenderProjectsName != null">tender_projects_name = #{tenderProjectsName},</if>
             <if test="projectsType != null">projects_type = #{projectsType},</if>
             <if test="tenderProjectsMoney != null">tender_projects_money = #{tenderProjectsMoney},</if>
@@ -118,7 +110,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </delete>
 
     <delete id="deleteBiddingTenderProjectsByTenderProjectsIds" parameterType="String">
-        delete from bidding_tender_projects where tender_projects_id in 
+        delete from bidding_tender_projects where tender_projects_id in
         <foreach item="tenderProjectsId" collection="array" open="(" separator="," close=")">
             #{tenderProjectsId}
         </foreach>
