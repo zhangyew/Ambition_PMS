@@ -3,6 +3,7 @@ package com.yz.bidding.controller;
 import java.util.List;
 import java.io.IOException;
 import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,24 +25,39 @@ import com.ruoyi.common.core.web.page.TableDataInfo;
 
 /**
  * 招标公告Controller
- * 
+ *
  * @author zhangye
  * @date 2023-11-21
  */
 @RestController
 @RequestMapping("/tender_notice")
-public class BiddingTenderNoticeController extends BaseController
-{
+public class BiddingTenderNoticeController extends BaseController {
     @Autowired
     private IBiddingTenderNoticeService biddingTenderNoticeService;
+
+    @PostMapping("/findNoticeById")
+    public AjaxResult findNoticeById(String pid, String tid) {
+        return success(biddingTenderNoticeService.findNoticeById(pid, tid));
+    }
+
+    /**
+     * 修改公告状态
+     *
+     * @param id
+     * @param zt
+     * @return
+     */
+    @PostMapping("/updateStates")
+    public int updateStates(String id, String zt) {
+        return biddingTenderNoticeService.updateState(id, zt);
+    }
 
     /**
      * 查询招标公告列表
      */
     @RequiresPermissions("pms/bidding:tender_notice:list")
     @GetMapping("/list")
-    public TableDataInfo list(BiddingTenderNotice biddingTenderNotice)
-    {
+    public TableDataInfo list(BiddingTenderNotice biddingTenderNotice) {
         startPage();
         List<BiddingTenderNotice> list = biddingTenderNoticeService.selectBiddingTenderNoticeList(biddingTenderNotice);
         return getDataTable(list);
@@ -53,8 +69,7 @@ public class BiddingTenderNoticeController extends BaseController
     @RequiresPermissions("pms/bidding:tender_notice:export")
     @Log(title = "招标公告", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
-    public void export(HttpServletResponse response, BiddingTenderNotice biddingTenderNotice)
-    {
+    public void export(HttpServletResponse response, BiddingTenderNotice biddingTenderNotice) {
         List<BiddingTenderNotice> list = biddingTenderNoticeService.selectBiddingTenderNoticeList(biddingTenderNotice);
         ExcelUtil<BiddingTenderNotice> util = new ExcelUtil<BiddingTenderNotice>(BiddingTenderNotice.class);
         util.exportExcel(response, list, "招标公告数据");
@@ -65,8 +80,7 @@ public class BiddingTenderNoticeController extends BaseController
      */
     @RequiresPermissions("pms/bidding:tender_notice:query")
     @GetMapping(value = "/{tenderNoticeId}")
-    public AjaxResult getInfo(@PathVariable("tenderNoticeId") Long tenderNoticeId)
-    {
+    public AjaxResult getInfo(@PathVariable("tenderNoticeId") Long tenderNoticeId) {
         return success(biddingTenderNoticeService.selectBiddingTenderNoticeByTenderNoticeId(tenderNoticeId));
     }
 
@@ -76,8 +90,7 @@ public class BiddingTenderNoticeController extends BaseController
     @RequiresPermissions("pms/bidding:tender_notice:add")
     @Log(title = "招标公告", businessType = BusinessType.INSERT)
     @PostMapping
-    public AjaxResult add(@RequestBody BiddingTenderNotice biddingTenderNotice)
-    {
+    public AjaxResult add(@RequestBody BiddingTenderNotice biddingTenderNotice) {
         return toAjax(biddingTenderNoticeService.insertBiddingTenderNotice(biddingTenderNotice));
     }
 
@@ -87,8 +100,7 @@ public class BiddingTenderNoticeController extends BaseController
     @RequiresPermissions("pms/bidding:tender_notice:edit")
     @Log(title = "招标公告", businessType = BusinessType.UPDATE)
     @PutMapping
-    public AjaxResult edit(@RequestBody BiddingTenderNotice biddingTenderNotice)
-    {
+    public AjaxResult edit(@RequestBody BiddingTenderNotice biddingTenderNotice) {
         return toAjax(biddingTenderNoticeService.updateBiddingTenderNotice(biddingTenderNotice));
     }
 
@@ -97,9 +109,8 @@ public class BiddingTenderNoticeController extends BaseController
      */
     @RequiresPermissions("pms/bidding:tender_notice:remove")
     @Log(title = "招标公告", businessType = BusinessType.DELETE)
-	@DeleteMapping("/{tenderNoticeIds}")
-    public AjaxResult remove(@PathVariable Long[] tenderNoticeIds)
-    {
+    @DeleteMapping("/{tenderNoticeIds}")
+    public AjaxResult remove(@PathVariable Long[] tenderNoticeIds) {
         return toAjax(biddingTenderNoticeService.deleteBiddingTenderNoticeByTenderNoticeIds(tenderNoticeIds));
     }
 }
