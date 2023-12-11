@@ -2,6 +2,7 @@ package com.yz.bidding.mapper;
 
 import java.util.List;
 import com.yz.bidding.domain.BiddingTenderProjects;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * 招标项目Mapper接口
@@ -11,6 +12,22 @@ import com.yz.bidding.domain.BiddingTenderProjects;
  */
 public interface BiddingTenderProjectsMapper 
 {
+
+    /**
+     * 修改招标项目审核状态
+     * @param id
+     * @param zt
+     * @return
+     */
+    public int updateStates(@Param("id") String id,@Param("zt") String zt);
+
+    /**
+     * 查询招标项目详情
+     * @param pid
+     * @return
+     */
+    public BiddingTenderProjects findProjectById(String pid);
+
     /**
      * 查询招标项目
      * 

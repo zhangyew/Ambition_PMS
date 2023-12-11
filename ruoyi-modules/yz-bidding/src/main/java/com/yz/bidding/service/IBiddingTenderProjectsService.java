@@ -14,6 +14,21 @@ import com.yz.bidding.domain.BiddingTenderProjects;
 public interface IBiddingTenderProjectsService {
 
     /**
+     * 修改招标项目审核状态
+     * @param id
+     * @param zt
+     * @return
+     */
+    public int updateStates(String id, String zt);
+
+    /**
+     * 查询招标项目详情
+     * @param pid
+     * @return
+     */
+    public BiddingTenderProjects findProjectById(String pid);
+
+    /**
      * 添加招标项目
      * @param projects
      * @param list

@@ -49,6 +49,11 @@ public class PublicVendorServiceImpl implements IPublicVendorService {
     private PublicQualificationMapper publicQualificationMapper;
 
     @Override
+    public int updateStates(String id, String zt) {
+        return publicVendorMapper.updateStates(id, zt);
+    }
+
+    @Override
     public int insertVendor(Map<String, String> map) {
         System.out.println(map);
         int x = 0;

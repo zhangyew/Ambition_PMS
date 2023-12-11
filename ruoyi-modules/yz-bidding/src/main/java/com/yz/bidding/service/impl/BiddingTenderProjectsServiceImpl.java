@@ -33,6 +33,16 @@ public class BiddingTenderProjectsServiceImpl implements IBiddingTenderProjectsS
     private PublicCodeRulesMapper publicCodeRulesMapper;
 
     @Override
+    public int updateStates(String id, String zt) {
+        return biddingTenderProjectsMapper.updateStates(id, zt);
+    }
+
+    @Override
+    public BiddingTenderProjects findProjectById(String pid) {
+        return biddingTenderProjectsMapper.findProjectById(pid);
+    }
+
+    @Override
     public int insertProjects(BiddingTenderProjects projects, List<BiddingTenderManifest> list) {
         int x = 0;
         BiddingTenderProjects projects1 = projects;
@@ -48,7 +58,7 @@ public class BiddingTenderProjectsServiceImpl implements IBiddingTenderProjectsS
         }
         for (BiddingTenderManifest b : list) {
             b.setManifestProjectsId(projects1.getTenderProjectsId());
-            manifestMapper.insertBiddingTenderManifest(b);
+            x = manifestMapper.insertBiddingTenderManifest(b);
         }
         return x;
     }

@@ -1,48 +1,117 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
-PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yz.bidding.mapper.BiddingTenderProjectsMapper">
 
     <resultMap type="BiddingTenderProjects" id="BiddingTenderProjectsResult">
-        <result property="tenderProjectsId"    column="tender_projects_id"    />
-        <result property="tenderProjectsNumber"    column="tender_projects_number"    />
-        <result property="tenderProjectsName"    column="tender_projects_name"    />
-        <result property="projectsType"    column="projects_type"    />
-        <result property="tenderProjectsMoney"    column="tender_projects_money"    />
-        <result property="tenderProjectsContact"    column="tender_projects_contact"    />
-        <result property="tenderProjectsPhone"    column="tender_projects_phone"    />
-        <result property="tenderProjectsAddress"    column="tender_projects_address"    />
-        <result property="tenderProjectsEmail"    column="tender_projects_email"    />
-        <result property="remark"    column="remark"    />
-        <result property="manner"    column="manner"    />
-        <result property="censor"    column="censor"    />
-        <result property="must"    column="must"    />
-        <result property="auditState"    column="audit_state"    />
-        <result property="creatBy"    column="creat_by"    />
-        <result property="creatTime"    column="creat_time"    />
-        <result property="isDelete"    column="is_delete"    />
+        <result property="tenderProjectsId" column="tender_projects_id"/>
+        <result property="tenderProjectsNumber" column="tender_projects_number"/>
+        <result property="tenderProjectsName" column="tender_projects_name"/>
+        <result property="projectsType" column="projects_type"/>
+        <result property="tenderProjectsMoney" column="tender_projects_money"/>
+        <result property="tenderProjectsContact" column="tender_projects_contact"/>
+        <result property="tenderProjectsPhone" column="tender_projects_phone"/>
+        <result property="tenderProjectsAddress" column="tender_projects_address"/>
+        <result property="tenderProjectsEmail" column="tender_projects_email"/>
+        <result property="remark" column="remark"/>
+        <result property="manner" column="manner"/>
+        <result property="censor" column="censor"/>
+        <result property="must" column="must"/>
+        <result property="auditState" column="audit_state"/>
+        <result property="creatBy" column="creat_by"/>
+        <result property="creatTime" column="creat_time"/>
+        <result property="isDelete" column="is_delete"/>
+    </resultMap>
+
+    <resultMap id="findProjectById" type="BiddingTenderProjects">
+        <result property="tenderProjectsId" column="tender_projects_id"/>
+        <result property="tenderProjectsNumber" column="tender_projects_number"/>
+        <result property="tenderProjectsName" column="tender_projects_name"/>
+        <result property="projectsType" column="projects_type"/>
+        <result property="tenderProjectsMoney" column="tender_projects_money"/>
+        <result property="tenderProjectsContact" column="tender_projects_contact"/>
+        <result property="tenderProjectsPhone" column="tender_projects_phone"/>
+        <result property="tenderProjectsAddress" column="tender_projects_address"/>
+        <result property="tenderProjectsEmail" column="tender_projects_email"/>
+        <result property="remark" column="remark"/>
+        <result property="manner" column="manner"/>
+        <result property="censor" column="censor"/>
+        <result property="must" column="must"/>
+        <result property="auditState" column="audit_state"/>
+        <result property="creatBy" column="creat_by"/>
+        <result property="creatTime" column="creat_time"/>
+        <result property="isDelete" column="is_delete"/>
+        <collection property="list" ofType="Map">
+            <result property="tenderManifestId" column="tender_manifest_id"/>
+            <result property="manifestProjectsId" column="manifest_projects_id"/>
+            <result property="manifestGoodsId" column="manifest_goods_id"/>
+            <result property="number" column="number"/>
+            <result property="manifestTypeId" column="manifest_type_id"/>
+            <result property="price" column="price"/>
+            <result property="prices" column="prices"/>
+            <result property="explains" column="explains"/>
+            <result property="bz" column="bz"/>
+            <result property="isDelete" column="is_delete"/>
+            <result property="goodsName" column="goods_name"/>
+            <result property="goodsCode" column="goods_code"/>
+        </collection>
     </resultMap>
 
     <sql id="selectBiddingTenderProjectsVo">
-        select tender_projects_id, tender_projects_number, tender_projects_name, projects_type, tender_projects_money, tender_projects_contact, tender_projects_phone, tender_projects_address, tender_projects_email, remark, manner, censor, must, audit_state, creat_by, creat_time, is_delete from bidding_tender_projects
+        select tender_projects_id,
+               tender_projects_number,
+               tender_projects_name,
+               projects_type,
+               tender_projects_money,
+               tender_projects_contact,
+               tender_projects_phone,
+               tender_projects_address,
+               tender_projects_email,
+               remark,
+               manner,
+               censor,
+               must,
+               audit_state,
+               creat_by,
+               creat_time,
+               is_delete
+        from bidding_tender_projects
     </sql>
 
-    <select id="selectBiddingTenderProjectsList" parameterType="BiddingTenderProjects" resultMap="BiddingTenderProjectsResult">
+    <select id="selectBiddingTenderProjectsList" parameterType="BiddingTenderProjects"
+            resultMap="BiddingTenderProjectsResult">
         <include refid="selectBiddingTenderProjectsVo"/>
         <where>
-            <if test="tenderProjectsName != null  and tenderProjectsName != ''"> and tender_projects_name like concat('%', #{tenderProjectsName}, '%')</if>
-            <if test="auditState != null "> and audit_state = #{auditState}</if>
-            <if test="params.beginCreatTime != null and params.beginCreatTime != '' and params.endCreatTime != null and params.endCreatTime != ''"> and creat_time between #{params.beginCreatTime} and #{params.endCreatTime}</if>
+            <if test="tenderProjectsName != null  and tenderProjectsName != ''">and tender_projects_name like
+                concat('%', #{tenderProjectsName}, '%')
+            </if>
+            <if test="auditState != null ">and audit_state = #{auditState}</if>
+            <if test="params.beginCreatTime != null and params.beginCreatTime != '' and params.endCreatTime != null and params.endCreatTime != ''">
+                and creat_time between #{params.beginCreatTime} and #{params.endCreatTime}
+            </if>
         </where>
     </select>
 
-    <select id="selectBiddingTenderProjectsByTenderProjectsId" parameterType="Long" resultMap="BiddingTenderProjectsResult">
+    <select id="selectBiddingTenderProjectsByTenderProjectsId" parameterType="Long"
+            resultMap="BiddingTenderProjectsResult">
         <include refid="selectBiddingTenderProjectsVo"/>
         where tender_projects_id = #{tenderProjectsId}
     </select>
 
-    <insert id="insertBiddingTenderProjects" parameterType="BiddingTenderProjects" useGeneratedKeys="true" keyProperty="tenderProjectsId">
+    <select id="findProjectById" resultMap="findProjectById">
+        SELECT p.*, m.*, g.goods_name, g.goods_code, m.remark as bz
+        FROM bidding_tender_projects p
+                 inner join `bidding_tender_manifest` m
+                            on p.tender_projects_id = m.manifest_projects_id
+                 inner join public_goods g
+                            on m.manifest_goods_id = g.goods_id
+        where p.tender_projects_id = #{pid}
+
+    </select>
+
+    <insert id="insertBiddingTenderProjects" parameterType="BiddingTenderProjects" useGeneratedKeys="true"
+            keyProperty="tenderProjectsId">
         insert into bidding_tender_projects
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="tenderProjectsNumber != null">tender_projects_number,</if>
@@ -104,9 +173,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </trim>
         where tender_projects_id = #{tenderProjectsId}
     </update>
+    <update id="updateStates">
+        update bidding_tender_projects
+        set audit_state = #{zt}
+        where tender_projects_id = #{id}
+    </update>
 
     <delete id="deleteBiddingTenderProjectsByTenderProjectsId" parameterType="Long">
-        delete from bidding_tender_projects where tender_projects_id = #{tenderProjectsId}
+        delete
+        from bidding_tender_projects
+        where tender_projects_id = #{tenderProjectsId}
     </delete>
 
     <delete id="deleteBiddingTenderProjectsByTenderProjectsIds" parameterType="String">

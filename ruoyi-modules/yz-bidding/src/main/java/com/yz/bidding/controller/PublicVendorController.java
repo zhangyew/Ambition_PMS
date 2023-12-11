@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.ruoyi.system.api.util.SnowflakeGetId;
 import io.swagger.models.auth.In;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -34,6 +35,18 @@ public class PublicVendorController extends BaseController {
     @Autowired
     private IPublicVendorService publicVendorService;
 
+    /**
+     * 修改供应商注册状态
+     *
+     * @param id
+     * @param zt
+     * @return
+     */
+    @PostMapping("/updateStates")
+    public int updateStates(String id, String zt) {
+        return publicVendorService.updateStates(id, zt);
+    }
+
     @PostMapping("/findVendorDetailed")
     public AjaxResult findVendorDetailed(String vid) {
         PublicVendor publicVendor = publicVendorService.findVendorDetailed(Integer.parseInt(vid));
@@ -53,7 +66,7 @@ public class PublicVendorController extends BaseController {
         System.out.println(map);
         //System.out.println(files);
 
-            return publicVendorService.insertVendor(map);
+        return publicVendorService.insertVendor(map);
 
     }
 

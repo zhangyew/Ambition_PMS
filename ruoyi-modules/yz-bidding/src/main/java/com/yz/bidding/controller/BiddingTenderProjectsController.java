@@ -37,6 +37,15 @@ public class BiddingTenderProjectsController extends BaseController {
     @Autowired
     private IBiddingTenderProjectsService biddingTenderProjectsService;
 
+    @PostMapping("/updateStates")
+    public int updateStates(String id, String zt) {
+        return biddingTenderProjectsService.updateStates(id, zt);
+    }
+
+    @PostMapping("/findProjectById")
+    public AjaxResult findProjectById(String id) {
+        return success(biddingTenderProjectsService.findProjectById(id));
+    }
 
     @PostMapping("/insertProjects")
     public int insertProjects(String projects, String manifest) {
@@ -44,7 +53,7 @@ public class BiddingTenderProjectsController extends BaseController {
         List<BiddingTenderManifest> list = JSONUtil.toList(manifest, BiddingTenderManifest.class);
         System.out.println(tenderProjects);
         System.out.println(list);
-        return biddingTenderProjectsService.insertProjects(tenderProjects,list);
+        return biddingTenderProjectsService.insertProjects(tenderProjects, list);
     }
 
     /**

@@ -15,6 +15,14 @@ import org.apache.ibatis.annotations.Param;
 public interface PublicVendorMapper 
 {
     /**
+     * 修改供应商注册状态
+     * @param id
+     * @param zt
+     * @return
+     */
+    public int updateStates(@Param("id")String id, @Param("zt")String zt);
+
+    /**
      * 查询供应商
      * 
      * @param vendorId 供应商主键

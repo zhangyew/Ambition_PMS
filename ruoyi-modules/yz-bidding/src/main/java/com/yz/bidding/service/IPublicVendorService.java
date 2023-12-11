@@ -9,22 +9,32 @@ import org.apache.ibatis.annotations.Param;
 
 /**
  * 供应商Service接口
- * 
+ *
  * @author zhangye
  * @date 2023-11-21
  */
-public interface IPublicVendorService 
-{
+public interface IPublicVendorService {
+
+    /**
+     * 修改供应商注册状态
+     *
+     * @param id
+     * @param zt
+     * @return
+     */
+    public int updateStates(String id, String zt);
 
     /**
      * 供应商注册
+     *
      * @param map
      * @return
      */
-    public int insertVendor(Map<String, String> map) ;
+    public int insertVendor(Map<String, String> map);
 
     /**
      * 查询供应商详细信息
+     *
      * @param vid
      * @return
      */
@@ -32,7 +42,7 @@ public interface IPublicVendorService
 
     /**
      * 查询供应商
-     * 
+     *
      * @param vendorId 供应商主键
      * @return 供应商
      */
@@ -40,7 +50,7 @@ public interface IPublicVendorService
 
     /**
      * 查询供应商列表
-     * 
+     *
      * @param publicVendor 供应商
      * @return 供应商集合
      */
@@ -48,12 +58,14 @@ public interface IPublicVendorService
 
     /**
      * 显示所有的供应商(合同管理下拉框)
+     *
      * @param
      */
     public List<PublicVendor> showsPublicVendorList(Long vendor_id);
+
     /**
      * 新增供应商
-     * 
+     *
      * @param publicVendor 供应商
      * @return 结果
      */
@@ -61,7 +73,7 @@ public interface IPublicVendorService
 
     /**
      * 修改供应商
-     * 
+     *
      * @param publicVendor 供应商
      * @return 结果
      */
@@ -69,7 +81,7 @@ public interface IPublicVendorService
 
     /**
      * 批量删除供应商
-     * 
+     *
      * @param vendorIds 需要删除的供应商主键集合
      * @return 结果
      */
@@ -77,7 +89,7 @@ public interface IPublicVendorService
 
     /**
      * 删除供应商信息
-     * 
+     *
      * @param vendorId 供应商主键
      * @return 结果
      */

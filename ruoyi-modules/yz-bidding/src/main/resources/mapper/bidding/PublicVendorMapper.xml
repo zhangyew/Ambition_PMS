@@ -238,6 +238,11 @@
         </trim>
         where vendor_id = #{vendorId}
     </update>
+    <update id="updateStates">
+        update public_vendor
+        set vendor_type_state_id=#{zt}
+        where vendor_id = #{id}
+    </update>
 
     <delete id="deletePublicVendorByVendorId" parameterType="Long">
         delete
