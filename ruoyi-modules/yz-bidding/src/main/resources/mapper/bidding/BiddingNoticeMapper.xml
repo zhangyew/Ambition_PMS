@@ -4,7 +4,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yz.bidding.mapper.BiddingNoticeMapper">
     
-    <resultMap type="BiddingNotice" id="BiddingNoticeResult">
+    <resultMap type="com.yz.bidding.domain.BiddingNotice" id="BiddingNoticeResult">
         <result property="noticeId"    column="notice_id"    />
         <result property="tenderNoticeId"    column="tender_notice_id"    />
         <result property="noticeDate"    column="notice_date"    />
@@ -19,7 +19,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         select notice_id, tender_notice_id, notice_date, buyer, notice_title, notice_context, bid_money, notice_supplier_id from bidding_notice
     </sql>
 
-    <select id="selectBiddingNoticeList" parameterType="BiddingNotice" resultMap="BiddingNoticeResult">
+    <select id="selectBiddingNoticeList" parameterType="com.yz.bidding.domain.BiddingNotice" resultMap="BiddingNoticeResult">
         <include refid="selectBiddingNoticeVo"/>
         <where>  
             <if test="tenderNoticeId != null "> and tender_notice_id = #{tenderNoticeId}</if>
@@ -31,13 +31,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="noticeSupplierId != null "> and notice_supplier_id = #{noticeSupplierId}</if>
         </where>
     </select>
+<!--    供应商首页（通知公告）-->
+    <select id="showsNoticeList" parameterType="com.yz.bidding.domain.BiddingNotice" resultMap="BiddingNoticeResult">
+        SELECT notice_title,notice_date FROM bidding_notice
+    </select>
     
     <select id="selectBiddingNoticeByNoticeId" parameterType="Long" resultMap="BiddingNoticeResult">
         <include refid="selectBiddingNoticeVo"/>
         where notice_id = #{noticeId}
     </select>
         
-    <insert id="insertBiddingNotice" parameterType="BiddingNotice" useGeneratedKeys="true" keyProperty="noticeId">
+    <insert id="insertBiddingNotice" parameterType="com.yz.bidding.domain.BiddingNotice" useGeneratedKeys="true" keyProperty="noticeId">
         insert into bidding_notice
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="tenderNoticeId != null">tender_notice_id,</if>
@@ -59,7 +63,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
          </trim>
     </insert>
 
-    <update id="updateBiddingNotice" parameterType="BiddingNotice">
+    <update id="updateBiddingNotice" parameterType="com.yz.bidding.domain.BiddingNotice">
         update bidding_notice
         <trim prefix="SET" suffixOverrides=",">
             <if test="tenderNoticeId != null">tender_notice_id = #{tenderNoticeId},</if>

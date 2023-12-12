@@ -4,9 +4,14 @@ import java.util.List;
 import java.io.IOException;
 import javax.servlet.http.HttpServletResponse;
 
-import com.ruoyi.system.api.domain.PublicCategory;
-import com.ruoyi.system.api.domain.PublicVendor;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.ruoyi.system.api.RemoteCodeRulesService;
+import com.ruoyi.system.api.domain.*;
+import com.ruoyi.system.api.util.SnowflakeGetId;
+import com.yz.bidding.service.IPublicSigningsService;
 import com.yz.bidding.service.IPublicVendorService;
+import com.yz.bidding.vo.PurchaseContractsVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,7 +24,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ruoyi.common.log.annotation.Log;
 import com.ruoyi.common.log.enums.BusinessType;
 import com.ruoyi.common.security.annotation.RequiresPermissions;
-import com.ruoyi.system.api.domain.PublicContractdetails;
 import com.yz.bidding.service.IPublicContractdetailsService;
 import com.ruoyi.common.core.web.controller.BaseController;
 import com.ruoyi.common.core.web.domain.AjaxResult;
@@ -40,6 +44,10 @@ public class PublicContractdetailsController extends BaseController
     private IPublicContractdetailsService publicContractdetailsService;
     @Autowired
     private IPublicVendorService publicVendorService;
+    @Autowired
+    private RemoteCodeRulesService remoteCodeRulesService;
+    @Autowired
+    private IPublicSigningsService publicSigningsService;
 
 
 
@@ -60,7 +68,7 @@ public class PublicContractdetailsController extends BaseController
      * @param
      * @return
      */
-    @RequiresPermissions("shopping/public:contractdetails:showsPublicVendorList")
+    @RequiresPermissions("bidding/public:contractdetails:showsPublicVendorList")
     @GetMapping("/showsPublicVendorList")
     public TableDataInfo ShowsPublicVendorList(Long vendor_id)
     {
@@ -83,25 +91,84 @@ public class PublicContractdetailsController extends BaseController
     }
 
     /**
-     * 获取合同明细详细信息
+     * 供应商首页（我的合同）
+     */
+    @RequiresPermissions("bidding/public:contractdetails:VendorContractId")
+    @GetMapping("/VendorContractId")
+    public TableDataInfo VendorContractId(Long vendorId)
+    {
+        vendorId =2L;
+        List<PublicContractdetails> list = publicContractdetailsService.VendorContractId(vendorId);
+        return getDataTable(list);
+    }
+
+
+    /**
+     * 采购合同详情信息
      */
     @RequiresPermissions("bidding/public:contractdetails:query")
     @GetMapping(value = "/{contractdetailsId}")
     public AjaxResult getInfo(@PathVariable("contractdetailsId") Long contractdetailsId)
     {
-        return success(publicContractdetailsService.selectPublicContractdetailsByContractdetailsId(contractdetailsId));
+        System.out.println("采购合同详情信息");
+        System.out.println("did："+contractdetailsId);
+        System.out.println("显示采购合同信息："+success(publicContractdetailsService.selectContractDetailsId(contractdetailsId)));
+        return success(publicContractdetailsService.selectContractDetailsId(contractdetailsId));
     }
+
 
     /**
      * 新增合同明细
      */
     @RequiresPermissions("bidding/public:contractdetails:add")
     @Log(title = "合同明细", businessType = BusinessType.INSERT)
-    @PostMapping
+    @PostMapping("/add")
     public AjaxResult add(@RequestBody PublicContractdetails publicContractdetails)
     {
+        AjaxResult ajaxResult = remoteCodeRulesService.getInfo(10L);
+        Object obj = ajaxResult.get("data");
+        String str = JSON.toJSONString(obj);
+        PublicCodeRules p = JSONObject.parseObject(str,PublicCodeRules.class);
+        SnowflakeGetId snowflakeGetId = new SnowflakeGetId(10, 1);
+        String id = snowflakeGetId.getCode(p);
+        publicContractdetails.setContractdetailsNumber(id);
         return toAjax(publicContractdetailsService.insertPublicContractdetails(publicContractdetails));
     }
+    /**
+     * 新增签署执行状态表
+     */
+    @RequiresPermissions("bidding/public:contractdetails:signingAdd")
+    @Log(title = "签署执行状态表", businessType = BusinessType.INSERT)
+    @PostMapping("/signingAdd")
+    public AjaxResult signingAdd(@RequestBody PublicSignings publicSignings)
+    {
+        return toAjax(publicSigningsService.insertPublicSignings(publicSignings));
+    }
+
+    /**
+     * 合同总金额
+     * @return
+     */
+    @RequiresPermissions("bidding/public:contractdetails:ContractCount")
+    @GetMapping("/ContractCount")
+    public Integer ContractCount()
+    {
+        System.out.println("显示："+publicContractdetailsService.ContractCount());
+        return  publicContractdetailsService.ContractCount();
+    }
+
+    /**
+     * 合同总金额
+     * @return
+     */
+    @RequiresPermissions("bidding/public:contractdetails:ContractSum")
+    @GetMapping("/ContractSum")
+    public Double ContractSum()
+    {
+        System.out.println("显示："+publicContractdetailsService.ContractSum());
+        return publicContractdetailsService.ContractSum();
+    }
+
 
     /**
      * 修改合同明细

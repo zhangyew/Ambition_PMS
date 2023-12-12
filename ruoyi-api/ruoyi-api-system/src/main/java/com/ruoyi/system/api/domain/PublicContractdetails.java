@@ -81,9 +81,9 @@ public class PublicContractdetails extends BaseEntity
     @Excel(name = "采购方式", readConverterExp = "1=：招标,2=：采购计划")
     private Long procurementMethod;
 
-    /** 招标项目ID（外键） */
-    @Excel(name = "招标项目ID", readConverterExp = "外=键")
-    private Long contractdetailsTenderProjectsId;
+//    /** 招标项目ID（外键） */
+//    @Excel(name = "招标项目ID", readConverterExp = "外=键")
+//    private Long contractdetailsTenderProjectsId;
 
     /** 采购订单ID（外键） */
     @Excel(name = "采购订单ID", readConverterExp = "外=键")
@@ -105,15 +105,10 @@ public class PublicContractdetails extends BaseEntity
     public void setApplicant(String applicant) {this.applicant = applicant;}
     public String getApplicant() {return applicant;}
 
-    public void setContractdetailsId(Long contractdetailsId)
-    {
-        this.contractdetailsId = contractdetailsId;
-    }
 
-    public Long getContractdetailsId()
-    {
-        return contractdetailsId;
-    }
+
+    public void setContractdetailsId(Long contractdetailsId){this.contractdetailsId = contractdetailsId;}
+    public Long getContractdetailsId() {return contractdetailsId;}
     public void setContractId(Long contractId)
     {
         this.contractId = contractId;
@@ -123,6 +118,7 @@ public class PublicContractdetails extends BaseEntity
     {
         return contractId;
     }
+
     public void setContractdetailsNumber(String contractdetailsNumber)
     {
         this.contractdetailsNumber = contractdetailsNumber;
@@ -231,15 +227,15 @@ public class PublicContractdetails extends BaseEntity
     {
         return procurementMethod;
     }
-    public void setContractdetailsTenderProjectsId(Long contractdetailsTenderProjectsId)
-    {
-        this.contractdetailsTenderProjectsId = contractdetailsTenderProjectsId;
-    }
-
-    public Long getContractdetailsTenderProjectsId()
-    {
-        return contractdetailsTenderProjectsId;
-    }
+//    public void setContractdetailsTenderProjectsId(Long contractdetailsTenderProjectsId)
+//    {
+//        this.contractdetailsTenderProjectsId = contractdetailsTenderProjectsId;
+//    }
+//
+//    public Long getContractdetailsTenderProjectsId()
+//    {
+//        return contractdetailsTenderProjectsId;
+//    }
     public void setPurchaseListId(Long purchaseListId)
     {
         this.purchaseListId = purchaseListId;
@@ -266,7 +262,7 @@ public class PublicContractdetails extends BaseEntity
                 .append("vendorContractId", getVendorContractId())
                 .append("contractdetailsState", getContractdetailsState())
                 .append("procurementMethod", getProcurementMethod())
-                .append("contractdetailsTenderProjectsId", getContractdetailsTenderProjectsId())
+//                .append("contractdetailsTenderProjectsId", getContractdetailsTenderProjectsId())
                 .append("purchaseListId", getPurchaseListId())
                 .append("createBy", getCreateBy())
                 .append("createTime", getCreateTime())

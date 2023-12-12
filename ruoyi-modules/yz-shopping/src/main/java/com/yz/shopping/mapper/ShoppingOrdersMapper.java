@@ -2,6 +2,7 @@ package com.yz.shopping.mapper;
 
 import java.util.List;
 import com.yz.shopping.domain.ShoppingOrders;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * 采购订单表Mapper接口
@@ -26,6 +27,13 @@ public interface ShoppingOrdersMapper
      * @return 采购订单表集合
      */
     public List<ShoppingOrders> selectShoppingOrdersList(ShoppingOrders shoppingOrders);
+
+    /**
+     * 供应商首页（我的订单）
+     * @param oSupplierId
+     * @return
+     */
+    public List<ShoppingOrders> showOrderSupplierId(@Param("oSupplierId") Long oSupplierId);
 
     /**
      * 新增采购订单表

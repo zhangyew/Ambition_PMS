@@ -27,15 +27,13 @@ public class PublicAgreementServiceImpl implements IPublicAgreementService
     private PublicAgreementMapper publicAgreementMapper;
 
     /**
-     * 查询合同申请表
-     *
-     * @param contractId 合同申请表主键
-     * @return 合同申请表
+     * 显示使用的合同(合同签订)
+     * @param contractParent
+     * @return
      */
     @Override
-    public PublicAgreement selectPublicAgreementByContractId(Long contractId)
-    {
-        return publicAgreementMapper.selectPublicAgreementByContractId(contractId);
+    public List<PublicAgreement> ShowPublicAgreement(Long contractParent){
+        return publicAgreementMapper.ShowPublicAgreement(contractParent);
     }
 
     /**

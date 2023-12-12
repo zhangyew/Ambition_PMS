@@ -28,4 +28,6 @@ public interface RemoteCodeRulesService
      */
     @GetMapping(value = "/rules/{codeRulesId}")
     public AjaxResult getInfo(@PathVariable("codeRulesId") Long codeRulesId);
+
+
 }

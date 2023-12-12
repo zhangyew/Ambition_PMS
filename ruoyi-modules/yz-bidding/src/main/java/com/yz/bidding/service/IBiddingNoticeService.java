@@ -28,6 +28,12 @@ public interface IBiddingNoticeService
     public List<BiddingNotice> selectBiddingNoticeList(BiddingNotice biddingNotice);
 
     /**
+     * 供应商首页（通知公告）
+     * @return 通知公告集合
+     */
+    public List<BiddingNotice> showsNoticeList();
+
+    /**
      * 新增中标公告
      * 
      * @param biddingNotice 中标公告

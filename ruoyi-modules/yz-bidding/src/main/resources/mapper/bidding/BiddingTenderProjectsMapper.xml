@@ -4,24 +4,24 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yz.bidding.mapper.BiddingTenderProjectsMapper">
 
-    <resultMap type="BiddingTenderProjects" id="BiddingTenderProjectsResult">
-        <result property="tenderProjectsId" column="tender_projects_id"/>
-        <result property="tenderProjectsNumber" column="tender_projects_number"/>
-        <result property="tenderProjectsName" column="tender_projects_name"/>
-        <result property="projectsType" column="projects_type"/>
-        <result property="tenderProjectsMoney" column="tender_projects_money"/>
-        <result property="tenderProjectsContact" column="tender_projects_contact"/>
-        <result property="tenderProjectsPhone" column="tender_projects_phone"/>
-        <result property="tenderProjectsAddress" column="tender_projects_address"/>
-        <result property="tenderProjectsEmail" column="tender_projects_email"/>
-        <result property="remark" column="remark"/>
-        <result property="manner" column="manner"/>
-        <result property="censor" column="censor"/>
-        <result property="must" column="must"/>
-        <result property="auditState" column="audit_state"/>
-        <result property="creatBy" column="creat_by"/>
-        <result property="creatTime" column="creat_time"/>
-        <result property="isDelete" column="is_delete"/>
+    <resultMap type="com.yz.bidding.domain.BiddingTenderProjects" id="BiddingTenderProjectsResult">
+        <result property="tenderProjectsId"    column="tender_projects_id"    />
+        <result property="tenderProjectsNumber"    column="tender_projects_number"    />
+        <result property="tenderProjectsName"    column="tender_projects_name"    />
+        <result property="projectsType"    column="projects_type"    />
+        <result property="tenderProjectsMoney"    column="tender_projects_money"    />
+        <result property="tenderProjectsContact"    column="tender_projects_contact"    />
+        <result property="tenderProjectsPhone"    column="tender_projects_phone"    />
+        <result property="tenderProjectsAddress"    column="tender_projects_address"    />
+        <result property="tenderProjectsEmail"    column="tender_projects_email"    />
+        <result property="remark"    column="remark"    />
+        <result property="manner"    column="manner"    />
+        <result property="censor"    column="censor"    />
+        <result property="must"    column="must"    />
+        <result property="auditState"    column="audit_state"    />
+        <result property="creatBy"    column="creat_by"    />
+        <result property="creatTime"    column="creat_time"    />
+        <result property="isDelete"    column="is_delete"    />
     </resultMap>
 
     <resultMap id="findProjectById" type="BiddingTenderProjects">

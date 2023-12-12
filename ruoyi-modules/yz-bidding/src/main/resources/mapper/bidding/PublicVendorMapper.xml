@@ -135,15 +135,15 @@
         where vendor_id = #{vendorId}
     </select>
 
-    <select id="showsPublicVendorList" resultMap="PublicVendorResult"
-            parameterType="com.ruoyi.system.api.domain.PublicVendor">
-        SELECT vendor_id,vendor_number,abbreviated FROM public_vendor
+    <select id="showsPublicVendorList" resultMap="PublicVendorResult" parameterType="com.ruoyi.system.api.domain.PublicVendor">
+        <include refid="selectPublicVendorVo"/>
         <where>
-            <if test="vendor_id != null ">vendor_id like concat('%', #{vendor_id}, '%')</if>
+            <if test="vendor_id != null "> vendor_id like concat('%', #{vendor_id}, '%')</if>
+            and is_delete=0
         </where>
     </select>
 
-    <!--    <insert id="insertPublicVendor" parameterType="com.ruoyi.system.api.domain.PublicVendor" useGeneratedKeys="true" keyProperty="vendorId">-->
+<!--    <insert id="insertPublicVendor" parameterType="com.ruoyi.system.api.domain.PublicVendor" useGeneratedKeys="true" keyProperty="vendorId">-->
     <select id="findVendorDetailed" resultMap="findVendorDetailed">
         SELECT *
         FROM `public_vendor` v

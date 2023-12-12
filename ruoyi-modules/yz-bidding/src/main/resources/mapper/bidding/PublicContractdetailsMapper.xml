@@ -19,18 +19,55 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="vendorContractId"    column="vendor_contract_id"    />
         <result property="contractdetailsState"    column="contractdetails_state"    />
         <result property="procurementMethod"    column="procurement_method"    />
-        <result property="contractdetailsTenderProjectsId"    column="contractdetails_tender_projects_id"    />
         <result property="purchaseListId"    column="purchase_list_id"    />
         <result property="createBy"    column="create_by"    />
         <result property="createTime"    column="create_time"    />
         <result property="updateBy"    column="update_by"    />
         <result property="updateTime"    column="update_time"    />
         <result property="tenderProjectsName"    column="tender_projects_name"    />
+        <result property="abbreviated" column="abbreviated"/>
+    </resultMap>
 
+    <resultMap type="com.yz.bidding.vo.PurchaseContractsVo" id="PurchaseContractsResult">
+        <result property="contractdetailsId"    column="contractdetails_id"    />
+        <result property="contractdetailsNumber"    column="contractdetails_number"    />
+        <result property="contractdetailsName"    column="contractdetails_name"    />
+        <result property="contractdetailsType"    column="contractdetails_type"    />
+        <result property="openTime"    column="open_time"    />
+        <result property="contractdetailsAmount"    column="contractdetails_amount"    />
+        <result property="contractdetailsLevel"    column="contractdetails_level"    />
+        <result property="illustrate"    column="illustrate"    />
+        <result property="bidEnd"    column="bid_end"    />
+        <result property="contractdetailsState"    column="contractdetails_state"    />
+        <result property="procurementMethod"    column="procurement_method"    />
+        <result property="purchaseListId"    column="purchase_list_id"    />
+        <result property="tenderProjectsName"    column="tender_projects_name"    />
+        <result property="abbreviated" column="abbreviated"/>
+
+        <result property="applicant"    column="applicant"    />
+        <result property="applicantTime"    column="applicant_time"    />
+        <result property="contractSector"    column="contract_sector"    />
+        <result property="firm"    column="firm"    />
+        <result property="contractProjectRelated"    column="contract_project_related"    />
+        <result property="contractProjectsId"    column="create_time"    />
+        <result property="contractMaster"    column="contract_master"    />
+        <result property="contractPrimeId"    column="contract_prime_id"    />
+        <result property="contractTotalBudget"    column="contract_total_budget"    />
+        <result property="contractParent"    column="contract_parent"    />
+        <result property="planName"    column="plan_name"    />
+        <result property="signatoriesNumber"    column="signatories_number"    />
+        <result property="signingSubject"    column="signing_subject"    />
+        <result property="signingAddress"    column="signing_address"    />
+        <result property="signingContact"    column="signing_contact"    />
+        <result property="signingContactMode"    column="signing_contact_mode"    />
+        <result property="signingBank"    column="signing_bank"    />
+        <result property="signingBankAccount"    column="signing_bank_account"    />
+        <result property="sigingAmount"    column="siging_amount"    />
+        <result property="currency"    column="currency"    />
     </resultMap>
 
     <sql id="selectPublicContractdetailsVo">
-        select contractdetails_id, contract_id, contractdetails_number, contractdetails_payment_id, contractdetails_name, contractdetails_type, open_time, contractdetails_amount, contractdetails_level, illustrate, bid_end, vendor_contract_id, contractdetails_state, procurement_method, contractdetails_tender_projects_id, purchase_list_id, create_by, create_time, update_by, update_time from public_contractdetails
+        select contractdetails_id, contract_id, contractdetails_number, contractdetails_payment_id, contractdetails_name, contractdetails_type, open_time, contractdetails_amount, contractdetails_level, illustrate, bid_end, vendor_contract_id, contractdetails_state, procurement_method, purchase_list_id, create_by, create_time, update_by, update_time from public_contractdetails
     </sql>
 
     <select id="selectPublicContractdetailsList" parameterType="com.ruoyi.system.api.domain.PublicContractdetails" resultMap="PublicContractdetailsResult">
@@ -39,17 +76,50 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         INNER JOIN public_vendor AS ve ON(co.vendor_contract_id=ve.vendor_id)
         INNER JOIN bidding_tender_projects AS btp ON(ag.contract_projects_id=btp.tender_projects_id)
         <where>
-            <if test="contractdetailsNumber != null "> co.contractdetails_number = #{contractdetails_number}</if>
-            <if test="contractdetailsName != null  and contractdetailsName != ''"> and contractdetails_name like concat('%', #{contractdetailsName}, '%')</if>
-            <if test="contractdetailsState != null  and contractdetailsState != ''"> and contractdetails_state = #{contractdetailsState}</if>
-            <if test="tenderProjectsName != null  and tenderProjectsName != ''"> and tender_projects_name like concat('%', #{tenderProjectsName}, '%')</if>
+            <if test="contractdetailsNumber != null "> co.contractdetails_number like concat('%', #{contractdetailsNumber}, '%')</if>
+            <if test="contractdetailsName != null  and contractdetailsName != ''"> and co.contractdetails_name like concat('%', #{contractdetailsName}, '%')</if>
+            <if test="contractdetailsState != null  and contractdetailsState != ''"> and co.contractdetails_state = #{contractdetailsState}</if>
+            <if test="abbreviated != null  and abbreviated != ''"> and  ve.abbreviated like concat('%', #{tenderProjectsName}, '%')</if>
         </where>
         ORDER BY co.open_time DESC
     </select>
 
-    <select id="selectPublicContractdetailsByContractdetailsId" parameterType="Long" resultMap="PublicContractdetailsResult">
-        <include refid="selectPublicContractdetailsVo"/>
+<!-- 采购合同详情-->
+    <select id="selectContractDetailsId"   resultMap="PurchaseContractsResult">
+        SELECT co.contractdetails_id,
+               ag.applicant,ag.applicant_time,ag.contract_sector,ag.firm,ag.contract_project_related,
+               tp.tender_projects_name,
+               ag.contract_master,ag.contract_prime_id,ag.contract_total_budget,
+               co.contractdetails_name,co.contractdetails_number,co.contractdetails_type,co.contractdetails_level,co.open_time,co.bid_end,co.contractdetails_amount,co.illustrate,co.procurement_method,
+               bp.plan_name ,
+               si.signatories_number,si.signing_subject,
+               ve.abbreviated,
+               si.signing_address,si.signing_contact,si.signing_contact_mode,si.signing_bank,si.signing_bank_account,si.siging_amount,si.currency
+        FROM public_agreement AS ag
+                 INNER JOIN bidding_tender_projects AS tp ON(ag.contract_projects_id=tp.tender_projects_id)
+                 INNER JOIN public_contractdetails AS co ON(ag.contract_id=co.contract_id)
+                 INNER JOIN shopping_buy_plan AS bp ON(co.purchase_list_id=bp.buy_plan_id)
+                 INNER JOIN public_signings AS si ON(co.contractdetails_id=si.signing_contractdetails_id)
+                 INNER JOIN public_vendor AS ve ON(si.signing_vendor_id=ve.vendor_id)
         where contractdetails_id = #{contractdetailsId}
+    </select>
+
+
+
+<!--    合同总数量-->
+    <select id="ContractCount" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM public_contractdetails
+
+    </select>
+<!--    合同总金额-->
+    <select id="ContractSum" resultType="java.lang.Double">
+        SELECT SUM(contractdetails_amount) FROM public_contractdetails WHERE contractdetails_state=5
+    </select>
+
+<!--    供应商首页（我的合同）-->
+    <select id="VendorContractId" resultMap="PublicContractdetailsResult">
+        SELECT contractdetails_number,contractdetails_name,contractdetails_amount,open_time,contractdetails_state FROM public_contractdetails
+        WHERE vendor_contract_id=#{vendorId}
     </select>
 
     <insert id="insertPublicContractdetails" parameterType="com.ruoyi.system.api.domain.PublicContractdetails" useGeneratedKeys="true" keyProperty="contractdetailsId">
@@ -68,7 +138,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="vendorContractId != null">vendor_contract_id,</if>
             <if test="contractdetailsState != null">contractdetails_state,</if>
             <if test="procurementMethod != null">procurement_method,</if>
-            <if test="contractdetailsTenderProjectsId != null">contractdetails_tender_projects_id,</if>
+<!--            <if test="contractdetailsTenderProjectsId != null">contractdetails_tender_projects_id,</if>-->
             <if test="purchaseListId != null">purchase_list_id,</if>
             <if test="createBy != null">create_by,</if>
             <if test="createTime != null">create_time,</if>
@@ -89,7 +159,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="vendorContractId != null">#{vendorContractId},</if>
             <if test="contractdetailsState != null">#{contractdetailsState},</if>
             <if test="procurementMethod != null">#{procurementMethod},</if>
-            <if test="contractdetailsTenderProjectsId != null">#{contractdetailsTenderProjectsId},</if>
+<!--            <if test="contractdetailsTenderProjectsId != null">#{contractdetailsTenderProjectsId},</if>-->
             <if test="purchaseListId != null">#{purchaseListId},</if>
             <if test="createBy != null">#{createBy},</if>
             <if test="createTime != null">#{createTime},</if>

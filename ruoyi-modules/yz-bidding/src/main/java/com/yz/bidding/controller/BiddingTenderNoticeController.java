@@ -4,6 +4,9 @@ import java.util.List;
 import java.io.IOException;
 import javax.servlet.http.HttpServletResponse;
 
+import com.yz.bidding.domain.BiddingNotice;
+import com.yz.bidding.service.IBiddingNoticeService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -34,6 +37,8 @@ import com.ruoyi.common.core.web.page.TableDataInfo;
 public class BiddingTenderNoticeController extends BaseController {
     @Autowired
     private IBiddingTenderNoticeService biddingTenderNoticeService;
+    @Autowired
+    private IBiddingNoticeService biddingNoticeService;
 
     @PostMapping("/findNoticeById")
     public AjaxResult findNoticeById(String pid, String tid) {
@@ -62,6 +67,29 @@ public class BiddingTenderNoticeController extends BaseController {
         List<BiddingTenderNotice> list = biddingTenderNoticeService.selectBiddingTenderNoticeList(biddingTenderNotice);
         return getDataTable(list);
     }
+
+    /**
+     * 供应商首页（招投标信息显示）
+     */
+    @RequiresPermissions("bidding/public:tender_notice:ShowsList")
+    @GetMapping("/ShowsList")
+    public TableDataInfo ShowsList()
+    {
+        List<BiddingTenderNotice> list = biddingTenderNoticeService.ShowsTenderNoticeList();
+        return getDataTable(list);
+    }
+
+    /**
+     * 供应商首页（通知公告）
+     */
+    @RequiresPermissions("bidding/public:tender_notice:showsNoticeList")
+    @GetMapping("/showsNoticeList")
+    public TableDataInfo showsNoticeList()
+    {
+        List<BiddingNotice> list =biddingNoticeService.showsNoticeList();
+        return getDataTable(list);
+    }
+
 
     /**
      * 导出招标公告列表

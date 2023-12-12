@@ -35,6 +35,11 @@ public class ShoppingBuyPlanServiceImpl implements IShoppingBuyPlanService
         return shoppingBuyPlanMapper.selectShoppingBuyPlanByBuyPlanId(buyPlanId);
     }
 
+    @Override
+    public List<ShoppingBuyPlan> showBuyPlan(Long buyPlanId) {
+        return shoppingBuyPlanMapper.showBuyPlan(buyPlanId);
+    }
+
     /**
      * 查询采购计划表列表
      * 

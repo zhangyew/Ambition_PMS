@@ -70,6 +70,15 @@
         </where>
     </select>
 
+<!--    采购计划（合同签订）-->
+    <select id="showBuyPlan" parameterType="com.yz.shopping.domain.ShoppingBuyPlan" resultMap="ShoppingBuyPlanResult">
+        <include refid="selectShoppingBuyPlanVo"/>
+        <where>
+            <if test="buyPlanId !=null ">buy_plan_id = #{buyPlanId}</if> and state=1
+        </where>
+
+    </select>
+
     <select id="selectShoppingBuyPlanByBuyPlanId" parameterType="Long" resultMap="ShoppingBuyPlanResult">
         <include refid="selectShoppingBuyPlanVo"/>
         where buy_plan_id = #{buyPlanId}

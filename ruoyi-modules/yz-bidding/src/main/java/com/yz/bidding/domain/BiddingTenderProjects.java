@@ -261,7 +261,7 @@ public class BiddingTenderProjects extends BaseEntity {
     @Override
     public String toString() {
         return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE)
-                .append("tenderProjectsId", getTenderProjectsId())
+                .append("tenderProjectsIds", getTenderProjectsId())
                 .append("tenderProjectsNumber", getTenderProjectsNumber())
                 .append("tenderProjectsName", getTenderProjectsName())
                 .append("projectsType", getProjectsType())

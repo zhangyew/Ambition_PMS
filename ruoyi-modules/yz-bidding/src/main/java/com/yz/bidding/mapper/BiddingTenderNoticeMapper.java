@@ -2,6 +2,8 @@ package com.yz.bidding.mapper;
 
 import java.util.List;
 
+import com.ruoyi.system.api.domain.PublicContractdetails;
+
 import com.yz.bidding.domain.BiddingTenderNotice;
 import com.yz.bidding.domain.BiddingTenderProjects;
 import org.apache.ibatis.annotations.Param;
@@ -47,6 +49,12 @@ public interface BiddingTenderNoticeMapper {
      * @return 招标公告集合
      */
     public List<BiddingTenderNotice> selectBiddingTenderNoticeList(BiddingTenderNotice biddingTenderNotice);
+
+    /**
+     * 供应商首页（招投标信息显示）
+     * @return
+     */
+    public List<BiddingTenderNotice> ShowsTenderNoticeList();
 
     /**
      * 新增招标公告

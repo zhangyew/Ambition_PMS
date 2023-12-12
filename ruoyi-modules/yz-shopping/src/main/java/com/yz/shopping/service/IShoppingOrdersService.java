@@ -28,6 +28,13 @@ public interface IShoppingOrdersService
     public List<ShoppingOrders> selectShoppingOrdersList(ShoppingOrders shoppingOrders);
 
     /**
+     * 供应商首页（我的订单）
+     * @param oSupplierId
+     * @return
+     */
+    public List<ShoppingOrders> showOrderSupplierId(Long oSupplierId);
+
+    /**
      * 新增采购订单表
      * 
      * @param shoppingOrders 采购订单表

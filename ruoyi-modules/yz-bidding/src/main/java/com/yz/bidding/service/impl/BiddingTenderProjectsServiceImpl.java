@@ -65,67 +65,83 @@ public class BiddingTenderProjectsServiceImpl implements IBiddingTenderProjectsS
 
     /**
      * 查询招标项目
-     *
+     * 
      * @param tenderProjectsId 招标项目主键
      * @return 招标项目
      */
     @Override
-    public BiddingTenderProjects selectBiddingTenderProjectsByTenderProjectsId(Long tenderProjectsId) {
+    public BiddingTenderProjects selectBiddingTenderProjectsByTenderProjectsId(Long tenderProjectsId)
+    {
         return biddingTenderProjectsMapper.selectBiddingTenderProjectsByTenderProjectsId(tenderProjectsId);
     }
 
     /**
      * 查询招标项目列表
-     *
+     * 
      * @param biddingTenderProjects 招标项目
      * @return 招标项目
      */
     @Override
-    public List<BiddingTenderProjects> selectBiddingTenderProjectsList(BiddingTenderProjects biddingTenderProjects) {
+    public List<BiddingTenderProjects> selectBiddingTenderProjectsList(BiddingTenderProjects biddingTenderProjects)
+    {
         return biddingTenderProjectsMapper.selectBiddingTenderProjectsList(biddingTenderProjects);
     }
 
     /**
+     * 项目显示（合同签订）
+     * @param tenderProjectsId
+     * @return
+     */
+    @Override
+    public List<BiddingTenderProjects> agreementTenderProjects(Long tenderProjectsId) {
+        return biddingTenderProjectsMapper.agreementTenderProjects(tenderProjectsId);
+    }
+
+    /**
      * 新增招标项目
-     *
+     * 
      * @param biddingTenderProjects 招标项目
      * @return 结果
      */
     @Override
-    public int insertBiddingTenderProjects(BiddingTenderProjects biddingTenderProjects) {
+    public int insertBiddingTenderProjects(BiddingTenderProjects biddingTenderProjects)
+    {
         return biddingTenderProjectsMapper.insertBiddingTenderProjects(biddingTenderProjects);
     }
 
     /**
      * 修改招标项目
-     *
+     * 
      * @param biddingTenderProjects 招标项目
      * @return 结果
      */
     @Override
-    public int updateBiddingTenderProjects(BiddingTenderProjects biddingTenderProjects) {
+    public int updateBiddingTenderProjects(BiddingTenderProjects biddingTenderProjects)
+    {
         return biddingTenderProjectsMapper.updateBiddingTenderProjects(biddingTenderProjects);
     }
 
     /**
      * 批量删除招标项目
-     *
+     * 
      * @param tenderProjectsIds 需要删除的招标项目主键
      * @return 结果
      */
     @Override
-    public int deleteBiddingTenderProjectsByTenderProjectsIds(Long[] tenderProjectsIds) {
+    public int deleteBiddingTenderProjectsByTenderProjectsIds(Long[] tenderProjectsIds)
+    {
         return biddingTenderProjectsMapper.deleteBiddingTenderProjectsByTenderProjectsIds(tenderProjectsIds);
     }
 
     /**
      * 删除招标项目信息
-     *
+     * 
      * @param tenderProjectsId 招标项目主键
      * @return 结果
      */
     @Override
-    public int deleteBiddingTenderProjectsByTenderProjectsId(Long tenderProjectsId) {
+    public int deleteBiddingTenderProjectsByTenderProjectsId(Long tenderProjectsId)
+    {
         return biddingTenderProjectsMapper.deleteBiddingTenderProjectsByTenderProjectsId(tenderProjectsId);
     }
 }

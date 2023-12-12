@@ -9,6 +9,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.ruoyi.system.api.RemoteCodeRulesService;
 import com.ruoyi.system.api.domain.PublicCodeRules;
 import com.ruoyi.system.api.util.SnowflakeGetId;
+import com.yz.bidding.domain.BiddingTenderNotice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -52,6 +53,18 @@ public class ShoppingOrdersController extends BaseController
     {
         startPage();
         List<ShoppingOrders> list = shoppingOrdersService.selectShoppingOrdersList(shoppingOrders);
+        return getDataTable(list);
+    }
+
+    /**
+     * 供应商首页（我的订单）
+     */
+    @RequiresPermissions("shopping/public:orders:showOrderSupplierId")
+    @GetMapping("/showOrderSupplierId")
+    public TableDataInfo showOrderSupplierId(Long oSupplierId)
+    {
+        oSupplierId =2L;
+        List<ShoppingOrders> list = shoppingOrdersService.showOrderSupplierId(oSupplierId);
         return getDataTable(list);
     }
 

@@ -4,7 +4,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yz.bidding.mapper.BiddingDownloadLogsMapper">
     
-    <resultMap type="BiddingDownloadLogs" id="BiddingDownloadLogsResult">
+    <resultMap type="com.yz.bidding.domain.BiddingDownloadLogs" id="BiddingDownloadLogsResult">
         <result property="downloadLogsId"    column="download_logs_id"    />
         <result property="noticeTextId"    column="notice_text_id"    />
         <result property="tenderName"    column="tender_name"    />
@@ -19,7 +19,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         select download_logs_id, notice_text_id, tender_name, contact, phone, email, download_time, is_delete from bidding_download_logs
     </sql>
 
-    <select id="selectBiddingDownloadLogsList" parameterType="BiddingDownloadLogs" resultMap="BiddingDownloadLogsResult">
+    <select id="selectBiddingDownloadLogsList" parameterType="com.yz.bidding.domain.BiddingDownloadLogs" resultMap="BiddingDownloadLogsResult">
         <include refid="selectBiddingDownloadLogsVo"/>
         <where>  
             <if test="noticeTextId != null "> and notice_text_id = #{noticeTextId}</if>
@@ -37,7 +37,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where download_logs_id = #{downloadLogsId}
     </select>
         
-    <insert id="insertBiddingDownloadLogs" parameterType="BiddingDownloadLogs" useGeneratedKeys="true" keyProperty="downloadLogsId">
+    <insert id="insertBiddingDownloadLogs" parameterType="com.yz.bidding.domain.BiddingDownloadLogs" useGeneratedKeys="true" keyProperty="downloadLogsId">
         insert into bidding_download_logs
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="noticeTextId != null">notice_text_id,</if>
@@ -59,7 +59,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
          </trim>
     </insert>
 
-    <update id="updateBiddingDownloadLogs" parameterType="BiddingDownloadLogs">
+    <update id="updateBiddingDownloadLogs" parameterType="com.yz.bidding.domain.BiddingDownloadLogs">
         update bidding_download_logs
         <trim prefix="SET" suffixOverrides=",">
             <if test="noticeTextId != null">notice_text_id = #{noticeTextId},</if>

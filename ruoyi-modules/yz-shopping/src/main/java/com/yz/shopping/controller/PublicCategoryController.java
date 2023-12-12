@@ -3,6 +3,12 @@ package com.yz.shopping.controller;
 import java.util.List;
 import java.io.IOException;
 import javax.servlet.http.HttpServletResponse;
+
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.ruoyi.system.api.RemoteCodeRulesService;
+import com.ruoyi.system.api.domain.PublicCodeRules;
+import com.ruoyi.system.api.util.SnowflakeGetId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -34,6 +40,8 @@ public class PublicCategoryController extends BaseController
 {
     @Autowired
     private IPublicCategoryService publicCategoryService;
+    @Autowired
+    private RemoteCodeRulesService remoteCodeRulesService;
 
 
     /**
@@ -45,7 +53,6 @@ public class PublicCategoryController extends BaseController
     {
         startPage();
         List<PublicCategory> list = publicCategoryService.selectPublicCategoryList(publicCategory);
-        System.out.println("1111111111111");
         return getDataTable(list);
     }
 
@@ -93,6 +100,14 @@ public class PublicCategoryController extends BaseController
     @PostMapping
     public AjaxResult add(@RequestBody PublicCategory publicCategory)
     {
+        AjaxResult ajaxResult = remoteCodeRulesService.getInfo(9L);
+        Object obj = ajaxResult.get("data");
+        String str = JSON.toJSONString(obj);
+        PublicCodeRules p = JSONObject.parseObject(str,PublicCodeRules.class);
+        SnowflakeGetId snowflakeGetId = new SnowflakeGetId(9, 1);
+        String id = snowflakeGetId.getCode(p);
+        publicCategory.setCategoryNumber(id);
+        publicCategory.setIsDelete(0L);
         return toAjax(publicCategoryService.insertPublicCategory(publicCategory));
     }
 

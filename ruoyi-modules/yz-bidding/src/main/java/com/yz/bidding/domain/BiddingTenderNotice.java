@@ -78,6 +78,18 @@ public class BiddingTenderNotice extends BaseEntity
     @Excel(name = "删除")
     private Long isDelete;
 
+    /**
+     * 新增字段
+     * @param tenderNoticeId
+     */
+    /** 项目编号 */
+    @Excel(name = "项目编号")
+    private String tenderProjectsNumber;
+    public void setTenderProjectsNumber(String tenderProjectsNumber) {this.tenderProjectsNumber = tenderProjectsNumber;}
+    public String getTenderProjectsNumber() {return tenderProjectsNumber;}
+
+
+
     public void setTenderNoticeId(Long tenderNoticeId) 
     {
         this.tenderNoticeId = tenderNoticeId;
@@ -223,6 +235,7 @@ public class BiddingTenderNotice extends BaseEntity
             .append("tenders", getTenders())
             .append("state", getState())
             .append("isDelete", getIsDelete())
+            .append("tenderProjectsNumber",getTenderProjectsNumber())
             .toString();
     }
 }

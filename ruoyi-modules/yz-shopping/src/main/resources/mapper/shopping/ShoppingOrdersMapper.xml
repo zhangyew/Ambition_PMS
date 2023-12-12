@@ -48,6 +48,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where order_id = #{orderId}
     </select>
 
+    <!--    供应商首页（我的订单）-->
+    <select id="showOrderSupplierId" resultMap="ShoppingOrdersResult">
+        SELECT order_number,order_purchaser,total_money,create_time,type_order_state FROM shopping_orders
+        WHERE order_supplier_id=#{oSupplierId}
+    </select>
+
     <insert id="insertShoppingOrders" parameterType="com.yz.shopping.domain.ShoppingOrders" useGeneratedKeys="true" keyProperty="orderId">
         insert into shopping_orders
         <trim prefix="(" suffix=")" suffixOverrides=",">

@@ -2,6 +2,7 @@ package com.yz.bidding.service.impl;
 
 import java.util.List;
 import com.ruoyi.common.core.utils.DateUtils;
+import com.yz.bidding.vo.PurchaseContractsVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.yz.bidding.mapper.PublicContractdetailsMapper;
@@ -29,9 +30,10 @@ public class PublicContractdetailsServiceImpl implements IPublicContractdetailsS
      * @return 合同明细
      */
     @Override
-    public PublicContractdetails selectPublicContractdetailsByContractdetailsId(Long contractdetailsId)
+    public List<PurchaseContractsVo> selectContractDetailsId(Long contractdetailsId)
     {
-        return publicContractdetailsMapper.selectPublicContractdetailsByContractdetailsId(contractdetailsId);
+        System.out.println(publicContractdetailsMapper.selectContractDetailsId(contractdetailsId));
+        return publicContractdetailsMapper.selectContractDetailsId(contractdetailsId);
     }
 
     /**
@@ -44,6 +46,34 @@ public class PublicContractdetailsServiceImpl implements IPublicContractdetailsS
     public List<PublicContractdetails> selectPublicContractdetailsList(PublicContractdetails publicContractdetails)
     {
         return publicContractdetailsMapper.selectPublicContractdetailsList(publicContractdetails);
+    }
+
+    /**
+     * 供应商首页（我的合同）
+     * @param vendorId
+     * @return
+     */
+    @Override
+    public List<PublicContractdetails> VendorContractId(Long vendorId) {
+        return publicContractdetailsMapper.VendorContractId(vendorId);
+    }
+
+    /**
+     * 合同总数
+     * @return
+     */
+    @Override
+    public Integer ContractCount() {
+        return publicContractdetailsMapper.ContractCount();
+    }
+
+    /**
+     * 合同总金额
+     * @return
+     */
+    @Override
+    public Double ContractSum() {
+        return publicContractdetailsMapper.ContractSum();
     }
 
     /**

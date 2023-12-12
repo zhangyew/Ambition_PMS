@@ -20,6 +20,24 @@
         <result property="tenders" column="tenders"/>
         <result property="state" column="state"/>
         <result property="isDelete" column="is_delete"/>
+
+    <resultMap type="com.yz.bidding.domain.BiddingTenderNotice" id="BiddingTenderNoticeResult">
+        <result property="tenderNoticeId"    column="tender_notice_id"    />
+        <result property="tenderNoticeProjectsId"    column="tender_notice_projects_id"    />
+        <result property="tenderTitle"    column="tender_title"    />
+        <result property="tenderNoticeMonery"    column="tender_notice_monery"    />
+        <result property="bidStart"    column="bid_start"    />
+        <result property="bidEnd"    column="bid_end"    />
+        <result property="kaibiaoStart"    column="kaibiao_start"    />
+        <result property="kaibiaoEnd"    column="kaibiao_end"    />
+        <result property="processStart"    column="process_start"    />
+        <result property="processEnd"    column="process_end"    />
+        <result property="remark"    column="remark"    />
+        <result property="context"    column="context"    />
+        <result property="tenders"    column="tenders"    />
+        <result property="state"    column="state"    />
+        <result property="isDelete"    column="is_delete"    />
+        <result property="tenderProjectsNumber" column="tender_projects_number"/>
     </resultMap>
     <resultMap type="BiddingTenderProjects" id="findNoticeById">
         <result property="tenderProjectsId" column="tender_projects_id"/>
@@ -77,7 +95,7 @@
         from bidding_tender_notice
     </sql>
 
-    <select id="selectBiddingTenderNoticeList" parameterType="BiddingTenderNotice"
+    <select id="selectBiddingTenderNoticeList" parameterType="com.yz.bidding.domain.BiddingTenderNotice"
             resultMap="BiddingTenderNoticeResult">
         <include refid="selectBiddingTenderNoticeVo"/>
         <where>
@@ -102,6 +120,14 @@
         <include refid="selectBiddingTenderNoticeVo"/>
         where tender_notice_id = #{tenderNoticeId}
     </select>
+
+<!--    供应商首页（招投标信息显示）-->
+    <select id="ShowsTenderNoticeList" parameterType="com.yz.bidding.domain.BiddingTenderNotice" resultMap="BiddingTenderNoticeResult">
+        SELECT tp.tender_projects_number,tn.bid_start,tn.bid_end,tn.state FROM bidding_tender_projects AS tp
+        INNER JOIN bidding_tender_notice AS tn ON(tp.tender_projects_id=tn.tender_notice_projects_id)
+        ORDER BY bid_start DESC
+    </select>
+
     <select id="findNoticeById" resultMap="findNoticeById">
         SELECT p.*, t.*, t.remark as bz
         FROM `bidding_tender_notice` t
@@ -150,7 +176,7 @@
         </trim>
     </insert>
 
-    <update id="updateBiddingTenderNotice" parameterType="BiddingTenderNotice">
+    <update id="updateBiddingTenderNotice" parameterType="com.yz.bidding.domain.BiddingTenderNotice">
         update bidding_tender_notice
         <trim prefix="SET" suffixOverrides=",">
             <if test="tenderNoticeProjectsId != null">tender_notice_projects_id = #{tenderNoticeProjectsId},</if>

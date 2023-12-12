@@ -11,13 +11,19 @@ import com.ruoyi.system.api.domain.PublicAgreement;
  */
 public interface IPublicAgreementService
 {
+//    /**
+//     * 查询合同申请表
+//     *
+//     * @param contractId 合同申请表主键
+//     * @return 合同申请表
+//     */
+//    public PublicAgreement selectPublicAgreementByContractId(Long contractId);
     /**
-     * 查询合同申请表
-     *
-     * @param contractId 合同申请表主键
-     * @return 合同申请表
+     * 显示使用的合同(合同签订)
+     * @param contractParent
+     * @return
      */
-    public PublicAgreement selectPublicAgreementByContractId(Long contractId);
+    public List<PublicAgreement> ShowPublicAgreement(Long contractParent);
 
     /**
      * 查询合同申请表列表

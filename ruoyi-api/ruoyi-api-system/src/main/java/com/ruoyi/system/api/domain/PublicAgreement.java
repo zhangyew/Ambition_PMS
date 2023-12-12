@@ -48,8 +48,8 @@ public class PublicAgreement extends BaseEntity
     @Excel(name = "相关招标的编号")
     private Long contractProjectsId;
 
-    /** 是否为主子合同 */
-    @Excel(name = "是否为主子合同")
+    /** 是否为主子合同（1：否 2：是） */
+    @Excel(name = "是否为主子合同", readConverterExp = "1=：否,2=：是")
     private Long contractMaster;
 
     /** 关联主合同 */
@@ -60,8 +60,27 @@ public class PublicAgreement extends BaseEntity
     @Excel(name = "项目总预算")
     private BigDecimal contractTotalBudget;
 
+    /** 主合同 */
+    @Excel(name = "主合同")
+    private Long contractParent;
+
     /** 合同明细信息 */
     private List<PublicContractdetails> publicContractdetailsList;
+
+    /**
+     * 新增字段
+     */
+    /** 合同编号 */
+    @Excel(name = "合同编号")
+    private String contractdetailsNumber;
+    /** 合同名称 */
+    @Excel(name = "合同名称")
+    private String contractdetailsName;
+    public String getContractdetailsNumber() {return contractdetailsNumber;}
+    public void setContractdetailsNumber(String contractdetailsNumber) {this.contractdetailsNumber = contractdetailsNumber;}
+    public void setContractdetailsName(String contractdetailsName) {this.contractdetailsName = contractdetailsName;}
+    public String getContractdetailsName() {return contractdetailsName;}
+
 
     public void setContractId(Long contractId)
     {
@@ -153,6 +172,15 @@ public class PublicAgreement extends BaseEntity
     {
         return contractTotalBudget;
     }
+    public void setContractParent(Long contractParent)
+    {
+        this.contractParent = contractParent;
+    }
+
+    public Long getContractParent()
+    {
+        return contractParent;
+    }
 
     public List<PublicContractdetails> getPublicContractdetailsList()
     {
@@ -177,11 +205,14 @@ public class PublicAgreement extends BaseEntity
                 .append("contractMaster", getContractMaster())
                 .append("contractPrimeId", getContractPrimeId())
                 .append("contractTotalBudget", getContractTotalBudget())
+                .append("contractParent", getContractParent())
                 .append("createBy", getCreateBy())
                 .append("createTime", getCreateTime())
                 .append("updateBy", getUpdateBy())
                 .append("updateTime", getUpdateTime())
                 .append("publicContractdetailsList", getPublicContractdetailsList())
+                .append("contractdetailsNumber",getContractdetailsNumber())
+                .append("contractdetailsName",getContractdetailsName())
                 .toString();
     }
 }

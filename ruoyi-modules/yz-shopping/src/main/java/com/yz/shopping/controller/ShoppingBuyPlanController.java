@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.ruoyi.common.security.annotation.InnerAuth;
 import com.ruoyi.system.api.RemoteCodeRulesService;
 import com.ruoyi.system.api.domain.PublicCategory;
 import com.ruoyi.system.api.domain.PublicCodeRules;
@@ -71,6 +72,21 @@ public class ShoppingBuyPlanController extends BaseController {
         List<ShoppingBuyPlan> list = shoppingBuyPlanService.selectShoppingBuyPlanList(shoppingBuyPlan);
         ExcelUtil<ShoppingBuyPlan> util = new ExcelUtil<ShoppingBuyPlan>(ShoppingBuyPlan.class);
         util.exportExcel(response, list, "采购计划表数据");
+    }
+    /**
+     * 采购计划（合同签订）
+     *
+     * @param buyPlanId 采购计划表
+     * @return 采购计划表集合
+     */
+    @RequiresPermissions("shopping/buy_plan:showBuyPlan")
+    @GetMapping("/showBuyPlan")
+    public TableDataInfo showBuyPlan(Long buyPlanId)
+    {
+        startPage();
+        List<ShoppingBuyPlan> list = shoppingBuyPlanService.showBuyPlan(buyPlanId);
+        System.out.println("显示所有采购计划："+list.toString());
+        return getDataTable(list);
     }
 
     /**

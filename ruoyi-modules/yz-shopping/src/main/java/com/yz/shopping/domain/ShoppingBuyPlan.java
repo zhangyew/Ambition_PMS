@@ -172,6 +172,7 @@ public class ShoppingBuyPlan extends BaseEntity
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
             .append("buyPlanId", getBuyPlanId())
             .append("planClod", getPlanClod())
+            .append("planName",getPlanName())
             .append("buyPlanVendorId", getBuyPlanVendorId())
             .append("buyPlanWarehouseId", getBuyPlanWarehouseId())
             .append("buyTypeId", getBuyTypeId())

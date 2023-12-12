@@ -45,6 +45,16 @@ public class ShoppingOrdersServiceImpl implements IShoppingOrdersService
     }
 
     /**
+     * 供应商首页（我的订单）
+     * @param oSupplierId
+     * @return
+     */
+    @Override
+    public List<ShoppingOrders> showOrderSupplierId(Long oSupplierId) {
+        return shoppingOrdersMapper.showOrderSupplierId(oSupplierId);
+    }
+
+    /**
      * 新增采购订单表
      * 
      * @param shoppingOrders 采购订单表
