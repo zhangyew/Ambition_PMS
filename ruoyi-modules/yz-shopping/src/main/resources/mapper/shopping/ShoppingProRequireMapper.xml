@@ -103,6 +103,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </trim>
         where require_id = #{requireId}
     </update>
+    <update id="updateExamine" parameterType="com.yz.shopping.domain.ShoppingProRequire">
+        update shopping_pro_require
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="requireState != null">require_state = #{requireState},</if>
+        </trim>
+        where require_id = #{requireId}
+    </update>
 
     <delete id="deleteShoppingProRequireByRequireId" parameterType="Long">
         delete from shopping_pro_require where require_id = #{requireId}

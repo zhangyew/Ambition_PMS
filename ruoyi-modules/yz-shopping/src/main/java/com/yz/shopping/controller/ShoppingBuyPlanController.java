@@ -10,6 +10,7 @@ import com.ruoyi.system.api.RemoteCodeRulesService;
 import com.ruoyi.system.api.domain.PublicCategory;
 import com.ruoyi.system.api.domain.PublicCodeRules;
 import com.ruoyi.system.api.util.SnowflakeGetId;
+import com.yz.shopping.domain.ShoppingProRequire;
 import com.yz.shopping.service.IPublicCategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -98,6 +99,8 @@ public class ShoppingBuyPlanController extends BaseController {
         String id = snowflakeGetId.getCode(p);
         shoppingBuyPlan.setPlanClod(id);
         shoppingBuyPlan.setCreateBy("fm");
+        shoppingBuyPlan.setPlanState(0L);
+        shoppingBuyPlan.setIsDelete(0L);
         return toAjax(shoppingBuyPlanService.insertShoppingBuyPlan(shoppingBuyPlan));
     }
 
@@ -109,9 +112,18 @@ public class ShoppingBuyPlanController extends BaseController {
     @PutMapping
     public AjaxResult edit(@RequestBody ShoppingBuyPlan shoppingBuyPlan)
     {
+        shoppingBuyPlan.setPlanState(0L);
         return toAjax(shoppingBuyPlanService.updateShoppingBuyPlan(shoppingBuyPlan));
     }
-
+    /**
+     * 审批修改状态
+     */
+    @RequiresPermissions("shopping/public:buy_plan:edit")
+    @Log(title = "采购计划表", businessType = BusinessType.UPDATE)
+    @PostMapping("/updateExamine")
+    public AjaxResult updateExamine(@RequestBody  ShoppingBuyPlan shoppingBuyPlan) {
+        return toAjax(shoppingBuyPlanService.updateExamine(shoppingBuyPlan));
+    }
     /**
      * 删除采购计划表
      */

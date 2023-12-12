@@ -46,7 +46,7 @@ public class ShoppingProRequire extends BaseEntity
 
     /** 总金额 */
     @Excel(name = "总金额")
-    private Long totalMoney;
+    private Double totalMoney;
 
     /** 收货联系人 */
     @Excel(name = "收货联系人")
@@ -71,6 +71,19 @@ public class ShoppingProRequire extends BaseEntity
     /** 删除 */
     @Excel(name = "删除")
     private Long isDelete;
+
+    /**
+     * 采购需求物料
+     */
+    private List<ShoppingDemand> shoppingDemands;
+
+    public List<ShoppingDemand> getShoppingDemands() {
+        return shoppingDemands;
+    }
+
+    public void setShoppingDemands(List<ShoppingDemand> shoppingDemands) {
+        this.shoppingDemands = shoppingDemands;
+    }
 
     /**
      * 物料集合
@@ -148,12 +161,12 @@ public class ShoppingProRequire extends BaseEntity
     {
         return requireType;
     }
-    public void setTotalMoney(Long totalMoney) 
+    public void setTotalMoney(Double totalMoney)
     {
         this.totalMoney = totalMoney;
     }
 
-    public Long getTotalMoney() 
+    public Double getTotalMoney()
     {
         return totalMoney;
     }

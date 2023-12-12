@@ -43,6 +43,7 @@ public interface IShoppingProRequireService
      */
     public int updateShoppingProRequire(ShoppingProRequire shoppingProRequire);
 
+    public int updateExamine(ShoppingProRequire shoppingProRequire);
     /**
      * 批量删除采购需求表
      * 

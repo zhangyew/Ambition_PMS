@@ -102,7 +102,21 @@ public class ShoppingProRequireController extends BaseController {
 //        if (shoppingProRequire.getRequireState() != 1) {
 //            shoppingProRequire.setRequireState(0L);
 //        }
+        shoppingProRequire.setRequireState(0L);
         return toAjax(shoppingProRequireService.updateShoppingProRequire(shoppingProRequire));
+    }
+
+    /**
+     * 审批修改状态
+     *
+     * @param shoppingProRequire
+     * @return
+     */
+    @RequiresPermissions("shopping/public:pro_require:edit")
+    @Log(title = "采购需求表", businessType = BusinessType.UPDATE)
+    @PostMapping("/updateExamine")
+    public AjaxResult updateExamine(@RequestBody ShoppingProRequire shoppingProRequire) {
+        return toAjax(shoppingProRequireService.updateExamine(shoppingProRequire));
     }
 
     /**

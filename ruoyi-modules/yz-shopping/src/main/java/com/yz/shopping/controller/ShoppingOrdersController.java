@@ -94,6 +94,7 @@ public class ShoppingOrdersController extends BaseController
         String id = snowflakeGetId.getCode(p);
         shoppingOrders.setOrderNumber(id);
         shoppingOrders.setCreateBy("yyn");
+        shoppingOrders.setIsDelete(0L);
         return toAjax(shoppingOrdersService.insertShoppingOrders(shoppingOrders));
     }
 

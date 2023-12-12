@@ -58,4 +58,6 @@ public interface IShoppingBuyPlanService
      * @return 结果
      */
     public int deleteShoppingBuyPlanByBuyPlanId(Long buyPlanId);
+
+    int updateExamine(ShoppingBuyPlan shoppingBuyPlan);
 }
