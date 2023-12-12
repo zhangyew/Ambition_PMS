@@ -4,23 +4,6 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yz.bidding.mapper.BiddingTenderNoticeMapper">
 
-    <resultMap type="BiddingTenderNotice" id="BiddingTenderNoticeResult">
-        <result property="tenderNoticeId" column="tender_notice_id"/>
-        <result property="tenderNoticeProjectsId" column="tender_notice_projects_id"/>
-        <result property="tenderTitle" column="tender_title"/>
-        <result property="tenderNoticeMonery" column="tender_notice_monery"/>
-        <result property="bidStart" column="bid_start"/>
-        <result property="bidEnd" column="bid_end"/>
-        <result property="kaibiaoStart" column="kaibiao_start"/>
-        <result property="kaibiaoEnd" column="kaibiao_end"/>
-        <result property="processStart" column="process_start"/>
-        <result property="processEnd" column="process_end"/>
-        <result property="remark" column="remark"/>
-        <result property="context" column="context"/>
-        <result property="tenders" column="tenders"/>
-        <result property="state" column="state"/>
-        <result property="isDelete" column="is_delete"/>
-
     <resultMap type="com.yz.bidding.domain.BiddingTenderNotice" id="BiddingTenderNoticeResult">
         <result property="tenderNoticeId"    column="tender_notice_id"    />
         <result property="tenderNoticeProjectsId"    column="tender_notice_projects_id"    />
@@ -39,7 +22,7 @@
         <result property="isDelete"    column="is_delete"    />
         <result property="tenderProjectsNumber" column="tender_projects_number"/>
     </resultMap>
-    <resultMap type="BiddingTenderProjects" id="findNoticeById">
+    <resultMap type="com.yz.bidding.domain.BiddingTenderProjects" id="findNoticeById">
         <result property="tenderProjectsId" column="tender_projects_id"/>
         <result property="tenderProjectsNumber" column="tender_projects_number"/>
         <result property="tenderProjectsName" column="tender_projects_name"/>
