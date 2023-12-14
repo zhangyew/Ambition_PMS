@@ -31,7 +31,8 @@ public class BiddingTenderProjectsServiceImpl implements IBiddingTenderProjectsS
     private BiddingTenderManifestMapper manifestMapper;
     @Resource
     private PublicCodeRulesMapper publicCodeRulesMapper;
-
+//    @Resource
+//    private SnowflakeGetId snowflakeGetId;
     @Override
     public int updateStates(String id, String zt) {
         return biddingTenderProjectsMapper.updateStates(id, zt);
@@ -46,9 +47,13 @@ public class BiddingTenderProjectsServiceImpl implements IBiddingTenderProjectsS
     public int insertProjects(BiddingTenderProjects projects, List<BiddingTenderManifest> list) {
         int x = 0;
         BiddingTenderProjects projects1 = projects;
+
+
         PublicCodeRules rules = publicCodeRulesMapper.selectPublicCodeRulesByCodeRulesId(12L);
-        SnowflakeGetId snowflakeGetId = new SnowflakeGetId(1, 1);
-        projects1.setTenderProjectsNumber(snowflakeGetId.getCode(rules));
+        projects1.setTenderProjectsNumber(SnowflakeGetId.getCode(rules));
+
+
+
 
         if (projects1.getTenderProjectsId() == null) {
             x = biddingTenderProjectsMapper.insertBiddingTenderProjects(projects1);

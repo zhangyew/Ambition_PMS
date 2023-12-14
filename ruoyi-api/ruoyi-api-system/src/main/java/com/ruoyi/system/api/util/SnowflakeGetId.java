@@ -1,7 +1,10 @@
 package com.ruoyi.system.api.util;
 
+import com.ruoyi.common.redis.service.RedisService;
 import com.ruoyi.system.api.domain.PublicCodeRules;
+import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
 import javax.security.auth.Subject;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -10,26 +13,28 @@ import java.util.*;
  * 编号自定义生成类
  * 雪花算法 Snowflakes
  */
+//@Component
 public class SnowflakeGetId {
+
+    //    @Resource
+//    private RedisService redis;
     // 雪花算法的参数
-    private final long twepoch = 1288834974657L;
-    private final long workerIdBits = 5L;
-    private final long datacenterIdBits = 5L;
-    private final long maxWorkerId = -1L ^ (-1L << workerIdBits);
-    private final long maxDatacenterId = -1L ^ (-1L << datacenterIdBits);
-    private final long sequenceBits = 12L;
-    private final long workerIdShift = sequenceBits;
-    private final long datacenterIdShift = sequenceBits + workerIdBits;
-    private final long timestampLeftShift = sequenceBits + workerIdBits + datacenterIdBits;
-    private final long sequenceMask = -1L ^ (-1L << sequenceBits);
+    private static final long twepoch = 1288834974657L;
+    private static final long workerIdBits = 5L;
+    private static final long datacenterIdBits = 5L;
+    private static final long maxWorkerId = -1L ^ (-1L << workerIdBits);
+    private static final long maxDatacenterId = -1L ^ (-1L << datacenterIdBits);
+    private static final long sequenceBits = 12L;
+    private static final long workerIdShift = sequenceBits;
+    private static final long datacenterIdShift = sequenceBits + workerIdBits;
+    private static final long timestampLeftShift = sequenceBits + workerIdBits + datacenterIdBits;
+    private static final long sequenceMask = -1L ^ (-1L << sequenceBits);
 
-    private long workerId;
-    private long datacenterId;
-    private long sequence = 0L;
-    private long lastTimestamp = -1L;
-
-    // 储存时间编号流水集合
-    Map<Long, Map<String, String>> codeRulesMap = new HashMap<>();
+    private static long workerId;
+    private static long datacenterId;
+    private static long sequence = 0L;
+    private static long lastTimestamp = -1L;
+    private static Map<String, Map<String, String>> map = new HashMap<>();
 
     // 构造函数，初始化workerId和datacenterId
     public SnowflakeGetId(long workerId, long datacenterId) {
@@ -44,7 +49,7 @@ public class SnowflakeGetId {
     }
 
     // 生成下一个ID
-    public synchronized long nextId() {
+    public synchronized static long nextId() {
         long timestamp = timeGen();
         if (timestamp < lastTimestamp) {
             throw new RuntimeException("Clock moved backwards. Refusing to generate id for " + (lastTimestamp - timestamp) + " milliseconds");
@@ -65,12 +70,12 @@ public class SnowflakeGetId {
     }
 
     // 获取当前时间
-    private long timeGen() {
+    private static long  timeGen() {
         return System.currentTimeMillis();
     }
 
     // 等待下一个毫秒
-    private long tilNextMillis(long lastTimestamp) {
+    private static long tilNextMillis(long lastTimestamp) {
         long timestamp = timeGen();
         while (timestamp <= lastTimestamp) {
             timestamp = timeGen();
@@ -84,7 +89,7 @@ public class SnowflakeGetId {
      * @param rules
      * @return
      */
-    public String getCode(PublicCodeRules rules) {
+    public synchronized static String getCode(PublicCodeRules rules) {
         if (rules.getCodingRules() == 1)
             return getSnowflake(rules);
         else
@@ -97,7 +102,7 @@ public class SnowflakeGetId {
      * @param rules 规则对象
      * @return 编号
      */
-    public String getSnowflake(PublicCodeRules rules) {
+    public static String getSnowflake(PublicCodeRules rules) {
         // 总长度 = 前缀长度 + id长度
         StringBuffer sb = new StringBuffer(rules.getPrefixs()); // 添加前缀
         long id = nextId(); // 获取随机ID
@@ -122,18 +127,25 @@ public class SnowflakeGetId {
     /**
      * 时间算法生成编号
      */
-    public String getTime(PublicCodeRules rules) {
+    public static   String getTime(PublicCodeRules rules) {
+
+        // 使用redis 对编号进行缓存操作
+
+//        Map<String, Map<String, String>> map = redis.getCacheMap("getSnowflake");
+
+
         StringBuffer sb = new StringBuffer(rules.getPrefixs()); // 添加前缀
         sb.append(convertToTime(rules.getTimeRules())); // 添加对应时间
 
         // id 流水长度 最新流水号
         // 初始化当前集合
-        Map<String, String> codeList = codeRulesMap.get(rules.getCodeRulesId());
+        System.out.println("map==================" + map);
+        Map<String, String> codeList = map.get(rules.getCodeRulesId().toString());
         if (codeList == null) {
             codeList = new HashMap<String, String>();
             codeList.put("len", rules.getLengths().toString());
             codeList.put("liu", getNumber(rules.getLengths()));
-            codeRulesMap.put(rules.getCodeRulesId(), null);
+            map.put(rules.getCodeRulesId().toString(), null);
         } else if (!rules.getLengths().toString().equals(codeList.get("len"))) {
             codeList.put("len", rules.getLengths().toString());
             codeList.put("liu", getNumber(rules.getLengths()));
@@ -147,19 +159,21 @@ public class SnowflakeGetId {
             codeList.put("liu", getNumber(rules.getLengths()));
         }
         sb.append(codeList.get("liu"));
-        codeRulesMap.put(rules.getCodeRulesId(), codeList);
+        map.put(rules.getCodeRulesId().toString(), codeList);
+//        redis.setCacheMap("getSnowflake", map);
+        System.out.println("map-----------------" + map);
         return sb.toString();
     }
 
     /**
      * 添零
      */
-    public String getNumber(Long num) {
+    public static String getNumber(Long num) {
         StringBuffer sb = new StringBuffer();
         for (int i = 1; i < num; i++) {
             sb.append("0");
         }
-        return sb.append("1").toString();
+        return sb.append("0").toString();
     }
 
     public static String convertToTime(String timeRules) {

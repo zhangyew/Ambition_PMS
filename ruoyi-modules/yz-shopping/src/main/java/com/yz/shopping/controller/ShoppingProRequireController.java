@@ -2,6 +2,7 @@ package com.yz.shopping.controller;
 
 import java.util.List;
 import java.io.IOException;
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 
 import com.alibaba.fastjson.JSON;
@@ -41,7 +42,8 @@ public class ShoppingProRequireController extends BaseController {
     private IShoppingProRequireService shoppingProRequireService;
     @Autowired
     private RemoteCodeRulesService remoteCodeRulesService;
-
+//    @Resource
+//    private SnowflakeGetId snowflakeGetId;
     /**
      * 查询采购需求表列表
      */
@@ -85,8 +87,7 @@ public class ShoppingProRequireController extends BaseController {
         Object obj = ajaxResult.get("data");
         String str = JSON.toJSONString(obj);
         PublicCodeRules p = JSONObject.parseObject(str, PublicCodeRules.class);
-        SnowflakeGetId snowflakeGetId = new SnowflakeGetId(8, 1);
-        String id = snowflakeGetId.getCode(p);
+        String id = SnowflakeGetId.getCode(p);
         shoppingProRequire.setRequireNumber(id);
         shoppingProRequire.setCreateBy("zy");
         return toAjax(shoppingProRequireService.insertShoppingProRequire(shoppingProRequire));

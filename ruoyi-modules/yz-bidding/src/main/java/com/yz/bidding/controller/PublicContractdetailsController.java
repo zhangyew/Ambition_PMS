@@ -2,6 +2,7 @@ package com.yz.bidding.controller;
 
 import java.util.List;
 import java.io.IOException;
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 
 import com.alibaba.fastjson.JSON;
@@ -48,7 +49,8 @@ public class PublicContractdetailsController extends BaseController
     private RemoteCodeRulesService remoteCodeRulesService;
     @Autowired
     private IPublicSigningsService publicSigningsService;
-
+//    @Resource
+//    private SnowflakeGetId snowflakeGetId;
 
 
     /**
@@ -129,8 +131,7 @@ public class PublicContractdetailsController extends BaseController
         Object obj = ajaxResult.get("data");
         String str = JSON.toJSONString(obj);
         PublicCodeRules p = JSONObject.parseObject(str,PublicCodeRules.class);
-        SnowflakeGetId snowflakeGetId = new SnowflakeGetId(10, 1);
-        String id = snowflakeGetId.getCode(p);
+        String id = SnowflakeGetId.getCode(p);
         publicContractdetails.setContractdetailsNumber(id);
         return toAjax(publicContractdetailsService.insertPublicContractdetails(publicContractdetails));
     }

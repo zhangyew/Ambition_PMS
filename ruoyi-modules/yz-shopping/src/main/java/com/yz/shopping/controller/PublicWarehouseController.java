@@ -2,6 +2,7 @@ package com.yz.shopping.controller;
 
 import java.util.List;
 import java.io.IOException;
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 
 import com.alibaba.fastjson.JSON;
@@ -45,7 +46,8 @@ public class PublicWarehouseController extends BaseController {
 
     @Autowired
     private RemoteCodeRulesService remoteCodeRulesService;
-
+//    @Resource
+//    private SnowflakeGetId snowflakeGetId;
     /**
      * 查询仓库列表
      */
@@ -89,8 +91,7 @@ public class PublicWarehouseController extends BaseController {
         Object obj = ajaxResult.get("data");
         String str = JSON.toJSONString(obj);
         PublicCodeRules p = JSONObject.parseObject(str,PublicCodeRules.class);
-        SnowflakeGetId snowflakeGetId = new SnowflakeGetId(7, 1);
-        String id = snowflakeGetId.getCode(p);
+        String id = SnowflakeGetId.getCode(p);
         publicWarehouse.setWarehouseNumber(id);
         return toAjax(publicWarehouseService.insertPublicWarehouse(publicWarehouse));
     }

@@ -2,6 +2,7 @@ package com.yz.shopping.controller;
 
 import java.util.List;
 import java.io.IOException;
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 
 import com.alibaba.fastjson.JSON;
@@ -42,6 +43,8 @@ public class PublicCategoryController extends BaseController
     private IPublicCategoryService publicCategoryService;
     @Autowired
     private RemoteCodeRulesService remoteCodeRulesService;
+//    @Resource
+//    private SnowflakeGetId snowflakeGetId;
 
 
     /**
@@ -104,8 +107,7 @@ public class PublicCategoryController extends BaseController
         Object obj = ajaxResult.get("data");
         String str = JSON.toJSONString(obj);
         PublicCodeRules p = JSONObject.parseObject(str,PublicCodeRules.class);
-        SnowflakeGetId snowflakeGetId = new SnowflakeGetId(9, 1);
-        String id = snowflakeGetId.getCode(p);
+        String id = SnowflakeGetId.getCode(p);
         publicCategory.setCategoryNumber(id);
         publicCategory.setIsDelete(0L);
         return toAjax(publicCategoryService.insertPublicCategory(publicCategory));

@@ -48,6 +48,8 @@ public class PublicVendorServiceImpl implements IPublicVendorService {
     @Resource
     private PublicQualificationMapper publicQualificationMapper;
 
+    //    @Resource
+//    private SnowflakeGetId snowflakeGetId;
     @Override
     public int updateStates(String id, String zt) {
         return publicVendorMapper.updateStates(id, zt);
@@ -60,10 +62,8 @@ public class PublicVendorServiceImpl implements IPublicVendorService {
         Date date = new Date();
         // 编号使用 查询对应编码规则
         PublicCodeRules codeRules = publicCodeRulesMapper.selectPublicCodeRulesByCodeRulesId(1L);
-        // 创建工具类对象
-        SnowflakeGetId snowflakeGetId = new SnowflakeGetId(1, 1);
-        // 获取编码
-        String vendorNumber = snowflakeGetId.getCode(codeRules);
+//         获取编码
+        String vendorNumber = SnowflakeGetId.getCode(codeRules);
         // 供应商对象
         PublicVendor vendor = new PublicVendor();
         vendor.setAbbreviated(map.get("abbreviated"));
