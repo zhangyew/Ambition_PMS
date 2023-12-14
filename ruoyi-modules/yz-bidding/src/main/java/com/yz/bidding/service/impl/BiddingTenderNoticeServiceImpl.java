@@ -1,13 +1,19 @@
 package com.yz.bidding.service.impl;
 
+import java.util.Date;
 import java.util.List;
 
+import com.ruoyi.system.api.domain.PublicAnnex;
 import com.yz.bidding.domain.BiddingTenderProjects;
+import com.yz.bidding.mapper.PublicAgreementMapper;
+import com.yz.bidding.mapper.PublicAnnexMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.yz.bidding.mapper.BiddingTenderNoticeMapper;
 import com.yz.bidding.domain.BiddingTenderNotice;
 import com.yz.bidding.service.IBiddingTenderNoticeService;
+
+import javax.annotation.Resource;
 
 /**
  * 招标公告Service业务层处理
@@ -17,8 +23,23 @@ import com.yz.bidding.service.IBiddingTenderNoticeService;
  */
 @Service
 public class BiddingTenderNoticeServiceImpl implements IBiddingTenderNoticeService {
-    @Autowired
+    @Resource
     private BiddingTenderNoticeMapper biddingTenderNoticeMapper;
+    @Resource
+    private PublicAnnexMapper publicAnnexMapper;
+
+    @Override
+    public int addTenderNotice(BiddingTenderNotice bid, List<PublicAnnex> list) {
+        int x = 0;
+        BiddingTenderNotice notice = bid;
+        x = biddingTenderNoticeMapper.insertBiddingTenderNotice(notice);
+        for (PublicAnnex a : list) {
+            a.setAnnexText(notice.getTenderNoticeId().toString());
+            a.setUpTime(new Date());
+            x = publicAnnexMapper.insertPublicAnnex(a);
+        }
+        return x;
+    }
 
     @Override
     public int updateState(String id, String zt) {
@@ -51,8 +72,10 @@ public class BiddingTenderNoticeServiceImpl implements IBiddingTenderNoticeServi
     public List<BiddingTenderNotice> selectBiddingTenderNoticeList(BiddingTenderNotice biddingTenderNotice) {
         return biddingTenderNoticeMapper.selectBiddingTenderNoticeList(biddingTenderNotice);
     }
+
     /**
      * 供应商首页（招投标信息显示）
+     *
      * @return
      */
     @Override

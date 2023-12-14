@@ -2,6 +2,7 @@ package com.yz.bidding.service;
 
 import java.util.List;
 
+import com.ruoyi.system.api.domain.PublicAnnex;
 import com.yz.bidding.domain.BiddingTenderNotice;
 import com.yz.bidding.domain.BiddingTenderProjects;
 import org.apache.ibatis.annotations.Param;
@@ -13,6 +14,16 @@ import org.apache.ibatis.annotations.Param;
  * @date 2023-11-21
  */
 public interface IBiddingTenderNoticeService {
+
+    /**
+     * 新建招标公告
+     * @param bid
+     * @param list
+     * @return
+     */
+    public int addTenderNotice(BiddingTenderNotice bid, List<PublicAnnex>list);
+
+
     /**
      * 修改招标公告状态
      *

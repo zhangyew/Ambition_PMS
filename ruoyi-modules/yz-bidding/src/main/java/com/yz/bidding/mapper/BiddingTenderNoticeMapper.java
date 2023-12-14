@@ -16,6 +16,7 @@ import org.apache.ibatis.annotations.Param;
  */
 public interface BiddingTenderNoticeMapper {
 
+
     /**
      * 修改招标公告状态
      *

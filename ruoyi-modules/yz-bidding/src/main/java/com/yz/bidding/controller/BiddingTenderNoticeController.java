@@ -2,20 +2,19 @@ package com.yz.bidding.controller;
 
 import java.util.List;
 import java.io.IOException;
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 
+import cn.hutool.json.JSONUtil;
+import com.ruoyi.common.core.domain.R;
+import com.ruoyi.system.api.RemoteFileService;
+import com.ruoyi.system.api.domain.PublicAnnex;
+import com.ruoyi.system.api.domain.SysFile;
 import com.yz.bidding.domain.BiddingNotice;
 import com.yz.bidding.service.IBiddingNoticeService;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import com.ruoyi.common.log.annotation.Log;
 import com.ruoyi.common.log.enums.BusinessType;
 import com.ruoyi.common.security.annotation.RequiresPermissions;
@@ -25,6 +24,7 @@ import com.ruoyi.common.core.web.controller.BaseController;
 import com.ruoyi.common.core.web.domain.AjaxResult;
 import com.ruoyi.common.core.utils.poi.ExcelUtil;
 import com.ruoyi.common.core.web.page.TableDataInfo;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * 招标公告Controller
@@ -39,6 +39,26 @@ public class BiddingTenderNoticeController extends BaseController {
     private IBiddingTenderNoticeService biddingTenderNoticeService;
     @Autowired
     private IBiddingNoticeService biddingNoticeService;
+
+    @Resource
+    private RemoteFileService remoteFileService;
+
+    @PostMapping(value = "/addTenderNotice")
+    public int addTenderNotice(String tenderNotice, String fileUrl) {
+        BiddingTenderNotice bt = JSONUtil.toBean(tenderNotice, BiddingTenderNotice.class);
+        List<PublicAnnex> list = JSONUtil.toList(fileUrl, PublicAnnex.class);
+        System.out.println(bt);
+        System.out.println(list);
+        return biddingTenderNoticeService.addTenderNotice(bt,list);
+    }
+
+
+    @PostMapping("/uploadFiles")
+    public R<SysFile> uploadFiles(MultipartFile file) {
+        System.out.println(file);
+        return remoteFileService.upload(file);
+    }
+
 
     @PostMapping("/findNoticeById")
     public AjaxResult findNoticeById(String pid, String tid) {
@@ -73,8 +93,7 @@ public class BiddingTenderNoticeController extends BaseController {
      */
     @RequiresPermissions("bidding/public:tender_notice:ShowsList")
     @GetMapping("/ShowsList")
-    public TableDataInfo ShowsList()
-    {
+    public TableDataInfo ShowsList() {
         List<BiddingTenderNotice> list = biddingTenderNoticeService.ShowsTenderNoticeList();
         return getDataTable(list);
     }
@@ -84,9 +103,8 @@ public class BiddingTenderNoticeController extends BaseController {
      */
     @RequiresPermissions("bidding/public:tender_notice:showsNoticeList")
     @GetMapping("/showsNoticeList")
-    public TableDataInfo showsNoticeList()
-    {
-        List<BiddingNotice> list =biddingNoticeService.showsNoticeList();
+    public TableDataInfo showsNoticeList() {
+        List<BiddingNotice> list = biddingNoticeService.showsNoticeList();
         return getDataTable(list);
     }
 

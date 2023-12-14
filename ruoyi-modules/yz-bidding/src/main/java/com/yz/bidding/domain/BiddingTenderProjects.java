@@ -116,6 +116,16 @@ public class BiddingTenderProjects extends BaseEntity {
     private Long isDelete;
 
     private List<Map<String, Object>> list;
+    private List<Map<String, Object>> list2;
+
+    public List<Map<String, Object>> getList2() {
+        return list2;
+    }
+
+    public BiddingTenderProjects setList2(List<Map<String, Object>> list2) {
+        this.list2 = list2;
+        return this;
+    }
 
     public static long getSerialVersionUID() {
         return serialVersionUID;
