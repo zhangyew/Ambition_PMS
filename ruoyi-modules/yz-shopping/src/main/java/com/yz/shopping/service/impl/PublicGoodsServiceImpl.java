@@ -26,6 +26,11 @@ public class PublicGoodsServiceImpl implements IPublicGoodsService {
     @Autowired
     private PublicCategoryMapper publicCategoryMapper;
 
+    @Override
+    public List<PublicGoods> findGoodsList(String mc, String fl, String gys) {
+        return publicGoodsMapper.findGoodsList(mc, fl, gys);
+    }
+
     /**
      * 查询物料
      *

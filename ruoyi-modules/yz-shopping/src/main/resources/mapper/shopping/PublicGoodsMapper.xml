@@ -56,6 +56,29 @@
             <if test="categoryId != null  and categoryId != ''">and g.category_id = #{categoryId}</if>
         </where>
     </select>
+
+    <select id="findGoodsList" parameterType="com.ruoyi.system.api.domain.PublicGoods"
+            resultMap="PublicGoodsResult1">
+        SELECT g.goods_id,g.category_id,g.goods_name,g.goods_type,g.goods_code
+        ,g.specs,g.model,g.brand,g.weight,g.goods_number,g.volume
+        ,g.buyer,g.state,g.create_by,g.create_time,g.update_by,g.update_time
+        ,c.category_name,c.parent_category FROM `public_goods` g
+        left join public_category c on g.category_id = c.category_id
+        <where>
+            g.state = 0
+            <if test="mc != null  and mc != ''">and g.goods_name like concat('%', #{mc}, '%')</if>
+            <if test="fl != null  and fl != ''">and g.category_id = #{fl}</if>
+            <if test="gys != null and gys != '' ">
+                and g.goods_id in (select m.demand_ma_id from public_supply s
+                left join public_supplied_materials m
+                on s.supply_id = m.supply_id
+                where s.supply_vendor_id = #{gys}
+                group by m.demand_ma_id)
+            </if>
+        </where>
+    </select>
+
+
     <resultMap type="com.ruoyi.system.api.domain.PublicGoods" id="PublicGoodsResult1">
         <result property="goodsId" column="goods_id"/>
         <result property="categoryId" column="category_id"/>

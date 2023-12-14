@@ -31,14 +31,13 @@ import com.ruoyi.common.core.web.page.TableDataInfo;
 
 /**
  * 物料Controller
- * 
+ *
  * @author zhangye
  * @date 2023-11-21
  */
 @RestController
 @RequestMapping("/goods")
-public class PublicGoodsController extends BaseController
-{
+public class PublicGoodsController extends BaseController {
     @Autowired
     private IPublicGoodsService publicGoodsService;
 
@@ -48,13 +47,28 @@ public class PublicGoodsController extends BaseController
     @Autowired
     private RemoteCodeRulesService remoteCodeRulesService;
 
+
+    /**
+     * 物料组件查询列表
+     *
+     * @param mc  物料名称
+     * @param fl  物料分类
+     * @param gys 供应商名称
+     * @return 物料集合
+     */
+    @PostMapping("/findGoodsList")
+    public TableDataInfo findGoodsList(String mc, String fl, String gys) {
+        startPage();
+        List<PublicGoods> list = publicGoodsService.findGoodsList(mc, fl, gys);
+        return getDataTable(list);
+    }
+
     /**
      * 查询物料列表
      */
     @RequiresPermissions("shopping/public:goods:list")
     @GetMapping("/list")
-    public TableDataInfo list(PublicGoods publicGoods)
-    {
+    public TableDataInfo list(PublicGoods publicGoods) {
         startPage();
         List<PublicGoods> list = publicGoodsService.selectPublicGoodsList(publicGoods);
         return getDataTable(list);
@@ -66,8 +80,7 @@ public class PublicGoodsController extends BaseController
     @RequiresPermissions("shopping/public:goods:export")
     @Log(title = "物料", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
-    public void export(HttpServletResponse response, PublicGoods publicGoods)
-    {
+    public void export(HttpServletResponse response, PublicGoods publicGoods) {
         List<PublicGoods> list = publicGoodsService.selectPublicGoodsList(publicGoods);
         ExcelUtil<PublicGoods> util = new ExcelUtil<PublicGoods>(PublicGoods.class);
         util.exportExcel(response, list, "物料数据");
@@ -78,8 +91,7 @@ public class PublicGoodsController extends BaseController
      */
     @RequiresPermissions("shopping/public:goods:query")
     @GetMapping(value = "/{goodsId}")
-    public AjaxResult getInfo(@PathVariable("goodsId") Long goodsId)
-    {
+    public AjaxResult getInfo(@PathVariable("goodsId") Long goodsId) {
         return success(publicGoodsService.selectPublicGoodsByGoodsId(goodsId));
     }
 
@@ -89,12 +101,11 @@ public class PublicGoodsController extends BaseController
     @RequiresPermissions("shopping/public:goods:add")
     @Log(title = "物料", businessType = BusinessType.INSERT)
     @PostMapping
-    public AjaxResult add(@RequestBody PublicGoods publicGoods)
-    {
+    public AjaxResult add(@RequestBody PublicGoods publicGoods) {
         AjaxResult ajaxResult = remoteCodeRulesService.getInfo(2L);
         Object obj = ajaxResult.get("data");
         String str = JSON.toJSONString(obj);
-        PublicCodeRules p = JSONObject.parseObject(str,PublicCodeRules.class);
+        PublicCodeRules p = JSONObject.parseObject(str, PublicCodeRules.class);
         SnowflakeGetId snowflakeGetId = new SnowflakeGetId(2, 1);
         String id = snowflakeGetId.getCode(p);
         publicGoods.setGoodsCode(id);
@@ -107,8 +118,7 @@ public class PublicGoodsController extends BaseController
     @RequiresPermissions("shopping/public:goods:edit")
     @Log(title = "物料", businessType = BusinessType.UPDATE)
     @PutMapping
-    public AjaxResult edit(@RequestBody PublicGoods publicGoods)
-    {
+    public AjaxResult edit(@RequestBody PublicGoods publicGoods) {
         return toAjax(publicGoodsService.updatePublicGoods(publicGoods));
     }
 
@@ -117,20 +127,20 @@ public class PublicGoodsController extends BaseController
      */
     @RequiresPermissions("shopping/public:goods:remove")
     @Log(title = "物料", businessType = BusinessType.DELETE)
-	@DeleteMapping("/{goodsIds}")
-    public AjaxResult remove(@PathVariable Long[] goodsIds)
-    {
+    @DeleteMapping("/{goodsIds}")
+    public AjaxResult remove(@PathVariable Long[] goodsIds) {
         return toAjax(publicGoodsService.deletePublicGoodsByGoodsIds(goodsIds));
     }
 
-    /**|
+    /**
+     * |
      * 查询一级分类
+     *
      * @return
      */
     @RequiresPermissions("shopping/public:goods:findCategoryList")
     @GetMapping("/findCategoryList")
-    public AjaxResult selOne()
-    {
+    public AjaxResult selOne() {
         return success(publicCategoryService.selectTwoByOne());
     }
 }

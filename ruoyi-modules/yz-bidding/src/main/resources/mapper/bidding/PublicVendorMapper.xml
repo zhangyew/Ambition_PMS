@@ -163,8 +163,8 @@
             <if test="contractTypeTypeId != null">contract_type_type_id,</if>
             <if test="vendorTypeStateId != null">vendor_type_state_id,</if>
             <if test="isBlacklist != null">is_blacklist,</if>
-            <if test="range != null">ranges,</if>
-            <if test="cause != null">causes,</if>
+            <if test="ranges != null">ranges,</if>
+            <if test="causes != null">causes,</if>
             <if test="warehouseAddress != null">warehouse_address,</if>
             <if test="profile != null">profile,</if>
             <if test="delegates != null">delegates,</if>
@@ -188,8 +188,8 @@
             <if test="contractTypeTypeId != null">#{contractTypeTypeId},</if>
             <if test="vendorTypeStateId != null">#{vendorTypeStateId},</if>
             <if test="isBlacklist != null">#{isBlacklist},</if>
-            <if test="range != null">#{range},</if>
-            <if test="cause != null">#{cause},</if>
+            <if test="ranges != null">#{ranges},</if>
+            <if test="causes != null">#{causes},</if>
             <if test="warehouseAddress != null">#{warehouseAddress},</if>
             <if test="profile != null">#{profile},</if>
             <if test="delegates != null">#{delegates},</if>

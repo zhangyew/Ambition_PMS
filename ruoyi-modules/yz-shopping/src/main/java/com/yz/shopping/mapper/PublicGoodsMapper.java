@@ -3,6 +3,7 @@ package com.yz.shopping.mapper;
 import java.util.List;
 
 import com.ruoyi.system.api.domain.PublicGoods;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * 物料Mapper接口
@@ -28,6 +29,16 @@ public interface PublicGoodsMapper {
     public List<PublicGoods> selectPublicGoodsList(PublicGoods publicGoods);
 
     /**
+     * 物料组件查询列表
+     * @param mc 物料名称
+     * @param fl 物料分类
+     * @param gys 供应商名称
+     * @return 物料集合
+     */
+    public List<PublicGoods> findGoodsList(@Param("mc") String mc
+            , @Param("fl") String fl, @Param("gys") String gys);
+
+    /**
      * 新增物料
      *
      * @param publicGoods 物料
@@ -50,6 +61,7 @@ public interface PublicGoodsMapper {
      * @return 结果
      */
     public int deletePublicGoodsByGoodsId1(Long goodsId);
+
     /**
      * 上架物料
      *
