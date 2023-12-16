@@ -1,8 +1,11 @@
 package com.yz.shopping.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.io.IOException;
 import javax.servlet.http.HttpServletResponse;
+
+import com.alibaba.fastjson.JSON;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -68,6 +71,34 @@ public class ShoppingDemandController extends BaseController
     public AjaxResult getInfo(@PathVariable("demandId") Long demandId)
     {
         return success(shoppingDemandService.selectShoppingDemandByDemandId(demandId));
+    }
+
+    /**
+     * 收货单物料信息
+     */
+    @RequiresPermissions("shopping/public:demand:query")
+    @GetMapping(value = "/showDemand/{demandId}")
+    public AjaxResult showDemand(@PathVariable("demandId")String demandIdStr)
+    {
+//        List<ShoppingDemand> demandList= JSON.parseArray(demandIdStr,ShoppingDemand.class);
+//        System.out.println("多个收货单收货物料");
+//        System.out.println("demandIdStr:" + demandList);
+//        List list=new ArrayList<>();
+//        for (ShoppingDemand shoppingDemand: demandList) {
+//            Long demandId= shoppingDemand.getDemandId();
+//            System.out.println("demandId:"+demandId);
+//            list.add(demandId);
+//        }
+//        return success(shoppingDemandService.showDemand(list));
+        System.out.println("收货单物料信息："+demandIdStr);
+        String [] str=demandIdStr.split(",");
+        List<ShoppingDemand> shoppingDemands=new ArrayList<ShoppingDemand>();
+        for(String s: str){
+            System.out.println("str："+str);
+            ShoppingDemand shoppingDemand= shoppingDemandService.showDemand(Long.parseLong(s));
+            shoppingDemands.add(shoppingDemand);
+        }
+        return success(shoppingDemands);
     }
 
     /**

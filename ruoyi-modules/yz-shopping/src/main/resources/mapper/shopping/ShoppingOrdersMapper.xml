@@ -29,6 +29,59 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="isDelete"    column="is_delete"    />
     </resultMap>
 
+    <resultMap type="com.yz.shopping.domain.ShoppingOrders" id="ShowsOrdersResult">
+        <result property="orderId"    column="order_id"    />
+        <result property="requireId"    column="require_id"    />
+        <result property="buyPlanId"    column="buy_plan_id"    />
+        <result property="orderTitle"    column="order_title"    />
+        <result property="orderSource"    column="order_source"    />
+        <result property="orderNumber"    column="order_number"    />
+        <result property="orderPurchaser"    column="order_purchaser"    />
+        <result property="totalMoney"    column="total_money"    />
+        <result property="isZt"    column="is_zt"    />
+        <result property="carNumber"    column="car_number"    />
+        <result property="driverPhone"    column="driver_phone"    />
+        <result property="ordeContractId"    column="orde_contract_id"    />
+        <result property="orderContext"    column="order_context"    />
+        <result property="contractdetailsAmount"    column="contractdetails_amount"    />
+        <result property="orderSupplierId"    column="order_supplier_id"    />
+        <result property="orderMaterialId"    column="order_material_id"    />
+        <result property="typeOrderState"    column="type_order_state"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="isDelete"    column="is_delete"    />
+        <result property="datePlusThreeDays" column="DatePlusThreeDays"/>
+        <collection property="publicVendor" ofType="com.ruoyi.system.api.domain.PublicVendor">
+            <result property="vendorId" column="vendor_id"/>
+            <result property="vendorNumber" column="vendor_number"/>
+            <result property="abbreviated" column="abbreviated"/>
+            <result property="contractTypeTypeId" column="contract_type_type_id"/>
+            <result property="vendorTypeStateId" column="vendor_type_state_id"/>
+            <result property="isBlacklist" column="is_blacklist"/>
+            <result property="ranges" column="ranges"/>
+            <result property="causes" column="causes"/>
+            <result property="warehouseAddress" column="warehouse_address"/>
+            <result property="profile" column="profile"/>
+            <result property="delegates" column="delegates"/>
+            <result property="addTime" column="add_time"/>
+            <result property="email" column="email"/>
+            <result property="fax" column="fax"/>
+            <result property="responsible" column="responsible"/>
+            <result property="responsiblePhone" column="responsible_phone"/>
+            <result property="bankingName" column="banking_name"/>
+            <result property="industrialCommercial" column="industrial_commercial"/>
+            <result property="createBy" column="create_by"/>
+            <result property="createTime" column="create_time"/>
+            <result property="updateBy" column="update_by"/>
+            <result property="updateTime" column="update_time"/>
+            <result property="isExist" column="is_exist"/>
+            <result property="isDelete" column="is_delete"/>
+
+        </collection>
+    </resultMap>
+
     <sql id="selectShoppingOrdersVo">
         select order_id, require_id, buy_plan_id, order_title, order_source, order_number, order_purchaser, total_money, is_zt, car_number, driver_phone, orde_contract_id, order_context, contractdetails_amount, order_supplier_id, order_material_id, type_order_state, create_by, create_time, update_by, update_time, is_delete from shopping_orders
     </sql>
@@ -53,6 +106,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         SELECT order_number,order_purchaser,total_money,create_time,type_order_state FROM shopping_orders
         WHERE order_supplier_id=#{oSupplierId}
     </select>
+
+<!--    收货单（详情显示）-->
+    <select id="showsDetailsReceipt" resultMap="ShowsOrdersResult">
+        SELECT DATE_ADD(ord.create_time, INTERVAL 3 DAY) AS DatePlusThreeDays,order_material_id,ord.total_money,order_purchaser,order_supplier_id,ve.abbreviated,ve.responsible,ve.responsible_phone
+        FROM shopping_orders AS ord
+                 INNER JOIN public_vendor AS ve ON(ord.order_supplier_id=ve.vendor_id)
+                 INNER JOIN shopping_demand AS de ON(ord.order_material_id=de.demand_id)
+        WHERE ord.order_id=#{orderId} AND ord.is_delete=0 AND ve.is_delete=0
+    </select>
+
 
     <insert id="insertShoppingOrders" parameterType="com.yz.shopping.domain.ShoppingOrders" useGeneratedKeys="true" keyProperty="orderId">
         insert into shopping_orders

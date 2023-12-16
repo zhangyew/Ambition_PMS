@@ -1,9 +1,14 @@
 package com.yz.shopping.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.ruoyi.system.api.domain.PublicVendor;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.core.annotation.Excel;
 import com.ruoyi.common.core.web.domain.BaseEntity;
+
+import java.util.Date;
+
 
 /**
  * 采购订单表对象 shopping_orders
@@ -86,7 +91,24 @@ public class ShoppingOrders extends BaseEntity
     @Excel(name = "删除")
     private Long isDelete;
 
-    public void setOrderId(Long orderId) 
+    @Excel(name = "供应商资质")
+    private PublicVendor publicVendor;
+
+    /** 发货日期 */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private Date datePlusThreeDays;
+    public Date getDatePlusThreeDays() {return datePlusThreeDays;}
+    public void setDatePlusThreeDays(Date datePlusThreeDays) {this.datePlusThreeDays = datePlusThreeDays;}
+
+    public PublicVendor getPublicVendor() {
+        return publicVendor;
+    }
+
+    public void setPublicVendor(PublicVendor publicVendor) {
+        this.publicVendor = publicVendor;
+    }
+
+    public void setOrderId(Long orderId)
     {
         this.orderId = orderId;
     }
@@ -221,10 +243,11 @@ public class ShoppingOrders extends BaseEntity
     {
         return orderSupplierId;
     }
-    public void setOrderMaterialId(String orderMaterialId)
+    public String setOrderMaterialId(String orderMaterialId)
     {
         this.orderMaterialId = orderMaterialId;
     }
+
     public String getOrderMaterialId()
     {
         return orderMaterialId;

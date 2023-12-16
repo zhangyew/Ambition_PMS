@@ -2,6 +2,7 @@ package com.yz.shopping.mapper;
 
 import java.util.List;
 import com.ruoyi.system.api.domain.PublicWarehouse;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * 仓库Mapper接口

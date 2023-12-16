@@ -59,6 +59,8 @@ public class PublicWarehouseController extends BaseController {
         return getDataTable(list);
     }
 
+
+
     /**
      * 导出仓库列表
      */

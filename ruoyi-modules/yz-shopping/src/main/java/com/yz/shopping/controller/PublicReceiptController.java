@@ -1,8 +1,15 @@
 package com.yz.shopping.controller;
 
+import java.util.Date;
 import java.util.List;
 import java.io.IOException;
 import javax.servlet.http.HttpServletResponse;
+
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.ruoyi.system.api.RemoteCodeRulesService;
+import com.ruoyi.system.api.domain.PublicCodeRules;
+import com.ruoyi.system.api.util.SnowflakeGetId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -34,11 +41,13 @@ public class PublicReceiptController extends BaseController
 {
     @Autowired
     private IPublicReceiptService publicReceiptService;
+    @Autowired
+    private RemoteCodeRulesService remoteCodeRulesService;
 
     /**
      * 查询收货单列表
      */
-    @RequiresPermissions("pms.public:receipt:list")
+    @RequiresPermissions("shopping/public:receipt:list")
     @GetMapping("/list")
     public TableDataInfo list(PublicReceipt publicReceipt)
     {
@@ -50,7 +59,7 @@ public class PublicReceiptController extends BaseController
     /**
      * 导出收货单列表
      */
-    @RequiresPermissions("pms.public:receipt:export")
+    @RequiresPermissions("shopping/public:receipt:export")
     @Log(title = "收货单", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, PublicReceipt publicReceipt)
@@ -63,7 +72,7 @@ public class PublicReceiptController extends BaseController
     /**
      * 获取收货单详细信息
      */
-    @RequiresPermissions("pms.public:receipt:query")
+    @RequiresPermissions("shopping/public:receipt:query")
     @GetMapping(value = "/{receiptId}")
     public AjaxResult getInfo(@PathVariable("receiptId") Long receiptId)
     {
@@ -73,18 +82,28 @@ public class PublicReceiptController extends BaseController
     /**
      * 新增收货单
      */
-    @RequiresPermissions("pms.public:receipt:add")
+    @RequiresPermissions("shopping/public:receipt:add")
     @Log(title = "收货单", businessType = BusinessType.INSERT)
-    @PostMapping
+    @PostMapping("/add")
     public AjaxResult add(@RequestBody PublicReceipt publicReceipt)
     {
+        AjaxResult ajaxResult = remoteCodeRulesService.getInfo(13L);
+        Object obj = ajaxResult.get("data");
+        String str = JSON.toJSONString(obj);
+        PublicCodeRules p = JSONObject.parseObject(str,PublicCodeRules.class);
+        String id = SnowflakeGetId.getCode(p);
+        publicReceipt.setReceiptClod(id);
+        publicReceipt.setReceiptState(1l);
+        publicReceipt.setCreateBy(publicReceipt.getReceiptBy());
+        publicReceipt.setCreateTime(new Date());
+        publicReceipt.setIsDelete(0L);
         return toAjax(publicReceiptService.insertPublicReceipt(publicReceipt));
     }
 
     /**
      * 修改收货单
      */
-    @RequiresPermissions("pms.public:receipt:edit")
+    @RequiresPermissions("shopping/public:receipt:edit")
     @Log(title = "收货单", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody PublicReceipt publicReceipt)
@@ -95,9 +114,9 @@ public class PublicReceiptController extends BaseController
     /**
      * 删除收货单
      */
-    @RequiresPermissions("pms.public:receipt:remove")
+    @RequiresPermissions("shopping/public:receipt:remove")
     @Log(title = "收货单", businessType = BusinessType.DELETE)
-	@DeleteMapping("/{receiptIds}")
+    @DeleteMapping("/{receiptIds}")
     public AjaxResult remove(@PathVariable Long[] receiptIds)
     {
         return toAjax(publicReceiptService.deletePublicReceiptByReceiptIds(receiptIds));

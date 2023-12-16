@@ -13,7 +13,7 @@ public interface PublicReceiptMapper
 {
     /**
      * 查询收货单
-     * 
+     *
      * @param receiptId 收货单主键
      * @return 收货单
      */
@@ -21,7 +21,7 @@ public interface PublicReceiptMapper
 
     /**
      * 查询收货单列表
-     * 
+     *
      * @param publicReceipt 收货单
      * @return 收货单集合
      */
@@ -29,7 +29,7 @@ public interface PublicReceiptMapper
 
     /**
      * 新增收货单
-     * 
+     *
      * @param publicReceipt 收货单
      * @return 结果
      */
@@ -37,7 +37,7 @@ public interface PublicReceiptMapper
 
     /**
      * 修改收货单
-     * 
+     *
      * @param publicReceipt 收货单
      * @return 结果
      */
@@ -45,7 +45,7 @@ public interface PublicReceiptMapper
 
     /**
      * 删除收货单
-     * 
+     *
      * @param receiptId 收货单主键
      * @return 结果
      */
@@ -53,7 +53,7 @@ public interface PublicReceiptMapper
 
     /**
      * 批量删除收货单
-     * 
+     *
      * @param receiptIds 需要删除的数据主键集合
      * @return 结果
      */

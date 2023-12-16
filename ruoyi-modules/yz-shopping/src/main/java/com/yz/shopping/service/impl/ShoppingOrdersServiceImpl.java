@@ -55,6 +55,16 @@ public class ShoppingOrdersServiceImpl implements IShoppingOrdersService
     }
 
     /**
+     * 收货单（详情显示）
+     * @param orderId
+     * @return
+     */
+    @Override
+    public ShoppingOrders showsDetailsReceipt(Long orderId) {
+        return shoppingOrdersMapper.showsDetailsReceipt(orderId);
+    }
+
+    /**
      * 新增采购订单表
      * 
      * @param shoppingOrders 采购订单表

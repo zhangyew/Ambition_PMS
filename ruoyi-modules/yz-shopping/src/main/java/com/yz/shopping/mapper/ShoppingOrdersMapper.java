@@ -36,6 +36,13 @@ public interface ShoppingOrdersMapper
     public List<ShoppingOrders> showOrderSupplierId(@Param("oSupplierId") Long oSupplierId);
 
     /**
+     * 收货单（详情显示）
+     * @param orderId
+     * @return
+     */
+    public  ShoppingOrders showsDetailsReceipt(@Param("orderId") Long orderId);
+
+    /**
      * 新增采购订单表
      * 
      * @param shoppingOrders 采购订单表

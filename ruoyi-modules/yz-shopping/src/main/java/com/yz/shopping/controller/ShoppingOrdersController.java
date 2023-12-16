@@ -35,11 +35,10 @@ import com.ruoyi.common.core.web.controller.BaseController;
 import com.ruoyi.common.core.web.domain.AjaxResult;
 import com.ruoyi.common.core.utils.poi.ExcelUtil;
 import com.ruoyi.common.core.web.page.TableDataInfo;
-import org.springframework.web.multipart.MultipartFile;
 
 /**
  * 采购订单表Controller
- *
+ * 
  * @author zhangye
  * @date 2023-11-20
  */
@@ -114,6 +113,16 @@ public class ShoppingOrdersController extends BaseController
             return AjaxResult.success(fileResult);
         }
         return AjaxResult.error("上传文件异常，请联系管理员");
+    }
+
+    /**
+     * 收货单（详情显示）
+     */
+    @RequiresPermissions("shopping/public:orders:query")
+    @GetMapping(value = "showsDetailsReceipt/{orderId}")
+    public AjaxResult showsDetailsReceipt(@PathVariable("orderId") Long orderId)
+    {
+        return success(shoppingOrdersService.showsDetailsReceipt(orderId));
     }
 
     /**

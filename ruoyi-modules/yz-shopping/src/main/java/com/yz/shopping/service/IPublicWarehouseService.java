@@ -1,10 +1,7 @@
 package com.yz.shopping.service;
 
 import java.util.List;
-
-import com.ruoyi.common.core.constant.ServiceNameConstants;
 import com.ruoyi.system.api.domain.PublicWarehouse;
-import org.springframework.cloud.openfeign.FeignClient;
 
 /**
  * 仓库Service接口
@@ -29,6 +26,7 @@ public interface IPublicWarehouseService
      * @return 仓库集合
      */
     public List<PublicWarehouse> selectPublicWarehouseList(PublicWarehouse publicWarehouse);
+
 
     /**
      * 新增仓库

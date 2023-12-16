@@ -2,6 +2,7 @@ package com.yz.shopping.domain;
 
 import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.ruoyi.system.api.domain.PublicCategory;
 import com.ruoyi.system.api.domain.PublicGoods;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
@@ -35,6 +36,11 @@ public class ShoppingDemand extends BaseEntity
         this.publicGoods = publicGoods;
     }
 
+    private PublicCategory publicCategory;
+
+    public PublicCategory getPublicCategory() {return publicCategory;}
+    public void setPublicCategory(PublicCategory publicCategory) {this.publicCategory = publicCategory;}
+
     /** 数量 */
     @Excel(name = "数量")
     private Long demandCount;
@@ -42,6 +48,7 @@ public class ShoppingDemand extends BaseEntity
     /** 需求日期 */
     @JsonFormat(pattern = "yyyy-MM-dd")
     @Excel(name = "需求日期", width = 30, dateFormat = "yyyy-MM-dd")
+
     private Date demandTime;
 
     /** 预算金额 */
