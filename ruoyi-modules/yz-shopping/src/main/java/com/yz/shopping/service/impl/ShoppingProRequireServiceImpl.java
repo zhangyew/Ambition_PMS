@@ -1,6 +1,7 @@
 package com.yz.shopping.service.impl;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import com.ruoyi.common.core.utils.DateUtils;
@@ -41,13 +42,15 @@ public class ShoppingProRequireServiceImpl implements IShoppingProRequireService
         if (ObjectUtils.isEmpty(shoppingProRequire)) {
             return null;
         }
-        String[] str = shoppingProRequire.getRequireDemandId().split(",");
-        List<ShoppingDemand> shoppingDemands = new ArrayList<>();
-        for (String s : str) {
-            ShoppingDemand shoppingDemand = shoppingDemandMapper.selectShoppingDemandByDemandId(Long.parseLong(s));
-            shoppingDemands.add(shoppingDemand);
+        if (!ObjectUtils.isEmpty(shoppingProRequire.getRequireDemandId())){
+            String[] str = shoppingProRequire.getRequireDemandId().split(",");
+            List<ShoppingDemand> shoppingDemands = new ArrayList<>();
+            for (String s : str) {
+                ShoppingDemand shoppingDemand = shoppingDemandMapper.selectShoppingDemandByDemandId(Long.parseLong(s));
+                shoppingDemands.add(shoppingDemand);
+            }
+            shoppingProRequire.setShoppingDemands(shoppingDemands);
         }
-        shoppingProRequire.setShoppingDemands(shoppingDemands);
         return shoppingProRequire;
     }
 
@@ -96,8 +99,36 @@ public class ShoppingProRequireServiceImpl implements IShoppingProRequireService
      * @return 结果
      */
     @Override
+    @Transactional
     public int updateShoppingProRequire(ShoppingProRequire shoppingProRequire) {
         shoppingProRequire.setUpdateTime(DateUtils.getNowDate());
+        ShoppingProRequire spr = shoppingProRequireMapper.selectShoppingProRequireByRequireId(shoppingProRequire.getRequireId());
+        if (!ObjectUtils.isEmpty(spr.getRequireDemandId())){
+            String[] strings = spr.getRequireDemandId().contains(",") ? spr.getRequireDemandId().split(",") : new String[]{spr.getRequireDemandId()};
+            Long[] longs = new Long[strings.length];
+            for (int i = 0; i < strings.length; i++) {
+                longs[i] = Long.parseLong(strings[i]);
+            }
+            int row = shoppingDemandMapper.deleteShoppingDemandByDemandIds(longs);
+            if (row <= 0) {
+                throw new RuntimeException("修改失败");
+            }
+        }
+        if (!ObjectUtils.isEmpty(shoppingProRequire.getShoppingDemands())) {
+            String id = "";
+            for (ShoppingDemand sd : shoppingProRequire.getShoppingDemands()) {
+                int row = shoppingDemandMapper.insertShoppingDemand(sd);
+                if (row <= 0) {
+                    throw new RuntimeException("采购需求详情添加失败");
+                }
+                id += sd.getDemandId() + ",";
+            }
+            id = id.substring(0, id.lastIndexOf(","));
+            shoppingProRequire.setRequireDemandId(id);
+        } else {
+            shoppingProRequire.setRequireDemandId("");
+        }
+        shoppingProRequire.setRequireState(0L);
         return shoppingProRequireMapper.updateShoppingProRequire(shoppingProRequire);
     }
 

@@ -87,8 +87,8 @@ public class ShoppingProRequireController extends BaseController {
         Object obj = ajaxResult.get("data");
         String str = JSON.toJSONString(obj);
         PublicCodeRules p = JSONObject.parseObject(str, PublicCodeRules.class);
-        String id = SnowflakeGetId.getCode(p);
-        shoppingProRequire.setRequireNumber(id);
+//        String id = SnowflakeGetId.getCode(p);
+        shoppingProRequire.setRequireNumber(SnowflakeGetId.getCode(p));
         shoppingProRequire.setCreateBy("zy");
         return toAjax(shoppingProRequireService.insertShoppingProRequire(shoppingProRequire));
     }

@@ -3,6 +3,7 @@ package com.yz.bidding.mapper;
 import java.util.List;
 
 import com.ruoyi.system.api.domain.PublicCategory;
+import com.ruoyi.system.api.domain.PublicContacts;
 import com.ruoyi.system.api.domain.PublicVendor;
 import org.apache.ibatis.annotations.Param;
 
@@ -51,6 +52,12 @@ public interface PublicVendorMapper
      */
     public List<PublicVendor> showsPublicVendorList(@Param("vendor_id") Long vendor_id);
 
+    /**|
+     * 根据供应商id查询所有联系人
+     * @param vendor_id
+     * @return
+     */
+    public List<PublicVendor> showContactsList(@Param("vendor_id") Long vendor_id);
     /**
      * 新增供应商
      * 

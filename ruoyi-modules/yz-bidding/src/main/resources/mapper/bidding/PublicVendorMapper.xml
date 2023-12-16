@@ -78,6 +78,21 @@
         </collection>
     </resultMap>
 
+    <resultMap id="selContact" type="com.ruoyi.system.api.domain.PublicVendor" >
+        <id property="vendorId" column="vendor_id"/>
+<!--        <result property="vendorId" column="vendor_id"/>-->
+        <result property="vendorNumber" column="vendor_number"/>
+        <result property="abbreviated" column="abbreviated"/>
+        <collection property="publicContactsList" ofType="com.ruoyi.system.api.domain.PublicContacts">
+            <id property="contactsId" column="contacts_id"/>
+            <result property="contactsVendorId" column="contacts_vendor_id"/>
+            <result property="calls" column="calls"/>
+            <result property="job" column="job"/>
+            <result property="division" column="division"/>
+            <result property="phone" column="phone"/>
+            <result property="mailbox" column="mailbox"/>
+        </collection>
+    </resultMap>
     <sql id="selectPublicVendorVo">
         select vendor_id,
                vendor_number,
@@ -152,6 +167,12 @@
                  inner join public_contacts c
                             on v.vendor_id = c.contacts_vendor_id
         where vendor_id = #{vid}
+    </select>
+
+    <select id="showContactsList" resultMap="selContact">
+        SELECT contacts_id,contacts_vendor_id,calls,job,division,phone,mailbox,b.vendor_id,b.abbreviated,b.vendor_number
+        FROM `public_contacts` a,public_vendor b where
+            a.contacts_vendor_id=b.vendor_id and b.vendor_id=#{vendor_id}
     </select>
 
     <insert id="insertPublicVendor" parameterType="com.ruoyi.system.api.domain.PublicVendor" useGeneratedKeys="true"

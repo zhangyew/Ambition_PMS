@@ -7,8 +7,14 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.ruoyi.common.core.domain.R;
+import com.ruoyi.common.core.utils.StringUtils;
+import com.ruoyi.common.security.utils.SecurityUtils;
 import com.ruoyi.system.api.RemoteCodeRulesService;
+import com.ruoyi.system.api.RemoteFileService;
 import com.ruoyi.system.api.domain.PublicCodeRules;
+import com.ruoyi.system.api.domain.SysFile;
+import com.ruoyi.system.api.model.LoginUser;
 import com.ruoyi.system.api.util.SnowflakeGetId;
 import com.yz.bidding.domain.BiddingTenderNotice;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,10 +35,11 @@ import com.ruoyi.common.core.web.controller.BaseController;
 import com.ruoyi.common.core.web.domain.AjaxResult;
 import com.ruoyi.common.core.utils.poi.ExcelUtil;
 import com.ruoyi.common.core.web.page.TableDataInfo;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * 采购订单表Controller
- * 
+ *
  * @author zhangye
  * @date 2023-11-20
  */
@@ -45,15 +52,15 @@ public class ShoppingOrdersController extends BaseController
 
     @Autowired
     private RemoteCodeRulesService remoteCodeRulesService;
-//    @Resource
-//    private SnowflakeGetId snowflakeGetId;
+    @Autowired
+    private RemoteFileService remoteFileService;
+
     /**
      * 查询采购订单表列表
      */
     @RequiresPermissions("shopping/public:orders:list")
     @GetMapping("/list")
-    public TableDataInfo list(ShoppingOrders shoppingOrders)
-    {
+    public TableDataInfo list(ShoppingOrders shoppingOrders) {
         startPage();
         List<ShoppingOrders> list = shoppingOrdersService.selectShoppingOrdersList(shoppingOrders);
         return getDataTable(list);
@@ -64,9 +71,8 @@ public class ShoppingOrdersController extends BaseController
      */
     @RequiresPermissions("shopping/public:orders:showOrderSupplierId")
     @GetMapping("/showOrderSupplierId")
-    public TableDataInfo showOrderSupplierId(Long oSupplierId)
-    {
-        oSupplierId =2L;
+    public TableDataInfo showOrderSupplierId(Long oSupplierId) {
+        oSupplierId = 2L;
         List<ShoppingOrders> list = shoppingOrdersService.showOrderSupplierId(oSupplierId);
         return getDataTable(list);
     }
@@ -77,8 +83,7 @@ public class ShoppingOrdersController extends BaseController
     @RequiresPermissions("shopping/public:orders:export")
     @Log(title = "采购订单表", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
-    public void export(HttpServletResponse response, ShoppingOrders shoppingOrders)
-    {
+    public void export(HttpServletResponse response, ShoppingOrders shoppingOrders) {
         List<ShoppingOrders> list = shoppingOrdersService.selectShoppingOrdersList(shoppingOrders);
         ExcelUtil<ShoppingOrders> util = new ExcelUtil<ShoppingOrders>(ShoppingOrders.class);
         util.exportExcel(response, list, "采购订单表数据");
@@ -89,9 +94,26 @@ public class ShoppingOrdersController extends BaseController
      */
     @RequiresPermissions("shopping/public:orders:query")
     @GetMapping(value = "/{orderId}")
-    public AjaxResult getInfo(@PathVariable("orderId") Long orderId)
-    {
+    public AjaxResult getInfo(@PathVariable("orderId") Long orderId) {
         return success(shoppingOrdersService.selectShoppingOrdersByOrderId(orderId));
+    }
+
+    /**
+     * 只有文件上传
+     */
+    @PostMapping("/upload1")
+    public AjaxResult upload1(MultipartFile file) throws IOException {
+        if (!file.isEmpty()) {
+            LoginUser loginUser = SecurityUtils.getLoginUser();
+            R<SysFile> fileResult = remoteFileService.upload(file);
+            System.out.println("fileResult:" + fileResult);
+            System.out.println("文件上传成功！。。。。");
+            if (StringUtils.isNull(fileResult) || StringUtils.isNull(fileResult.getData())) {
+                return AjaxResult.error("文件服务异常，请联系管理员");
+            }
+            return AjaxResult.success(fileResult);
+        }
+        return AjaxResult.error("上传文件异常，请联系管理员");
     }
 
     /**
@@ -100,14 +122,12 @@ public class ShoppingOrdersController extends BaseController
     @RequiresPermissions("shopping/public:orders:add")
     @Log(title = "采购订单表", businessType = BusinessType.INSERT)
     @PostMapping
-    public AjaxResult add(@RequestBody ShoppingOrders shoppingOrders)
-    {
+    public AjaxResult add(@RequestBody ShoppingOrders shoppingOrders) {
         AjaxResult ajaxResult = remoteCodeRulesService.getInfo(3L);
         Object obj = ajaxResult.get("data");
         String str = JSON.toJSONString(obj);
-        PublicCodeRules p = JSONObject.parseObject(str,PublicCodeRules.class);
-        String id = SnowflakeGetId.getCode(p);
-        shoppingOrders.setOrderNumber(id);
+        PublicCodeRules p = JSONObject.parseObject(str, PublicCodeRules.class);
+        shoppingOrders.setOrderNumber(SnowflakeGetId.getCode(p));
         shoppingOrders.setCreateBy("yyn");
         shoppingOrders.setIsDelete(0L);
         return toAjax(shoppingOrdersService.insertShoppingOrders(shoppingOrders));
@@ -119,8 +139,7 @@ public class ShoppingOrdersController extends BaseController
     @RequiresPermissions("shopping/public:orders:edit")
     @Log(title = "采购订单表", businessType = BusinessType.UPDATE)
     @PutMapping
-    public AjaxResult edit(@RequestBody ShoppingOrders shoppingOrders)
-    {
+    public AjaxResult edit(@RequestBody ShoppingOrders shoppingOrders) {
         return toAjax(shoppingOrdersService.updateShoppingOrders(shoppingOrders));
     }
 
@@ -130,8 +149,7 @@ public class ShoppingOrdersController extends BaseController
     @RequiresPermissions("shopping/public:orders:remove")
     @Log(title = "采购订单表", businessType = BusinessType.DELETE)
     @DeleteMapping("/{orderIds}")
-    public AjaxResult remove(@PathVariable Long[] orderIds)
-    {
+    public AjaxResult remove(@PathVariable Long[] orderIds) {
         return toAjax(shoppingOrdersService.deleteShoppingOrdersByOrderIds(orderIds));
     }
 }

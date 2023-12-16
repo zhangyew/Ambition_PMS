@@ -134,7 +134,7 @@
         </if>
     </select>
 
-    <insert id="insertBiddingTenderNotice" parameterType="BiddingTenderNotice" useGeneratedKeys="true"
+    <insert id="insertBiddingTenderNotice" parameterType="com.yz.bidding.domain.BiddingTenderNotice" useGeneratedKeys="true"
             keyProperty="tenderNoticeId">
         insert into bidding_tender_notice
         <trim prefix="(" suffix=")" suffixOverrides=",">

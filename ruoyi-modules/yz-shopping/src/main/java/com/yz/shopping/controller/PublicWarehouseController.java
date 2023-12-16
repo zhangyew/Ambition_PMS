@@ -91,8 +91,8 @@ public class PublicWarehouseController extends BaseController {
         Object obj = ajaxResult.get("data");
         String str = JSON.toJSONString(obj);
         PublicCodeRules p = JSONObject.parseObject(str,PublicCodeRules.class);
-        String id = SnowflakeGetId.getCode(p);
-        publicWarehouse.setWarehouseNumber(id);
+//        String id = SnowflakeGetId.getCode(p);
+        publicWarehouse.setWarehouseNumber(SnowflakeGetId.getCode(p));
         return toAjax(publicWarehouseService.insertPublicWarehouse(publicWarehouse));
     }
 

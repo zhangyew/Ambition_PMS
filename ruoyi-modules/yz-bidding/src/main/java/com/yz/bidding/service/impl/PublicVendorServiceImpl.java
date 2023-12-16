@@ -146,6 +146,11 @@ public class PublicVendorServiceImpl implements IPublicVendorService {
         return publicVendorMapper.findVendorDetailed(vid);
     }
 
+    @Override
+    public List<PublicVendor> showContactsList(Long vendorId) {
+        return publicVendorMapper.showContactsList(vendorId);
+    }
+
     /**
      * 查询供应商
      *

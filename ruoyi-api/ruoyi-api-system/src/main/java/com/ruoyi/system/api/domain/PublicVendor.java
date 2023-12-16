@@ -147,8 +147,24 @@ public class PublicVendor extends BaseEntity {
     @Excel(name = "供应商联系人")
     private PublicContacts publicContacts;
 
+    public List<PublicContacts> getPublicContactsList() {
+        return publicContactsList;
+    }
+
+    public void setPublicContactsList(List<PublicContacts> publicContactsList) {
+        this.publicContactsList = publicContactsList;
+    }
+
+    /**
+     * 供应商联系人集合
+     */
+    private List<PublicContacts> publicContactsList;
+
     @Excel(name = "供应商资质")
     private List<PublicQualification> publicQualificationList;
+
+
+
 
 
     public static long getSerialVersionUID() {
@@ -370,6 +386,7 @@ public class PublicVendor extends BaseEntity {
                 .append("updateTime", getUpdateTime())
                 .append("isExist", getIsExist())
                 .append("isDelete", getIsDelete())
+                .append("publicContactsList",getPublicContactsList())
                 .toString();
     }
 }

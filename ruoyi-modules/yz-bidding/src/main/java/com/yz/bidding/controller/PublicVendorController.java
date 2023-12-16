@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.Map;
 import javax.servlet.http.HttpServletResponse;
 
+import com.ruoyi.system.api.domain.PublicContacts;
 import com.ruoyi.system.api.util.SnowflakeGetId;
 import io.swagger.models.auth.In;
 import org.apache.ibatis.annotations.Param;
@@ -70,6 +71,17 @@ public class PublicVendorController extends BaseController {
 
     }
 
+    /**
+     * 根据id查询联系人列表
+     * @param vendorId
+     * @return
+     */
+    @PostMapping(value = "/showContactsList")
+    public TableDataInfo showContactsList(@RequestParam("vendorId") String vendorId) {
+        List<PublicVendor> list = publicVendorService.showContactsList(Long.valueOf(vendorId));
+        System.out.println(list);
+        return getDataTable(list);
+    }
 
     /**
      * 查询供应商列表

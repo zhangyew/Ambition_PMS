@@ -44,6 +44,65 @@ public class ShoppingProRequire extends BaseEntity
     @Excel(name = "需求类型", readConverterExp = "字=典外键")
     private Long requireType;
 
+    @Excel(name = "是否转成招标项目")
+    private Long isTender;
+
+    @Override
+    public String toString() {
+        return "ShoppingProRequire{" +
+                "requireId=" + requireId +
+                ", requireDemandId='" + requireDemandId + '\'' +
+                ", publicGoodsList=" + publicGoodsList +
+                ", requireNumber='" + requireNumber + '\'' +
+                ", requirePerson='" + requirePerson + '\'' +
+                ", requireDept='" + requireDept + '\'' +
+                ", requireType=" + requireType +
+                ", isTender=" + isTender +
+                ", requireVendor=" + requireVendor +
+                ", vendorName='" + vendorName + '\'' +
+                ", totalMoney=" + totalMoney +
+                ", requireContact='" + requireContact + '\'' +
+                ", mainPurpose='" + mainPurpose + '\'' +
+                ", requireAddress='" + requireAddress + '\'' +
+                ", requirePhone='" + requirePhone + '\'' +
+                ", requireState=" + requireState +
+                ", isDelete=" + isDelete +
+                ", shoppingDemands=" + shoppingDemands +
+                ", bcglXiangXiList=" + bcglXiangXiList +
+                '}';
+    }
+
+    public Long getIsTender() {
+        return isTender;
+    }
+
+    public void setIsTender(Long isTender) {
+        this.isTender = isTender;
+    }
+
+    @Excel(name = "供应商")
+    /**
+     * 需求供应商
+     */
+    private Long requireVendor;
+    private String vendorName;
+
+    public String getVendorName() {
+        return vendorName;
+    }
+
+    public void setVendorName(String vendorName) {
+        this.vendorName = vendorName;
+    }
+
+    public Long getRequireVendor() {
+        return requireVendor;
+    }
+
+    public void setRequireVendor(Long requireVendor) {
+        this.requireVendor = requireVendor;
+    }
+
     /** 总金额 */
     @Excel(name = "总金额")
     private Double totalMoney;
@@ -225,26 +284,4 @@ public class ShoppingProRequire extends BaseEntity
         return isDelete;
     }
 
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
-            .append("requireId", getRequireId())
-            .append("requireDemandId", getRequireDemandId())
-            .append("requireNumber", getRequireNumber())
-            .append("requirePerson", getRequirePerson())
-            .append("requireDept", getRequireDept())
-            .append("requireType", getRequireType())
-            .append("totalMoney", getTotalMoney())
-            .append("requireContact", getRequireContact())
-            .append("mainPurpose", getMainPurpose())
-            .append("requireAddress", getRequireAddress())
-            .append("requirePhone", getRequirePhone())
-            .append("requireState", getRequireState())
-            .append("createBy", getCreateBy())
-            .append("createTime", getCreateTime())
-            .append("updateBy", getUpdateBy())
-            .append("updateTime", getUpdateTime())
-            .append("isDelete", getIsDelete())
-            .toString();
-    }
 }

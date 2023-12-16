@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.util.List;
 import java.util.Map;
 
+import com.ruoyi.system.api.domain.PublicContacts;
 import com.ruoyi.system.api.domain.PublicVendor;
 import org.apache.ibatis.annotations.Param;
 
@@ -39,6 +40,12 @@ public interface IPublicVendorService {
      * @return
      */
     public PublicVendor findVendorDetailed(int vid);
+
+    /**
+     * |
+     * 根据供应商id查询所有联系人
+     */
+    public List<PublicVendor> showContactsList(@Param("vendor_id") Long vendorId);
 
     /**
      * 查询供应商

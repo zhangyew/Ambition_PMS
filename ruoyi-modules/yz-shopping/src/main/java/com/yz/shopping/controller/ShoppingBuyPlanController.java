@@ -116,8 +116,8 @@ public class ShoppingBuyPlanController extends BaseController {
         Object obj = ajaxResult.get("data");
         String str = JSON.toJSONString(obj);
         PublicCodeRules p = JSONObject.parseObject(str,PublicCodeRules.class);
-        String id = SnowflakeGetId.getCode(p);
-        shoppingBuyPlan.setPlanClod(id);
+//        String id = SnowflakeGetId.getCode(p);
+        shoppingBuyPlan.setPlanClod(SnowflakeGetId.getCode(p));
         shoppingBuyPlan.setCreateBy("fm");
         shoppingBuyPlan.setPlanState(0L);
         shoppingBuyPlan.setIsDelete(0L);

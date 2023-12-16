@@ -109,8 +109,8 @@ public class PublicGoodsController extends BaseController {
         Object obj = ajaxResult.get("data");
         String str = JSON.toJSONString(obj);
         PublicCodeRules p = JSONObject.parseObject(str, PublicCodeRules.class);
-        String id = SnowflakeGetId.getCode(p);
-        publicGoods.setGoodsCode(id);
+//        String id = SnowflakeGetId.getCode(p);
+        publicGoods.setGoodsCode(SnowflakeGetId.getCode(p));
         return toAjax(publicGoodsService.insertPublicGoods(publicGoods));
     }
 

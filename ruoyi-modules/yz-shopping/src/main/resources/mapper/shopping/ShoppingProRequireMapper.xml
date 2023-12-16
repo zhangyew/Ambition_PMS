@@ -1,47 +1,102 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
-PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yz.shopping.mapper.ShoppingProRequireMapper">
 
     <resultMap type="com.yz.shopping.domain.ShoppingProRequire" id="ShoppingProRequireResult">
-        <result property="requireId"    column="require_id"    />
-        <result property="requireDemandId"    column="require_demand_id"    />
-        <result property="requireNumber"    column="require_number"    />
-        <result property="requirePerson"    column="require_person"    />
-        <result property="requireDept"    column="require_dept"    />
-        <result property="requireType"    column="require_type"    />
-        <result property="totalMoney"    column="total_money"    />
-        <result property="requireContact"    column="require_contact"    />
-        <result property="mainPurpose"    column="main_purpose"    />
-        <result property="requireAddress"    column="require_address"    />
-        <result property="requirePhone"    column="require_phone"    />
-        <result property="requireState"    column="require_state"    />
-        <result property="createBy"    column="create_by"    />
-        <result property="createTime"    column="create_time"    />
-        <result property="updateBy"    column="update_by"    />
-        <result property="updateTime"    column="update_time"    />
-        <result property="isDelete"    column="is_delete"    />
+        <result property="requireId" column="require_id"/>
+        <result property="requireDemandId" column="require_demand_id"/>
+        <result property="requireNumber" column="require_number"/>
+        <result property="requirePerson" column="require_person"/>
+        <result property="requireDept" column="require_dept"/>
+        <result property="requireType" column="require_type"/>
+        <result property="requireVendor" column="require_vendor"/>
+        <result property="isTender" column="is_tender"/>
+        <result property="totalMoney" column="total_money"/>
+        <result property="requireContact" column="require_contact"/>
+        <result property="mainPurpose" column="main_purpose"/>
+        <result property="requireAddress" column="require_address"/>
+        <result property="requirePhone" column="require_phone"/>
+        <result property="requireState" column="require_state"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="isDelete" column="is_delete"/>
+    </resultMap>
+
+    <resultMap type="com.yz.shopping.domain.ShoppingProRequire" id="ShoppingProRequireResult1">
+        <result property="requireId" column="require_id"/>
+        <result property="requireDemandId" column="require_demand_id"/>
+        <result property="requireNumber" column="require_number"/>
+        <result property="requirePerson" column="require_person"/>
+        <result property="requireDept" column="require_dept"/>
+        <result property="requireType" column="require_type"/>
+        <result property="requireVendor" column="require_vendor"/>
+        <result property="isTender" column="is_tender"/>
+        <result property="totalMoney" column="total_money"/>
+        <result property="requireContact" column="require_contact"/>
+        <result property="mainPurpose" column="main_purpose"/>
+        <result property="requireAddress" column="require_address"/>
+        <result property="requirePhone" column="require_phone"/>
+        <result property="requireState" column="require_state"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+        <result property="vendorName" column="abbreviated"/>
     </resultMap>
 
     <sql id="selectShoppingProRequireVo">
-        select require_id, require_demand_id, require_number, require_person, require_dept, require_type, total_money, require_contact, main_purpose, require_address, require_phone, require_state, create_by, create_time, update_by, update_time, is_delete from shopping_pro_require
+        select require_id,
+               require_demand_id,
+               require_number,
+               require_person,
+               require_dept,
+               require_type,
+               require_vendor,
+               is_tender,
+               total_money,
+               require_contact,
+               main_purpose,
+               require_address,
+               require_phone,
+               require_state,
+               create_by,
+               create_time,
+               update_by,
+               update_time,
+               is_delete
+        from shopping_pro_require
     </sql>
 
-    <select id="selectShoppingProRequireList" parameterType="com.yz.shopping.domain.ShoppingProRequire" resultMap="ShoppingProRequireResult">
-        <include refid="selectShoppingProRequireVo"/>
+    <select id="selectShoppingProRequireList" parameterType="com.yz.shopping.domain.ShoppingProRequire"
+            resultMap="ShoppingProRequireResult1">
+        SELECT
+        require_id,require_demand_id,require_number,require_dept,require_person,require_state,is_tender,total_money,require_type,require_contact,main_purpose,require_address,require_phone,a.create_by,a.create_time,b.vendor_id,b.abbreviated
+        FROM `shopping_pro_require` a
+        left join public_vendor b on a.require_vendor=b.vendor_id
         <where>
-            <if test="requireType != null "> and require_type = #{requireType}</if>
-            <if test="requireState != null "> and require_state = #{requireState}</if>
+            <if test="requireNumber != null  and requireNumber != ''">and require_number like concat('%',
+                #{requireNumber}, '%')
+            </if>
+            <if test="requireType != null ">and require_type = #{requireType}</if>
+            <if test="requireState != null ">and require_state = #{requireState}</if>
         </where>
     </select>
 
-    <select id="selectShoppingProRequireByRequireId" parameterType="Long" resultMap="ShoppingProRequireResult">
-        <include refid="selectShoppingProRequireVo"/>
+    <select id="selectShoppingProRequireByRequireId" parameterType="Long" resultMap="ShoppingProRequireResult1">
+        SELECT require_id,require_demand_id,require_number
+             ,require_dept,require_person,require_state
+             ,is_tender,total_money,require_type,require_contact
+             ,main_purpose,require_address,require_phone,a.create_by
+             ,a.create_time,a.require_vendor,b.abbreviated
+        FROM `shopping_pro_require` a
+        left join public_vendor b on a.require_vendor=b.vendor_id
         where require_id = #{requireId}
     </select>
 
-    <insert id="insertShoppingProRequire" parameterType="com.yz.shopping.domain.ShoppingProRequire" useGeneratedKeys="true" keyProperty="requireId">
+    <insert id="insertShoppingProRequire" parameterType="com.yz.shopping.domain.ShoppingProRequire"
+            useGeneratedKeys="true" keyProperty="requireId">
         insert into shopping_pro_require
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="requireDemandId != null">require_demand_id,</if>
@@ -49,6 +104,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="requirePerson != null and requirePerson != ''">require_person,</if>
             <if test="requireDept != null and requireDept != ''">require_dept,</if>
             <if test="requireType != null">require_type,</if>
+            <if test="requireVendor != null">require_vendor,</if>
+            <if test="isTender != null">is_tender,</if>
             <if test="totalMoney != null">total_money,</if>
             <if test="requireContact != null and requireContact != ''">require_contact,</if>
             <if test="mainPurpose != null">main_purpose,</if>
@@ -67,6 +124,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="requirePerson != null and requirePerson != ''">#{requirePerson},</if>
             <if test="requireDept != null and requireDept != ''">#{requireDept},</if>
             <if test="requireType != null">#{requireType},</if>
+            <if test="requireVendor != null">#{requireVendor},</if>
+            <if test="isTender != null">#{isTender},</if>
             <if test="totalMoney != null">#{totalMoney},</if>
             <if test="requireContact != null and requireContact != ''">#{requireContact},</if>
             <if test="mainPurpose != null">#{mainPurpose},</if>
@@ -89,6 +148,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="requirePerson != null and requirePerson != ''">require_person = #{requirePerson},</if>
             <if test="requireDept != null and requireDept != ''">require_dept = #{requireDept},</if>
             <if test="requireType != null">require_type = #{requireType},</if>
+            <if test="requireVendor != null">require_vendor = #{requireVendor},</if>
+            <if test="isTender != null">is_tender = #{isTender},</if>
             <if test="totalMoney != null">total_money = #{totalMoney},</if>
             <if test="requireContact != null and requireContact != ''">require_contact = #{requireContact},</if>
             <if test="mainPurpose != null">main_purpose = #{mainPurpose},</if>
@@ -112,7 +173,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </update>
 
     <delete id="deleteShoppingProRequireByRequireId" parameterType="Long">
-        delete from shopping_pro_require where require_id = #{requireId}
+        delete
+        from shopping_pro_require
+        where require_id = #{requireId}
     </delete>
 
     <delete id="deleteShoppingProRequireByRequireIds" parameterType="String">

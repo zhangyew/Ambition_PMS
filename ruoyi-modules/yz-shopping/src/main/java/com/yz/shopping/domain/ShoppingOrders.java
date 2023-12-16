@@ -76,7 +76,7 @@ public class ShoppingOrders extends BaseEntity
 
     /** 订单物料信息 */
     @Excel(name = "订单物料信息")
-    private Long orderMaterialId;
+    private String orderMaterialId;
 
     /** 字典类型外键 */
     @Excel(name = "字典类型外键")
@@ -221,12 +221,11 @@ public class ShoppingOrders extends BaseEntity
     {
         return orderSupplierId;
     }
-    public void setOrderMaterialId(Long orderMaterialId) 
+    public void setOrderMaterialId(String orderMaterialId)
     {
         this.orderMaterialId = orderMaterialId;
     }
-
-    public Long getOrderMaterialId() 
+    public String getOrderMaterialId()
     {
         return orderMaterialId;
     }
