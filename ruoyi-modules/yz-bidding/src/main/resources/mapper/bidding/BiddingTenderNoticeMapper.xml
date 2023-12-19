@@ -68,7 +68,6 @@
         </collection>
     </resultMap>
 
-
     <sql id="selectBiddingTenderNoticeVo">
         select tender_notice_id,
                tender_notice_projects_id,
@@ -136,6 +135,11 @@
         <if test="nid != null and nid != '' and nid != 'null' ">
             and t.tender_notice_id = #{nid}
         </if>
+    </select>
+    <select id="showsNoticeList" resultMap="BiddingTenderNoticeResult">
+       SELECT tender_notice_id,tender_title,process_start,process_end,state
+                FROM  bidding_tender_notice where state=1
+                ORDER BY process_start limit 5
     </select>
 
     <!--    供应商首页（通知公告）-->

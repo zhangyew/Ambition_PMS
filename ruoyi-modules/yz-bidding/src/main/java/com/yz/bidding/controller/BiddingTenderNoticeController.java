@@ -101,7 +101,7 @@ public class BiddingTenderNoticeController extends BaseController {
     @RequiresPermissions("bidding/public:tender_notice:showsNoticeList")
     @GetMapping("/showsNoticeList")
     public TableDataInfo showsNoticeList() {
-        List<BiddingNotice> list = biddingNoticeService.showsNoticeList();
+        List<BiddingTenderNotice> list = biddingTenderNoticeService.showsNoticeList();
         return getDataTable(list);
     }
 

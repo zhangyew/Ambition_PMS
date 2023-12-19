@@ -68,6 +68,7 @@
             <if test="planState != null ">and plan_state = #{planState}</if>
             <if test="planName != null  and planName != ''">and plan_name like concat('%', #{planName}, '%')</if>
         </where>
+        order by sbp.create_time desc
     </select>
 
 <!--    采购计划（合同签订）-->
@@ -126,7 +127,7 @@
             <if test="buyPlanWarehouseId != null">buy_plan_warehouse_id = #{buyPlanWarehouseId},</if>
             <if test="buyTypeId != null">buy_type_id = #{buyTypeId},</if>
             <if test="buyPlanDemandId != null">buy_plan_demand_id=#{buyPlanDemandId},</if>
-            <if test="planState != null">state = #{planState},</if>
+            <if test="planState != null">plan_state = #{planState},</if>
             <if test="createBy != null">create_by = #{createBy},</if>
             <if test="createTime != null">create_time = #{createTime},</if>
             <if test="updateBy != null">update_by = #{updateBy},</if>

@@ -52,7 +52,12 @@ public class BiddingNoticeController extends BaseController {
         List<BiddingNotice> list = biddingNoticeService.selectBiddingNoticeList(biddingNotice);
         return getDataTable(list);
     }
-
+    @RequiresPermissions("pms2/bidding:notice:list")
+    @GetMapping("/selAll")
+    public TableDataInfo selAll() {
+        List<BiddingNotice> list = biddingNoticeService.selAll();
+        return getDataTable(list);
+    }
     /**
      * 导出中标公告列表
      */

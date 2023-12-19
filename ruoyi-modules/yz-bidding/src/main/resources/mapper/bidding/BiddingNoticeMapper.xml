@@ -14,6 +14,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="bidMoney"    column="bid_money"    />
         <result property="noticeSupplierId"    column="notice_supplier_id"    />
     </resultMap>
+    <resultMap type="com.yz.bidding.domain.BiddingNotice" id="BiddingNoticeResult1">
+        <result property="noticeId" column="notice_id"/>
+        <result property="tenderNoticeId" column="tender_notice_id"/>
+        <result property="noticeDate" column="notice_date"/>
+        <result property="buyer" column="buyer"/>
+        <result property="noticeTitle" column="notice_title"/>
+        <result property="noticeContext" column="notice_context"/>
+        <result property="bidMoney" column="bid_money"/>
+        <result property="noticeSupplierId" column="notice_supplier_id"/>
+        <result property="vendorName" column="abbreviated"/>
+    </resultMap>
 
     <sql id="selectBiddingNoticeVo">
         select notice_id, tender_notice_id, notice_date, buyer, notice_title, notice_context, bid_money, notice_supplier_id from bidding_notice
@@ -40,8 +51,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectBiddingNoticeVo"/>
         where notice_id = #{noticeId}
     </select>
-        
-    <insert id="insertBiddingNotice" parameterType="com.yz.bidding.domain.BiddingNotice" useGeneratedKeys="true" keyProperty="noticeId">
+    <select id="selAll" resultMap="BiddingNoticeResult1">
+        SELECT a.*, b.abbreviated
+        FROM `bidding_notice` a
+                 inner join public_vendor b
+        where a.notice_supplier_id = b.vendor_id limit 5
+    </select>
+
+    <insert id="insertBiddingNotice" parameterType="com.yz.bidding.domain.BiddingNotice" useGeneratedKeys="true"
+            keyProperty="noticeId">
         insert into bidding_notice
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="tenderNoticeId != null">tender_notice_id,</if>

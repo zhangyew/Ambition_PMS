@@ -1,32 +1,34 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
-PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yz.shopping.mapper.ShoppingOrdersMapper">
 
     <resultMap type="com.yz.shopping.domain.ShoppingOrders" id="ShoppingOrdersResult">
-        <result property="orderId"    column="order_id"    />
-        <result property="requireId"    column="require_id"    />
-        <result property="buyPlanId"    column="buy_plan_id"    />
-        <result property="orderTitle"    column="order_title"    />
-        <result property="orderSource"    column="order_source"    />
-        <result property="orderNumber"    column="order_number"    />
-        <result property="orderPurchaser"    column="order_purchaser"    />
-        <result property="totalMoney"    column="total_money"    />
-        <result property="isZt"    column="is_zt"    />
-        <result property="carNumber"    column="car_number"    />
-        <result property="driverPhone"    column="driver_phone"    />
-        <result property="ordeContractId"    column="orde_contract_id"    />
-        <result property="orderContext"    column="order_context"    />
-        <result property="contractdetailsAmount"    column="contractdetails_amount"    />
-        <result property="orderSupplierId"    column="order_supplier_id"    />
-        <result property="orderMaterialId"    column="order_material_id"    />
-        <result property="typeOrderState"    column="type_order_state"    />
-        <result property="createBy"    column="create_by"    />
-        <result property="createTime"    column="create_time"    />
-        <result property="updateBy"    column="update_by"    />
-        <result property="updateTime"    column="update_time"    />
-        <result property="isDelete"    column="is_delete"    />
+        <result property="orderId" column="order_id"/>
+        <result property="requireId" column="require_id"/>
+        <result property="buyPlanId" column="buy_plan_id"/>
+        <result property="orderTitle" column="order_title"/>
+        <result property="orderSource" column="order_source"/>
+        <result property="orderNumber" column="order_number"/>
+        <result property="orderPurchaser" column="order_purchaser"/>
+        <result property="totalMoney" column="total_money"/>
+        <result property="isZt" column="is_zt"/>
+        <result property="carNumber" column="car_number"/>
+        <result property="driverPhone" column="driver_phone"/>
+        <result property="ordeContractId" column="orde_contract_id"/>
+        <result property="orderContext" column="order_context"/>
+        <result property="contractdetailsAmount" column="contractdetails_amount"/>
+        <result property="orderSupplierId" column="order_supplier_id"/>
+        <result property="vendorContacts" column="vendor_contacts"/>
+        <result property="orderMaterialId" column="order_material_id"/>
+        <result property="typeOrderState" column="type_order_state"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="isDelete" column="is_delete"/>
+        <result property="vendorName" column="abbreviated"/>
     </resultMap>
 
     <resultMap type="com.yz.shopping.domain.ShoppingOrders" id="ShowsOrdersResult">
@@ -83,28 +85,61 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectShoppingOrdersVo">
-        select order_id, require_id, buy_plan_id, order_title, order_source, order_number, order_purchaser, total_money, is_zt, car_number, driver_phone, orde_contract_id, order_context, contractdetails_amount, order_supplier_id, order_material_id, type_order_state, create_by, create_time, update_by, update_time, is_delete from shopping_orders
+        select order_id,
+               require_id,
+               buy_plan_id,
+               order_title,
+               order_source,
+               order_number,
+               order_purchaser,
+               total_money,
+               is_zt,
+               car_number,
+               driver_phone,
+               orde_contract_id,
+               order_context,
+               contractdetails_amount,
+               order_supplier_id,
+               vendor_contacts,
+               order_material_id,
+               type_order_state,
+               create_by,
+               create_time,
+               update_by,
+               update_time,
+               is_delete,
+               vendorName
+        from shopping_orders
     </sql>
 
-    <select id="selectShoppingOrdersList" parameterType="com.yz.shopping.domain.ShoppingOrders" resultMap="ShoppingOrdersResult">
-        <include refid="selectShoppingOrdersVo"/>
+    <select id="selectShoppingOrdersList" parameterType="com.yz.shopping.domain.ShoppingOrders"
+            resultMap="ShoppingOrdersResult">
+        SELECT a.*,b.abbreviated,b.vendor_id FROM `shopping_orders`a inner join public_vendor b on
+        a.order_supplier_id=b.vendor_id
         <where>
-            <if test="orderTitle != null  and orderTitle != ''"> and order_title like concat('%', #{orderTitle}, '%')</if>
-            <if test="orderNumber != null  and orderNumber != ''"> and order_number like concat('%', #{orderNumber}, '%')</if>
-            <if test="orderSupplierId != null "> and order_supplier_id = #{orderSupplierId}</if>
-            <if test="typeOrderState != null "> and type_order_state = #{typeOrderState}</if>
+            <if test="orderTitle != null  and orderTitle != ''">and order_title like concat('%', #{orderTitle}, '%')
+            </if>
+            <if test="orderNumber != null  and orderNumber != ''">and order_number like concat('%', #{orderNumber},
+                '%')
+            </if>
+            <if test="orderSource != null ">and order_source = #{orderSource}</if>
+            <if test="typeOrderState != null ">and type_order_state = #{typeOrderState}</if>
         </where>
+        order by a.create_time desc
     </select>
 
     <select id="selectShoppingOrdersByOrderId" parameterType="Long" resultMap="ShoppingOrdersResult">
-        <include refid="selectShoppingOrdersVo"/>
+        SELECT a.*, b.abbreviated, b.vendor_id
+        FROM `shopping_orders` a
+                 inner join public_vendor b on a.order_supplier_id = b.vendor_id
         where order_id = #{orderId}
     </select>
 
     <!--    供应商首页（我的订单）-->
     <select id="showOrderSupplierId" resultMap="ShoppingOrdersResult">
-        SELECT order_number,order_purchaser,total_money,create_time,type_order_state FROM shopping_orders
-        WHERE order_supplier_id=#{oSupplierId}
+        SELECT order_number, order_purchaser, total_money, create_time, type_order_state
+        FROM shopping_orders
+        WHERE order_supplier_id = #{oSupplierId}
     </select>
 
 <!--    收货单（详情显示）-->
@@ -117,7 +152,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </select>
 
 
-    <insert id="insertShoppingOrders" parameterType="com.yz.shopping.domain.ShoppingOrders" useGeneratedKeys="true" keyProperty="orderId">
+    <insert id="insertShoppingOrders" parameterType="com.yz.shopping.domain.ShoppingOrders" useGeneratedKeys="true"
+            keyProperty="orderId">
         insert into shopping_orders
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="requireId != null">require_id,</if>
@@ -134,6 +170,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="orderContext != null">order_context,</if>
             <if test="contractdetailsAmount != null">contractdetails_amount,</if>
             <if test="orderSupplierId != null">order_supplier_id,</if>
+            <if test="vendorContacts != null">vendor_contacts,</if>
             <if test="orderMaterialId != null">order_material_id,</if>
             <if test="typeOrderState != null">type_order_state,</if>
             <if test="createBy != null">create_by,</if>
@@ -157,6 +194,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="orderContext != null">#{orderContext},</if>
             <if test="contractdetailsAmount != null">#{contractdetailsAmount},</if>
             <if test="orderSupplierId != null">#{orderSupplierId},</if>
+            <if test="vendorContacts != null">#{vendor_contacts},</if>
             <if test="orderMaterialId != null">#{orderMaterialId},</if>
             <if test="typeOrderState != null">#{typeOrderState},</if>
             <if test="createBy != null">#{createBy},</if>
@@ -184,6 +222,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="orderContext != null">order_context = #{orderContext},</if>
             <if test="contractdetailsAmount != null">contractdetails_amount = #{contractdetailsAmount},</if>
             <if test="orderSupplierId != null">order_supplier_id = #{orderSupplierId},</if>
+            <if test="vendorContacts != null">vendor_contacts = #{vendorContacts},</if>
             <if test="orderMaterialId != null">order_material_id = #{orderMaterialId},</if>
             <if test="typeOrderState != null">type_order_state = #{typeOrderState},</if>
             <if test="createBy != null">create_by = #{createBy},</if>
@@ -194,6 +233,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </trim>
         where order_id = #{orderId}
     </update>
+    <update id="updateExamine" parameterType="com.yz.shopping.domain.ShoppingOrders">
+        update shopping_orders
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="typeOrderState != null">type_order_state = #{typeOrderState},</if>
+        </trim>
+        where order_id = #{orderId}
+    </update>
 
     <!--    待收货单   -->
     <update id="updateOrderState" parameterType="com.yz.shopping.domain.ShoppingOrders">
@@ -201,7 +247,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </update>
 
     <delete id="deleteShoppingOrdersByOrderId" parameterType="Long">
-        delete from shopping_orders where order_id = #{orderId}
+        delete
+        from shopping_orders
+        where order_id = #{orderId}
     </delete>
 
     <delete id="deleteShoppingOrdersByOrderIds" parameterType="String">

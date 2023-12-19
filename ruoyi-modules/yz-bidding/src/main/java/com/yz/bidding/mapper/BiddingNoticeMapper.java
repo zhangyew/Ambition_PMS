@@ -33,6 +33,7 @@ public interface BiddingNoticeMapper
      */
     public List<BiddingNotice> showsNoticeList();
 
+    public List<BiddingNotice> selAll();
     /**
      * 新增中标公告
      * 

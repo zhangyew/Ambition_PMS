@@ -5,6 +5,7 @@ import java.io.IOException;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 
+import cn.hutool.json.JSONUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.ruoyi.common.core.domain.R;
@@ -12,11 +13,13 @@ import com.ruoyi.common.core.utils.StringUtils;
 import com.ruoyi.common.security.utils.SecurityUtils;
 import com.ruoyi.system.api.RemoteCodeRulesService;
 import com.ruoyi.system.api.RemoteFileService;
+import com.ruoyi.system.api.domain.PublicAnnex;
 import com.ruoyi.system.api.domain.PublicCodeRules;
 import com.ruoyi.system.api.domain.SysFile;
 import com.ruoyi.system.api.model.LoginUser;
 import com.ruoyi.system.api.util.SnowflakeGetId;
 import com.yz.bidding.domain.BiddingTenderNotice;
+import com.yz.shopping.domain.ShoppingBuyPlan;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -101,19 +104,10 @@ public class ShoppingOrdersController extends BaseController
     /**
      * 只有文件上传
      */
-    @PostMapping("/upload1")
-    public AjaxResult upload1(MultipartFile file) throws IOException {
-        if (!file.isEmpty()) {
-            LoginUser loginUser = SecurityUtils.getLoginUser();
-            R<SysFile> fileResult = remoteFileService.upload(file);
-            System.out.println("fileResult:" + fileResult);
-            System.out.println("文件上传成功！。。。。");
-            if (StringUtils.isNull(fileResult) || StringUtils.isNull(fileResult.getData())) {
-                return AjaxResult.error("文件服务异常，请联系管理员");
-            }
-            return AjaxResult.success(fileResult);
-        }
-        return AjaxResult.error("上传文件异常，请联系管理员");
+    @PostMapping("/uploadFiles")
+    public R<SysFile> uploadFiles(MultipartFile file) {
+        System.out.println(file);
+        return remoteFileService.upload(file);
     }
 
     /**
@@ -140,9 +134,23 @@ public class ShoppingOrdersController extends BaseController
         shoppingOrders.setOrderNumber(SnowflakeGetId.getCode(p));
         shoppingOrders.setCreateBy("yyn");
         shoppingOrders.setIsDelete(0L);
+//        shoppingOrders.setTypeOrderState(0L);
         return toAjax(shoppingOrdersService.insertShoppingOrders(shoppingOrders));
     }
 
+    @PostMapping(value = "/addOrders")
+    public int addOrders(@RequestBody ShoppingOrders shoppingOrders, String fileUrl) {
+        List<PublicAnnex> list = JSONUtil.toList(fileUrl, PublicAnnex.class);
+        System.out.println(list);
+        AjaxResult ajaxResult = remoteCodeRulesService.getInfo(3L);
+        Object obj = ajaxResult.get("data");
+        String str = JSON.toJSONString(obj);
+        PublicCodeRules p = JSONObject.parseObject(str, PublicCodeRules.class);
+        shoppingOrders.setOrderNumber(SnowflakeGetId.getCode(p));
+        shoppingOrders.setCreateBy("yyn");
+        shoppingOrders.setIsDelete(0L);
+        return shoppingOrdersService.addOrders(shoppingOrders,list);
+    }
     /**
      * 修改采购订单表
      */
@@ -152,7 +160,15 @@ public class ShoppingOrdersController extends BaseController
     public AjaxResult edit(@RequestBody ShoppingOrders shoppingOrders) {
         return toAjax(shoppingOrdersService.updateShoppingOrders(shoppingOrders));
     }
-
+    /**
+     * 审批修改状态
+     */
+    @RequiresPermissions("shopping/public:orders:edit")
+    @Log(title = "采购订单表", businessType = BusinessType.UPDATE)
+    @PostMapping("/updateExamine")
+    public AjaxResult updateExamine(@RequestBody ShoppingOrders shoppingOrders) {
+        return toAjax(shoppingOrdersService.updateExamine(shoppingOrders));
+    }
     /**
      * 修改待收货状态
      */

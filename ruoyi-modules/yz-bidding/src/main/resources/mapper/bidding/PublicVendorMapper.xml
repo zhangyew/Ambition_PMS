@@ -174,6 +174,30 @@
         FROM `public_contacts` a,public_vendor b where
             a.contacts_vendor_id=b.vendor_id and b.vendor_id=#{vendor_id}
     </select>
+    <select id="showAll" resultMap="PublicVendorResult">
+        select vendor_id,
+               vendor_number,
+               abbreviated,
+               contract_type_type_id,
+               vendor_type_state_id,
+               is_blacklist,
+               ranges,
+               causes,
+               warehouse_address,
+               profile,
+               delegates,
+               add_time,
+               email,
+               fax,
+               responsible,
+               responsible_phone,
+               banking_name,
+               industrial_commercial,
+               create_by,
+               create_time,
+               is_exist
+        from public_vendor  ORDER BY create_time LIMIT 5
+    </select>
 
     <insert id="insertPublicVendor" parameterType="com.ruoyi.system.api.domain.PublicVendor" useGeneratedKeys="true"
             keyProperty="vendorId">

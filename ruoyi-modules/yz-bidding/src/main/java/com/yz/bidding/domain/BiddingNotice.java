@@ -41,6 +41,32 @@ public class BiddingNotice extends BaseEntity
     @Excel(name = "公告内容")
     private String noticeContext;
 
+    public String getVendorName() {
+        return vendorName;
+    }
+
+    @Override
+    public String toString() {
+        return "BiddingNotice{" +
+                "noticeId=" + noticeId +
+                ", tenderNoticeId=" + tenderNoticeId +
+                ", noticeDate=" + noticeDate +
+                ", buyer='" + buyer + '\'' +
+                ", noticeTitle='" + noticeTitle + '\'' +
+                ", noticeContext='" + noticeContext + '\'' +
+                ", vendorName='" + vendorName + '\'' +
+                ", bidMoney=" + bidMoney +
+                ", noticeSupplierId=" + noticeSupplierId +
+                '}';
+    }
+
+    public void setVendorName(String vendorName) {
+        this.vendorName = vendorName;
+    }
+
+    @Excel(name = "供应商")
+    private String vendorName;
+
     /** 中标金额 */
     @Excel(name = "中标金额")
     private Long bidMoney;
@@ -122,17 +148,4 @@ public class BiddingNotice extends BaseEntity
         return noticeSupplierId;
     }
 
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
-            .append("noticeId", getNoticeId())
-            .append("tenderNoticeId", getTenderNoticeId())
-            .append("noticeDate", getNoticeDate())
-            .append("buyer", getBuyer())
-            .append("noticeTitle", getNoticeTitle())
-            .append("noticeContext", getNoticeContext())
-            .append("bidMoney", getBidMoney())
-            .append("noticeSupplierId", getNoticeSupplierId())
-            .toString();
-    }
 }

@@ -27,6 +27,7 @@ public interface IBiddingNoticeService
      */
     public List<BiddingNotice> selectBiddingNoticeList(BiddingNotice biddingNotice);
 
+    public List<BiddingNotice> selAll();
     /**
      * 供应商首页（通知公告）
      * @return 通知公告集合

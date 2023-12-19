@@ -10,6 +10,8 @@ import com.ruoyi.common.core.web.domain.BaseEntity;
 import java.util.Date;
 
 
+import java.util.List;
+
 /**
  * 采购订单表对象 shopping_orders
  * 
@@ -39,6 +41,16 @@ public class ShoppingOrders extends BaseEntity
     @Excel(name = "订单来源")
     private Long orderSource;
 
+    public Long getVendorContacts() {
+        return vendorContacts;
+    }
+
+    public void setVendorContacts(Long vendorContacts) {
+        this.vendorContacts = vendorContacts;
+    }
+
+    @Excel(name = "供应商联系人")
+    private Long vendorContacts;
     /** 订单编号 */
     @Excel(name = "订单编号")
     private String orderNumber;
@@ -79,10 +91,61 @@ public class ShoppingOrders extends BaseEntity
     @Excel(name = "供应商")
     private Long orderSupplierId;
 
+    public String getVendorName() {
+        return vendorName;
+    }
+
+    public void setVendorName(String vendorName) {
+        this.vendorName = vendorName;
+    }
+
+    @Override
+    public String toString() {
+        return "ShoppingOrders{" +
+                "orderId=" + orderId +
+                ", requireId=" + requireId +
+                ", buyPlanId=" + buyPlanId +
+                ", orderTitle='" + orderTitle + '\'' +
+                ", orderSource=" + orderSource +
+                ", vendorContacts=" + vendorContacts +
+                ", orderNumber='" + orderNumber + '\'' +
+                ", orderPurchaser='" + orderPurchaser + '\'' +
+                ", totalMoney=" + totalMoney +
+                ", isZt=" + isZt +
+                ", carNumber='" + carNumber + '\'' +
+                ", driverPhone='" + driverPhone + '\'' +
+                ", ordeContractId=" + ordeContractId +
+                ", orderContext='" + orderContext + '\'' +
+                ", contractdetailsAmount=" + contractdetailsAmount +
+                ", orderSupplierId=" + orderSupplierId +
+                ", vendorName='" + vendorName + '\'' +
+                ", orderMaterialId='" + orderMaterialId + '\'' +
+                ", shoppingDemands=" + shoppingDemands +
+                ", typeOrderState=" + typeOrderState +
+                ", isDelete=" + isDelete +
+                '}';
+    }
+
+    @Excel(name = "供应商名称")
+    private String vendorName;
+
     /** 订单物料信息 */
     @Excel(name = "订单物料信息")
     private String orderMaterialId;
 
+    /**
+     * 物料集合
+     * @return
+     */
+    public List<ShoppingDemand> getShoppingDemands() {
+        return shoppingDemands;
+    }
+
+    public void setShoppingDemands(List<ShoppingDemand> shoppingDemands) {
+        this.shoppingDemands = shoppingDemands;
+    }
+
+    private List<ShoppingDemand> shoppingDemands;
     /** 字典类型外键 */
     @Excel(name = "字典类型外键")
     private Long typeOrderState;
@@ -271,30 +334,4 @@ public class ShoppingOrders extends BaseEntity
         return isDelete;
     }
 
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
-            .append("orderId", getOrderId())
-            .append("requireId", getRequireId())
-            .append("buyPlanId", getBuyPlanId())
-            .append("orderTitle", getOrderTitle())
-            .append("orderSource", getOrderSource())
-            .append("orderNumber", getOrderNumber())
-            .append("orderPurchaser", getOrderPurchaser())
-            .append("totalMoney", getTotalMoney())
-            .append("isZt", getIsZt())
-            .append("carNumber", getCarNumber())
-            .append("driverPhone", getDriverPhone())
-            .append("orderContext", getOrderContext())
-            .append("contractdetailsAmount", getContractdetailsAmount())
-            .append("orderSupplierId", getOrderSupplierId())
-            .append("orderMaterialId", getOrderMaterialId())
-            .append("typeOrderState", getTypeOrderState())
-            .append("createBy", getCreateBy())
-            .append("createTime", getCreateTime())
-            .append("updateBy", getUpdateBy())
-            .append("updateTime", getUpdateTime())
-            .append("isDelete", getIsDelete())
-            .toString();
-    }
 }

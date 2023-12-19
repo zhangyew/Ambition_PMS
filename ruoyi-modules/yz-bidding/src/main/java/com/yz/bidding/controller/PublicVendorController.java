@@ -89,12 +89,20 @@ public class PublicVendorController extends BaseController {
     @RequiresPermissions("bidding/public:vendor:list")
     @GetMapping("/list")
     public TableDataInfo list(PublicVendor publicVendor) {
-
         startPage();
         List<PublicVendor> list = publicVendorService.selectPublicVendorList(publicVendor);
         return getDataTable(list);
     }
 
+    /**
+     * 查询供应商列表
+     */
+    @GetMapping("/showAll")
+    public TableDataInfo showAll() {
+        List<PublicVendor> list = publicVendorService.showAll();
+//        System.out.println(list);
+        return getDataTable(list);
+    }
     /**
      * 导出供应商列表
      */

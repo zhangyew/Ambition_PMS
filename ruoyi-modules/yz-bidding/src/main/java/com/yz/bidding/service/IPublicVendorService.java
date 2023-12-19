@@ -101,4 +101,10 @@ public interface IPublicVendorService {
      * @return 结果
      */
     public int deletePublicVendorByVendorId(Long vendorId);
+
+    /**
+     * 查询五条
+     * @return
+     */
+    List<PublicVendor> showAll();
 }

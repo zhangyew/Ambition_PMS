@@ -1,6 +1,8 @@
 package com.yz.shopping.service;
 
 import java.util.List;
+
+import com.ruoyi.system.api.domain.PublicAnnex;
 import com.yz.shopping.domain.ShoppingOrders;
 import org.apache.ibatis.annotations.Param;
 
@@ -34,6 +36,8 @@ public interface IShoppingOrdersService
      * @return
      */
     public List<ShoppingOrders> showOrderSupplierId(Long oSupplierId);
+
+    public int addOrders(ShoppingOrders shoppingOrders,List<PublicAnnex> annexList);
 
     /**
      * 收货单（详情显示）
@@ -81,4 +85,6 @@ public interface IShoppingOrdersService
      * @return 结果
      */
     public int deleteShoppingOrdersByOrderId(Long orderId);
+
+    int updateExamine(ShoppingOrders shoppingOrders);
 }

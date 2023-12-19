@@ -223,4 +223,9 @@ public class PublicVendorServiceImpl implements IPublicVendorService {
     public int deletePublicVendorByVendorId(Long vendorId) {
         return publicVendorMapper.deletePublicVendorByVendorId(vendorId);
     }
+
+    @Override
+    public List<PublicVendor> showAll() {
+        return publicVendorMapper.showAll();
+    }
 }

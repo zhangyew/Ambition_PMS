@@ -43,6 +43,11 @@ public class BiddingNoticeServiceImpl implements IBiddingNoticeService
         return biddingNoticeMapper.selectBiddingNoticeList(biddingNotice);
     }
 
+    @Override
+    public List<BiddingNotice> selAll() {
+        return biddingNoticeMapper.selAll();
+    }
+
     /**
      * 供应商首页（通知公告）
      * @return

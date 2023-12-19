@@ -1,6 +1,8 @@
 package com.yz.shopping.mapper;
 
 import java.util.List;
+
+import com.yz.shopping.domain.ShoppingBuyPlan;
 import com.yz.shopping.domain.ShoppingOrders;
 import org.apache.ibatis.annotations.Param;
 
@@ -59,7 +61,7 @@ public interface ShoppingOrdersMapper
      * @return 结果
      */
     public int updateShoppingOrders(ShoppingOrders shoppingOrders);
-
+    public int updateExamine(ShoppingOrders shoppingOrders);
     /**
      * 修改待收货状态
      *

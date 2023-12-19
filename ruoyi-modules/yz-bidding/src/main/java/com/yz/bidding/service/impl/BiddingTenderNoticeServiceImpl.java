@@ -1,5 +1,6 @@
 package com.yz.bidding.service.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -86,7 +87,8 @@ public class BiddingTenderNoticeServiceImpl implements IBiddingTenderNoticeServi
      */
     @Override
     public List<BiddingTenderNotice> ShowsTenderNoticeList() {
-        return biddingTenderNoticeMapper.ShowsTenderNoticeList();
+//        return biddingTenderNoticeMapper.ShowsTenderNoticeList();
+        return new ArrayList<>();
     }
 
     /**
@@ -140,5 +142,10 @@ public class BiddingTenderNoticeServiceImpl implements IBiddingTenderNoticeServi
     @Override
     public int deleteBiddingTenderNoticeByTenderNoticeId(Long tenderNoticeId) {
         return biddingTenderNoticeMapper.deleteBiddingTenderNoticeByTenderNoticeId(tenderNoticeId);
+    }
+
+    @Override
+    public List<BiddingTenderNotice> showsNoticeList() {
+        return biddingTenderNoticeMapper.showsNoticeList();
     }
 }

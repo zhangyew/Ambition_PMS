@@ -52,6 +52,7 @@ public interface PublicVendorMapper
      */
     public List<PublicVendor> showsPublicVendorList(@Param("vendor_id") Long vendor_id);
 
+    public List<PublicVendor> showAll();
     /**|
      * 根据供应商id查询所有联系人
      * @param vendor_id

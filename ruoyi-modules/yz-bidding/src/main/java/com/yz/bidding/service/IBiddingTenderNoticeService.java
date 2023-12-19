@@ -3,6 +3,7 @@ package com.yz.bidding.service;
 import java.util.List;
 
 import com.ruoyi.system.api.domain.PublicAnnex;
+import com.yz.bidding.domain.BiddingNotice;
 import com.yz.bidding.domain.BiddingTenderNotice;
 import com.yz.bidding.domain.BiddingTenderProjects;
 import org.apache.ibatis.annotations.Param;
@@ -101,4 +102,6 @@ public interface IBiddingTenderNoticeService {
      * @return 结果
      */
     public int deleteBiddingTenderNoticeByTenderNoticeId(Long tenderNoticeId);
+
+    List<BiddingTenderNotice> showsNoticeList();
 }
