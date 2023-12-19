@@ -32,7 +32,13 @@ public class BiddingTenderNoticeServiceImpl implements IBiddingTenderNoticeServi
     public int addTenderNotice(BiddingTenderNotice bid, List<PublicAnnex> list) {
         int x = 0;
         BiddingTenderNotice notice = bid;
-        x = biddingTenderNoticeMapper.insertBiddingTenderNotice(notice);
+        if (notice.getTenderNoticeId() != null) {
+            // 修改
+            x = publicAnnexMapper.deleteAnnexTextByNoticeId(notice.getTenderNoticeId().toString());
+            x = biddingTenderNoticeMapper.updateBiddingTenderNotice(notice);
+        } else {
+            x = biddingTenderNoticeMapper.insertBiddingTenderNotice(notice);
+        }
         for (PublicAnnex a : list) {
             a.setAnnexText(notice.getTenderNoticeId().toString());
             a.setUpTime(new Date());

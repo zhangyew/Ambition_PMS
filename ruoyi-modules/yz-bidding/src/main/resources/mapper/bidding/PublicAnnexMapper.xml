@@ -1,41 +1,51 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
-PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yz.bidding.mapper.PublicAnnexMapper">
-    
+
     <resultMap type="com.ruoyi.system.api.domain.PublicAnnex" id="PublicAnnexResult">
-        <result property="annexId"    column="annex_id"    />
-        <result property="supplyId"    column="supply_id"    />
-        <result property="annexTypeId"    column="annex_type_id"    />
-        <result property="annexText"    column="annex_text"    />
-        <result property="annexUrl"    column="annex_url"    />
-        <result property="upTime"    column="up_time"    />
-        <result property="annexTitle"    column="annex_title"    />
+        <result property="annexId" column="annex_id"/>
+        <result property="supplyId" column="supply_id"/>
+        <result property="annexTypeId" column="annex_type_id"/>
+        <result property="annexText" column="annex_text"/>
+        <result property="annexUrl" column="annex_url"/>
+        <result property="upTime" column="up_time"/>
+        <result property="annexTitle" column="annex_title"/>
     </resultMap>
 
     <sql id="selectPublicAnnexVo">
-        select annex_id, supply_id, annex_type_id, annex_text, annex_url, up_time, annex_title from public_annex
+        select annex_id, supply_id, annex_type_id, annex_text, annex_url, up_time, annex_title
+        from public_annex
     </sql>
 
-    <select id="selectPublicAnnexList" parameterType="com.ruoyi.system.api.domain.PublicAnnex" resultMap="PublicAnnexResult">
+    <select id="selectPublicAnnexList" parameterType="com.ruoyi.system.api.domain.PublicAnnex"
+            resultMap="PublicAnnexResult">
         <include refid="selectPublicAnnexVo"/>
-        <where>  
-            <if test="supplyId != null "> and supply_id = #{supplyId}</if>
-            <if test="annexTypeId != null "> and annex_type_id = #{annexTypeId}</if>
-            <if test="annexText != null  and annexText != ''"> and annex_text = #{annexText}</if>
-            <if test="annexUrl != null  and annexUrl != ''"> and annex_url = #{annexUrl}</if>
-            <if test="upTime != null "> and up_time = #{upTime}</if>
-            <if test="annexTitle != null  and annexTitle != ''"> and annex_title = #{annexTitle}</if>
+        <where>
+            <if test="supplyId != null ">and supply_id = #{supplyId}</if>
+            <if test="annexTypeId != null ">and annex_type_id = #{annexTypeId}</if>
+            <if test="annexText != null  and annexText != ''">and annex_text = #{annexText}</if>
+            <if test="annexUrl != null  and annexUrl != ''">and annex_url = #{annexUrl}</if>
+            <if test="upTime != null ">and up_time = #{upTime}</if>
+            <if test="annexTitle != null  and annexTitle != ''">and annex_title = #{annexTitle}</if>
         </where>
     </select>
-    
+
     <select id="selectPublicAnnexByAnnexId" parameterType="Long" resultMap="PublicAnnexResult">
         <include refid="selectPublicAnnexVo"/>
         where annex_id = #{annexId}
     </select>
-        
-    <insert id="insertPublicAnnex" parameterType="com.ruoyi.system.api.domain.PublicAnnex" useGeneratedKeys="true" keyProperty="annexId">
+    <select id="findAnnexByTenderProjectsId" resultType="java.util.Map">
+        SELECT n.tender_title, a.*
+        FROM `public_annex` a
+                 inner join bidding_tender_notice n
+                            on n.tender_notice_id = a.annex_text
+        where a.supply_id = #{pid}
+    </select>
+
+    <insert id="insertPublicAnnex" parameterType="com.ruoyi.system.api.domain.PublicAnnex" useGeneratedKeys="true"
+            keyProperty="annexId">
         insert into public_annex
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="supplyId != null">supply_id,</if>
@@ -44,7 +54,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="annexUrl != null">annex_url,</if>
             <if test="upTime != null">up_time,</if>
             <if test="annexTitle != null">annex_title,</if>
-         </trim>
+        </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="supplyId != null">#{supplyId},</if>
             <if test="annexTypeId != null">#{annexTypeId},</if>
@@ -52,7 +62,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="annexUrl != null">#{annexUrl},</if>
             <if test="upTime != null">#{upTime},</if>
             <if test="annexTitle != null">#{annexTitle},</if>
-         </trim>
+        </trim>
     </insert>
 
     <update id="updatePublicAnnex" parameterType="com.ruoyi.system.api.domain.PublicAnnex">
@@ -69,13 +79,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </update>
 
     <delete id="deletePublicAnnexByAnnexId" parameterType="Long">
-        delete from public_annex where annex_id = #{annexId}
+        delete
+        from public_annex
+        where annex_id = #{annexId}
     </delete>
 
     <delete id="deletePublicAnnexByAnnexIds" parameterType="String">
-        delete from public_annex where annex_id in 
+        delete from public_annex where annex_id in
         <foreach item="annexId" collection="array" open="(" separator="," close=")">
             #{annexId}
         </foreach>
+    </delete>
+    <delete id="deleteAnnexTextByNoticeId">
+        delete
+        from public_annex
+        where annex_text = #{nid}
     </delete>
 </mapper>

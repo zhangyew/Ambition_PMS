@@ -2,6 +2,7 @@ package com.yz.bidding.controller;
 
 import java.util.List;
 import java.io.IOException;
+import java.util.Map;
 import javax.servlet.http.HttpServletResponse;
 
 
@@ -26,24 +27,36 @@ import com.ruoyi.common.core.web.page.TableDataInfo;
 
 /**
  * 公告附件Controller
- * 
+ *
  * @author zhangye
  * @date 2023-11-21
  */
 @RestController
 @RequestMapping("/annex")
-public class PublicAnnexController extends BaseController
-{
+public class PublicAnnexController extends BaseController {
     @Autowired
     private IPublicAnnexService publicAnnexService;
+
+
+    /**
+     * 根据招标项目查找附件集合
+     *
+     * @param pid
+     * @return
+     */
+    @PostMapping("/findAnnexByTenderProjectsId")
+    public TableDataInfo findAnnexByTenderProjectsId(String pid) {
+        startPage();
+        List<Map<String, Object>> list = publicAnnexService.findAnnexByTenderProjectsId(pid);
+        return getDataTable(list);
+    }
 
     /**
      * 查询公告附件列表
      */
     @RequiresPermissions("pms.public:annex:list")
     @GetMapping("/list")
-    public TableDataInfo list(PublicAnnex publicAnnex)
-    {
+    public TableDataInfo list(PublicAnnex publicAnnex) {
         startPage();
         List<PublicAnnex> list = publicAnnexService.selectPublicAnnexList(publicAnnex);
         return getDataTable(list);
@@ -55,8 +68,7 @@ public class PublicAnnexController extends BaseController
     @RequiresPermissions("pms.public:annex:export")
     @Log(title = "公告附件", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
-    public void export(HttpServletResponse response, PublicAnnex publicAnnex)
-    {
+    public void export(HttpServletResponse response, PublicAnnex publicAnnex) {
         List<PublicAnnex> list = publicAnnexService.selectPublicAnnexList(publicAnnex);
         ExcelUtil<PublicAnnex> util = new ExcelUtil<PublicAnnex>(PublicAnnex.class);
         util.exportExcel(response, list, "公告附件数据");
@@ -67,8 +79,7 @@ public class PublicAnnexController extends BaseController
      */
     @RequiresPermissions("pms.public:annex:query")
     @GetMapping(value = "/{annexId}")
-    public AjaxResult getInfo(@PathVariable("annexId") Long annexId)
-    {
+    public AjaxResult getInfo(@PathVariable("annexId") Long annexId) {
         return success(publicAnnexService.selectPublicAnnexByAnnexId(annexId));
     }
 
@@ -78,8 +89,7 @@ public class PublicAnnexController extends BaseController
     @RequiresPermissions("pms.public:annex:add")
     @Log(title = "公告附件", businessType = BusinessType.INSERT)
     @PostMapping
-    public AjaxResult add(@RequestBody PublicAnnex publicAnnex)
-    {
+    public AjaxResult add(@RequestBody PublicAnnex publicAnnex) {
         return toAjax(publicAnnexService.insertPublicAnnex(publicAnnex));
     }
 
@@ -89,19 +99,15 @@ public class PublicAnnexController extends BaseController
     @RequiresPermissions("pms.public:annex:edit")
     @Log(title = "公告附件", businessType = BusinessType.UPDATE)
     @PutMapping
-    public AjaxResult edit(@RequestBody PublicAnnex publicAnnex)
-    {
+    public AjaxResult edit(@RequestBody PublicAnnex publicAnnex) {
         return toAjax(publicAnnexService.updatePublicAnnex(publicAnnex));
     }
-
     /**
      * 删除公告附件
      */
-    @RequiresPermissions("pms.public:annex:remove")
     @Log(title = "公告附件", businessType = BusinessType.DELETE)
-	@DeleteMapping("/{annexIds}")
-    public AjaxResult remove(@PathVariable Long[] annexIds)
-    {
+    @DeleteMapping("/{annexIds}")
+    public AjaxResult remove(@PathVariable Long[] annexIds) {
         return toAjax(publicAnnexService.deletePublicAnnexByAnnexIds(annexIds));
     }
 }

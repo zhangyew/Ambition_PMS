@@ -243,7 +243,7 @@ public class ShoppingOrders extends BaseEntity
     {
         return orderSupplierId;
     }
-    public String setOrderMaterialId(String orderMaterialId)
+    public void setOrderMaterialId(String orderMaterialId)
     {
         this.orderMaterialId = orderMaterialId;
     }
