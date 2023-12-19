@@ -5,30 +5,40 @@
 <mapper namespace="com.yz.bidding.mapper.BiddingDownloadLogsMapper">
 
     <resultMap type="BiddingDownloadLogs" id="BiddingDownloadLogsResult">
-        <result property="downloadLogsId"    column="download_logs_id"    />
-        <result property="noticeTextId"    column="notice_text_id"    />
-        <result property="tenderName"    column="tender_name"    />
-        <result property="contact"    column="contact"    />
-        <result property="phone"    column="phone"    />
-        <result property="email"    column="email"    />
-        <result property="downloadTime"    column="download_time"    />
-        <result property="isDelete"    column="is_delete"    />
+        <result property="downloadLogsId" column="download_logs_id"/>
+        <result property="noticeTextId" column="notice_text_id"/>
+        <result property="tenderName" column="tender_name"/>
+        <result property="contact" column="contact"/>
+        <result property="phone" column="phone"/>
+        <result property="email" column="email"/>
+        <result property="downloadTime" column="download_time"/>
+        <result property="isDelete" column="is_delete"/>
     </resultMap>
 
     <sql id="selectBiddingDownloadLogsVo">
-        select download_logs_id, notice_text_id, tender_name, contact, phone, email, download_time, is_delete from bidding_download_logs
+        select download_logs_id,
+               notice_text_id,
+               tender_name,
+               contact,
+               phone,
+               email,
+               download_time,
+               is_delete
+        from bidding_download_logs
     </sql>
 
-    <select id="selectBiddingDownloadLogsList" parameterType="BiddingDownloadLogs" resultMap="BiddingDownloadLogsResult">
+    <select id="selectBiddingDownloadLogsList" parameterType="BiddingDownloadLogs"
+            resultMap="BiddingDownloadLogsResult">
         <include refid="selectBiddingDownloadLogsVo"/>
         <where>
-            <if test="noticeTextId != null "> and notice_text_id = #{noticeTextId}</if>
-            <if test="tenderName != null  and tenderName != ''"> and tender_name like concat('%', #{tenderName}, '%')</if>
-            <if test="contact != null  and contact != ''"> and contact = #{contact}</if>
-            <if test="phone != null  and phone != ''"> and phone = #{phone}</if>
-            <if test="email != null  and email != ''"> and email = #{email}</if>
-            <if test="downloadTime != null "> and download_time = #{downloadTime}</if>
-            <if test="isDelete != null "> and is_delete = #{isDelete}</if>
+            <if test="noticeTextId != null ">and notice_text_id = #{noticeTextId}</if>
+            <if test="tenderName != null  and tenderName != ''">and tender_name like concat('%', #{tenderName}, '%')
+            </if>
+            <if test="contact != null  and contact != ''">and contact = #{contact}</if>
+            <if test="phone != null  and phone != ''">and phone = #{phone}</if>
+            <if test="email != null  and email != ''">and email = #{email}</if>
+            <if test="downloadTime != null ">and download_time = #{downloadTime}</if>
+            <if test="isDelete != null ">and is_delete = #{isDelete}</if>
         </where>
     </select>
 
@@ -36,8 +46,16 @@
         <include refid="selectBiddingDownloadLogsVo"/>
         where download_logs_id = #{downloadLogsId}
     </select>
+    <select id="findDownloadLogsByTenderId" resultMap="BiddingDownloadLogsResult">
+        SELECT d.*
+        FROM bidding_tender_notice n
+                 left join `bidding_download_logs` d
+                           on n.tender_notice_id = d.notice_text_id
+        where n.tender_notice_projects_id = #{nid}
+    </select>
 
-    <insert id="insertBiddingDownloadLogs" parameterType="BiddingDownloadLogs" useGeneratedKeys="true" keyProperty="downloadLogsId">
+    <insert id="insertBiddingDownloadLogs" parameterType="BiddingDownloadLogs" useGeneratedKeys="true"
+            keyProperty="downloadLogsId">
         insert into bidding_download_logs
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="noticeTextId != null">notice_text_id,</if>
@@ -74,7 +92,9 @@
     </update>
 
     <delete id="deleteBiddingDownloadLogsByDownloadLogsId" parameterType="Long">
-        delete from bidding_download_logs where download_logs_id = #{downloadLogsId}
+        delete
+        from bidding_download_logs
+        where download_logs_id = #{downloadLogsId}
     </delete>
 
     <delete id="deleteBiddingDownloadLogsByDownloadLogsIds" parameterType="String">

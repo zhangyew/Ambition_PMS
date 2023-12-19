@@ -1,54 +1,94 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
-PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yz.bidding.mapper.BiddingTenderMapper">
-    
+
     <resultMap type="BiddingTender" id="BiddingTenderResult">
-        <result property="tenderId"    column="tender_id"    />
-        <result property="tenderNoticeId"    column="tender_notice_id"    />
-        <result property="tenderSupplierId"    column="tender_supplier_id"    />
-        <result property="tenderSupplierName"    column="tender_supplier_name"    />
-        <result property="tenderName"    column="tender_name"    />
-        <result property="contact"    column="contact"    />
-        <result property="phone"    column="phone"    />
-        <result property="tenderTime"    column="tender_time"    />
-        <result property="ipAddress"    column="ip_address"    />
-        <result property="prices"    column="prices"    />
-        <result property="score"    column="score"    />
-        <result property="recommend"    column="recommend"    />
-        <result property="ranking"    column="ranking"    />
-        <result property="state"    column="state"    />
+        <result property="tenderId" column="tender_id"/>
+        <result property="tenderNoticeId" column="tender_notice_id"/>
+        <result property="tenderSupplierId" column="tender_supplier_id"/>
+        <result property="tenderSupplierName" column="tender_supplier_name"/>
+        <result property="tenderName" column="tender_name"/>
+        <result property="contact" column="contact"/>
+        <result property="phone" column="phone"/>
+        <result property="tenderTime" column="tender_time"/>
+        <result property="ipAddress" column="ip_address"/>
+        <result property="prices" column="prices"/>
+        <result property="score" column="score"/>
+        <result property="recommend" column="recommend"/>
+        <result property="ranking" column="ranking"/>
+        <result property="state" column="state"/>
+        <result property="tenderAnnexId" column="tender_annex_id"/>
+        <collection property="publicAnnex" ofType="com.ruoyi.system.api.domain.PublicAnnex">
+            <result property="annexId" column="annex_id"/>
+            <result property="supplyId" column="supply_id"/>
+            <result property="annexTypeId" column="annex_type_id"/>
+            <result property="annexText" column="annex_text"/>
+            <result property="annexUrl" column="annex_url"/>
+            <result property="upTime" column="up_time"/>
+            <result property="annexTitle" column="annex_title"/>
+        </collection>
     </resultMap>
 
     <sql id="selectBiddingTenderVo">
-        select tender_id, tender_notice_id, tender_supplier_id, tender_supplier_name, tender_name, contact, phone, tender_time, ip_address, prices, score, recommend, ranking, state from bidding_tender
+        select tender_id,
+               tender_notice_id,
+               tender_supplier_id,
+               tender_supplier_name,
+               tender_name,
+               contact,
+               phone,
+               tender_time,
+               ip_address,
+               prices,
+               score,
+               recommend,
+               ranking,
+               state
+        from bidding_tender
     </sql>
 
     <select id="selectBiddingTenderList" parameterType="BiddingTender" resultMap="BiddingTenderResult">
         <include refid="selectBiddingTenderVo"/>
-        <where>  
-            <if test="tenderNoticeId != null "> and tender_notice_id = #{tenderNoticeId}</if>
-            <if test="tenderSupplierId != null "> and tender_supplier_id = #{tenderSupplierId}</if>
-            <if test="tenderSupplierName != null  and tenderSupplierName != ''"> and tender_supplier_name like concat('%', #{tenderSupplierName}, '%')</if>
-            <if test="tenderName != null  and tenderName != ''"> and tender_name like concat('%', #{tenderName}, '%')</if>
-            <if test="contact != null  and contact != ''"> and contact = #{contact}</if>
-            <if test="phone != null  and phone != ''"> and phone = #{phone}</if>
-            <if test="tenderTime != null "> and tender_time = #{tenderTime}</if>
-            <if test="ipAddress != null  and ipAddress != ''"> and ip_address = #{ipAddress}</if>
-            <if test="prices != null "> and prices = #{prices}</if>
-            <if test="score != null  and score != ''"> and score = #{score}</if>
-            <if test="recommend != null "> and recommend = #{recommend}</if>
-            <if test="ranking != null "> and ranking = #{ranking}</if>
-            <if test="state != null "> and state = #{state}</if>
+        <where>
+            <if test="tenderNoticeId != null ">and tender_notice_id = #{tenderNoticeId}</if>
+            <if test="tenderSupplierId != null ">and tender_supplier_id = #{tenderSupplierId}</if>
+            <if test="tenderSupplierName != null  and tenderSupplierName != ''">and tender_supplier_name like
+                concat('%', #{tenderSupplierName}, '%')
+            </if>
+            <if test="tenderName != null  and tenderName != ''">and tender_name like concat('%', #{tenderName}, '%')
+            </if>
+            <if test="contact != null  and contact != ''">and contact = #{contact}</if>
+            <if test="phone != null  and phone != ''">and phone = #{phone}</if>
+            <if test="tenderTime != null ">and tender_time = #{tenderTime}</if>
+            <if test="ipAddress != null  and ipAddress != ''">and ip_address = #{ipAddress}</if>
+            <if test="prices != null ">and prices = #{prices}</if>
+            <if test="score != null  and score != ''">and score = #{score}</if>
+            <if test="recommend != null ">and recommend = #{recommend}</if>
+            <if test="ranking != null ">and ranking = #{ranking}</if>
+            <if test="state != null ">and state = #{state}</if>
         </where>
     </select>
-    
+
     <select id="selectBiddingTenderByTenderId" parameterType="Long" resultMap="BiddingTenderResult">
         <include refid="selectBiddingTenderVo"/>
         where tender_id = #{tenderId}
     </select>
-        
+    <select id="findTendersByProjectsId" resultMap="BiddingTenderResult">
+        SELECT t.*,a.* FROM bidding_tender_notice n
+        inner join bidding_tender_projects p
+        on p.tender_projects_id = n.tender_notice_projects_id
+        inner join `bidding_tender` t
+        on t.tender_notice_id = n.tender_notice_id
+        left join public_annex a
+        on t.tender_annex_id = a.annex_id
+        where p.tender_projects_id = #{pid}
+        <if test="zt == 'bs' ">and t.state &lt; 5</if>
+        <if test="zt == 'zb' ">and t.state &gt; 4</if>
+
+    </select>
+
     <insert id="insertBiddingTender" parameterType="BiddingTender" useGeneratedKeys="true" keyProperty="tenderId">
         insert into bidding_tender
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -65,7 +105,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="recommend != null">recommend,</if>
             <if test="ranking != null">ranking,</if>
             <if test="state != null">state,</if>
-         </trim>
+        </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="tenderNoticeId != null">#{tenderNoticeId},</if>
             <if test="tenderSupplierId != null">#{tenderSupplierId},</if>
@@ -80,7 +120,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="recommend != null">#{recommend},</if>
             <if test="ranking != null">#{ranking},</if>
             <if test="state != null">#{state},</if>
-         </trim>
+        </trim>
     </insert>
 
     <update id="updateBiddingTender" parameterType="BiddingTender">
@@ -99,16 +139,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="recommend != null">recommend = #{recommend},</if>
             <if test="ranking != null">ranking = #{ranking},</if>
             <if test="state != null">state = #{state},</if>
+            <if test="tenderAnnexId != null">tender_annex_id = #{tenderAnnexId},</if>
         </trim>
         where tender_id = #{tenderId}
     </update>
 
     <delete id="deleteBiddingTenderByTenderId" parameterType="Long">
-        delete from bidding_tender where tender_id = #{tenderId}
+        delete
+        from bidding_tender
+        where tender_id = #{tenderId}
     </delete>
 
     <delete id="deleteBiddingTenderByTenderIds" parameterType="String">
-        delete from bidding_tender where tender_id in 
+        delete from bidding_tender where tender_id in
         <foreach item="tenderId" collection="array" open="(" separator="," close=")">
             #{tenderId}
         </foreach>

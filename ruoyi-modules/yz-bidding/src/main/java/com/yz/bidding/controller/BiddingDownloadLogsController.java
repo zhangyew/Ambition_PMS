@@ -3,6 +3,7 @@ package com.yz.bidding.controller;
 import java.util.List;
 import java.io.IOException;
 import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,24 +25,36 @@ import com.ruoyi.common.core.web.page.TableDataInfo;
 
 /**
  * 标书下载记录表Controller
- * 
+ *
  * @author zhangye
  * @date 2023-11-21
  */
 @RestController
 @RequestMapping("/download_logs")
-public class BiddingDownloadLogsController extends BaseController
-{
+public class BiddingDownloadLogsController extends BaseController {
     @Autowired
     private IBiddingDownloadLogsService biddingDownloadLogsService;
+
+    /**
+     * 查询招标项目下的所有标书下载记录
+     *
+     * @param nid
+     * @return
+     */
+    @PostMapping("/findDownloadLogsByTenderId")
+    public TableDataInfo findDownloadLogsByTenderId(String nid) {
+        startPage();
+        List<BiddingDownloadLogs> list = biddingDownloadLogsService.findDownloadLogsByTenderId(nid);
+        return getDataTable(list);
+    }
+
 
     /**
      * 查询标书下载记录表列表
      */
     @RequiresPermissions("pms/bidding:download_logs:list")
     @GetMapping("/list")
-    public TableDataInfo list(BiddingDownloadLogs biddingDownloadLogs)
-    {
+    public TableDataInfo list(BiddingDownloadLogs biddingDownloadLogs) {
         startPage();
         List<BiddingDownloadLogs> list = biddingDownloadLogsService.selectBiddingDownloadLogsList(biddingDownloadLogs);
         return getDataTable(list);
@@ -53,8 +66,7 @@ public class BiddingDownloadLogsController extends BaseController
     @RequiresPermissions("pms/bidding:download_logs:export")
     @Log(title = "标书下载记录表", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
-    public void export(HttpServletResponse response, BiddingDownloadLogs biddingDownloadLogs)
-    {
+    public void export(HttpServletResponse response, BiddingDownloadLogs biddingDownloadLogs) {
         List<BiddingDownloadLogs> list = biddingDownloadLogsService.selectBiddingDownloadLogsList(biddingDownloadLogs);
         ExcelUtil<BiddingDownloadLogs> util = new ExcelUtil<BiddingDownloadLogs>(BiddingDownloadLogs.class);
         util.exportExcel(response, list, "标书下载记录表数据");
@@ -65,8 +77,7 @@ public class BiddingDownloadLogsController extends BaseController
      */
     @RequiresPermissions("pms/bidding:download_logs:query")
     @GetMapping(value = "/{downloadLogsId}")
-    public AjaxResult getInfo(@PathVariable("downloadLogsId") Long downloadLogsId)
-    {
+    public AjaxResult getInfo(@PathVariable("downloadLogsId") Long downloadLogsId) {
         return success(biddingDownloadLogsService.selectBiddingDownloadLogsByDownloadLogsId(downloadLogsId));
     }
 
@@ -76,8 +87,7 @@ public class BiddingDownloadLogsController extends BaseController
     @RequiresPermissions("pms/bidding:download_logs:add")
     @Log(title = "标书下载记录表", businessType = BusinessType.INSERT)
     @PostMapping
-    public AjaxResult add(@RequestBody BiddingDownloadLogs biddingDownloadLogs)
-    {
+    public AjaxResult add(@RequestBody BiddingDownloadLogs biddingDownloadLogs) {
         return toAjax(biddingDownloadLogsService.insertBiddingDownloadLogs(biddingDownloadLogs));
     }
 
@@ -87,8 +97,7 @@ public class BiddingDownloadLogsController extends BaseController
     @RequiresPermissions("pms/bidding:download_logs:edit")
     @Log(title = "标书下载记录表", businessType = BusinessType.UPDATE)
     @PutMapping
-    public AjaxResult edit(@RequestBody BiddingDownloadLogs biddingDownloadLogs)
-    {
+    public AjaxResult edit(@RequestBody BiddingDownloadLogs biddingDownloadLogs) {
         return toAjax(biddingDownloadLogsService.updateBiddingDownloadLogs(biddingDownloadLogs));
     }
 
@@ -97,9 +106,8 @@ public class BiddingDownloadLogsController extends BaseController
      */
     @RequiresPermissions("pms/bidding:download_logs:remove")
     @Log(title = "标书下载记录表", businessType = BusinessType.DELETE)
-	@DeleteMapping("/{downloadLogsIds}")
-    public AjaxResult remove(@PathVariable Long[] downloadLogsIds)
-    {
+    @DeleteMapping("/{downloadLogsIds}")
+    public AjaxResult remove(@PathVariable Long[] downloadLogsIds) {
         return toAjax(biddingDownloadLogsService.deleteBiddingDownloadLogsByDownloadLogsIds(downloadLogsIds));
     }
 }

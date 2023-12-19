@@ -1,19 +1,31 @@
 package com.yz.bidding.mapper;
 
 import java.util.List;
+
 import com.yz.bidding.domain.BiddingTender;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * 投标Mapper接口
- * 
+ *
  * @author zhangye
  * @date 2023-11-21
  */
-public interface BiddingTenderMapper 
-{
+public interface BiddingTenderMapper {
+
+    /**
+     * 根据项目Id和状态查询投标信息
+     *
+     * @param pid
+     * @param zt
+     * @return
+     */
+    public List<BiddingTender> findTendersByProjectsId(@Param("pid") String pid
+            , @Param("zt") String zt);
+
     /**
      * 查询投标
-     * 
+     *
      * @param tenderId 投标主键
      * @return 投标
      */
@@ -21,7 +33,7 @@ public interface BiddingTenderMapper
 
     /**
      * 查询投标列表
-     * 
+     *
      * @param biddingTender 投标
      * @return 投标集合
      */
@@ -29,7 +41,7 @@ public interface BiddingTenderMapper
 
     /**
      * 新增投标
-     * 
+     *
      * @param biddingTender 投标
      * @return 结果
      */
@@ -37,7 +49,7 @@ public interface BiddingTenderMapper
 
     /**
      * 修改投标
-     * 
+     *
      * @param biddingTender 投标
      * @return 结果
      */
@@ -45,7 +57,7 @@ public interface BiddingTenderMapper
 
     /**
      * 删除投标
-     * 
+     *
      * @param tenderId 投标主键
      * @return 结果
      */
@@ -53,7 +65,7 @@ public interface BiddingTenderMapper
 
     /**
      * 批量删除投标
-     * 
+     *
      * @param tenderIds 需要删除的数据主键集合
      * @return 结果
      */

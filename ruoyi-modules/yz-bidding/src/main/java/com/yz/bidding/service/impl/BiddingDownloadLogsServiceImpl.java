@@ -19,6 +19,11 @@ public class BiddingDownloadLogsServiceImpl implements IBiddingDownloadLogsServi
     @Autowired
     private BiddingDownloadLogsMapper biddingDownloadLogsMapper;
 
+    @Override
+    public List<BiddingDownloadLogs> findDownloadLogsByTenderId(String nid) {
+        return biddingDownloadLogsMapper.findDownloadLogsByTenderId(nid);
+    }
+
     /**
      * 查询标书下载记录表
      * 
