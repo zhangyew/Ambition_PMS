@@ -45,7 +45,7 @@ public class PublicReceiptController extends BaseController
     private RemoteCodeRulesService remoteCodeRulesService;
 
     /**
-     * 查询收货单列表
+     * 查询待货单列表
      */
     @RequiresPermissions("shopping/public:receipt:list")
     @GetMapping("/list")
@@ -53,6 +53,18 @@ public class PublicReceiptController extends BaseController
     {
         startPage();
         List<PublicReceipt> list = publicReceiptService.selectPublicReceiptList(publicReceipt);
+        return getDataTable(list);
+    }
+
+    /**
+     * 查询收货单列表
+     */
+    @RequiresPermissions("shopping/public:receipt:list")
+    @GetMapping("/ShowsPublicReceiptList")
+    public TableDataInfo ShowsPublicReceiptList(PublicReceipt publicReceipt)
+    {
+        startPage();
+        List<PublicReceipt> list = publicReceiptService.ShowsPublicReceiptList(publicReceipt);
         return getDataTable(list);
     }
 
@@ -82,10 +94,10 @@ public class PublicReceiptController extends BaseController
     /**
      * 新增收货单
      */
-    @RequiresPermissions("shopping/public:receipt:add")
+//    @RequiresPermissions("shopping/public:receipt:add")
     @Log(title = "收货单", businessType = BusinessType.INSERT)
     @PostMapping("/add")
-    public AjaxResult add(@RequestBody PublicReceipt publicReceipt)
+    public AjaxResult add( PublicReceipt publicReceipt)
     {
         AjaxResult ajaxResult = remoteCodeRulesService.getInfo(13L);
         Object obj = ajaxResult.get("data");

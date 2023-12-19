@@ -20,12 +20,20 @@ public interface IPublicReceiptService
     public PublicReceipt selectPublicReceiptByReceiptId(Long receiptId);
 
     /**
-     * 查询收货单列表
+     * 查询待货单列表
      *
      * @param publicReceipt 收货单
      * @return 收货单集合
      */
     public List<PublicReceipt> selectPublicReceiptList(PublicReceipt publicReceipt);
+
+    /**
+     * 查询收货单列表
+     *
+     * @param publicReceipt 收货单
+     * @return 收货单集合
+     */
+    public List<PublicReceipt> ShowsPublicReceiptList(PublicReceipt publicReceipt);
 
     /**
      * 新增收货单

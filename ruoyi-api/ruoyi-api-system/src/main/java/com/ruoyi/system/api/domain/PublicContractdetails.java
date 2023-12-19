@@ -37,7 +37,7 @@ public class PublicContractdetails extends BaseEntity
 
     /** 外键合同付款ID */
     @Excel(name = "外键合同付款ID")
-    private Long contractdetailsPaymentId;
+    private String contractdetailsPaymentId;
 
     /** 合同名称 */
     @Excel(name = "合同名称")
@@ -128,15 +128,15 @@ public class PublicContractdetails extends BaseEntity
     {
         return contractdetailsNumber;
     }
-    public void setContractdetailsPaymentId(Long contractdetailsPaymentId)
-    {
+
+    public String getContractdetailsPaymentId() {
+        return contractdetailsPaymentId;
+    }
+
+    public void setContractdetailsPaymentId(String contractdetailsPaymentId) {
         this.contractdetailsPaymentId = contractdetailsPaymentId;
     }
 
-    public Long getContractdetailsPaymentId()
-    {
-        return contractdetailsPaymentId;
-    }
     public void setContractdetailsName(String contractdetailsName)
     {
         this.contractdetailsName = contractdetailsName;

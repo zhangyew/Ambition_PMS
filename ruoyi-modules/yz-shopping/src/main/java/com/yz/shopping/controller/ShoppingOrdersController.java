@@ -154,6 +154,18 @@ public class ShoppingOrdersController extends BaseController
     }
 
     /**
+     * 修改待收货状态
+     */
+    @RequiresPermissions("shopping/public:orders:edit")
+    @Log(title = "采购订单表", businessType = BusinessType.UPDATE)
+    @PutMapping("updateOrderState/{orderId}")
+    public AjaxResult updateOrderState(@PathVariable("orderId") Long orderId) {
+        return toAjax(shoppingOrdersService.updateOrderState(orderId));
+    }
+
+
+
+    /**
      * 删除采购订单表
      */
     @RequiresPermissions("shopping/public:orders:remove")

@@ -42,6 +42,8 @@ public interface ShoppingOrdersMapper
      */
     public  ShoppingOrders showsDetailsReceipt(@Param("orderId") Long orderId);
 
+
+
     /**
      * 新增采购订单表
      * 
@@ -57,6 +59,14 @@ public interface ShoppingOrdersMapper
      * @return 结果
      */
     public int updateShoppingOrders(ShoppingOrders shoppingOrders);
+
+    /**
+     * 修改待收货状态
+     *
+     * @param orderId 采购订单表
+     * @return 结果
+     */
+    public int updateOrderState(@Param("orderId") Long orderId);
 
     /**
      * 删除采购订单表

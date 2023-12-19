@@ -109,7 +109,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <!--    收货单（详情显示）-->
     <select id="showsDetailsReceipt" resultMap="ShowsOrdersResult">
-        SELECT DATE_ADD(ord.create_time, INTERVAL 3 DAY) AS DatePlusThreeDays,order_material_id,ord.total_money,order_purchaser,order_supplier_id,ve.abbreviated,ve.responsible,ve.responsible_phone
+        SELECT DATE_ADD(ord.create_time, INTERVAL 3 DAY) AS DatePlusThreeDays,order_material_id,ord.total_money,order_purchaser,order_supplier_id,ve.abbreviated,ve.responsible,ve.responsible_phone,ord.type_order_state
         FROM shopping_orders AS ord
                  INNER JOIN public_vendor AS ve ON(ord.order_supplier_id=ve.vendor_id)
                  INNER JOIN shopping_demand AS de ON(ord.order_material_id=de.demand_id)
@@ -193,6 +193,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="isDelete != null">is_delete = #{isDelete},</if>
         </trim>
         where order_id = #{orderId}
+    </update>
+
+    <!--    待收货单   -->
+    <update id="updateOrderState" parameterType="com.yz.shopping.domain.ShoppingOrders">
+        UPDATE shopping_orders SET type_order_state=5 WHERE order_id=#{orderId};
     </update>
 
     <delete id="deleteShoppingOrdersByOrderId" parameterType="Long">

@@ -65,6 +65,12 @@ public interface IBiddingTenderNoticeService {
     public List<BiddingTenderNotice> ShowsTenderNoticeList();
 
     /**
+     * 供应商首页（通知公告）
+     * @return
+     */
+    public List<BiddingTenderNotice> displayTenderNoticeList();
+
+    /**
      * 新增招标公告
      *
      * @param biddingTenderNotice 招标公告

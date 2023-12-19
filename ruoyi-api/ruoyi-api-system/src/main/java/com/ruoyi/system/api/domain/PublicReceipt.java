@@ -143,6 +143,15 @@ public class PublicReceipt extends BaseEntity {
         this.receiptId = receiptId;
     }
 
+    private PublicVendor publicVendor;
+    private PublicWarehouse publicWarehouse;
+
+    public PublicVendor getPublicVendor() {return publicVendor;}
+    public void setPublicVendor(PublicVendor publicVendor) {this.publicVendor = publicVendor;}
+    public PublicWarehouse getPublicWarehouse() {return publicWarehouse;}
+    public void setPublicWarehouse(PublicWarehouse publicWarehouse) {this.publicWarehouse = publicWarehouse;}
+
+
     public Long getReceiptId()
     {
         return receiptId;

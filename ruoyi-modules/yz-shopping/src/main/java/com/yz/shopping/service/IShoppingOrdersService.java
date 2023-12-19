@@ -2,6 +2,7 @@ package com.yz.shopping.service;
 
 import java.util.List;
 import com.yz.shopping.domain.ShoppingOrders;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * 采购订单表Service接口
@@ -56,6 +57,14 @@ public interface IShoppingOrdersService
      * @return 结果
      */
     public int updateShoppingOrders(ShoppingOrders shoppingOrders);
+
+    /**
+     * 修改待收货状态
+     *
+     * @param orderId 采购订单表
+     * @return 结果
+     */
+    public int updateOrderState(Long orderId);
 
     /**
      * 批量删除采购订单表

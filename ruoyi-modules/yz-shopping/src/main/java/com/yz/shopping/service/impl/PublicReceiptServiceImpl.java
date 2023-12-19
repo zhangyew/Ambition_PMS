@@ -41,7 +41,7 @@ public class PublicReceiptServiceImpl implements IPublicReceiptService
     }
 
     /**
-     * 查询收货单列表
+     * 查询待收货单列表
      *
      * @param publicReceipt 收货单
      * @return 收货单
@@ -67,6 +67,16 @@ public class PublicReceiptServiceImpl implements IPublicReceiptService
 
         }
         return receipts;
+    }
+    /**
+     * 查询收货单列表
+     *
+     * @param publicReceipt 收货单
+     * @return 收货单
+     */
+    @Override
+    public List<PublicReceipt> ShowsPublicReceiptList(PublicReceipt publicReceipt) {
+        return publicReceiptMapper.ShowsPublicReceiptList(publicReceipt);
     }
 
     /**

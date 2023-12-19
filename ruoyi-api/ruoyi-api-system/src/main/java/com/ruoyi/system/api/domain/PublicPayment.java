@@ -65,6 +65,24 @@ public class PublicPayment extends BaseEntity {
     @Excel(name = "违约责任")
     private String duty;
 
+    /**
+     * 删除
+     */
+    @Excel(name = "删除")
+    private Long isDelete;
+
+    private PublicVendor publicVendor;
+    public PublicVendor getPublicVendor() {return publicVendor;}
+    public void setPublicVendor(PublicVendor publicVendor) {this.publicVendor = publicVendor;}
+
+    public Long getIsDelete() {
+        return isDelete;
+    }
+
+    public void setIsDelete(Long isDelete) {
+        this.isDelete = isDelete;
+    }
+
     public void setPaymentId(Long paymentId) {
         this.paymentId = paymentId;
     }
@@ -144,6 +162,7 @@ public class PublicPayment extends BaseEntity {
                 .append("createTime", getCreateTime())
                 .append("updateBy", getUpdateBy())
                 .append("updateTime", getUpdateTime())
+                .append("isDelete",getIsDelete())
                 .toString();
     }
 }

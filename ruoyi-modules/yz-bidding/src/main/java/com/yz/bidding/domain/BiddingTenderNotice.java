@@ -72,7 +72,7 @@ public class BiddingTenderNotice extends BaseEntity
 
     /** 状态 */
     @Excel(name = "状态")
-    private Long state;
+    private Long auditState;
 
     /** 删除 */
     @Excel(name = "删除")
@@ -198,16 +198,16 @@ public class BiddingTenderNotice extends BaseEntity
     {
         return tenders;
     }
-    public void setState(Long state) 
-    {
-        this.state = state;
+
+    public Long getAuditState() {
+        return auditState;
     }
 
-    public Long getState() 
-    {
-        return state;
+    public void setAuditState(Long auditState) {
+        this.auditState = auditState;
     }
-    public void setIsDelete(Long isDelete) 
+
+    public void setIsDelete(Long isDelete)
     {
         this.isDelete = isDelete;
     }
@@ -233,7 +233,7 @@ public class BiddingTenderNotice extends BaseEntity
             .append("remark", getRemark())
             .append("context", getContext())
             .append("tenders", getTenders())
-            .append("state", getState())
+            .append("auditState", getAuditState())
             .append("isDelete", getIsDelete())
             .append("tenderProjectsNumber",getTenderProjectsNumber())
             .toString();

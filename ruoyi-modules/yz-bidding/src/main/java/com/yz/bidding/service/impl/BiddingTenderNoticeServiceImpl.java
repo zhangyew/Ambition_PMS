@@ -90,6 +90,15 @@ public class BiddingTenderNoticeServiceImpl implements IBiddingTenderNoticeServi
     }
 
     /**
+     * 供应商首页（通知公告）
+     * @return
+     */
+    @Override
+    public List<BiddingTenderNotice> displayTenderNoticeList() {
+        return biddingTenderNoticeMapper.displayTenderNoticeList();
+    }
+
+    /**
      * 新增招标公告
      *
      * @param biddingTenderNotice 招标公告

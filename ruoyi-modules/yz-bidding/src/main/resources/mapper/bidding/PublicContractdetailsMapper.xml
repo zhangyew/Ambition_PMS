@@ -71,7 +71,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </sql>
 
     <select id="selectPublicContractdetailsList" parameterType="com.ruoyi.system.api.domain.PublicContractdetails" resultMap="PublicContractdetailsResult">
-        SELECT co.contractdetails_id,btp.tender_projects_name,co.contractdetails_name,co.contractdetails_number,ve.abbreviated,ag.applicant,co.open_time,co.contractdetails_amount,co.contractdetails_state FROM public_agreement AS ag
+        SELECT co.contractdetails_id,btp.tender_projects_name,co.contractdetails_name,co.contractdetails_number,ve.abbreviated,ag.applicant,co.open_time,co.contractdetails_amount,co.contractdetails_state,co.contractdetails_payment_id
+        FROM public_agreement AS ag
         INNER JOIN public_contractdetails AS co ON(ag.contract_id=co.contract_id)
         INNER JOIN public_vendor AS ve ON(co.vendor_contract_id=ve.vendor_id)
         INNER JOIN bidding_tender_projects AS btp ON(ag.contract_projects_id=btp.tender_projects_id)
@@ -79,14 +80,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="contractdetailsNumber != null "> co.contractdetails_number like concat('%', #{contractdetailsNumber}, '%')</if>
             <if test="contractdetailsName != null  and contractdetailsName != ''"> and co.contractdetails_name like concat('%', #{contractdetailsName}, '%')</if>
             <if test="contractdetailsState != null  and contractdetailsState != ''"> and co.contractdetails_state = #{contractdetailsState}</if>
-            <if test="abbreviated != null  and abbreviated != ''"> and  ve.abbreviated like concat('%', #{tenderProjectsName}, '%')</if>
+            <if test="abbreviated != null  and abbreviated != ''"> and  ve.abbreviated like concat('%', #{abbreviated}, '%')</if>
         </where>
         ORDER BY co.open_time DESC
     </select>
 
 <!-- 采购合同详情-->
     <select id="selectContractDetailsId"   resultMap="PurchaseContractsResult">
-        SELECT co.contractdetails_id,
+        SELECT co.contractdetails_id,co.contractdetails_payment_id,
                ag.applicant,ag.applicant_time,ag.contract_sector,ag.firm,ag.contract_project_related,
                tp.tender_projects_name,
                ag.contract_master,ag.contract_prime_id,ag.contract_total_budget,

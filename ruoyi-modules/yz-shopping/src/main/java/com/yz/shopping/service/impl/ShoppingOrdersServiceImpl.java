@@ -91,6 +91,16 @@ public class ShoppingOrdersServiceImpl implements IShoppingOrdersService
     }
 
     /**
+     * 修改待收货状态
+     * @param orderId 采购订单表
+     * @return
+     */
+    @Override
+    public int updateOrderState(Long orderId) {
+        return shoppingOrdersMapper.updateOrderState(orderId);
+    }
+
+    /**
      * 批量删除采购订单表
      * 
      * @param orderIds 需要删除的采购订单表主键

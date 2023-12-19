@@ -31,7 +31,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="noticeSupplierId != null "> and notice_supplier_id = #{noticeSupplierId}</if>
         </where>
     </select>
-<!--    供应商首页（通知公告）-->
+
     <select id="showsNoticeList" parameterType="com.yz.bidding.domain.BiddingNotice" resultMap="BiddingNoticeResult">
         SELECT notice_title,notice_date FROM bidding_notice
     </select>
