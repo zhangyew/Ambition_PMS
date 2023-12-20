@@ -4,16 +4,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yz.bidding.mapper.PublicExpertPoolMapper">
     
-    <resultMap type="com.ruoyi.system.api.domain.PublicExpertPool" id="PublicExpertPoolResult">
+   <resultMap type="com.ruoyi.system.api.domain.PublicExpertPool" id="PublicExpertPoolResult">
         <result property="expertPoolId"    column="expert_pool_id"    />
         <result property="expertPoolName"    column="expert_pool_name"    />
-        <result property="sex"    column="sex"    />
         <result property="level"    column="level"    />
-        <result property="type"    column="type"    />
         <result property="category"    column="category"    />
-        <result property="landline"    column="landline"    />
-        <result property="phone"    column="phone"    />
-        <result property="email"    column="email"    />
         <result property="createBy"    column="create_by"    />
         <result property="createTime"    column="create_time"    />
         <result property="updateBy"    column="update_by"    />
@@ -22,74 +17,53 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectPublicExpertPoolVo">
-        select expert_pool_id, expert_pool_name, sex, level, type, category, landline, phone, email, create_by, create_time, update_by, update_time, is_delete from public_expert_pool
+        select expert_pool_id, expert_pool_name, level, category, create_by, create_time, update_by, update_time, is_delete from public_expert_pool
     </sql>
 
     <select id="selectPublicExpertPoolList" parameterType="com.ruoyi.system.api.domain.PublicExpertPool" resultMap="PublicExpertPoolResult">
         <include refid="selectPublicExpertPoolVo"/>
-        <where>  
+        <where>
             <if test="expertPoolName != null  and expertPoolName != ''"> and expert_pool_name like concat('%', #{expertPoolName}, '%')</if>
-            <if test="sex != null "> and sex = #{sex}</if>
             <if test="level != null "> and level = #{level}</if>
-            <if test="type != null "> and type = #{type}</if>
             <if test="category != null "> and category = #{category}</if>
-            <if test="landline != null  and landline != ''"> and landline = #{landline}</if>
-            <if test="phone != null  and phone != ''"> and phone = #{phone}</if>
-            <if test="email != null  and email != ''"> and email = #{email}</if>
-            <if test="isDelete != null "> and is_delete = #{isDelete}</if>
         </where>
     </select>
-    
+
     <select id="selectPublicExpertPoolByExpertPoolId" parameterType="Long" resultMap="PublicExpertPoolResult">
         <include refid="selectPublicExpertPoolVo"/>
         where expert_pool_id = #{expertPoolId}
     </select>
-        
+
     <insert id="insertPublicExpertPool" parameterType="com.ruoyi.system.api.domain.PublicExpertPool" useGeneratedKeys="true" keyProperty="expertPoolId">
         insert into public_expert_pool
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="expertPoolName != null">expert_pool_name,</if>
-            <if test="sex != null">sex,</if>
             <if test="level != null">level,</if>
-            <if test="type != null">type,</if>
             <if test="category != null">category,</if>
-            <if test="landline != null">landline,</if>
-            <if test="phone != null">phone,</if>
-            <if test="email != null">email,</if>
             <if test="createBy != null">create_by,</if>
             <if test="createTime != null">create_time,</if>
             <if test="updateBy != null">update_by,</if>
             <if test="updateTime != null">update_time,</if>
             <if test="isDelete != null">is_delete,</if>
-         </trim>
+        </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="expertPoolName != null">#{expertPoolName},</if>
-            <if test="sex != null">#{sex},</if>
             <if test="level != null">#{level},</if>
-            <if test="type != null">#{type},</if>
             <if test="category != null">#{category},</if>
-            <if test="landline != null">#{landline},</if>
-            <if test="phone != null">#{phone},</if>
-            <if test="email != null">#{email},</if>
             <if test="createBy != null">#{createBy},</if>
             <if test="createTime != null">#{createTime},</if>
             <if test="updateBy != null">#{updateBy},</if>
             <if test="updateTime != null">#{updateTime},</if>
             <if test="isDelete != null">#{isDelete},</if>
-         </trim>
+        </trim>
     </insert>
 
     <update id="updatePublicExpertPool" parameterType="com.ruoyi.system.api.domain.PublicExpertPool">
         update public_expert_pool
         <trim prefix="SET" suffixOverrides=",">
             <if test="expertPoolName != null">expert_pool_name = #{expertPoolName},</if>
-            <if test="sex != null">sex = #{sex},</if>
             <if test="level != null">level = #{level},</if>
-            <if test="type != null">type = #{type},</if>
             <if test="category != null">category = #{category},</if>
-            <if test="landline != null">landline = #{landline},</if>
-            <if test="phone != null">phone = #{phone},</if>
-            <if test="email != null">email = #{email},</if>
             <if test="createBy != null">create_by = #{createBy},</if>
             <if test="createTime != null">create_time = #{createTime},</if>
             <if test="updateBy != null">update_by = #{updateBy},</if>
@@ -104,7 +78,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </delete>
 
     <delete id="deletePublicExpertPoolByExpertPoolIds" parameterType="String">
-        delete from public_expert_pool where expert_pool_id in 
+        delete from public_expert_pool where expert_pool_id in
         <foreach item="expertPoolId" collection="array" open="(" separator="," close=")">
             #{expertPoolId}
         </foreach>

@@ -1,57 +1,83 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
-PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yz.bidding.mapper.BiddingDrawExpertsMapper">
-    
     <resultMap type="BiddingDrawExperts" id="BiddingDrawExpertsResult">
-        <result property="drawExpertsId"    column="draw_experts_id"    />
-        <result property="drawExpertId"    column="draw_expert_id"    />
-        <result property="drawProjectsId"    column="draw_projects_id"    />
-        <result property="number"    column="number"    />
-        <result property="manner"    column="manner"    />
-        <result property="expertsNumber"    column="experts_number"    />
-        <result property="buyNumber"    column="buy_number"    />
-        <result property="address"    column="address"    />
-        <result property="state"    column="state"    />
-        <result property="createBy"    column="create_by"    />
-        <result property="createTime"    column="create_time"    />
-        <result property="updateBy"    column="update_by"    />
-        <result property="updateTime"    column="update_time"    />
-        <result property="isDelete"    column="is_delete"    />
+        <result property="drawExpertsId" column="draw_experts_id"/>
+        <result property="number" column="number"/>
+        <result property="drawExpertId" column="draw_expert_id"/>
+        <result property="drawProjectsId" column="draw_projects_id"/>
+        <result property="must" column="must"/>
+        <result property="manner" column="manner"/>
+        <result property="conditions" column="conditions"/>
+        <result property="evadeExperts" column="evade_experts"/>
+        <result property="expertsNumber" column="experts_number"/>
+        <result property="buyNumber" column="buy_number"/>
+        <result property="address" column="address"/>
+        <result property="state" column="state"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="isDelete" column="is_delete"/>
     </resultMap>
 
     <sql id="selectBiddingDrawExpertsVo">
-        select draw_experts_id, draw_expert_id, draw_projects_id, number, manner, experts_number, buy_number, address, state, create_by, create_time, update_by, update_time, is_delete from bidding_draw_experts
+        select draw_experts_id,
+               number,
+               draw_expert_id,
+               draw_projects_id,
+               must,
+               manner,
+               conditions,
+               evade_experts,
+               experts_number,
+               buy_number,
+               address,
+               state,
+               create_by,
+               create_time,
+               update_by,
+               update_time,
+               is_delete
+        from bidding_draw_experts
     </sql>
 
     <select id="selectBiddingDrawExpertsList" parameterType="BiddingDrawExperts" resultMap="BiddingDrawExpertsResult">
         <include refid="selectBiddingDrawExpertsVo"/>
-        <where>  
-            <if test="drawExpertId != null "> and draw_expert_id = #{drawExpertId}</if>
-            <if test="drawProjectsId != null "> and draw_projects_id = #{drawProjectsId}</if>
-            <if test="number != null  and number != ''"> and number = #{number}</if>
-            <if test="manner != null "> and manner = #{manner}</if>
-            <if test="expertsNumber != null "> and experts_number = #{expertsNumber}</if>
-            <if test="buyNumber != null "> and buy_number = #{buyNumber}</if>
-            <if test="address != null  and address != ''"> and address = #{address}</if>
-            <if test="state != null "> and state = #{state}</if>
-            <if test="isDelete != null "> and is_delete = #{isDelete}</if>
+        <where>
+            <if test="number != null  and number != ''">and number = #{number}</if>
+            <if test="drawExpertId != null ">and draw_expert_id = #{drawExpertId}</if>
+            <if test="drawProjectsId != null ">and draw_projects_id = #{drawProjectsId}</if>
+            <if test="must != null ">and must = #{must}</if>
+            <if test="manner != null ">and manner = #{manner}</if>
+            <if test="conditions != null  and conditions != ''">and conditions = #{conditions}</if>
+            <if test="evadeExperts != null  and evadeExperts != ''">and evade_experts = #{evadeExperts}</if>
+            <if test="expertsNumber != null ">and experts_number = #{expertsNumber}</if>
+            <if test="buyNumber != null ">and buy_number = #{buyNumber}</if>
+            <if test="address != null  and address != ''">and address = #{address}</if>
+            <if test="state != null ">and state = #{state}</if>
+            <if test="isDelete != null ">and is_delete = #{isDelete}</if>
         </where>
     </select>
-    
+
     <select id="selectBiddingDrawExpertsByDrawExpertsId" parameterType="Long" resultMap="BiddingDrawExpertsResult">
         <include refid="selectBiddingDrawExpertsVo"/>
         where draw_experts_id = #{drawExpertsId}
     </select>
-        
-    <insert id="insertBiddingDrawExperts" parameterType="BiddingDrawExperts" useGeneratedKeys="true" keyProperty="drawExpertsId">
+
+    <insert id="insertBiddingDrawExperts" parameterType="BiddingDrawExperts" useGeneratedKeys="true"
+            keyProperty="drawExpertsId">
         insert into bidding_draw_experts
         <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="number != null">number,</if>
             <if test="drawExpertId != null">draw_expert_id,</if>
             <if test="drawProjectsId != null">draw_projects_id,</if>
-            <if test="number != null">number,</if>
+            <if test="must != null">must,</if>
             <if test="manner != null">manner,</if>
+            <if test="conditions != null">conditions,</if>
+            <if test="evadeExperts != null">evade_experts,</if>
             <if test="expertsNumber != null">experts_number,</if>
             <if test="buyNumber != null">buy_number,</if>
             <if test="address != null">address,</if>
@@ -61,12 +87,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="updateBy != null">update_by,</if>
             <if test="updateTime != null">update_time,</if>
             <if test="isDelete != null">is_delete,</if>
-         </trim>
+        </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="number != null">#{number},</if>
             <if test="drawExpertId != null">#{drawExpertId},</if>
             <if test="drawProjectsId != null">#{drawProjectsId},</if>
-            <if test="number != null">#{number},</if>
+            <if test="must != null">#{must},</if>
             <if test="manner != null">#{manner},</if>
+            <if test="conditions != null">#{conditions},</if>
+            <if test="evadeExperts != null">#{evadeExperts},</if>
             <if test="expertsNumber != null">#{expertsNumber},</if>
             <if test="buyNumber != null">#{buyNumber},</if>
             <if test="address != null">#{address},</if>
@@ -76,16 +105,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="updateBy != null">#{updateBy},</if>
             <if test="updateTime != null">#{updateTime},</if>
             <if test="isDelete != null">#{isDelete},</if>
-         </trim>
+        </trim>
     </insert>
 
     <update id="updateBiddingDrawExperts" parameterType="BiddingDrawExperts">
         update bidding_draw_experts
         <trim prefix="SET" suffixOverrides=",">
+            <if test="number != null">number = #{number},</if>
             <if test="drawExpertId != null">draw_expert_id = #{drawExpertId},</if>
             <if test="drawProjectsId != null">draw_projects_id = #{drawProjectsId},</if>
-            <if test="number != null">number = #{number},</if>
+            <if test="must != null">must = #{must},</if>
             <if test="manner != null">manner = #{manner},</if>
+            <if test="conditions != null">conditions = #{conditions},</if>
+            <if test="evadeExperts != null">evade_experts = #{evadeExperts},</if>
             <if test="expertsNumber != null">experts_number = #{expertsNumber},</if>
             <if test="buyNumber != null">buy_number = #{buyNumber},</if>
             <if test="address != null">address = #{address},</if>
@@ -100,11 +132,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </update>
 
     <delete id="deleteBiddingDrawExpertsByDrawExpertsId" parameterType="Long">
-        delete from bidding_draw_experts where draw_experts_id = #{drawExpertsId}
+        delete
+        from bidding_draw_experts
+        where draw_experts_id = #{drawExpertsId}
     </delete>
 
     <delete id="deleteBiddingDrawExpertsByDrawExpertsIds" parameterType="String">
-        delete from bidding_draw_experts where draw_experts_id in 
+        delete from bidding_draw_experts where draw_experts_id in
         <foreach item="drawExpertsId" collection="array" open="(" separator="," close=")">
             #{drawExpertsId}
         </foreach>

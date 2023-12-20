@@ -13,11 +13,16 @@ import com.ruoyi.common.core.web.domain.BaseEntity;
  */
 public class PublicExpert extends BaseEntity {
     private static final long serialVersionUID = 1L;
-
     /**
      * 主键
      */
     private Long expertId;
+
+    /**
+     * 专家库主键
+     */
+    @Excel(name = "专家库主键")
+    private Long poolId;
 
     /**
      * 专家姓名
@@ -30,12 +35,6 @@ public class PublicExpert extends BaseEntity {
      */
     @Excel(name = "专家身份证")
     private String idCard;
-
-    /**
-     * 专家专业
-     */
-    @Excel(name = "专家专业")
-    private Long expetTypeId;
 
     /**
      * 区域
@@ -63,6 +62,14 @@ public class PublicExpert extends BaseEntity {
         return expertId;
     }
 
+    public void setPoolId(Long poolId) {
+        this.poolId = poolId;
+    }
+
+    public Long getPoolId() {
+        return poolId;
+    }
+
     public void setName(String name) {
         this.name = name;
     }
@@ -77,14 +84,6 @@ public class PublicExpert extends BaseEntity {
 
     public String getIdCard() {
         return idCard;
-    }
-
-    public void setExpetTypeId(Long expetTypeId) {
-        this.expetTypeId = expetTypeId;
-    }
-
-    public Long getExpetTypeId() {
-        return expetTypeId;
     }
 
     public void setAddress(String address) {
@@ -115,9 +114,9 @@ public class PublicExpert extends BaseEntity {
     public String toString() {
         return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE)
                 .append("expertId", getExpertId())
+                .append("poolId", getPoolId())
                 .append("name", getName())
                 .append("idCard", getIdCard())
-                .append("expetTypeId", getExpetTypeId())
                 .append("address", getAddress())
                 .append("phone", getPhone())
                 .append("createBy", getCreateBy())
