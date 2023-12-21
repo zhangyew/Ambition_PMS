@@ -54,6 +54,25 @@ public class PublicExpert extends BaseEntity {
     @Excel(name = "删除")
     private Long isDelete;
 
+    /**
+     * 是否被抽取
+     */
+    @Excel(name = "是否被抽取")
+    private Long isExtract;
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
+
+    public Long getIsExtract() {
+        return isExtract;
+    }
+
+    public PublicExpert setIsExtract(Long isExtract) {
+        this.isExtract = isExtract;
+        return this;
+    }
+
     public void setExpertId(Long expertId) {
         this.expertId = expertId;
     }
@@ -124,6 +143,7 @@ public class PublicExpert extends BaseEntity {
                 .append("updateBy", getUpdateBy())
                 .append("updateTime", getUpdateTime())
                 .append("isDelete", getIsDelete())
+                .append("isExtract", getIsExtract())
                 .toString();
     }
 }

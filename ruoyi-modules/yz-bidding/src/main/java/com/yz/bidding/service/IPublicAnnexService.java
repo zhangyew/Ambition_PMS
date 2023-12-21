@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.ruoyi.system.api.domain.PublicAnnex;
+import org.springframework.stereotype.Service;
 
 /**
  * 公告附件Service接口

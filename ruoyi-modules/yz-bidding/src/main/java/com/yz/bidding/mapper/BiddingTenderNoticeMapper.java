@@ -1,6 +1,7 @@
 package com.yz.bidding.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import com.ruoyi.system.api.domain.PublicContractdetails;
 
@@ -16,6 +17,14 @@ import org.apache.ibatis.annotations.Param;
  */
 public interface BiddingTenderNoticeMapper {
 
+    /**
+     * 查询没有抽取专家的招标公告集合
+     *
+     * @param id
+     * @return
+     */
+    public List<Map<String, Object>> findTenderNoticeList(@Param("id") String id
+    ,@Param("name")String name);
 
     /**
      * 修改招标公告状态
@@ -59,11 +68,13 @@ public interface BiddingTenderNoticeMapper {
 
     /**
      * 供应商首页（通知公告）
+     *
      * @return
      */
     public List<BiddingTenderNotice> displayTenderNoticeList();
 
     List<BiddingTenderNotice> showsNoticeList();
+
     /**
      * 新增招标公告
      *

@@ -3,7 +3,9 @@ package com.yz.bidding.service.impl;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
+import com.ruoyi.common.core.web.page.TableDataInfo;
 import com.ruoyi.system.api.domain.PublicAnnex;
 import com.yz.bidding.domain.BiddingTenderProjects;
 import com.yz.bidding.mapper.PublicAgreementMapper;
@@ -28,6 +30,11 @@ public class BiddingTenderNoticeServiceImpl implements IBiddingTenderNoticeServi
     private BiddingTenderNoticeMapper biddingTenderNoticeMapper;
     @Resource
     private PublicAnnexMapper publicAnnexMapper;
+
+    @Override
+    public List<Map<String,Object>> findTenderNoticeList(String id,String name) {
+        return biddingTenderNoticeMapper.findTenderNoticeList(id,name);
+    }
 
     @Override
     public int addTenderNotice(BiddingTenderNotice bid, List<PublicAnnex> list) {

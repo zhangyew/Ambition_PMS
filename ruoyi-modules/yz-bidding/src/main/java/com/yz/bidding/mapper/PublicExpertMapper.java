@@ -1,19 +1,30 @@
 package com.yz.bidding.mapper;
 
 import java.util.List;
+
 import com.ruoyi.system.api.domain.PublicExpert;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * 专家Mapper接口
- * 
+ *
  * @author zhangye
  * @date 2023-11-21
  */
-public interface PublicExpertMapper 
-{
+public interface PublicExpertMapper {
+
+    /**
+     * 根据抽取条件和回避专家查出专家集合
+     * @param category
+     * @param tj
+     * @return
+     */
+    public List<PublicExpert> findExpertByExtractionConditions(@Param("category") String category
+            , @Param("tj") List<Long> tj);
+
     /**
      * 查询专家
-     * 
+     *
      * @param expertId 专家主键
      * @return 专家
      */
@@ -21,7 +32,7 @@ public interface PublicExpertMapper
 
     /**
      * 查询专家列表
-     * 
+     *
      * @param publicExpert 专家
      * @return 专家集合
      */
@@ -29,7 +40,7 @@ public interface PublicExpertMapper
 
     /**
      * 新增专家
-     * 
+     *
      * @param publicExpert 专家
      * @return 结果
      */
@@ -37,7 +48,7 @@ public interface PublicExpertMapper
 
     /**
      * 修改专家
-     * 
+     *
      * @param publicExpert 专家
      * @return 结果
      */
@@ -45,7 +56,7 @@ public interface PublicExpertMapper
 
     /**
      * 删除专家
-     * 
+     *
      * @param expertId 专家主键
      * @return 结果
      */
@@ -53,7 +64,7 @@ public interface PublicExpertMapper
 
     /**
      * 批量删除专家
-     * 
+     *
      * @param expertIds 需要删除的数据主键集合
      * @return 结果
      */

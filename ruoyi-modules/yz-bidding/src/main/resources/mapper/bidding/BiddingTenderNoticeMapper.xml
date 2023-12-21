@@ -5,22 +5,22 @@
 <mapper namespace="com.yz.bidding.mapper.BiddingTenderNoticeMapper">
 
     <resultMap type="com.yz.bidding.domain.BiddingTenderNotice" id="BiddingTenderNoticeResult">
-        <result property="tenderNoticeId"    column="tender_notice_id"    />
-        <result property="tenderNoticeProjectsId"    column="tender_notice_projects_id"    />
-        <result property="tenderTitle"    column="tender_title"    />
-        <result property="tenderNoticeMonery"    column="tender_notice_monery"    />
-        <result property="bidStart"    column="bid_start"    />
-        <result property="bidEnd"    column="bid_end"    />
-        <result property="kaibiaoStart"    column="kaibiao_start"    />
-        <result property="kaibiaoEnd"    column="kaibiao_end"    />
-        <result property="processStart"    column="process_start"    />
-        <result property="processEnd"    column="process_end"    />
-        <result property="remark"    column="remark"    />
-        <result property="context"    column="context"    />
-        <result property="tenders"    column="tenders"    />
-        <result property="auditState"    column="audit_state"    />
-        <result property="isDelete"    column="is_delete"    />
-        <result property="tenderProjectsNumber" column="tender_projects_number" />
+        <result property="tenderNoticeId" column="tender_notice_id"/>
+        <result property="tenderNoticeProjectsId" column="tender_notice_projects_id"/>
+        <result property="tenderTitle" column="tender_title"/>
+        <result property="tenderNoticeMonery" column="tender_notice_monery"/>
+        <result property="bidStart" column="bid_start"/>
+        <result property="bidEnd" column="bid_end"/>
+        <result property="kaibiaoStart" column="kaibiao_start"/>
+        <result property="kaibiaoEnd" column="kaibiao_end"/>
+        <result property="processStart" column="process_start"/>
+        <result property="processEnd" column="process_end"/>
+        <result property="remark" column="remark"/>
+        <result property="context" column="context"/>
+        <result property="tenders" column="tenders"/>
+        <result property="auditState" column="audit_state"/>
+        <result property="isDelete" column="is_delete"/>
+        <result property="tenderProjectsNumber" column="tender_projects_number"/>
     </resultMap>
     <resultMap type="com.yz.bidding.domain.BiddingTenderProjects" id="findNoticeById">
         <result property="tenderProjectsId" column="tender_projects_id"/>
@@ -116,10 +116,10 @@
     <!--    供应商首页（招投标信息显示）-->
     <select id="ShowsTenderNoticeList" parameterType="com.yz.bidding.domain.BiddingTenderNotice"
             resultMap="BiddingTenderNoticeResult">
-        SELECT tp.tender_projects_number,tp.tender_projects_name, tn.bid_start, tn.bid_end,audit_state
+        SELECT tp.tender_projects_number, tp.tender_projects_name, tn.bid_start, tn.bid_end, audit_state
         FROM bidding_tender_projects AS tp
-        INNER JOIN bidding_tender_notice AS tn ON (tp.tender_projects_id = tn.tender_notice_projects_id)
-        WHERE audit_state=1
+                 INNER JOIN bidding_tender_notice AS tn ON (tp.tender_projects_id = tn.tender_notice_projects_id)
+        WHERE audit_state = 1
         GROUP BY tender_notice_projects_id
         ORDER BY tn.bid_start DESC
     </select>
@@ -137,19 +137,37 @@
         </if>
     </select>
     <select id="showsNoticeList" resultMap="BiddingTenderNoticeResult">
-       SELECT tender_notice_id,tender_title,process_start,process_end,state
-                FROM  bidding_tender_notice where state=1
-                ORDER BY process_start limit 5
+        SELECT tender_notice_id, tender_title, process_start, process_end, state
+        FROM bidding_tender_notice
+        where state = 1
+        ORDER BY process_start
+        limit 5
     </select>
 
     <!--    供应商首页（通知公告）-->
-    <select id="displayTenderNoticeList" parameterType="com.yz.bidding.domain.BiddingTenderNotice" resultMap="BiddingTenderNoticeResult">
+    <select id="displayTenderNoticeList" parameterType="com.yz.bidding.domain.BiddingTenderNotice"
+            resultMap="BiddingTenderNoticeResult">
         <include refid="selectBiddingTenderNoticeVo"/>
         WHERE state=1 AND is_delete=0
     </select>
+    <select id="findTenderNoticeList" resultType="java.util.Map">
+        SELECT n.*, p.must,p.tender_projects_number
+        FROM `bidding_tender_notice` n
+        inner join bidding_tender_projects p
+        on n.tender_notice_projects_id = p.tender_projects_id
+        left join bidding_draw_experts e
+        on n.tender_notice_id = e.draw_projects_id
+        where p.tender_projects_id = #{id}
+        and n.state = 1
+        AND e.draw_projects_id IS NULL
+        <if test="name != null and name != '' and name != 'null'">and n.tender_title like
+            concat('%', #{name}, '%')
+        </if>
+    </select>
 
 
-    <insert id="insertBiddingTenderNotice" parameterType="com.yz.bidding.domain.BiddingTenderNotice" useGeneratedKeys="true"
+    <insert id="insertBiddingTenderNotice" parameterType="com.yz.bidding.domain.BiddingTenderNotice"
+            useGeneratedKeys="true"
             keyProperty="tenderNoticeId">
         insert into bidding_tender_notice
         <trim prefix="(" suffix=")" suffixOverrides=",">

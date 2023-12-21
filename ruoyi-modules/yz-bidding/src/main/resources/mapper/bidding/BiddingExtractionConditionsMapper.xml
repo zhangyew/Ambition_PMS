@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yz.bidding.mapper.BiddingExtractionConditionsMapper">
+    
+    <resultMap type="BiddingExtractionConditions" id="BiddingExtractionConditionsResult">
+        <result property="extractionConditionsId"    column="extraction_conditions_id"    />
+        <result property="extractionExpertId"    column="extraction_expert_id"    />
+        <result property="specialized"    column="specialized"    />
+        <result property="number"    column="number"    />
+        <result property="creationTime"    column="creation_time"    />
+    </resultMap>
+
+    <sql id="selectBiddingExtractionConditionsVo">
+        select extraction_conditions_id, extraction_expert_id, specialized, number, creation_time from bidding_extraction_conditions
+    </sql>
+
+    <select id="selectBiddingExtractionConditionsList" parameterType="BiddingExtractionConditions" resultMap="BiddingExtractionConditionsResult">
+        <include refid="selectBiddingExtractionConditionsVo"/>
+        <where>  
+            <if test="extractionExpertId != null "> and extraction_expert_id = #{extractionExpertId}</if>
+            <if test="specialized != null "> and specialized = #{specialized}</if>
+            <if test="number != null "> and number = #{number}</if>
+            <if test="creationTime != null "> and creation_time = #{creationTime}</if>
+        </where>
+    </select>
+    
+    <select id="selectBiddingExtractionConditionsByExtractionConditionsId" parameterType="Long" resultMap="BiddingExtractionConditionsResult">
+        <include refid="selectBiddingExtractionConditionsVo"/>
+        where extraction_conditions_id = #{extractionConditionsId}
+    </select>
+        
+    <insert id="insertBiddingExtractionConditions" parameterType="BiddingExtractionConditions"
+            useGeneratedKeys="true"
+            keyProperty="extractionConditionsId">
+        insert into bidding_extraction_conditions
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="extractionConditionsId != null">extraction_conditions_id,</if>
+            <if test="extractionExpertId != null">extraction_expert_id,</if>
+            <if test="specialized != null">specialized,</if>
+            <if test="number != null">number,</if>
+            <if test="creationTime != null">creation_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="extractionConditionsId != null">#{extractionConditionsId},</if>
+            <if test="extractionExpertId != null">#{extractionExpertId},</if>
+            <if test="specialized != null">#{specialized},</if>
+            <if test="number != null">#{number},</if>
+            <if test="creationTime != null">#{creationTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateBiddingExtractionConditions" parameterType="BiddingExtractionConditions">
+        update bidding_extraction_conditions
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="extractionExpertId != null">extraction_expert_id = #{extractionExpertId},</if>
+            <if test="specialized != null">specialized = #{specialized},</if>
+            <if test="number != null">number = #{number},</if>
+            <if test="creationTime != null">creation_time = #{creationTime},</if>
+        </trim>
+        where extraction_conditions_id = #{extractionConditionsId}
+    </update>
+
+    <delete id="deleteBiddingExtractionConditionsByExtractionConditionsId" parameterType="Long">
+        delete from bidding_extraction_conditions where extraction_conditions_id = #{extractionConditionsId}
+    </delete>
+
+    <delete id="deleteBiddingExtractionConditionsByExtractionConditionsIds" parameterType="String">
+        delete from bidding_extraction_conditions where extraction_conditions_id in 
+        <foreach item="extractionConditionsId" collection="array" open="(" separator="," close=")">
+            #{extractionConditionsId}
+        </foreach>
+    </delete>
+</mapper>
