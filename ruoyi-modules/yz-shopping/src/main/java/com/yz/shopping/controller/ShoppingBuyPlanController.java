@@ -14,15 +14,9 @@ import com.ruoyi.system.api.domain.PublicCodeRules;
 import com.ruoyi.system.api.util.SnowflakeGetId;
 import com.yz.shopping.domain.ShoppingProRequire;
 import com.yz.shopping.service.IPublicCategoryService;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import com.ruoyi.common.log.annotation.Log;
 import com.ruoyi.common.log.enums.BusinessType;
 import com.ruoyi.common.security.annotation.RequiresPermissions;
@@ -59,8 +53,7 @@ public class ShoppingBuyPlanController extends BaseController {
      */
     @RequiresPermissions("shopping/buy_plan:list")
     @GetMapping("/list")
-    public TableDataInfo list(ShoppingBuyPlan shoppingBuyPlan)
-    {
+    public TableDataInfo list(ShoppingBuyPlan shoppingBuyPlan) {
         startPage();
         List<ShoppingBuyPlan> list = shoppingBuyPlanService.selectShoppingBuyPlanList(shoppingBuyPlan);
         return getDataTable(list);
@@ -72,12 +65,12 @@ public class ShoppingBuyPlanController extends BaseController {
     @RequiresPermissions("shopping/buy_plan:export")
     @Log(title = "采购计划表", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
-    public void export(HttpServletResponse response, ShoppingBuyPlan shoppingBuyPlan)
-    {
+    public void export(HttpServletResponse response, ShoppingBuyPlan shoppingBuyPlan) {
         List<ShoppingBuyPlan> list = shoppingBuyPlanService.selectShoppingBuyPlanList(shoppingBuyPlan);
         ExcelUtil<ShoppingBuyPlan> util = new ExcelUtil<ShoppingBuyPlan>(ShoppingBuyPlan.class);
         util.exportExcel(response, list, "采购计划表数据");
     }
+
     /**
      * 采购计划（合同签订）
      *
@@ -86,11 +79,10 @@ public class ShoppingBuyPlanController extends BaseController {
      */
     @RequiresPermissions("shopping/buy_plan:showBuyPlan")
     @GetMapping("/showBuyPlan")
-    public TableDataInfo showBuyPlan(Long buyPlanId)
-    {
+    public TableDataInfo showBuyPlan(Long buyPlanId) {
         startPage();
         List<ShoppingBuyPlan> list = shoppingBuyPlanService.showBuyPlan(buyPlanId);
-        System.out.println("显示所有采购计划："+list.toString());
+        System.out.println("显示所有采购计划：" + list.toString());
         return getDataTable(list);
     }
 
@@ -99,8 +91,7 @@ public class ShoppingBuyPlanController extends BaseController {
      */
     @RequiresPermissions("shopping/buy_plan:query")
     @GetMapping(value = "/{buyPlanId}")
-    public AjaxResult getInfo(@PathVariable("buyPlanId") Long buyPlanId)
-    {
+    public AjaxResult getInfo(@PathVariable("buyPlanId") Long buyPlanId) {
         return success(shoppingBuyPlanService.selectShoppingBuyPlanByBuyPlanId(buyPlanId));
     }
 
@@ -110,12 +101,11 @@ public class ShoppingBuyPlanController extends BaseController {
     @RequiresPermissions("shopping/buy_plan:add")
     @Log(title = "采购计划表", businessType = BusinessType.INSERT)
     @PostMapping
-    public AjaxResult add(@RequestBody ShoppingBuyPlan shoppingBuyPlan)
-    {
+    public AjaxResult add(@RequestBody ShoppingBuyPlan shoppingBuyPlan) {
         AjaxResult ajaxResult = remoteCodeRulesService.getInfo(11L);
         Object obj = ajaxResult.get("data");
         String str = JSON.toJSONString(obj);
-        PublicCodeRules p = JSONObject.parseObject(str,PublicCodeRules.class);
+        PublicCodeRules p = JSONObject.parseObject(str, PublicCodeRules.class);
 //        String id = SnowflakeGetId.getCode(p);
         shoppingBuyPlan.setPlanClod(SnowflakeGetId.getCode(p));
         shoppingBuyPlan.setCreateBy("fm");
@@ -130,28 +120,34 @@ public class ShoppingBuyPlanController extends BaseController {
     @RequiresPermissions("shopping/buy_plan:edit")
     @Log(title = "采购计划表", businessType = BusinessType.UPDATE)
     @PutMapping
-    public AjaxResult edit(@RequestBody ShoppingBuyPlan shoppingBuyPlan)
-    {
+    public AjaxResult edit(@RequestBody ShoppingBuyPlan shoppingBuyPlan) {
         shoppingBuyPlan.setPlanState(0L);
         return toAjax(shoppingBuyPlanService.updateShoppingBuyPlan(shoppingBuyPlan));
     }
+
     /**
      * 审批修改状态
      */
     @RequiresPermissions("shopping/public:buy_plan:edit")
     @Log(title = "采购计划表", businessType = BusinessType.UPDATE)
     @PostMapping("/updateExamine")
-    public AjaxResult updateExamine(@RequestBody  ShoppingBuyPlan shoppingBuyPlan) {
+    public AjaxResult updateExamine(@RequestBody ShoppingBuyPlan shoppingBuyPlan) {
         return toAjax(shoppingBuyPlanService.updateExamine(shoppingBuyPlan));
     }
+
+    //修改状态
+    @GetMapping("/upState/{bid}")
+    public AjaxResult upState(@PathVariable Long bid) {
+        return toAjax(shoppingBuyPlanService.upState(bid));
+    }
+
     /**
      * 删除采购计划表
      */
     @RequiresPermissions("shopping/buy_plan:remove")
     @Log(title = "采购计划表", businessType = BusinessType.DELETE)
     @DeleteMapping("/{buyPlanIds}")
-    public AjaxResult remove(@PathVariable Long[] buyPlanIds)
-    {
+    public AjaxResult remove(@PathVariable Long[] buyPlanIds) {
         return toAjax(shoppingBuyPlanService.deleteShoppingBuyPlanByBuyPlanIds(buyPlanIds));
     }
 }

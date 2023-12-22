@@ -71,11 +71,12 @@
         order by sbp.create_time desc
     </select>
 
-<!--    采购计划（合同签订）-->
+    <!--    采购计划（合同签订）-->
     <select id="showBuyPlan" parameterType="com.yz.shopping.domain.ShoppingBuyPlan" resultMap="ShoppingBuyPlanResult">
         <include refid="selectShoppingBuyPlanVo"/>
         <where>
-            <if test="buyPlanId !=null ">buy_plan_id = #{buyPlanId}</if> and state=1
+            <if test="buyPlanId !=null ">buy_plan_id = #{buyPlanId}</if>
+            and state=1
         </where>
 
     </select>
@@ -142,6 +143,11 @@
             <if test="planState != null">plan_state = #{planState},</if>
         </trim>
         where buy_plan_id = #{buyPlanId}
+    </update>
+    <update id="upState" parameterType="com.yz.shopping.domain.ShoppingBuyPlan">
+        update shopping_buy_plan
+        set plan_state =3
+        where buy_plan_id = #{bid}
     </update>
 
     <delete id="deleteShoppingBuyPlanByBuyPlanId" parameterType="Long">

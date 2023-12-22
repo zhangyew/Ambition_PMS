@@ -28,7 +28,7 @@ public interface PublicAnnexMapper {
      * @return
      */
     public int deleteAnnexTextByNoticeId(String nid);
-
+    List<PublicAnnex> findAnnexByOrder(Long oid);
     /**
      * 查询公告附件
      *

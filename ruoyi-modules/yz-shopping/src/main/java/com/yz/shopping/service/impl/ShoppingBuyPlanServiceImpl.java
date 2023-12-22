@@ -159,4 +159,9 @@ public class ShoppingBuyPlanServiceImpl implements IShoppingBuyPlanService {
     public int updateExamine(ShoppingBuyPlan shoppingBuyPlan) {
         return shoppingBuyPlanMapper.updateExamine(shoppingBuyPlan);
     }
+
+    @Override
+    public int upState(Long bid) {
+        return shoppingBuyPlanMapper.upState(bid);
+    }
 }

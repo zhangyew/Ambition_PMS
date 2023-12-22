@@ -7,14 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import com.ruoyi.common.log.annotation.Log;
 import com.ruoyi.common.log.enums.BusinessType;
 import com.ruoyi.common.security.annotation.RequiresPermissions;
@@ -49,6 +42,18 @@ public class PublicAnnexController extends BaseController {
         startPage();
         List<Map<String, Object>> list = publicAnnexService.findAnnexByTenderProjectsId(pid);
         return getDataTable(list);
+    }
+
+    /**
+     * 订单id查询所有附件
+     *
+     * @param oid
+     * @return
+     */
+    @GetMapping("/findAnnexByOrder")
+    public List<PublicAnnex> findAnnexByOrder(Long oid) {
+        List<PublicAnnex> list = publicAnnexService.findAnnexByOrder(oid);
+        return list;
     }
 
     /**
@@ -102,6 +107,7 @@ public class PublicAnnexController extends BaseController {
     public AjaxResult edit(@RequestBody PublicAnnex publicAnnex) {
         return toAjax(publicAnnexService.updatePublicAnnex(publicAnnex));
     }
+
     /**
      * 删除公告附件
      */
@@ -110,4 +116,5 @@ public class PublicAnnexController extends BaseController {
     public AjaxResult remove(@PathVariable Long[] annexIds) {
         return toAjax(publicAnnexService.deletePublicAnnexByAnnexIds(annexIds));
     }
+
 }

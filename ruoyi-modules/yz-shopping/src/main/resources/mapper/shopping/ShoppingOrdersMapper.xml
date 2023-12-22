@@ -23,6 +23,7 @@
         <result property="vendorContacts" column="vendor_contacts"/>
         <result property="orderMaterialId" column="order_material_id"/>
         <result property="typeOrderState" column="type_order_state"/>
+        <result property="vendorState" column="vendor_state"/>
         <result property="createBy" column="create_by"/>
         <result property="createTime" column="create_time"/>
         <result property="updateBy" column="update_by"/>
@@ -32,29 +33,39 @@
     </resultMap>
 
     <resultMap type="com.yz.shopping.domain.ShoppingOrders" id="ShowsOrdersResult">
-        <result property="orderId"    column="order_id"    />
-        <result property="requireId"    column="require_id"    />
-        <result property="buyPlanId"    column="buy_plan_id"    />
-        <result property="orderTitle"    column="order_title"    />
-        <result property="orderSource"    column="order_source"    />
-        <result property="orderNumber"    column="order_number"    />
-        <result property="orderPurchaser"    column="order_purchaser"    />
-        <result property="totalMoney"    column="total_money"    />
-        <result property="isZt"    column="is_zt"    />
-        <result property="carNumber"    column="car_number"    />
-        <result property="driverPhone"    column="driver_phone"    />
-        <result property="ordeContractId"    column="orde_contract_id"    />
-        <result property="orderContext"    column="order_context"    />
-        <result property="contractdetailsAmount"    column="contractdetails_amount"    />
-        <result property="orderSupplierId"    column="order_supplier_id"    />
-        <result property="orderMaterialId"    column="order_material_id"    />
-        <result property="typeOrderState"    column="type_order_state"    />
-        <result property="createBy"    column="create_by"    />
-        <result property="createTime"    column="create_time"    />
-        <result property="updateBy"    column="update_by"    />
-        <result property="updateTime"    column="update_time"    />
-        <result property="isDelete"    column="is_delete"    />
+        <result property="orderId" column="order_id"/>
+        <result property="requireId" column="require_id"/>
+        <result property="buyPlanId" column="buy_plan_id"/>
+        <result property="orderTitle" column="order_title"/>
+        <result property="orderSource" column="order_source"/>
+        <result property="orderNumber" column="order_number"/>
+        <result property="orderPurchaser" column="order_purchaser"/>
+        <result property="totalMoney" column="total_money"/>
+        <result property="isZt" column="is_zt"/>
+        <result property="carNumber" column="car_number"/>
+        <result property="driverPhone" column="driver_phone"/>
+        <result property="ordeContractId" column="orde_contract_id"/>
+        <result property="orderContext" column="order_context"/>
+        <result property="contractdetailsAmount" column="contractdetails_amount"/>
+        <result property="orderSupplierId" column="order_supplier_id"/>
+        <result property="vendorContacts" column="vendor_contacts"/>
+        <result property="orderMaterialId" column="order_material_id"/>
+        <result property="typeOrderState" column="type_order_state"/>
+        <result property="vendorState" column="vendor_state"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="isDelete" column="is_delete"/>
         <result property="datePlusThreeDays" column="DatePlusThreeDays"/>
+        <collection property="publicAnnexs" ofType="com.ruoyi.system.api.domain.PublicAnnex">
+            <result property="annexId" column="annex_id"/>
+            <result property="annexTypeId" column="annex_type_id"/>
+            <result property="annexText" column="annex_text"/>
+            <result property="annexUrl" column="annex_url"/>
+            <result property="upTime" column="up_time"/>
+            <result property="annexTitle" column="annex_title"/>
+        </collection>
         <collection property="publicVendor" ofType="com.ruoyi.system.api.domain.PublicVendor">
             <result property="vendorId" column="vendor_id"/>
             <result property="vendorNumber" column="vendor_number"/>
@@ -80,7 +91,6 @@
             <result property="updateTime" column="update_time"/>
             <result property="isExist" column="is_exist"/>
             <result property="isDelete" column="is_delete"/>
-
         </collection>
     </resultMap>
 
@@ -103,6 +113,7 @@
                vendor_contacts,
                order_material_id,
                type_order_state,
+               vendor_state,
                create_by,
                create_time,
                update_by,
@@ -129,30 +140,46 @@
     </select>
 
     <select id="selectShoppingOrdersByOrderId" parameterType="Long" resultMap="ShoppingOrdersResult">
-        SELECT a.*, b.abbreviated, b.vendor_id
+        SELECT a.*, b.abbreviated, b.vendor_id, c.*
         FROM `shopping_orders` a
                  inner join public_vendor b on a.order_supplier_id = b.vendor_id
-        where order_id = #{orderId}
+                 inner join public_annex c on a.order_id = c.supply_id
+        where c.annex_type_id = 5
+          and a.order_id = #{orderId}
     </select>
 
     <!--    供应商首页（我的订单）-->
     <select id="showOrderSupplierId" resultMap="ShoppingOrdersResult">
-        SELECT order_number, order_purchaser, total_money, create_time, type_order_state
-        FROM shopping_orders
+        SELECT a.*, b.abbreviated, b.vendor_id
+        FROM `shopping_orders` a
+                 inner join public_vendor b on
+            a.order_supplier_id = b.vendor_id
         WHERE order_supplier_id = #{oSupplierId}
     </select>
 
-<!--    收货单（详情显示）-->
+    <!--    收货单（详情显示）-->
     <select id="showsDetailsReceipt" resultMap="ShowsOrdersResult">
-        SELECT DATE_ADD(ord.create_time, INTERVAL 3 DAY) AS DatePlusThreeDays,order_material_id,ord.total_money,order_purchaser,order_supplier_id,ve.abbreviated,ve.responsible,ve.responsible_phone,ord.type_order_state
+        SELECT DATE_ADD(ord.create_time, INTERVAL 3 DAY) AS DatePlusThreeDays,
+               order_material_id,
+               ord.total_money,
+               order_purchaser,
+               order_supplier_id,
+               ve.abbreviated,
+               ve.responsible,
+               ve.responsible_phone,
+               ord.type_order_state
         FROM shopping_orders AS ord
-                 INNER JOIN public_vendor AS ve ON(ord.order_supplier_id=ve.vendor_id)
-                 INNER JOIN shopping_demand AS de ON(ord.order_material_id=de.demand_id)
-        WHERE ord.order_id=#{orderId} AND ord.is_delete=0 AND ve.is_delete=0
+                 INNER JOIN public_vendor AS ve ON (ord.order_supplier_id = ve.vendor_id)
+                 INNER JOIN shopping_demand AS de ON (ord.order_material_id = de.demand_id)
+        WHERE ord.order_id = #{orderId}
+          AND ord.is_delete = 0
+          AND ve.is_delete = 0
     </select>
 
 
-    <insert id="insertShoppingOrders" parameterType="com.yz.shopping.domain.ShoppingOrders" useGeneratedKeys="true"
+    <insert id="insertShoppingOrders"
+            parameterType="com.yz.shopping.domain.ShoppingOrders"
+            useGeneratedKeys="true"
             keyProperty="orderId">
         insert into shopping_orders
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -173,6 +200,7 @@
             <if test="vendorContacts != null">vendor_contacts,</if>
             <if test="orderMaterialId != null">order_material_id,</if>
             <if test="typeOrderState != null">type_order_state,</if>
+            <if test="vendorState != null">vendor_state,</if>
             <if test="createBy != null">create_by,</if>
             <if test="createTime != null">create_time,</if>
             <if test="updateBy != null">update_by,</if>
@@ -194,9 +222,10 @@
             <if test="orderContext != null">#{orderContext},</if>
             <if test="contractdetailsAmount != null">#{contractdetailsAmount},</if>
             <if test="orderSupplierId != null">#{orderSupplierId},</if>
-            <if test="vendorContacts != null">#{vendor_contacts},</if>
+            <if test="vendorContacts != null">#{vendorContacts},</if>
             <if test="orderMaterialId != null">#{orderMaterialId},</if>
             <if test="typeOrderState != null">#{typeOrderState},</if>
+            <if test="vendorState != null">#{vendorState},</if>
             <if test="createBy != null">#{createBy},</if>
             <if test="createTime != null">#{createTime},</if>
             <if test="updateBy != null">#{updateBy},</if>
@@ -225,6 +254,7 @@
             <if test="vendorContacts != null">vendor_contacts = #{vendorContacts},</if>
             <if test="orderMaterialId != null">order_material_id = #{orderMaterialId},</if>
             <if test="typeOrderState != null">type_order_state = #{typeOrderState},</if>
+            <if test="vendorState != null">vendor_state = #{vendorState},</if>
             <if test="createBy != null">create_by = #{createBy},</if>
             <if test="createTime != null">create_time = #{createTime},</if>
             <if test="updateBy != null">update_by = #{updateBy},</if>
@@ -243,7 +273,9 @@
 
     <!--    待收货单   -->
     <update id="updateOrderState" parameterType="com.yz.shopping.domain.ShoppingOrders">
-        UPDATE shopping_orders SET type_order_state=5 WHERE order_id=#{orderId};
+        UPDATE shopping_orders
+        SET type_order_state=5
+        WHERE order_id = #{orderId};
     </update>
 
     <delete id="deleteShoppingOrdersByOrderId" parameterType="Long">

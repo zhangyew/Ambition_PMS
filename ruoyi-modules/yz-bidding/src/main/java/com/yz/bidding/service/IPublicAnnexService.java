@@ -69,4 +69,6 @@ public interface IPublicAnnexService
      * @return 结果
      */
     public int deletePublicAnnexByAnnexId(Long annexId);
+
+    List<PublicAnnex> findAnnexByOrder(Long oid);
 }

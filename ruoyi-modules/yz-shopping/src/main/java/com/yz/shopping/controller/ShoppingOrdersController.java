@@ -138,10 +138,12 @@ public class ShoppingOrdersController extends BaseController
         return toAjax(shoppingOrdersService.insertShoppingOrders(shoppingOrders));
     }
 
+    @RequiresPermissions("shopping/public:orders:add")
+    @Log(title = "采购订单表", businessType = BusinessType.INSERT)
     @PostMapping(value = "/addOrders")
-    public int addOrders(@RequestBody ShoppingOrders shoppingOrders, String fileUrl) {
-        List<PublicAnnex> list = JSONUtil.toList(fileUrl, PublicAnnex.class);
-        System.out.println(list);
+    public AjaxResult addOrders(@RequestBody ShoppingOrders shoppingOrders) {
+//        List<PublicAnnex> list = JSONUtil.toList(shoppingOrders.getPublicAnnexs().toString(), PublicAnnex.class);
+//        System.out.println(list);
         AjaxResult ajaxResult = remoteCodeRulesService.getInfo(3L);
         Object obj = ajaxResult.get("data");
         String str = JSON.toJSONString(obj);
@@ -149,7 +151,7 @@ public class ShoppingOrdersController extends BaseController
         shoppingOrders.setOrderNumber(SnowflakeGetId.getCode(p));
         shoppingOrders.setCreateBy("yyn");
         shoppingOrders.setIsDelete(0L);
-        return shoppingOrdersService.addOrders(shoppingOrders,list);
+        return toAjax(shoppingOrdersService.addOrders(shoppingOrders,shoppingOrders.getPublicAnnexs()));
     }
     /**
      * 修改采购订单表

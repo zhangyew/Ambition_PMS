@@ -55,7 +55,7 @@ public interface BiddingTenderNoticeMapper {
      * 供应商首页（招投标信息显示）
      * @return
      */
-//    public List<BiddingTenderNotice> ShowsTenderNoticeList();
+    public List<BiddingTenderNotice> ShowsTenderNoticeList();
 
     /**
      * 供应商首页（通知公告）
@@ -95,4 +95,10 @@ public interface BiddingTenderNoticeMapper {
      * @return 结果
      */
     public int deleteBiddingTenderNoticeByTenderNoticeIds(Long[] tenderNoticeIds);
+
+    /**
+     * 供应商端查询所有招标公告
+     * @return
+     */
+    List<BiddingTenderNotice> selAllByGys();
 }

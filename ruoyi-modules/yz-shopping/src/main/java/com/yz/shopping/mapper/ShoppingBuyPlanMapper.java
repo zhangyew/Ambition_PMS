@@ -19,7 +19,7 @@ public interface ShoppingBuyPlanMapper
      * @return 采购计划表
      */
     public ShoppingBuyPlan selectShoppingBuyPlanByBuyPlanId(Long buyPlanId);
-
+    int upState(Long bid);
     /**
      * 采购计划（合同签订
      *

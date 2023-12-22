@@ -104,4 +104,10 @@ public interface IBiddingTenderNoticeService {
     public int deleteBiddingTenderNoticeByTenderNoticeId(Long tenderNoticeId);
 
     List<BiddingTenderNotice> showsNoticeList();
+
+    /**
+     * 供应商端查询所有招标公告
+     * @return
+     */
+    List<BiddingTenderNotice> selAllByGys();
 }

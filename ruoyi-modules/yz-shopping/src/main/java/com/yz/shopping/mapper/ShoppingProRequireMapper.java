@@ -19,7 +19,7 @@ public interface ShoppingProRequireMapper {
      * @return 采购需求表
      */
     public ShoppingProRequire selectShoppingProRequireByRequireId(Long requireId);
-
+    int upReState(Long rid);
     /**
      * 查询采购需求表列表
      *

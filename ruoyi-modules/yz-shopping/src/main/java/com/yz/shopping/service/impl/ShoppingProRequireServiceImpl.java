@@ -75,6 +75,7 @@ public class ShoppingProRequireServiceImpl implements IShoppingProRequireService
     @Transactional
     public int insertShoppingProRequire(ShoppingProRequire shoppingProRequire) {
         shoppingProRequire.setCreateTime(DateUtils.getNowDate());
+        shoppingProRequire.setRequireVendor(shoppingProRequire.getRequireVendor());
         String id = "";
         for (ShoppingDemand sd : shoppingProRequire.getShoppingDemands()) {
             int row = shoppingDemandMapper.insertShoppingDemand(sd);
@@ -102,6 +103,7 @@ public class ShoppingProRequireServiceImpl implements IShoppingProRequireService
     @Transactional
     public int updateShoppingProRequire(ShoppingProRequire shoppingProRequire) {
         shoppingProRequire.setUpdateTime(DateUtils.getNowDate());
+        shoppingProRequire.setRequireVendor(shoppingProRequire.getRequireVendor());
         ShoppingProRequire spr = shoppingProRequireMapper.selectShoppingProRequireByRequireId(shoppingProRequire.getRequireId());
         if (!ObjectUtils.isEmpty(spr.getRequireDemandId())){
             String[] strings = spr.getRequireDemandId().contains(",") ? spr.getRequireDemandId().split(",") : new String[]{spr.getRequireDemandId()};
@@ -157,5 +159,10 @@ public class ShoppingProRequireServiceImpl implements IShoppingProRequireService
     @Override
     public int deleteShoppingProRequireByRequireId(Long requireId) {
         return shoppingProRequireMapper.deleteShoppingProRequireByRequireId(requireId);
+    }
+
+    @Override
+    public int upReState(Long rid) {
+        return shoppingProRequireMapper.upReState(rid);
     }
 }

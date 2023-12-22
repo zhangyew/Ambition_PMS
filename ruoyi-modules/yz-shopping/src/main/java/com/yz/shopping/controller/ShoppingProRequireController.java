@@ -42,8 +42,7 @@ public class ShoppingProRequireController extends BaseController {
     private IShoppingProRequireService shoppingProRequireService;
     @Autowired
     private RemoteCodeRulesService remoteCodeRulesService;
-//    @Resource
-//    private SnowflakeGetId snowflakeGetId;
+
     /**
      * 查询采购需求表列表
      */
@@ -76,6 +75,10 @@ public class ShoppingProRequireController extends BaseController {
         return success(shoppingProRequireService.selectShoppingProRequireByRequireId(requireId));
     }
 
+    @GetMapping("/upReState/{rid}")
+    public AjaxResult upReState(@PathVariable Long rid) {
+        return toAjax(shoppingProRequireService.upReState(rid));
+    }
     /**
      * 新增采购需求表
      */

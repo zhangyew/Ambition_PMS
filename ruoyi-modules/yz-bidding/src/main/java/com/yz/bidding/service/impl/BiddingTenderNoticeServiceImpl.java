@@ -87,8 +87,7 @@ public class BiddingTenderNoticeServiceImpl implements IBiddingTenderNoticeServi
      */
     @Override
     public List<BiddingTenderNotice> ShowsTenderNoticeList() {
-//        return biddingTenderNoticeMapper.ShowsTenderNoticeList();
-        return new ArrayList<>();
+        return biddingTenderNoticeMapper.ShowsTenderNoticeList();
     }
 
     /**
@@ -147,5 +146,10 @@ public class BiddingTenderNoticeServiceImpl implements IBiddingTenderNoticeServi
     @Override
     public List<BiddingTenderNotice> showsNoticeList() {
         return biddingTenderNoticeMapper.showsNoticeList();
+    }
+
+    @Override
+    public List<BiddingTenderNotice> selAllByGys() {
+        return biddingTenderNoticeMapper.selAllByGys();
     }
 }

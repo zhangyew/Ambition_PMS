@@ -76,6 +76,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         select demand_id, demand_ma_id, demand_count, demand_time,
                remark, budget_amount, order_count,
                warehousing_count,pg.category_id,pg.goods_code,
+               pg.goods_id,
                pg.goods_name,pc.category_name,pg.goods_type
         from shopping_demand sd
         left join public_goods pg on sd.demand_ma_id = pg.goods_id
@@ -95,6 +96,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <result property="categoryId" column="category_id"/>
             <result property="goodsCode" column="goods_code"/>
             <result property="goodsName" column="goods_name"/>
+            <result property="goodsId" column="goods_id"/>
             <result property="categoryName" column="category_name"/>
             <result property="goodsType" column="goods_type"/>
         </association>

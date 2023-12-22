@@ -88,6 +88,14 @@ public class BiddingTenderNoticeController extends BaseController {
         return getDataTable(list);
     }
 
+    @RequiresPermissions("bidding/bidding:tender_notice:list")
+    @GetMapping("/selAllByGys")
+    public TableDataInfo selAllByGys() {
+        startPage();
+        List<BiddingTenderNotice> list = biddingTenderNoticeService.selAllByGys();
+        return getDataTable(list);
+    }
+
     /**
      * 供应商首页（招投标信息显示）
      */

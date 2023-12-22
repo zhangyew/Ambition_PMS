@@ -1,6 +1,7 @@
 package com.yz.shopping.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.ruoyi.system.api.domain.PublicAnnex;
 import com.ruoyi.system.api.domain.PublicVendor;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
@@ -41,6 +42,8 @@ public class ShoppingOrders extends BaseEntity
     @Excel(name = "订单来源")
     private Long orderSource;
 
+    @Excel(name = "供应商联系人")
+    private Long vendorContacts;
     public Long getVendorContacts() {
         return vendorContacts;
     }
@@ -49,8 +52,6 @@ public class ShoppingOrders extends BaseEntity
         this.vendorContacts = vendorContacts;
     }
 
-    @Excel(name = "供应商联系人")
-    private Long vendorContacts;
     /** 订单编号 */
     @Excel(name = "订单编号")
     private String orderNumber;
@@ -99,33 +100,6 @@ public class ShoppingOrders extends BaseEntity
         this.vendorName = vendorName;
     }
 
-    @Override
-    public String toString() {
-        return "ShoppingOrders{" +
-                "orderId=" + orderId +
-                ", requireId=" + requireId +
-                ", buyPlanId=" + buyPlanId +
-                ", orderTitle='" + orderTitle + '\'' +
-                ", orderSource=" + orderSource +
-                ", vendorContacts=" + vendorContacts +
-                ", orderNumber='" + orderNumber + '\'' +
-                ", orderPurchaser='" + orderPurchaser + '\'' +
-                ", totalMoney=" + totalMoney +
-                ", isZt=" + isZt +
-                ", carNumber='" + carNumber + '\'' +
-                ", driverPhone='" + driverPhone + '\'' +
-                ", ordeContractId=" + ordeContractId +
-                ", orderContext='" + orderContext + '\'' +
-                ", contractdetailsAmount=" + contractdetailsAmount +
-                ", orderSupplierId=" + orderSupplierId +
-                ", vendorName='" + vendorName + '\'' +
-                ", orderMaterialId='" + orderMaterialId + '\'' +
-                ", shoppingDemands=" + shoppingDemands +
-                ", typeOrderState=" + typeOrderState +
-                ", isDelete=" + isDelete +
-                '}';
-    }
-
     @Excel(name = "供应商名称")
     private String vendorName;
 
@@ -150,9 +124,64 @@ public class ShoppingOrders extends BaseEntity
     @Excel(name = "字典类型外键")
     private Long typeOrderState;
 
+    /**
+     * 供应商端订单状态
+     */
+    private Long vendorState;
+
+
     /** 删除 */
     @Excel(name = "删除")
     private Long isDelete;
+
+    private List<PublicAnnex> publicAnnexs;
+
+    public List<PublicAnnex> getPublicAnnexs() {
+        return publicAnnexs;
+    }
+
+    public void setPublicAnnex(List<PublicAnnex> publicAnnexs) {
+        this.publicAnnexs = publicAnnexs;
+    }
+
+    @Override
+    public String toString() {
+        return "ShoppingOrders{" +
+                "orderId=" + orderId +
+                ", requireId=" + requireId +
+                ", buyPlanId=" + buyPlanId +
+                ", orderTitle='" + orderTitle + '\'' +
+                ", orderSource=" + orderSource +
+                ", vendorContacts=" + vendorContacts +
+                ", orderNumber='" + orderNumber + '\'' +
+                ", orderPurchaser='" + orderPurchaser + '\'' +
+                ", totalMoney=" + totalMoney +
+                ", isZt=" + isZt +
+                ", carNumber='" + carNumber + '\'' +
+                ", driverPhone='" + driverPhone + '\'' +
+                ", ordeContractId=" + ordeContractId +
+                ", orderContext='" + orderContext + '\'' +
+                ", contractdetailsAmount=" + contractdetailsAmount +
+                ", orderSupplierId=" + orderSupplierId +
+                ", vendorName='" + vendorName + '\'' +
+                ", orderMaterialId='" + orderMaterialId + '\'' +
+                ", shoppingDemands=" + shoppingDemands +
+                ", typeOrderState=" + typeOrderState +
+                ", vendorState=" + vendorState +
+                ", isDelete=" + isDelete +
+                ", publicAnnexs=" + publicAnnexs +
+                ", publicVendor=" + publicVendor +
+                ", datePlusThreeDays=" + datePlusThreeDays +
+                '}';
+    }
+
+    public Long getVendorState() {
+        return vendorState;
+    }
+
+    public void setVendorState(Long vendorState) {
+        this.vendorState = vendorState;
+    }
 
     @Excel(name = "供应商资质")
     private PublicVendor publicVendor;

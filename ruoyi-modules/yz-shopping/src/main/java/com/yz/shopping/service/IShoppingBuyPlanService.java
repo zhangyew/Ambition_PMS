@@ -68,4 +68,6 @@ public interface IShoppingBuyPlanService
     public int deleteShoppingBuyPlanByBuyPlanId(Long buyPlanId);
 
     int updateExamine(ShoppingBuyPlan shoppingBuyPlan);
+
+    int upState(Long bid);
 }

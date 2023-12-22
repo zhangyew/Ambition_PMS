@@ -85,13 +85,25 @@
     </select>
 
     <select id="selectShoppingProRequireByRequireId" parameterType="Long" resultMap="ShoppingProRequireResult1">
-        SELECT require_id,require_demand_id,require_number
-             ,require_dept,require_person,require_state
-             ,is_tender,total_money,require_type,require_contact
-             ,main_purpose,require_address,require_phone,a.create_by
-             ,a.create_time,a.require_vendor,b.abbreviated
+        SELECT require_id
+             , require_demand_id
+             , require_number
+             , require_dept
+             , require_person
+             , require_state
+             , is_tender
+             , total_money
+             , require_type
+             , require_contact
+             , main_purpose
+             , require_address
+             , require_phone
+             , a.create_by
+             , a.create_time
+             , a.require_vendor
+             , b.abbreviated
         FROM `shopping_pro_require` a
-        left join public_vendor b on a.require_vendor=b.vendor_id
+                 left join public_vendor b on a.require_vendor = b.vendor_id
         where require_id = #{requireId}
     </select>
 
@@ -170,6 +182,11 @@
             <if test="requireState != null">require_state = #{requireState},</if>
         </trim>
         where require_id = #{requireId}
+    </update>
+    <update id="upReState" parameterType="java.lang.Long">
+        update shopping_pro_require
+        set require_state =3
+        where require_id = #{rid}
     </update>
 
     <delete id="deleteShoppingProRequireByRequireId" parameterType="Long">

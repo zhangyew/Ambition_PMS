@@ -91,4 +91,9 @@ public class PublicAnnexServiceImpl implements IPublicAnnexService {
     public int deletePublicAnnexByAnnexId(Long annexId) {
         return publicAnnexMapper.deletePublicAnnexByAnnexId(annexId);
     }
+
+    @Override
+    public List<PublicAnnex> findAnnexByOrder(Long oid) {
+        return publicAnnexMapper.findAnnexByOrder(oid);
+    }
 }

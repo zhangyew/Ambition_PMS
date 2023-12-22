@@ -59,4 +59,6 @@ public interface IShoppingProRequireService
      * @return 结果
      */
     public int deleteShoppingProRequireByRequireId(Long requireId);
+
+    int upReState(Long rid);
 }
