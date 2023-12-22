@@ -2,6 +2,7 @@ package com.yz.bidding.controller;
 
 import java.util.List;
 import java.io.IOException;
+import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 
@@ -43,13 +44,26 @@ public class BiddingTenderNoticeController extends BaseController {
     @Resource
     private RemoteFileService remoteFileService;
 
+    /**
+     * 查询没有抽取专家的招标公告集合
+     *
+     * @param id
+     * @return
+     */
+    @PostMapping("/findTenderNoticeList")
+    public TableDataInfo findTenderNoticeList(String id, String name) {
+        startPage();
+        List<Map<String, Object>> list = biddingTenderNoticeService.findTenderNoticeList(id, name);
+        return getDataTable(list);
+    }
+
     @PostMapping(value = "/addTenderNotice")
     public int addTenderNotice(String tenderNotice, String fileUrl) {
         BiddingTenderNotice bt = JSONUtil.toBean(tenderNotice, BiddingTenderNotice.class);
         List<PublicAnnex> list = JSONUtil.toList(fileUrl, PublicAnnex.class);
         System.out.println(bt);
         System.out.println(list);
-        return biddingTenderNoticeService.addTenderNotice(bt,list);
+        return biddingTenderNoticeService.addTenderNotice(bt, list);
     }
 
 
@@ -122,7 +136,6 @@ public class BiddingTenderNoticeController extends BaseController {
         List<BiddingTenderNotice> list = biddingTenderNoticeService.displayTenderNoticeList();
         return getDataTable(list);
     }
-
 
 
     /**

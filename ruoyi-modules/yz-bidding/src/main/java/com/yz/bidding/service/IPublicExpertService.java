@@ -1,6 +1,8 @@
 package com.yz.bidding.service;
 
 import java.util.List;
+
+import com.ruoyi.common.core.web.page.TableDataInfo;
 import com.ruoyi.system.api.domain.PublicExpert;
 
 /**
@@ -11,6 +13,14 @@ import com.ruoyi.system.api.domain.PublicExpert;
  */
 public interface IPublicExpertService 
 {
+
+    /**
+     * 查询专家没有被抽取的集合
+     * @param name
+     * @param poolId
+     * @return
+     */
+    public List<PublicExpert> findExpertList(String name, String poolId);
     /**
      * 查询专家
      * 

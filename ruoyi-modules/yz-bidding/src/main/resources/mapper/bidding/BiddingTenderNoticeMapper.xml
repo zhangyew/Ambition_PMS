@@ -22,7 +22,6 @@
         <result property="isDelete" column="is_delete"/>
         <result property="tenderProjectsNumber" column="tender_projects_number"/>
     </resultMap>
-
     <resultMap type="com.yz.bidding.domain.BiddingTenderProjects" id="findNoticeById">
         <result property="tenderProjectsId" column="tender_projects_id"/>
         <result property="tenderProjectsNumber" column="tender_projects_number"/>
@@ -145,8 +144,7 @@
     </select>
 
     <!--    供应商首页（通知公告）-->
-    <select id="displayTenderNoticeList" parameterType="com.yz.bidding.domain.BiddingTenderNotice"
-            resultMap="BiddingTenderNoticeResult">
+    <select id="displayTenderNoticeList" parameterType="com.yz.bidding.domain.BiddingTenderNotice" resultMap="BiddingTenderNoticeResult">
         <include refid="selectBiddingTenderNoticeVo"/>
         WHERE state=1 AND is_delete=0
     </select>
@@ -157,10 +155,23 @@
         WHERE b.state = 1
         ORDER BY bid_end desc
     </select>
+    <select id="findTenderNoticeList" resultType="java.util.Map">
+        SELECT n.*, p.must,p.tender_projects_number
+        FROM `bidding_tender_notice` n
+        inner join bidding_tender_projects p
+        on n.tender_notice_projects_id = p.tender_projects_id
+        left join bidding_draw_experts e
+        on n.tender_notice_id = e.draw_projects_id
+        where p.tender_projects_id = #{id}
+        and n.state = 1
+        AND e.draw_projects_id IS NULL
+        <if test="name != null and name != '' and name != 'null'">and n.tender_title like
+            concat('%', #{name}, '%')
+        </if>
+    </select>
 
 
-    <insert id="insertBiddingTenderNotice" parameterType="com.yz.bidding.domain.BiddingTenderNotice"
-            useGeneratedKeys="true"
+    <insert id="insertBiddingTenderNotice" parameterType="com.yz.bidding.domain.BiddingTenderNotice" useGeneratedKeys="true"
             keyProperty="tenderNoticeId">
         insert into bidding_tender_notice
         <trim prefix="(" suffix=")" suffixOverrides=",">

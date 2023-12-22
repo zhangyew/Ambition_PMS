@@ -3,6 +3,7 @@ package com.yz.bidding.controller;
 import java.util.List;
 import java.io.IOException;
 import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,24 +25,30 @@ import com.ruoyi.common.core.web.page.TableDataInfo;
 
 /**
  * 专家Controller
- * 
+ *
  * @author zhangye
  * @date 2023-11-21
  */
 @RestController
 @RequestMapping("/expert")
-public class PublicExpertController extends BaseController
-{
+public class PublicExpertController extends BaseController {
     @Autowired
     private IPublicExpertService publicExpertService;
+
+
+    @PostMapping("/findExpertList")
+    public TableDataInfo findExpertList(String name, String poolId) {
+        startPage();
+        List<PublicExpert> list = publicExpertService.findExpertList(name, poolId);
+        return getDataTable(list);
+    }
 
     /**
      * 查询专家列表
      */
     @RequiresPermissions("pms.public:expert:list")
     @GetMapping("/list")
-    public TableDataInfo list(PublicExpert publicExpert)
-    {
+    public TableDataInfo list(PublicExpert publicExpert) {
         startPage();
         List<PublicExpert> list = publicExpertService.selectPublicExpertList(publicExpert);
         return getDataTable(list);
@@ -53,8 +60,7 @@ public class PublicExpertController extends BaseController
     @RequiresPermissions("pms.public:expert:export")
     @Log(title = "专家", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
-    public void export(HttpServletResponse response, PublicExpert publicExpert)
-    {
+    public void export(HttpServletResponse response, PublicExpert publicExpert) {
         List<PublicExpert> list = publicExpertService.selectPublicExpertList(publicExpert);
         ExcelUtil<PublicExpert> util = new ExcelUtil<PublicExpert>(PublicExpert.class);
         util.exportExcel(response, list, "专家数据");
@@ -65,8 +71,7 @@ public class PublicExpertController extends BaseController
      */
     @RequiresPermissions("pms.public:expert:query")
     @GetMapping(value = "/{expertId}")
-    public AjaxResult getInfo(@PathVariable("expertId") Long expertId)
-    {
+    public AjaxResult getInfo(@PathVariable("expertId") Long expertId) {
         return success(publicExpertService.selectPublicExpertByExpertId(expertId));
     }
 
@@ -76,8 +81,7 @@ public class PublicExpertController extends BaseController
     @RequiresPermissions("pms.public:expert:add")
     @Log(title = "专家", businessType = BusinessType.INSERT)
     @PostMapping
-    public AjaxResult add(@RequestBody PublicExpert publicExpert)
-    {
+    public AjaxResult add(@RequestBody PublicExpert publicExpert) {
         return toAjax(publicExpertService.insertPublicExpert(publicExpert));
     }
 
@@ -87,8 +91,7 @@ public class PublicExpertController extends BaseController
     @RequiresPermissions("pms.public:expert:edit")
     @Log(title = "专家", businessType = BusinessType.UPDATE)
     @PutMapping
-    public AjaxResult edit(@RequestBody PublicExpert publicExpert)
-    {
+    public AjaxResult edit(@RequestBody PublicExpert publicExpert) {
         return toAjax(publicExpertService.updatePublicExpert(publicExpert));
     }
 
@@ -97,9 +100,8 @@ public class PublicExpertController extends BaseController
      */
     @RequiresPermissions("pms.public:expert:remove")
     @Log(title = "专家", businessType = BusinessType.DELETE)
-	@DeleteMapping("/{expertIds}")
-    public AjaxResult remove(@PathVariable Long[] expertIds)
-    {
+    @DeleteMapping("/{expertIds}")
+    public AjaxResult remove(@PathVariable Long[] expertIds) {
         return toAjax(publicExpertService.deletePublicExpertByExpertIds(expertIds));
     }
 }

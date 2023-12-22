@@ -1,12 +1,15 @@
 package com.yz.bidding.service;
 
 import java.util.List;
+import java.util.Map;
 
+import com.ruoyi.common.core.web.page.TableDataInfo;
 import com.ruoyi.system.api.domain.PublicAnnex;
 import com.yz.bidding.domain.BiddingNotice;
 import com.yz.bidding.domain.BiddingTenderNotice;
 import com.yz.bidding.domain.BiddingTenderProjects;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.web.bind.annotation.PostMapping;
 
 /**
  * 招标公告Service接口
@@ -17,12 +20,21 @@ import org.apache.ibatis.annotations.Param;
 public interface IBiddingTenderNoticeService {
 
     /**
+     * 查询没有抽取专家的招标公告集合
+     *
+     * @param id
+     * @return
+     */
+    public List<Map<String,Object>> findTenderNoticeList(String id,String name);
+
+    /**
      * 新建招标公告
+     *
      * @param bid
      * @param list
      * @return
      */
-    public int addTenderNotice(BiddingTenderNotice bid, List<PublicAnnex>list);
+    public int addTenderNotice(BiddingTenderNotice bid, List<PublicAnnex> list);
 
 
     /**
@@ -61,12 +73,14 @@ public interface IBiddingTenderNoticeService {
 
     /**
      * 供应商首页（招投标信息显示）
+     *
      * @return
      */
     public List<BiddingTenderNotice> ShowsTenderNoticeList();
 
     /**
      * 供应商首页（通知公告）
+     *
      * @return
      */
     public List<BiddingTenderNotice> displayTenderNoticeList();

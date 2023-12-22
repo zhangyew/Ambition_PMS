@@ -1,36 +1,50 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
-PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yz.bidding.mapper.PublicExpertMapper">
 
     <resultMap type="com.ruoyi.system.api.domain.PublicExpert" id="PublicExpertResult">
-        <result property="expertId"    column="expert_id"    />
-        <result property="poolId"    column="pool_id"    />
-        <result property="name"    column="name"    />
-        <result property="idCard"    column="id_card"    />
-        <result property="address"    column="address"    />
-        <result property="phone"    column="phone"    />
-        <result property="createBy"    column="create_by"    />
-        <result property="createTime"    column="create_time"    />
-        <result property="updateBy"    column="update_by"    />
-        <result property="updateTime"    column="update_time"    />
-        <result property="isDelete"    column="is_delete"    />
+        <result property="expertId" column="expert_id"/>
+        <result property="poolId" column="pool_id"/>
+        <result property="name" column="name"/>
+        <result property="idCard" column="id_card"/>
+        <result property="address" column="address"/>
+        <result property="phone" column="phone"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="isDelete" column="is_delete"/>
+        <result property="isExtract" column="is_extract"/>
     </resultMap>
 
     <sql id="selectPublicExpertVo">
-        select expert_id, pool_id, name, id_card, address, phone, create_by, create_time, update_by, update_time, is_delete from public_expert
+        select expert_id,
+               pool_id,
+               name,
+               id_card,
+               address,
+               phone,
+               create_by,
+               create_time,
+               update_by,
+               update_time,
+               is_delete
+        from public_expert
     </sql>
 
-    <select id="selectPublicExpertList" parameterType="com.ruoyi.system.api.domain.PublicExpert" resultMap="PublicExpertResult">
+    <select id="selectPublicExpertList" parameterType="com.ruoyi.system.api.domain.PublicExpert"
+            resultMap="PublicExpertResult">
         <include refid="selectPublicExpertVo"/>
         <where>
-            <if test="poolId != null "> and pool_id = #{poolId}</if>
-            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
-            <if test="idCard != null  and idCard != ''"> and id_card = #{idCard}</if>
-            <if test="address != null  and address != ''"> and address = #{address}</if>
-            <if test="phone != null  and phone != ''"> and phone = #{phone}</if>
-            <if test="isDelete != null "> and is_delete = #{isDelete}</if>
+            <if test="poolId != null ">and pool_id = #{poolId}</if>
+            <if test="name != null  and name != '' and name != 'null'">and name like concat('%', #{name}, '%')</if>
+            <if test="idCard != null  and idCard != ''">and id_card = #{idCard}</if>
+            <if test="address != null  and address != ''">and address = #{address}</if>
+            <if test="phone != null  and phone != ''">and phone = #{phone}</if>
+            <if test="isDelete != null ">and is_delete = #{isDelete}</if>
+            <if test="isExtract != null ">and is_extract = #{isExtract}</if>
         </where>
     </select>
 
@@ -38,8 +52,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectPublicExpertVo"/>
         where expert_id = #{expertId}
     </select>
+    <select id="findExpertByExtractionConditions" resultMap="PublicExpertResult">
+        SELECT e.*
+        FROM `public_expert` e
+        inner join public_expert_pool p
+        on e.pool_id = p.expert_pool_id
+        where e.is_extract = 0
+        and p.category = #{category}
+        and e.expert_id not in
+        <foreach collection="tj" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
 
-    <insert id="insertPublicExpert" parameterType="com.ruoyi.system.api.domain.PublicExpert" useGeneratedKeys="true" keyProperty="expertId">
+    <insert id="insertPublicExpert" parameterType="com.ruoyi.system.api.domain.PublicExpert" useGeneratedKeys="true"
+            keyProperty="expertId">
         insert into public_expert
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="poolId != null">pool_id,</if>
@@ -52,6 +79,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="updateBy != null">update_by,</if>
             <if test="updateTime != null">update_time,</if>
             <if test="isDelete != null">is_delete,</if>
+            <if test="isExtract != null">is_extract,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="poolId != null">#{poolId},</if>
@@ -64,6 +92,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="updateBy != null">#{updateBy},</if>
             <if test="updateTime != null">#{updateTime},</if>
             <if test="isDelete != null">#{isDelete},</if>
+            <if test="isExtract != null">is_extract,</if>
+
         </trim>
     </insert>
 
@@ -80,12 +110,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="updateBy != null">update_by = #{updateBy},</if>
             <if test="updateTime != null">update_time = #{updateTime},</if>
             <if test="isDelete != null">is_delete = #{isDelete},</if>
+            <if test="isExtract != null">is_extract = #{isExtract},</if>
+
         </trim>
         where expert_id = #{expertId}
     </update>
 
     <delete id="deletePublicExpertByExpertId" parameterType="Long">
-        delete from public_expert where expert_id = #{expertId}
+        delete
+        from public_expert
+        where expert_id = #{expertId}
     </delete>
 
     <delete id="deletePublicExpertByExpertIds" parameterType="String">
