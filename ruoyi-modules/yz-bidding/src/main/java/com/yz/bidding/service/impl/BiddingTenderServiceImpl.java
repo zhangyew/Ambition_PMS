@@ -1,12 +1,16 @@
 package com.yz.bidding.service.impl;
 
+import java.util.Date;
 import java.util.List;
 
+import com.ruoyi.system.api.domain.PublicAnnex;
+import com.yz.bidding.mapper.PublicAnnexMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.yz.bidding.mapper.BiddingTenderMapper;
 import com.yz.bidding.domain.BiddingTender;
 import com.yz.bidding.service.IBiddingTenderService;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * 投标Service业务层处理
@@ -15,9 +19,32 @@ import com.yz.bidding.service.IBiddingTenderService;
  * @date 2023-11-21
  */
 @Service
+@Transactional
 public class BiddingTenderServiceImpl implements IBiddingTenderService {
     @Autowired
     private BiddingTenderMapper biddingTenderMapper;
+    @Autowired
+    private PublicAnnexMapper annexMapper;
+
+    @Override
+    public int bidEvaluation(List<BiddingTender> biddingTender, List<PublicAnnex> list) {
+        int x = 0;
+        for (BiddingTender bidder : biddingTender) {
+            x = biddingTenderMapper.updateBiddingTender(bidder);
+        }
+        if (list != null) {
+            for (PublicAnnex publicAnnex : list) {
+                publicAnnex.setUpTime(new Date());
+                x = annexMapper.insertPublicAnnex(publicAnnex);
+            }
+        }
+        return x;
+    }
+
+    @Override
+    public List<BiddingTender> findTendersStateByProjectsId(String id) {
+        return biddingTenderMapper.findTendersStateByProjectsId(id);
+    }
 
     @Override
     public int updateStateByTenderId(BiddingTender biddingTender) {

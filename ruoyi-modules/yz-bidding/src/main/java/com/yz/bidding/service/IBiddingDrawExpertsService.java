@@ -1,6 +1,7 @@
 package com.yz.bidding.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.ruoyi.system.api.domain.PublicExpert;
 import com.yz.bidding.domain.BiddingDrawExperts;
@@ -14,6 +15,14 @@ import org.springframework.web.bind.annotation.PostMapping;
  * @date 2023-11-21
  */
 public interface IBiddingDrawExpertsService {
+
+
+    /**
+     * 查找当前项目下被抽取的专家
+     * @param pid
+     * @return
+     */
+    public List<Map<String,Object>> findExpertsByProjectsId(String pid);
 
     /**
      * 抽取专家操作

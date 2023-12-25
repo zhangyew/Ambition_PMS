@@ -15,6 +15,11 @@ public class PublicAnnexServiceImpl implements IPublicAnnexService {
     private PublicAnnexMapper annexMapper;
 
     @Override
+    public List<PublicAnnex> findAnnexByPbId(String id) {
+        return annexMapper.findAnnexByPbId(id);
+    }
+
+    @Override
     public List<Map<String, Object>> findAnnexByTenderProjectsId(String pid) {
         return annexMapper.findAnnexByTenderProjectsId(pid);
     }

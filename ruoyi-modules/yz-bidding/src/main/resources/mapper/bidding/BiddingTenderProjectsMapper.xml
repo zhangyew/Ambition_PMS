@@ -22,6 +22,7 @@
         <result property="creatBy"    column="creat_by"    />
         <result property="creatTime"    column="creat_time"    />
         <result property="isDelete"    column="is_delete"    />
+        <result property="bidAnnexId"    column="bid_annex_id"    />
     </resultMap>
 
     <resultMap id="findProjectById" type="BiddingTenderProjects">
@@ -42,6 +43,8 @@
         <result property="creatBy" column="creat_by"/>
         <result property="creatTime" column="creat_time"/>
         <result property="isDelete" column="is_delete"/>
+        <result property="bidAnnexId"    column="bid_annex_id"    />
+
         <collection property="list" ofType="Map">
             <result property="tenderManifestId" column="tender_manifest_id"/>
             <result property="manifestProjectsId" column="manifest_projects_id"/>
@@ -141,7 +144,8 @@
                audit_state,
                creat_by,
                creat_time,
-               is_delete
+               is_delete,
+               bid_annex_id
         from bidding_tender_projects
     </sql>
 
@@ -221,6 +225,7 @@
             <if test="creatBy != null">creat_by,</if>
             <if test="creatTime != null">creat_time,</if>
             <if test="isDelete != null">is_delete,</if>
+            <if test="bidAnnexId != null">bid_annex_id,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="tenderProjectsNumber != null">#{tenderProjectsNumber},</if>
@@ -239,6 +244,8 @@
             <if test="creatBy != null">#{creatBy},</if>
             <if test="creatTime != null">#{creatTime},</if>
             <if test="isDelete != null">#{isDelete},</if>
+            <if test="bidAnnexId != null">#{bidAnnexId},</if>
+
         </trim>
     </insert>
 
@@ -261,6 +268,7 @@
             <if test="creatBy != null">creat_by = #{creatBy},</if>
             <if test="creatTime != null">creat_time = #{creatTime},</if>
             <if test="isDelete != null">is_delete = #{isDelete},</if>
+            <if test="bidAnnexId != null">bid_annex_id = #{bidAnnexId},</if>
         </trim>
         where tender_projects_id = #{tenderProjectsId}
     </update>

@@ -3,9 +3,12 @@ package com.yz.bidding.controller;
 import java.util.ArrayList;
 import java.util.List;
 import java.io.IOException;
+import java.util.Map;
 import javax.servlet.http.HttpServletResponse;
 
+import cn.hutool.json.JSONUtil;
 import com.ruoyi.system.api.domain.PublicAnnex;
+import com.yz.bidding.domain.BiddingTender;
 import com.yz.bidding.service.IPublicAnnexService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -40,6 +43,52 @@ public class BiddingNoticeController extends BaseController {
     @Autowired
     private IPublicAnnexService publicAnnexService;
 
+
+    /**
+     * 查找项目下需要发送招标通知的集合
+     * @param id
+     * @return
+     */
+    @PostMapping("/findNoticeTenderById")
+    public List<Map<String,Object>> findNoticeTenderById(String id){
+        return biddingNoticeService.findNoticeTenderById(id);
+    }
+
+    /**
+     * 查询项目下的中标结果公示
+     *
+     * @param id
+     * @return
+     */
+    @PostMapping("/findNoticeAllById")
+    public List<BiddingNotice> findNoticeAllById(String id) {
+        return biddingNoticeService.findNoticeAllById(id);
+    }
+
+    /**
+     * 添加中标公告
+     *
+     * @param notice
+     * @return
+     */
+    @PostMapping("/updateNotice")
+    public int updateNotice(String notice) {
+        List<BiddingNotice> biddingNotice = JSONUtil.toList(notice, BiddingNotice.class);
+        return biddingNoticeService.updateNotice(biddingNotice);
+    }
+
+    /**
+     * 添加中标公告
+     *
+     * @param notice
+     * @return
+     */
+    @PostMapping("/addNotice")
+    public int addNotice(String notice) {
+        List<BiddingTender> biddingNotice = JSONUtil.toList(notice, BiddingTender.class);
+        return biddingNoticeService.addNotice(biddingNotice);
+    }
+
     /**
      * 查询中标公告列表
      */
@@ -52,12 +101,14 @@ public class BiddingNoticeController extends BaseController {
         List<BiddingNotice> list = biddingNoticeService.selectBiddingNoticeList(biddingNotice);
         return getDataTable(list);
     }
+
     @RequiresPermissions("pms2/bidding:notice:list")
     @GetMapping("/selAll")
     public TableDataInfo selAll() {
         List<BiddingNotice> list = biddingNoticeService.selAll();
         return getDataTable(list);
     }
+
     /**
      * 导出中标公告列表
      */

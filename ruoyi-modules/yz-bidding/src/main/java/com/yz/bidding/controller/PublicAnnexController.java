@@ -39,6 +39,16 @@ public class PublicAnnexController extends BaseController {
 
 
     /**
+     * 查找评标附件
+     * @param id
+     * @return
+     */
+    @PostMapping("/findAnnexByPbId")
+    public List<PublicAnnex> findAnnexByPbId(String id){
+        return publicAnnexService.findAnnexByPbId(id);
+    }
+
+    /**
      * 根据招标项目查找附件集合
      *
      * @param pid

@@ -66,6 +66,20 @@
         <include refid="selectBiddingDrawExpertsVo"/>
         where draw_experts_id = #{drawExpertsId}
     </select>
+    <select id="findExpertsByProjectsId" resultType="java.util.Map">
+        SELECT ee.get_expert_extract_id,e.expert_id,e.`name`, e.id_card, e.phone, ep.expert_pool_name, ep.`level`, ep.category, de.manner
+        FROM `bidding_get_expert_extract` ee
+                 inner join bidding_tender_projects p
+                            on ee.get_tender_id = p.tender_projects_id
+                 inner join public_expert e
+                            on ee.get_pool_id = e.expert_id
+                 inner join public_expert_pool ep
+                            on e.pool_id = ep.expert_pool_id
+                 inner join bidding_draw_experts de
+                            on ee.get_expert_id = de.draw_experts_id
+        where p.tender_projects_id = #{pid}
+
+    </select>
 
     <insert id="insertBiddingDrawExperts" parameterType="BiddingDrawExperts" useGeneratedKeys="true"
             keyProperty="drawExpertsId">

@@ -4,6 +4,8 @@ import java.util.List;
 import java.io.IOException;
 import javax.servlet.http.HttpServletResponse;
 
+import cn.hutool.json.JSONUtil;
+import com.ruoyi.system.api.domain.PublicAnnex;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,9 +39,42 @@ public class BiddingTenderController extends BaseController {
     private IBiddingTenderService biddingTenderService;
 
     @PostMapping("/updateStateByTenderId")
-    public int updateStateByTenderId(BiddingTender biddingTender){
-        return biddingTenderService.updateStateByTenderId( biddingTender);
+    public int updateStateByTenderId(BiddingTender biddingTender) {
+        return biddingTenderService.updateStateByTenderId(biddingTender);
     }
+
+    /**
+     * 评标操作
+     *
+     * @param tender
+     * @param ax
+     * @return
+     */
+    @PostMapping("/bidEvaluation")
+    public int bidEvaluation(String tender, String ax) {
+        List<BiddingTender> tender1 = JSONUtil.toList(tender, BiddingTender.class);
+        List<PublicAnnex> list = null;
+        if (ax != null) {
+            list = JSONUtil.toList(ax, PublicAnnex.class);
+        }
+        return biddingTenderService.bidEvaluation(tender1, list);
+    }
+
+
+    /**
+     * 查找该项目下状态为初审通过的投标信息
+     *
+     * @param id
+     * @return
+     */
+    @PostMapping("/findTendersStateByProjectsId")
+    public TableDataInfo findTendersStateByProjectsId(String id) {
+        startPage();
+        List<BiddingTender> list = biddingTenderService.findTendersStateByProjectsId(id);
+        System.out.println(list);
+        return getDataTable(list);
+    }
+
 
     /**
      * 根据项目Id和状态查询投标信息

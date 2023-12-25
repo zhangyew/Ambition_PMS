@@ -14,6 +14,13 @@ import org.apache.ibatis.annotations.Param;
 public interface BiddingTenderMapper {
 
     /**
+     * 查找该项目下状态为初审通过的投标信息
+     * @param id
+     * @return
+     */
+    public List<BiddingTender> findTendersStateByProjectsId(String id);
+
+    /**
      * 根据项目Id和状态查询投标信息
      *
      * @param pid

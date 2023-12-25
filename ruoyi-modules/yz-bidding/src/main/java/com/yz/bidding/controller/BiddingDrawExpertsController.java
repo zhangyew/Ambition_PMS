@@ -2,6 +2,7 @@ package com.yz.bidding.controller;
 
 import java.util.List;
 import java.io.IOException;
+import java.util.Map;
 import javax.servlet.http.HttpServletResponse;
 
 import cn.hutool.json.JSONUtil;
@@ -40,7 +41,19 @@ public class BiddingDrawExpertsController extends BaseController {
 
 
     /**
+     * 查找当前项目下被抽取的专家
+     *
+     * @param pid
+     * @return
+     */
+    @PostMapping("/findExpertsByProjectsId")
+    public List<Map<String, Object>> findExpertsByProjectsId(String pid) {
+        return biddingDrawExpertsService.findExpertsByProjectsId(pid);
+    }
+
+    /**
      * 抽取专家操作
+     *
      * @param data
      * @param tj
      * @param zj
@@ -52,7 +65,7 @@ public class BiddingDrawExpertsController extends BaseController {
         List<BiddingExtractionConditions> conditions = JSONUtil.toList(tj, BiddingExtractionConditions.class);
         List<PublicExpert> experts = JSONUtil.toList(zj, PublicExpert.class);
 
-        return biddingDrawExpertsService.addDrawExperts(drawExperts,conditions,experts);
+        return biddingDrawExpertsService.addDrawExperts(drawExperts, conditions, experts);
     }
 
 

@@ -1,9 +1,6 @@
 package com.yz.bidding.service.impl;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 import com.ruoyi.common.core.utils.DateUtils;
 import com.ruoyi.system.api.domain.PublicCodeRules;
@@ -41,19 +38,19 @@ public class BiddingDrawExpertsServiceImpl implements IBiddingDrawExpertsService
     private PublicCodeRulesMapper code;
 
     @Override
+    public List<Map<String, Object>> findExpertsByProjectsId(String pid) {
+        return biddingDrawExpertsMapper.findExpertsByProjectsId(pid);
+    }
+
+    @Override
     public int addDrawExperts(BiddingDrawExperts drawExperts
             , List<BiddingExtractionConditions> conditions, List<PublicExpert> experts) {
         int x = 0;
-        System.out.println("数据");
-        System.out.println(drawExperts);
         BiddingDrawExperts draw = drawExperts;
+        System.out.println(draw);
         draw.setCreateTime(new Date());
         PublicCodeRules rules = code.selectPublicCodeRulesByCodeRulesId(14L);
         draw.setNumber(SnowflakeGetId.getCode(rules));
-        System.out.println("条件");
-        System.out.println(conditions);
-        System.out.println("专家");
-        System.out.println(experts);
         if (drawExperts.getManner() == 1) { // 直接指定专家
             // 插入抽取表、更改专家状态、插入专家抽取表
             x = biddingDrawExpertsMapper.insertBiddingDrawExperts(draw);

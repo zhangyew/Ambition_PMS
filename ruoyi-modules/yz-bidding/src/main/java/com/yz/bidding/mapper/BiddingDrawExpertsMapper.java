@@ -1,6 +1,8 @@
 package com.yz.bidding.mapper;
 
 import java.util.List;
+import java.util.Map;
+
 import com.yz.bidding.domain.BiddingDrawExperts;
 
 /**
@@ -11,6 +13,14 @@ import com.yz.bidding.domain.BiddingDrawExperts;
  */
 public interface BiddingDrawExpertsMapper 
 {
+
+    /**
+     * 查找当前项目下被抽取的专家
+     * @param pid
+     * @return
+     */
+    public List<Map<String,Object>> findExpertsByProjectsId(String pid);
+
     /**
      * 查询抽取专家
      * 

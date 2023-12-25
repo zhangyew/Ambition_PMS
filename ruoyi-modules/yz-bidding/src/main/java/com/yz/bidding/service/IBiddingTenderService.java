@@ -2,6 +2,7 @@ package com.yz.bidding.service;
 
 import java.util.List;
 
+import com.ruoyi.system.api.domain.PublicAnnex;
 import com.yz.bidding.domain.BiddingTender;
 import org.apache.ibatis.annotations.Param;
 
@@ -12,6 +13,19 @@ import org.apache.ibatis.annotations.Param;
  * @date 2023-11-21
  */
 public interface IBiddingTenderService {
+
+
+    /**
+     * 评标操作
+     */
+    public int bidEvaluation(List<BiddingTender> biddingTender, List<PublicAnnex>list);
+
+    /**
+     * 查找该项目下状态为初审通过的投标信息
+     * @param id
+     * @return
+     */
+    public List<BiddingTender> findTendersStateByProjectsId(String id);
 
     /**
      * 修改招标状态

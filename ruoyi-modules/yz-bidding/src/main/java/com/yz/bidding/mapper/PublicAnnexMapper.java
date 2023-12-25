@@ -13,6 +13,14 @@ import com.ruoyi.system.api.domain.PublicAnnex;
  */
 public interface PublicAnnexMapper {
 
+
+    /**
+     * 查找评标附件
+     * @param id
+     * @return
+     */
+    public List<PublicAnnex> findAnnexByPbId(String id);
+
     /**
      * 根据招标项目查找附件集合
      *

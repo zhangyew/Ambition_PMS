@@ -24,6 +24,10 @@ public class BiddingNotice extends BaseEntity
     @Excel(name = "招标公告ID")
     private Long tenderNoticeId;
 
+    /** 公示编号 */
+    @Excel(name = "公示编号")
+    private String noticeClod;
+
     /** 公告日期 */
     @JsonFormat(pattern = "yyyy-MM-dd")
     @Excel(name = "公告日期", width = 30, dateFormat = "yyyy-MM-dd")
@@ -56,17 +60,32 @@ public class BiddingNotice extends BaseEntity
         return vendorName;
     }
 
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
+
+    public String getNoticeClod() {
+        return noticeClod;
+    }
+
+    public BiddingNotice setNoticeClod(String noticeClod) {
+        this.noticeClod = noticeClod;
+        return this;
+    }
+
     @Override
     public String toString() {
         return "BiddingNotice{" +
                 "noticeId=" + noticeId +
                 ", tenderNoticeId=" + tenderNoticeId +
                 ", noticeDate=" + noticeDate +
+                ", noticeClod=" + noticeClod +
                 ", buyer='" + buyer + '\'' +
                 ", noticeTitle='" + noticeTitle + '\'' +
                 ", noticeContext='" + noticeContext + '\'' +
                 ", vendorName='" + vendorName + '\'' +
                 ", bidMoney=" + bidMoney +
+                ", noticeProjectId=" + noticeProjectId +
                 ", noticeSupplierId=" + noticeSupplierId +
                 '}';
     }

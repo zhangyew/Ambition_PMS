@@ -35,6 +35,20 @@ public class PublicExpertController extends BaseController {
     @Autowired
     private IPublicExpertService publicExpertService;
 
+    /**
+     * 修改专家被抽取状态
+     * @param id
+     * @param zt
+     * @return
+     */
+    @PostMapping("/updateIsExtract")
+    public int updateIsExtract(String id) {
+        PublicExpert e = new PublicExpert();
+        e.setExpertId(Long.parseLong(id));
+        System.out.println(id);
+        e.setIsExtract(0L);
+        return publicExpertService.updatePublicExpert(e);
+    }
 
     @PostMapping("/findExpertList")
     public TableDataInfo findExpertList(String name, String poolId) {

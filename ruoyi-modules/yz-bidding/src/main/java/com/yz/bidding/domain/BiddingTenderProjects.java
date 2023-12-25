@@ -116,6 +116,21 @@ public class BiddingTenderProjects extends BaseEntity {
      */
     @Excel(name = "删除")
     private Long isDelete;
+    
+    /**
+     * 项目评标附件集合
+     */
+    @Excel(name = "项目评标附件集合")
+    private String bidAnnexId;
+
+    public String getBidAnnexId() {
+        return bidAnnexId;
+    }
+
+    public BiddingTenderProjects setBidAnnexId(String bidAnnexId) {
+        this.bidAnnexId = bidAnnexId;
+        return this;
+    }
 
     private List<Map<String, Object>> list;
     private List<Map<String, Object>> list2;

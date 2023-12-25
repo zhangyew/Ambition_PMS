@@ -84,9 +84,19 @@
         left join public_annex a
         on t.tender_annex_id = a.annex_id
         where p.tender_projects_id = #{pid}
-        <if test="zt == 'bs' ">and t.state &lt; 5</if>
+        <if test="zt == 'bs' ">and 1=1</if>
         <if test="zt == 'zb' ">and t.state &gt; 4</if>
+        <if test="zt == 'pb' ">and t.state in (5,6,7)</if>
+        <if test="zt == 'qd' ">and t.state = 6</if>
 
+    </select>
+    <select id="findTendersStateByProjectsId" resultMap="BiddingTenderResult" >
+        SELECT t.*
+        FROM `bidding_tender` t
+                 inner join bidding_tender_notice n
+                            on t.tender_notice_id = n.tender_notice_id
+        where n.tender_notice_projects_id = #{id}
+          and t.state = 3
     </select>
 
     <insert id="insertBiddingTender" parameterType="BiddingTender" useGeneratedKeys="true" keyProperty="tenderId">
