@@ -48,10 +48,18 @@ public interface BiddingTenderProjectsMapper
 
     /**
      * 项目显示（合同签订）
-     * @param tenderProjectsId
+     * @param tenderProjectsNumber
      * @return
      */
-    public List<BiddingTenderProjects> agreementTenderProjects(Long tenderProjectsId);
+    public List<BiddingTenderProjects> agreementTenderProjects(String tenderProjectsNumber);
+
+    /**
+     * 合同签订物料信息
+     * @param tenderProjectsId
+     * @param noticeSupplierId
+     * @return
+     */
+    public List<BiddingTenderProjects> SHowsProjectRelatedItems(@Param("tenderProjectsId") Long tenderProjectsId,@Param("noticeSupplierId")Long noticeSupplierId);
 
     /**
      * 新增招标项目

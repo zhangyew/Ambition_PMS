@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.yz.bidding.domain.BiddingTenderManifest;
 import com.yz.bidding.domain.BiddingTenderProjects;
-import org.apache.ibatis.annotations.Param;
 
 /**
  * 招标项目Service接口
@@ -56,10 +55,18 @@ public interface IBiddingTenderProjectsService {
 
     /**
      * 项目显示（合同签订）
-     * @param tenderProjectsId
+     * @param tenderProjectsNumber
      * @return
      */
-    public List<BiddingTenderProjects> agreementTenderProjects(Long tenderProjectsId);
+    public List<BiddingTenderProjects> agreementTenderProjects(String tenderProjectsNumber);
+
+    /**
+     * 合同签订物料信息
+     * @param tenderProjectsId
+     * @param noticeSupplierId
+     * @return
+     */
+    public List<BiddingTenderProjects> SHowsProjectRelatedItems(Long tenderProjectsId,Long noticeSupplierId);
 
 
     /**

@@ -58,6 +58,72 @@
         </collection>
     </resultMap>
 
+    <resultMap type="com.yz.bidding.domain.BiddingTenderProjects" id="ContractedMaterialInformation">
+        <result property="tenderProjectsId"    column="tender_projects_id"    />
+        <result property="tenderProjectsNumber"    column="tender_projects_number"    />
+        <result property="tenderProjectsName"    column="tender_projects_name"    />
+        <result property="projectsType"    column="projects_type"    />
+        <result property="tenderProjectsMoney"    column="tender_projects_money"    />
+        <result property="tenderProjectsContact"    column="tender_projects_contact"    />
+        <result property="tenderProjectsPhone"    column="tender_projects_phone"    />
+        <result property="tenderProjectsAddress"    column="tender_projects_address"    />
+        <result property="tenderProjectsEmail"    column="tender_projects_email"    />
+        <result property="remark"    column="remark"    />
+        <result property="manner"    column="manner"    />
+        <result property="censor"    column="censor"    />
+        <result property="must"    column="must"    />
+        <result property="auditState"    column="audit_state"    />
+        <result property="creatBy"    column="creat_by"    />
+        <result property="creatTime"    column="creat_time"    />
+        <result property="isDelete"    column="is_delete"    />
+        <collection property="biddingNotice" ofType="com.yz.bidding.domain.BiddingNotice">
+            <result property="noticeId"    column="notice_id"    />
+            <result property="noticeProjectId" column="notice_project_id" />
+            <result property="tenderNoticeId"    column="tender_notice_id"    />
+            <result property="noticeDate"    column="notice_date"    />
+            <result property="buyer"    column="buyer"    />
+            <result property="noticeTitle"    column="notice_title"    />
+            <result property="noticeContext"    column="notice_context"    />
+            <result property="bidMoney"    column="bid_money"    />
+            <result property="noticeSupplierId"    column="notice_supplier_id"    />
+        </collection>
+        <collection property="bidTenderManifest" ofType="com.yz.bidding.domain.BiddingTenderManifest">
+            <result property="tenderManifestId" column="tender_manifest_id"/>
+            <result property="manifestProjectsId" column="manifest_projects_id"/>
+            <result property="manifestGoodsId" column="manifest_goods_id"/>
+            <result property="number" column="number"/>
+            <result property="manifestTypeId" column="manifest_type_id"/>
+            <result property="price" column="price"/>
+            <result property="prices" column="prices"/>
+            <result property="explains" column="explains"/>
+            <result property="remark" column="remark"/>
+            <result property="isDelete" column="is_delete"/>
+        </collection>
+        <collection property="publicGoods" ofType="com.ruoyi.system.api.domain.PublicGoods">
+            <result property="goodsId" column="goods_id"/>
+            <result property="categoryId" column="category_id"/>
+            <result property="goodsName" column="goods_name"/>
+            <result property="goodsCode" column="goods_code"/>
+            <result property="goodsType" column="goods_type"/>
+            <result property="specs" column="specs"/>
+            <result property="model" column="model"/>
+            <result property="brand" column="brand"/>
+            <result property="weight" column="weight"/>
+            <result property="goodsNumber" column="goods_number"/>
+            <result property="volume" column="volume"/>
+            <result property="buyer" column="buyer"/>
+            <result property="state" column="state"/>
+        </collection>
+        <collection property="publicCategory" ofType="com.ruoyi.system.api.domain.PublicCategory">
+            <result property="categoryId"    column="category_id"    />
+            <result property="categoryNumber"    column="category_number"    />
+            <result property="categoryName"    column="category_name"    />
+            <result property="parentCategory"    column="parent_category"    />
+            <result property="isDelete"    column="is_delete"    />
+        </collection>
+    </resultMap>
+
+
     <sql id="selectBiddingTenderProjectsVo">
         select tender_projects_id,
                tender_projects_number,
@@ -108,6 +174,31 @@
                             on m.manifest_goods_id = g.goods_id
         where p.tender_projects_id = #{pid}
 
+    </select>
+
+    <select id="agreementTenderProjects" parameterType="com.yz.bidding.domain.BiddingTenderProjects" resultMap="BiddingTenderProjectsResult">
+        <include refid="selectBiddingTenderProjectsVo"/>
+        <where>
+            <if test="tenderProjectsNumber != null  and tenderProjectsNumber != ''">and tender_projects_number like
+                concat('%', #{tenderProjectsNumber}, '%')
+            </if>
+            and audit_state=4
+        </where>
+    </select>
+
+<!--    合同签订物料信息-->
+    <select id="SHowsProjectRelatedItems" parameterType="com.yz.bidding.domain.BiddingTenderProjects" resultMap="ContractedMaterialInformation">
+        SELECT tender_projects_id,tender_projects_number,tender_projects_name,tender_projects_money,
+               bn.notice_project_id,bn.notice_supplier_id,
+               tm.manifest_projects_id,tm.manifest_goods_id,tm.manifest_type_id,tm.price,tm.prices,tm.explains,tm.remark,
+               gos.goods_code,gos.goods_name,gos.goods_type,gos.category_id,
+               ca.category_name
+        FROM bidding_tender_projects AS tp
+                 INNER JOIN bidding_notice AS bn ON (tp.tender_projects_id=bn.notice_project_id)
+                 INNER JOIN bidding_tender_manifest AS tm ON(tp.tender_projects_id=tm.manifest_projects_id)
+                 INNER JOIN public_goods AS gos ON(tm.manifest_goods_id=gos.goods_id)
+                 INNER JOIN public_category AS ca ON(gos.category_id=ca.category_id)
+        WHERE tender_projects_id=#{tenderProjectsId}  AND  bn.notice_supplier_id = #{noticeSupplierId} AND audit_state=4 AND tp.is_delete=0 AND tm.is_delete=0
     </select>
 
     <insert id="insertBiddingTenderProjects" parameterType="BiddingTenderProjects" useGeneratedKeys="true"

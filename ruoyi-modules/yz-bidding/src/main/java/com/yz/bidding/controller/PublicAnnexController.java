@@ -6,6 +6,10 @@ import java.util.Map;
 import javax.servlet.http.HttpServletResponse;
 
 
+import com.ruoyi.common.core.domain.R;
+import com.ruoyi.common.core.utils.StringUtils;
+import com.ruoyi.system.api.RemoteFileService;
+import com.ruoyi.system.api.domain.SysFile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import com.ruoyi.common.log.annotation.Log;
@@ -17,6 +21,7 @@ import com.ruoyi.common.core.web.controller.BaseController;
 import com.ruoyi.common.core.web.domain.AjaxResult;
 import com.ruoyi.common.core.utils.poi.ExcelUtil;
 import com.ruoyi.common.core.web.page.TableDataInfo;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * 公告附件Controller
@@ -29,6 +34,8 @@ import com.ruoyi.common.core.web.page.TableDataInfo;
 public class PublicAnnexController extends BaseController {
     @Autowired
     private IPublicAnnexService publicAnnexService;
+    @Autowired
+    private RemoteFileService remoteFileService;
 
 
     /**
@@ -96,6 +103,35 @@ public class PublicAnnexController extends BaseController {
     @PostMapping
     public AjaxResult add(@RequestBody PublicAnnex publicAnnex) {
         return toAjax(publicAnnexService.insertPublicAnnex(publicAnnex));
+    }
+
+//    /**
+//     * 缩略图上传
+//     */
+//    @Log(title = "预览缩略图", businessType = BusinessType.UPDATE)
+//    @PostMapping("/articleImg")
+//    public AjaxResult uploadFile(MultipartFile file) throws IOException
+//    {
+//        if (!file.isEmpty())
+//        {
+//            R<SysFile> articleImg = remoteFileService.upload(file);
+//            if (!StringUtils.isEmpty(articleImg.toString()))
+//            {
+//                AjaxResult ajax = AjaxResult.success();
+//                ajax.put("url", articleImg);
+//                return ajax;
+//            }
+//        }
+//        return AjaxResult.error("上传图片异常，请联系管理员");
+//    }
+
+    /**
+     * 只有文件上传
+     */
+    @PostMapping("/articleImg")
+    public R<SysFile> uploadFile(MultipartFile file) {
+        System.out.println(file);
+        return remoteFileService.upload(file);
     }
 
     /**

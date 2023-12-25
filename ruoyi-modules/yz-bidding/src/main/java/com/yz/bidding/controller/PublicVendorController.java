@@ -100,7 +100,6 @@ public class PublicVendorController extends BaseController {
     @GetMapping("/showAll")
     public TableDataInfo showAll() {
         List<PublicVendor> list = publicVendorService.showAll();
-//        System.out.println(list);
         return getDataTable(list);
     }
     /**

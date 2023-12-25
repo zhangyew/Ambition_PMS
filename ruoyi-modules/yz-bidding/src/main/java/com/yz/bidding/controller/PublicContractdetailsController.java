@@ -49,12 +49,10 @@ public class PublicContractdetailsController extends BaseController
     private RemoteCodeRulesService remoteCodeRulesService;
     @Autowired
     private IPublicSigningsService publicSigningsService;
-//    @Resource
-//    private SnowflakeGetId snowflakeGetId;
 
 
     /**
-     * 查询合同明细列表
+     * 查询合同所有列表
      */
     @RequiresPermissions("bidding/public:contractdetails:list")
     @GetMapping("/list")

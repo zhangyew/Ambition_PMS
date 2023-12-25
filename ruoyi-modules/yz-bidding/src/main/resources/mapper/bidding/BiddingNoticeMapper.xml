@@ -6,6 +6,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     
     <resultMap type="com.yz.bidding.domain.BiddingNotice" id="BiddingNoticeResult">
         <result property="noticeId"    column="notice_id"    />
+        <result property="noticeProjectId" column="notice_project_id" />
         <result property="tenderNoticeId"    column="tender_notice_id"    />
         <result property="noticeDate"    column="notice_date"    />
         <result property="buyer"    column="buyer"    />
@@ -27,7 +28,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectBiddingNoticeVo">
-        select notice_id, tender_notice_id, notice_date, buyer, notice_title, notice_context, bid_money, notice_supplier_id from bidding_notice
+        select notice_id,notice_project_id, tender_notice_id, notice_date, buyer, notice_title, notice_context, bid_money, notice_supplier_id from bidding_notice
     </sql>
 
     <select id="selectBiddingNoticeList" parameterType="com.yz.bidding.domain.BiddingNotice" resultMap="BiddingNoticeResult">

@@ -4,11 +4,17 @@ import java.util.ArrayList;
 import java.util.List;
 import com.ruoyi.common.core.utils.DateUtils;
 import com.ruoyi.common.core.utils.StringUtils;
-import com.ruoyi.system.api.domain.PublicContractdetails;
+import com.ruoyi.common.core.web.domain.AjaxResult;
+import com.ruoyi.system.api.RemoteCodeRulesService;
+import com.ruoyi.system.api.RemotePaymentService;
+import com.ruoyi.system.api.domain.*;
+import com.ruoyi.system.api.util.SnowflakeGetId;
+import com.yz.bidding.mapper.PublicCodeRulesMapper;
+import com.yz.bidding.mapper.PublicContractdetailsMapper;
+import com.yz.bidding.mapper.PublicSigningsMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.yz.bidding.mapper.PublicAgreementMapper;
-import com.ruoyi.system.api.domain.PublicAgreement;
 import com.yz.bidding.service.IPublicAgreementService;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,6 +31,14 @@ public class PublicAgreementServiceImpl implements IPublicAgreementService
 {
     @Resource
     private PublicAgreementMapper publicAgreementMapper;
+    @Resource
+    private PublicContractdetailsMapper publicContractDetailsMapper;
+    @Resource
+    private PublicCodeRulesMapper publicCodeRulesMapper;
+    @Resource
+    private PublicSigningsMapper publicSigningsMapper;
+    @Autowired
+    private RemotePaymentService remotePaymentService;
 
     /**
      * 显示使用的合同(合同签订)
@@ -56,12 +70,46 @@ public class PublicAgreementServiceImpl implements IPublicAgreementService
      */
     @Transactional
     @Override
-    public int insertPublicAgreement(PublicAgreement publicAgreement)
+    public int insertPublicAgreement(PublicAgreement publicAgreement, PublicContractdetails publicContractdetails, PublicSignings publicSignings , PublicPayment publicPayment)
     {
         publicAgreement.setCreateTime(DateUtils.getNowDate());
-        int rows = publicAgreementMapper.insertPublicAgreement(publicAgreement);
-        insertPublicContractdetails(publicAgreement);
-        return rows;
+        publicContractdetails.setCreateTime(DateUtils.getNowDate());
+        PublicAgreement agreement = publicAgreement;
+        PublicContractdetails contractdetails=publicContractdetails;
+        PublicPayment publicPayments=publicPayment;
+        int x=0;
+        PublicSignings signings =publicSignings;
+        //合同申请
+        x = publicAgreementMapper.insertPublicAgreement(publicAgreement);
+        Long contract= agreement.getContractId();
+        //付款详情
+        String id = "";
+        System.out.println("付款详情："+publicPayments);
+        for (PublicPayment sd : publicContractdetails.getPublicPayments()) {
+//            x= ;
+            AjaxResult r =remotePaymentService.insertPublicPayment(sd);
+            id += sd.getPaymentId() + ",";
+        }
+        id = id.substring(0, id.lastIndexOf(","));
+
+
+        System.out.println("显示付款详情："+id);
+        //合同详情
+        PublicCodeRules rules = publicCodeRulesMapper.selectPublicCodeRulesByCodeRulesId(10L);
+        contractdetails.setContractdetailsNumber(SnowflakeGetId.getCode(rules));
+        contractdetails.setContractId(contract);
+        contractdetails.setContractdetailsState(3L);
+        contractdetails.setContractdetailsPaymentId(id);
+        if (x <= 0) {
+            throw new RuntimeException("采购需求添加失败");
+        }
+        x = publicContractDetailsMapper.insertPublicContractdetails(contractdetails);
+        Long details= contractdetails.getContractdetailsId();
+        //签署状态
+        signings.setSigningContractdetailsId(details);
+        x =publicSigningsMapper.insertPublicSignings(signings);
+        System.out.println(x);
+        return x;
     }
 
     /**
@@ -74,9 +122,9 @@ public class PublicAgreementServiceImpl implements IPublicAgreementService
     @Override
     public int updatePublicAgreement(PublicAgreement publicAgreement)
     {
-        publicAgreement.setUpdateTime(DateUtils.getNowDate());
-        publicAgreementMapper.deletePublicContractdetailsByContractId(publicAgreement.getContractId());
-        insertPublicContractdetails(publicAgreement);
+//        publicAgreement.setUpdateTime(DateUtils.getNowDate());
+//        publicAgreementMapper.deletePublicContractdetailsByContractId(publicAgreement.getContractId());
+//        insertPublicContractdetails(publicAgreement);
         return publicAgreementMapper.updatePublicAgreement(publicAgreement);
     }
 
@@ -108,27 +156,27 @@ public class PublicAgreementServiceImpl implements IPublicAgreementService
         return publicAgreementMapper.deletePublicAgreementByContractId(contractId);
     }
 
-    /**
-     * 新增合同明细信息
-     *
-     * @param publicAgreement 合同申请表对象
-     */
-    public void insertPublicContractdetails(PublicAgreement publicAgreement)
-    {
-        List<PublicContractdetails> publicContractdetailsList = publicAgreement.getPublicContractdetailsList();
-        Long contractId = publicAgreement.getContractId();
-        if (StringUtils.isNotNull(publicContractdetailsList))
-        {
-            List<PublicContractdetails> list = new ArrayList<PublicContractdetails>();
-            for (PublicContractdetails publicContractdetails : publicContractdetailsList)
-            {
-                publicContractdetails.setContractId(contractId);
-                list.add(publicContractdetails);
-            }
-            if (list.size() > 0)
-            {
-                publicAgreementMapper.batchPublicContractdetails(list);
-            }
-        }
-    }
+//    /**
+//     * 新增合同明细信息
+//     *
+//     * @param publicAgreement 合同申请表对象
+//     */
+//    public void insertPublicContractdetails(PublicAgreement publicAgreement)
+//    {
+//        List<PublicContractdetails> publicContractdetailsList = publicAgreement.getPublicContractdetailsList();
+//        Long contractId = publicAgreement.getContractId();
+//        if (StringUtils.isNotNull(publicContractdetailsList))
+//        {
+//            List<PublicContractdetails> list = new ArrayList<PublicContractdetails>();
+//            for (PublicContractdetails publicContractdetails : publicContractdetailsList)
+//            {
+//                publicContractdetails.setContractId(contractId);
+//                list.add(publicContractdetails);
+//            }
+//            if (list.size() > 0)
+//            {
+//                publicAgreementMapper.batchPublicContractdetails(list);
+//            }
+//        }
+//    }
 }

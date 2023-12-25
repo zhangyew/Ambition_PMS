@@ -3,7 +3,12 @@ package com.yz.bidding.controller;
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 
+import cn.hutool.json.JSONUtil;
 import com.ruoyi.common.security.annotation.InnerAuth;
+import com.ruoyi.system.api.domain.PublicContractdetails;
+import com.ruoyi.system.api.domain.PublicPayment;
+import com.ruoyi.system.api.domain.PublicSignings;
+import com.yz.bidding.domain.BiddingTenderManifest;
 import com.yz.bidding.domain.BiddingTenderProjects;
 import com.yz.bidding.service.IBiddingTenderProjectsService;
 import com.yz.bidding.service.IPublicAgreementService;
@@ -41,6 +46,17 @@ public class PublicAgreementController extends BaseController
     private IBiddingTenderProjectsService bidTenderProjectsService;
 
 
+    @RequiresPermissions("bidding/public:agreement:add")
+    @Log(title = "合同申请表", businessType = BusinessType.INSERT)
+    @PostMapping("/addAgreements")
+    public int addAgreements(String json,String json2,String json3,String json4){
+        PublicAgreement publicAgreement = JSONUtil.toBean(json,PublicAgreement.class);
+        PublicContractdetails publicContractDetails = JSONUtil.toBean(json2,PublicContractdetails.class);
+        PublicSignings publicSignings = JSONUtil.toBean(json3,PublicSignings.class);
+        PublicPayment publicPayment= JSONUtil.toBean(json4,PublicPayment.class);
+        return publicAgreementService.insertPublicAgreement(publicAgreement,publicContractDetails,publicSignings,publicPayment);
+    }
+
     /**
      * 查询合同申请表列表
      */
@@ -58,10 +74,10 @@ public class PublicAgreementController extends BaseController
      */
     @RequiresPermissions("bidding/public:agreement:agreementTenderProjects")
     @GetMapping("/agreementTenderProjects")
-    public TableDataInfo agreementTenderProjects(Long tenderProjectsId)
+    public TableDataInfo agreementTenderProjects(String tenderProjectsNumber)
     {
         startPage();
-        List<BiddingTenderProjects> list = bidTenderProjectsService.agreementTenderProjects(tenderProjectsId);
+        List<BiddingTenderProjects> list = bidTenderProjectsService.agreementTenderProjects(tenderProjectsNumber);
         return getDataTable(list);
     }
 
@@ -107,13 +123,13 @@ public class PublicAgreementController extends BaseController
     /**
      * 新增合同申请表
      */
-    @RequiresPermissions("bidding/public:agreement:add")
-    @Log(title = "合同申请表", businessType = BusinessType.INSERT)
-    @PostMapping
-    public AjaxResult add(@RequestBody PublicAgreement publicAgreement)
-    {
-        return toAjax(publicAgreementService.insertPublicAgreement(publicAgreement));
-    }
+//    @RequiresPermissions("bidding/public:agreement:add")
+//    @Log(title = "合同申请表", businessType = BusinessType.INSERT)
+//    @PostMapping
+//    public AjaxResult add(@RequestBody PublicAgreement publicAgreement)
+//    {
+//        return toAjax(publicAgreementService.insertPublicAgreement(publicAgreement));
+//    }
 
     /**
      * 修改合同申请表

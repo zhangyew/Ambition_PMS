@@ -37,7 +37,7 @@ public class PublicContractdetailsServiceImpl implements IPublicContractdetailsS
     }
 
     /**
-     * 查询合同明细列表
+     * 查询合同所有列表
      * 
      * @param publicContractdetails 合同明细
      * @return 合同明细

@@ -94,12 +94,23 @@ public class BiddingTenderProjectsServiceImpl implements IBiddingTenderProjectsS
 
     /**
      * 项目显示（合同签订）
-     * @param tenderProjectsId
+     * @param tenderProjectsNumber
      * @return
      */
     @Override
-    public List<BiddingTenderProjects> agreementTenderProjects(Long tenderProjectsId) {
-        return biddingTenderProjectsMapper.agreementTenderProjects(tenderProjectsId);
+    public List<BiddingTenderProjects> agreementTenderProjects(String tenderProjectsNumber) {
+        return biddingTenderProjectsMapper.agreementTenderProjects(tenderProjectsNumber);
+    }
+
+    /**
+     * 合同签订物料信息
+     * @param tenderProjectsId
+     * @param noticeSupplierId
+     * @return
+     */
+    @Override
+    public List<BiddingTenderProjects> SHowsProjectRelatedItems(Long tenderProjectsId, Long noticeSupplierId) {
+        return biddingTenderProjectsMapper.SHowsProjectRelatedItems(tenderProjectsId, noticeSupplierId);
     }
 
     /**

@@ -89,6 +89,17 @@ public class BiddingTenderProjectsController extends BaseController {
     }
 
     /**
+     * 合同签订物料信息
+     */
+    @RequiresPermissions("bidding/tender_projects:list")
+    @GetMapping("/SHowsProjectRelatedItems")
+    public TableDataInfo SHowsProjectRelatedItems(Long tenderProjectsId, Long noticeSupplierId) {
+        List<BiddingTenderProjects> list = biddingTenderProjectsService.SHowsProjectRelatedItems(tenderProjectsId, noticeSupplierId);
+        System.out.println("合同签订物料信息："+list.toString());
+        return getDataTable(list);
+    }
+
+    /**
      * 新增招标项目
      */
     @RequiresPermissions("bidding/tender_projects:add")

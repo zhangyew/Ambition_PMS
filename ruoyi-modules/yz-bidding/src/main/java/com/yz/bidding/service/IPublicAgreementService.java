@@ -2,6 +2,9 @@ package com.yz.bidding.service;
 
 import java.util.List;
 import com.ruoyi.system.api.domain.PublicAgreement;
+import com.ruoyi.system.api.domain.PublicContractdetails;
+import com.ruoyi.system.api.domain.PublicPayment;
+import com.ruoyi.system.api.domain.PublicSignings;
 
 /**
  * 合同Service接口
@@ -11,13 +14,6 @@ import com.ruoyi.system.api.domain.PublicAgreement;
  */
 public interface IPublicAgreementService
 {
-//    /**
-//     * 查询合同申请表
-//     *
-//     * @param contractId 合同申请表主键
-//     * @return 合同申请表
-//     */
-//    public PublicAgreement selectPublicAgreementByContractId(Long contractId);
     /**
      * 显示使用的合同(合同签订)
      * @param contractParent
@@ -39,7 +35,7 @@ public interface IPublicAgreementService
      * @param publicAgreement 合同申请表
      * @return 结果
      */
-    public int insertPublicAgreement(PublicAgreement publicAgreement);
+    public int insertPublicAgreement(PublicAgreement publicAgreement, PublicContractdetails publicContractdetails, PublicSignings publicSignings, PublicPayment publicPayment);
 
     /**
      * 修改合同申请表

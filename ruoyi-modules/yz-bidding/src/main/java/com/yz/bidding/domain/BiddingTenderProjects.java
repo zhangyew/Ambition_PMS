@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.ruoyi.system.api.domain.PublicCategory;
+import com.ruoyi.system.api.domain.PublicGoods;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.core.annotation.Excel;
@@ -120,6 +122,43 @@ public class BiddingTenderProjects extends BaseEntity {
 
     public List<Map<String, Object>> getList2() {
         return list2;
+    }
+
+    private BiddingNotice biddingNotice;
+    private BiddingTenderManifest bidTenderManifest;
+    private PublicGoods publicGoods;
+    private PublicCategory publicCategory;
+
+    public BiddingNotice getBiddingNotice() {
+        return biddingNotice;
+    }
+
+    public void setBiddingNotice(BiddingNotice biddingNotice) {
+        this.biddingNotice = biddingNotice;
+    }
+
+    public BiddingTenderManifest getBidTenderManifest() {
+        return bidTenderManifest;
+    }
+
+    public void setBidTenderManifest(BiddingTenderManifest bidTenderManifest) {
+        this.bidTenderManifest = bidTenderManifest;
+    }
+
+    public PublicGoods getPublicGoods() {
+        return publicGoods;
+    }
+
+    public void setPublicGoods(PublicGoods publicGoods) {
+        this.publicGoods = publicGoods;
+    }
+
+    public PublicCategory getPublicCategory() {
+        return publicCategory;
+    }
+
+    public void setPublicCategory(PublicCategory publicCategory) {
+        this.publicCategory = publicCategory;
     }
 
     public BiddingTenderProjects setList2(List<Map<String, Object>> list2) {
@@ -285,6 +324,10 @@ public class BiddingTenderProjects extends BaseEntity {
                 .append("censor", getCensor())
                 .append("must", getMust())
                 .append("auditState", getAuditState())
+                .append("biddingNotice",getBiddingNotice())
+                .append("bidTenderManifest",getBidTenderManifest())
+                .append("publicGoods",getBiddingNotice())
+                .append("publicCategory",getPublicCategory())
                 .append("creatBy", getCreatBy())
                 .append("creatTime", getCreatTime())
                 .append("isDelete", getIsDelete())

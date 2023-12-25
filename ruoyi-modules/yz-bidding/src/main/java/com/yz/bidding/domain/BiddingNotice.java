@@ -41,6 +41,17 @@ public class BiddingNotice extends BaseEntity
     @Excel(name = "公告内容")
     private String noticeContext;
 
+    @Excel(name = "招标项目外键")
+    private Long noticeProjectId;
+
+    public Long getNoticeProjectId() {
+        return noticeProjectId;
+    }
+
+    public void setNoticeProjectId(Long noticeProjectId) {
+        this.noticeProjectId = noticeProjectId;
+    }
+
     public String getVendorName() {
         return vendorName;
     }

@@ -1,6 +1,8 @@
 package com.ruoyi.system.api.domain;
 
 import java.util.Date;
+import java.util.List;
+import java.util.logging.LogManager;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -81,10 +83,6 @@ public class PublicContractdetails extends BaseEntity
     @Excel(name = "采购方式", readConverterExp = "1=：招标,2=：采购计划")
     private Long procurementMethod;
 
-//    /** 招标项目ID（外键） */
-//    @Excel(name = "招标项目ID", readConverterExp = "外=键")
-//    private Long contractdetailsTenderProjectsId;
-
     /** 采购订单ID（外键） */
     @Excel(name = "采购订单ID", readConverterExp = "外=键")
     private Long purchaseListId;
@@ -96,6 +94,27 @@ public class PublicContractdetails extends BaseEntity
     private String tenderProjectsName;
     public void setTenderProjectsName(String tenderProjectsName) {this.tenderProjectsName = tenderProjectsName;}
     public String getTenderProjectsName() {return tenderProjectsName;}
+    @Excel(name = "项目id")
+    private Long tenderProjectsId;
+    @Excel(name = "供应商ID")
+    private Long vendorId;
+
+    public Long getTenderProjectsId() {
+        return tenderProjectsId;
+    }
+
+    public void setTenderProjectsId(Long tenderProjectsId) {
+        this.tenderProjectsId = tenderProjectsId;
+    }
+
+    public Long getVendorId() {
+        return vendorId;
+    }
+
+    public void setVendorId(Long vendorId) {
+        this.vendorId = vendorId;
+    }
+
     @Excel(name = "供应商名称")
     private String abbreviated;
     public void setAbbreviated(String abbreviated) { this.abbreviated = abbreviated;}
@@ -105,7 +124,15 @@ public class PublicContractdetails extends BaseEntity
     public void setApplicant(String applicant) {this.applicant = applicant;}
     public String getApplicant() {return applicant;}
 
+    private List<PublicPayment> publicPayments;
 
+    public List<PublicPayment> getPublicPayments() {
+        return publicPayments;
+    }
+
+    public void setPublicPayments(List<PublicPayment> publicPayments) {
+        this.publicPayments = publicPayments;
+    }
 
     public void setContractdetailsId(Long contractdetailsId){this.contractdetailsId = contractdetailsId;}
     public Long getContractdetailsId() {return contractdetailsId;}
