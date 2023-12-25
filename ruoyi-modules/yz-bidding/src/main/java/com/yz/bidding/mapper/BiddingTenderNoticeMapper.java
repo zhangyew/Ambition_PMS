@@ -25,7 +25,7 @@ public interface BiddingTenderNoticeMapper {
      */
     public List<Map<String, Object>> findTenderNoticeList(@Param("id") String id
     ,@Param("name")String name);
-
+    List<BiddingTenderNotice> bidNeed();
     /**
      * 修改招标公告状态
      *

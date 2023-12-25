@@ -85,6 +85,38 @@ public class BiddingTenderNotice extends BaseEntity
     /** 项目编号 */
     @Excel(name = "项目编号")
     private String tenderProjectsNumber;
+
+    @Override
+    public String toString() {
+        return "BiddingTenderNotice{" +
+                "tenderNoticeId=" + tenderNoticeId +
+                ", tenderNoticeProjectsId=" + tenderNoticeProjectsId +
+                ", tenderTitle='" + tenderTitle + '\'' +
+                ", tenderNoticeMonery=" + tenderNoticeMonery +
+                ", bidStart=" + bidStart +
+                ", bidEnd=" + bidEnd +
+                ", kaibiaoStart=" + kaibiaoStart +
+                ", kaibiaoEnd=" + kaibiaoEnd +
+                ", processStart=" + processStart +
+                ", processEnd=" + processEnd +
+                ", context='" + context + '\'' +
+                ", tenders='" + tenders + '\'' +
+                ", auditState=" + auditState +
+                ", isDelete=" + isDelete +
+                ", tenderProjectsNumber='" + tenderProjectsNumber + '\'' +
+                ", tenderProjectsName='" + tenderProjectsName + '\'' +
+                '}';
+    }
+
+    public String getTenderProjectsName() {
+        return tenderProjectsName;
+    }
+
+    public void setTenderProjectsName(String tenderProjectsName) {
+        this.tenderProjectsName = tenderProjectsName;
+    }
+
+    private String tenderProjectsName;
     public void setTenderProjectsNumber(String tenderProjectsNumber) {this.tenderProjectsNumber = tenderProjectsNumber;}
     public String getTenderProjectsNumber() {return tenderProjectsNumber;}
 
@@ -217,25 +249,4 @@ public class BiddingTenderNotice extends BaseEntity
         return isDelete;
     }
 
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
-            .append("tenderNoticeId", getTenderNoticeId())
-            .append("tenderNoticeProjectsId", getTenderNoticeProjectsId())
-            .append("tenderTitle", getTenderTitle())
-            .append("tenderNoticeMonery", getTenderNoticeMonery())
-            .append("bidStart", getBidStart())
-            .append("bidEnd", getBidEnd())
-            .append("kaibiaoStart", getKaibiaoStart())
-            .append("kaibiaoEnd", getKaibiaoEnd())
-            .append("processStart", getProcessStart())
-            .append("processEnd", getProcessEnd())
-            .append("remark", getRemark())
-            .append("context", getContext())
-            .append("tenders", getTenders())
-            .append("auditState", getAuditState())
-            .append("isDelete", getIsDelete())
-            .append("tenderProjectsNumber",getTenderProjectsNumber())
-            .toString();
-    }
 }

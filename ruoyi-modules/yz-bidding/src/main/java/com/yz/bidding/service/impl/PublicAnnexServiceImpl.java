@@ -51,6 +51,6 @@ public class PublicAnnexServiceImpl implements IPublicAnnexService {
 
     @Override
     public List<PublicAnnex> findAnnexByOrder(Long oid) {
-        return publicAnnexMapper.findAnnexByOrder(oid);
+        return annexMapper.findAnnexByOrder(oid);
     }
 }

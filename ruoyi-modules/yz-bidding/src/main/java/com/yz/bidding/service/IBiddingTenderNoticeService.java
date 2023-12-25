@@ -124,4 +124,6 @@ public interface IBiddingTenderNoticeService {
      * @return
      */
     List<BiddingTenderNotice> selAllByGys();
+
+    List<BiddingTenderNotice> bidNeed();
 }

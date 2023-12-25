@@ -21,6 +21,7 @@
         <result property="auditState" column="audit_state"/>
         <result property="isDelete" column="is_delete"/>
         <result property="tenderProjectsNumber" column="tender_projects_number"/>
+        <result property="tenderProjectsName" column="tender_projects_name"/>
     </resultMap>
     <resultMap type="com.yz.bidding.domain.BiddingTenderProjects" id="findNoticeById">
         <result property="tenderProjectsId" column="tender_projects_id"/>
@@ -144,7 +145,8 @@
     </select>
 
     <!--    供应商首页（通知公告）-->
-    <select id="displayTenderNoticeList" parameterType="com.yz.bidding.domain.BiddingTenderNotice" resultMap="BiddingTenderNoticeResult">
+    <select id="displayTenderNoticeList" parameterType="com.yz.bidding.domain.BiddingTenderNotice"
+            resultMap="BiddingTenderNoticeResult">
         <include refid="selectBiddingTenderNoticeVo"/>
         WHERE state=1 AND is_delete=0
     </select>
@@ -169,9 +171,17 @@
             concat('%', #{name}, '%')
         </if>
     </select>
+    <select id="bidNeed" resultMap="BiddingTenderNoticeResult">
+        SELECT a.*, b.tender_projects_number, b.tender_projects_name
+        FROM `bidding_tender_notice` a
+                 left join bidding_tender_projects b on a.tender_notice_projects_id = b.tender_projects_id
+        WHERE state = 1
+        ORDER BY bid_end desc
+    </select>
 
 
-    <insert id="insertBiddingTenderNotice" parameterType="com.yz.bidding.domain.BiddingTenderNotice" useGeneratedKeys="true"
+    <insert id="insertBiddingTenderNotice" parameterType="com.yz.bidding.domain.BiddingTenderNotice"
+            useGeneratedKeys="true"
             keyProperty="tenderNoticeId">
         insert into bidding_tender_notice
         <trim prefix="(" suffix=")" suffixOverrides=",">

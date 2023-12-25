@@ -159,4 +159,9 @@ public class BiddingTenderNoticeServiceImpl implements IBiddingTenderNoticeServi
     public List<BiddingTenderNotice> selAllByGys() {
         return biddingTenderNoticeMapper.selAllByGys();
     }
+
+    @Override
+    public List<BiddingTenderNotice> bidNeed() {
+        return biddingTenderNoticeMapper.bidNeed();
+    }
 }

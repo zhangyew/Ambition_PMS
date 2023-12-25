@@ -94,7 +94,7 @@ public class BiddingTenderNoticeController extends BaseController {
     /**
      * 查询招标公告列表
      */
-    @RequiresPermissions("pms/bidding:tender_notice:list")
+    @RequiresPermissions("bidding/public:tender_notice:list")
     @GetMapping("/list")
     public TableDataInfo list(BiddingTenderNotice biddingTenderNotice) {
         startPage();
@@ -102,7 +102,7 @@ public class BiddingTenderNoticeController extends BaseController {
         return getDataTable(list);
     }
 
-    @RequiresPermissions("bidding/bidding:tender_notice:list")
+    @RequiresPermissions("bidding/public:tender_notice:list")
     @GetMapping("/selAllByGys")
     public TableDataInfo selAllByGys() {
         startPage();
@@ -138,6 +138,15 @@ public class BiddingTenderNoticeController extends BaseController {
     }
 
 
+    /**
+     * 投标展示招标公告列表
+     * @return
+     */
+    @GetMapping("/bidNeed")
+    public TableDataInfo bidNeed() {
+        List<BiddingTenderNotice> list = biddingTenderNoticeService.bidNeed();
+        return getDataTable(list);
+    }
     /**
      * 导出招标公告列表
      */
