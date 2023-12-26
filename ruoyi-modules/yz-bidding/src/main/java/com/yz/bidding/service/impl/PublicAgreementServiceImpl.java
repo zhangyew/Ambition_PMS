@@ -1,6 +1,7 @@
 package com.yz.bidding.service.impl;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import com.ruoyi.common.core.utils.DateUtils;
 import com.ruoyi.common.core.utils.StringUtils;
@@ -9,12 +10,10 @@ import com.ruoyi.system.api.RemoteCodeRulesService;
 import com.ruoyi.system.api.RemotePaymentService;
 import com.ruoyi.system.api.domain.*;
 import com.ruoyi.system.api.util.SnowflakeGetId;
-import com.yz.bidding.mapper.PublicCodeRulesMapper;
-import com.yz.bidding.mapper.PublicContractdetailsMapper;
-import com.yz.bidding.mapper.PublicSigningsMapper;
+import com.yz.bidding.mapper.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import com.yz.bidding.mapper.PublicAgreementMapper;
 import com.yz.bidding.service.IPublicAgreementService;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -39,6 +38,9 @@ public class PublicAgreementServiceImpl implements IPublicAgreementService
     private PublicSigningsMapper publicSigningsMapper;
     @Autowired
     private RemotePaymentService remotePaymentService;
+
+    @Resource
+    private PublicAnnexMapper publicAnnexMapper;
 
     /**
      * 显示使用的合同(合同签订)
@@ -70,13 +72,14 @@ public class PublicAgreementServiceImpl implements IPublicAgreementService
      */
     @Transactional
     @Override
-    public int insertPublicAgreement(PublicAgreement publicAgreement, PublicContractdetails publicContractdetails, PublicSignings publicSignings , PublicPayment publicPayment)
+    public int insertPublicAgreement(PublicAgreement publicAgreement, PublicContractdetails publicContractdetails, PublicSignings publicSignings , List<PublicPayment> publicPayment ,List<PublicAnnex> publicAnnex)
     {
         publicAgreement.setCreateTime(DateUtils.getNowDate());
         publicContractdetails.setCreateTime(DateUtils.getNowDate());
         PublicAgreement agreement = publicAgreement;
         PublicContractdetails contractdetails=publicContractdetails;
-        PublicPayment publicPayments=publicPayment;
+        List<PublicPayment> publicPayments=publicPayment;
+        List<PublicAnnex> publicAnnexs = publicAnnex;
         int x=0;
         PublicSignings signings =publicSignings;
         //合同申请
@@ -84,16 +87,13 @@ public class PublicAgreementServiceImpl implements IPublicAgreementService
         Long contract= agreement.getContractId();
         //付款详情
         String id = "";
-        System.out.println("付款详情："+publicPayments);
-        for (PublicPayment sd : publicContractdetails.getPublicPayments()) {
-//            x= ;
-            AjaxResult r =remotePaymentService.insertPublicPayment(sd);
-            id += sd.getPaymentId() + ",";
+        for (PublicPayment sd : publicPayments) {
+            PublicPayment r =remotePaymentService.insertPublicPayment(sd);
+            System.out.println(r);
+            id += r.getPaymentId() + ",";
         }
         id = id.substring(0, id.lastIndexOf(","));
-
-
-        System.out.println("显示付款详情："+id);
+//        System.out.println("显示付款详情："+id);
         //合同详情
         PublicCodeRules rules = publicCodeRulesMapper.selectPublicCodeRulesByCodeRulesId(10L);
         contractdetails.setContractdetailsNumber(SnowflakeGetId.getCode(rules));
@@ -108,7 +108,13 @@ public class PublicAgreementServiceImpl implements IPublicAgreementService
         //签署状态
         signings.setSigningContractdetailsId(details);
         x =publicSigningsMapper.insertPublicSignings(signings);
-        System.out.println(x);
+        //附件上传
+        for (PublicAnnex ne : publicAnnex) {
+            ne.setSupplyId(details);
+            ne.setUpTime(new Date());
+
+            x=publicAnnexMapper.insertPublicAnnex(ne);
+        }
         return x;
     }
 

@@ -1,10 +1,8 @@
 package com.yz.bidding.service;
 
 import java.util.List;
-import com.ruoyi.system.api.domain.PublicAgreement;
-import com.ruoyi.system.api.domain.PublicContractdetails;
-import com.ruoyi.system.api.domain.PublicPayment;
-import com.ruoyi.system.api.domain.PublicSignings;
+
+import com.ruoyi.system.api.domain.*;
 
 /**
  * 合同Service接口
@@ -35,7 +33,7 @@ public interface IPublicAgreementService
      * @param publicAgreement 合同申请表
      * @return 结果
      */
-    public int insertPublicAgreement(PublicAgreement publicAgreement, PublicContractdetails publicContractdetails, PublicSignings publicSignings, PublicPayment publicPayment);
+    public int insertPublicAgreement(PublicAgreement publicAgreement, PublicContractdetails publicContractdetails, PublicSignings publicSignings, List<PublicPayment> publicPayment, List<PublicAnnex> publicAnnex);
 
     /**
      * 修改合同申请表

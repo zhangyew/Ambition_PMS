@@ -76,9 +76,11 @@ public class PublicPaymentController extends BaseController
     @RequiresPermissions("shopping/public:payment:add")
     @Log(title = "合同付款", businessType = BusinessType.INSERT)
     @PostMapping
-    public AjaxResult add(@RequestBody PublicPayment publicPayment)
+    public PublicPayment add(@RequestBody PublicPayment publicPayment)
     {
-        return toAjax(publicPaymentService.insertPublicPayment(publicPayment));
+        PublicPayment payment=publicPayment;
+        publicPaymentService.insertPublicPayment(payment);
+        return payment;
     }
 
     /**

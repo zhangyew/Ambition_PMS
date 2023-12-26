@@ -5,13 +5,12 @@ import javax.servlet.http.HttpServletResponse;
 
 import cn.hutool.json.JSONUtil;
 import com.ruoyi.common.security.annotation.InnerAuth;
-import com.ruoyi.system.api.domain.PublicContractdetails;
-import com.ruoyi.system.api.domain.PublicPayment;
-import com.ruoyi.system.api.domain.PublicSignings;
+import com.ruoyi.system.api.domain.*;
 import com.yz.bidding.domain.BiddingTenderManifest;
 import com.yz.bidding.domain.BiddingTenderProjects;
 import com.yz.bidding.service.IBiddingTenderProjectsService;
 import com.yz.bidding.service.IPublicAgreementService;
+import io.micrometer.core.instrument.util.StringEscapeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,7 +23,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ruoyi.common.log.annotation.Log;
 import com.ruoyi.common.log.enums.BusinessType;
 import com.ruoyi.common.security.annotation.RequiresPermissions;
-import com.ruoyi.system.api.domain.PublicAgreement;
 import com.ruoyi.common.core.web.controller.BaseController;
 import com.ruoyi.common.core.web.domain.AjaxResult;
 import com.ruoyi.common.core.utils.poi.ExcelUtil;
@@ -49,12 +47,15 @@ public class PublicAgreementController extends BaseController
     @RequiresPermissions("bidding/public:agreement:add")
     @Log(title = "合同申请表", businessType = BusinessType.INSERT)
     @PostMapping("/addAgreements")
-    public int addAgreements(String json,String json2,String json3,String json4){
+    public int addAgreements(String json,String json2,String json3,String json4,String json5){
+
         PublicAgreement publicAgreement = JSONUtil.toBean(json,PublicAgreement.class);
         PublicContractdetails publicContractDetails = JSONUtil.toBean(json2,PublicContractdetails.class);
         PublicSignings publicSignings = JSONUtil.toBean(json3,PublicSignings.class);
-        PublicPayment publicPayment= JSONUtil.toBean(json4,PublicPayment.class);
-        return publicAgreementService.insertPublicAgreement(publicAgreement,publicContractDetails,publicSignings,publicPayment);
+        List<PublicPayment> publicPayment = JSONUtil.toList(json4,PublicPayment.class);
+        List<PublicAnnex> publicAnnex=JSONUtil.toList(json5,PublicAnnex.class);
+
+        return publicAgreementService.insertPublicAgreement(publicAgreement,publicContractDetails,publicSignings,publicPayment,publicAnnex);
     }
 
     /**
