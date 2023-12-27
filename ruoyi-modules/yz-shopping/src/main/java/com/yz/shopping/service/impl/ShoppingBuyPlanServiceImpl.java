@@ -102,32 +102,32 @@ public class ShoppingBuyPlanServiceImpl implements IShoppingBuyPlanService {
     @Override
     public int updateShoppingBuyPlan(ShoppingBuyPlan shoppingBuyPlan) {
         shoppingBuyPlan.setUpdateTime(DateUtils.getNowDate());
-        ShoppingBuyPlan sbp = shoppingBuyPlanMapper.selectShoppingBuyPlanByBuyPlanId(shoppingBuyPlan.getBuyPlanId());
-        if (!ObjectUtils.isEmpty(sbp.getBuyPlanDemandId())){
-            String[] strings = sbp.getBuyPlanDemandId().contains(",") ? sbp.getBuyPlanDemandId().split(",") : new String[]{sbp.getBuyPlanDemandId()};
-            Long[] longs = new Long[strings.length];
-            for (int i = 0; i < strings.length; i++) {
-                longs[i] = Long.parseLong(strings[i]);
-            }
-            int row = shoppingDemandMapper.deleteShoppingDemandByDemandIds(longs);
-            if (row <= 0) {
-                throw new RuntimeException("修改失败");
-            }
-        }
-        if (!ObjectUtils.isEmpty(shoppingBuyPlan.getShoppingDemands())) {
-            String id = "";
-            for (ShoppingDemand sd : shoppingBuyPlan.getShoppingDemands()) {
-                int row = shoppingDemandMapper.insertShoppingDemand(sd);
-                if (row <= 0) {
-                    throw new RuntimeException("采购计划详情添加失败");
-                }
-                id += sd.getDemandId() + ",";
-            }
-            id = id.substring(0, id.lastIndexOf(","));
-            shoppingBuyPlan.setBuyPlanDemandId(id);
-        } else {
-            shoppingBuyPlan.setBuyPlanDemandId("");
-        }
+//        ShoppingBuyPlan sbp = shoppingBuyPlanMapper.selectShoppingBuyPlanByBuyPlanId(shoppingBuyPlan.getBuyPlanId());
+//        if (!ObjectUtils.isEmpty(sbp.getBuyPlanDemandId())){
+//            String[] strings = sbp.getBuyPlanDemandId().contains(",") ? sbp.getBuyPlanDemandId().split(",") : new String[]{sbp.getBuyPlanDemandId()};
+//            Long[] longs = new Long[strings.length];
+//            for (int i = 0; i < strings.length; i++) {
+//                longs[i] = Long.parseLong(strings[i]);
+//            }
+//            int row = shoppingDemandMapper.deleteShoppingDemandByDemandIds(longs);
+//            if (row <= 0) {
+//                throw new RuntimeException("修改失败");
+//            }
+//        }
+//        if (!ObjectUtils.isEmpty(shoppingBuyPlan.getShoppingDemands())) {
+//            String id = "";
+//            for (ShoppingDemand sd : shoppingBuyPlan.getShoppingDemands()) {
+//                int row = shoppingDemandMapper.insertShoppingDemand(sd);
+//                if (row <= 0) {
+//                    throw new RuntimeException("采购计划详情添加失败");
+//                }
+//                id += sd.getDemandId() + ",";
+//            }
+//            id = id.substring(0, id.lastIndexOf(","));
+//            shoppingBuyPlan.setBuyPlanDemandId(id);
+//        } else {
+//            shoppingBuyPlan.setBuyPlanDemandId("");
+//        }
 
         shoppingBuyPlan.setPlanState(0L);
         return shoppingBuyPlanMapper.updateShoppingBuyPlan(shoppingBuyPlan);

@@ -154,7 +154,7 @@
         <include refid="selectPublicVendorVo"/>
         <where>
             <if test="vendor_id != null "> vendor_id like concat('%', #{vendor_id}, '%')</if>
-            and is_delete=0
+            and is_delete=0 and vendor_type_state_id=3
         </where>
     </select>
 

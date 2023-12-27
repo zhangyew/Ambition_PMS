@@ -77,4 +77,10 @@ public interface BiddingTenderMapper {
      * @return 结果
      */
     public int deleteBiddingTenderByTenderIds(Long[] tenderIds);
+
+    /**
+     * 查询是否投标
+     * @return
+     */
+    int selBidCount(Long tnId,Long tsId);
 }

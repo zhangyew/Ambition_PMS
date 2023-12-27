@@ -116,6 +116,11 @@ public class PublicContractdetailsController extends BaseController
         return success(publicContractdetailsService.selectContractDetailsId(contractdetailsId));
     }
 
+    //修改状态
+    @GetMapping("/upConState/{conId}")
+    public AjaxResult upConState(@PathVariable Long conId) {
+        return toAjax(publicContractdetailsService.upConState(conId));
+    }
 
     /**
      * 新增合同明细

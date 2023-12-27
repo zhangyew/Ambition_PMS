@@ -125,4 +125,9 @@ public class PublicContractdetailsServiceImpl implements IPublicContractdetailsS
     {
         return publicContractdetailsMapper.deletePublicContractdetailsByContractdetailsId(contractdetailsId);
     }
+
+    @Override
+    public int upConState(Long conId) {
+        return publicContractdetailsMapper.upConState(conId);
+    }
 }

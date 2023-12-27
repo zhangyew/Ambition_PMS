@@ -78,4 +78,6 @@ public interface IPublicContractdetailsService
      * @return 结果
      */
     public int deletePublicContractdetailsByContractdetailsId(Long contractdetailsId);
+
+    int upConState(Long conId);
 }

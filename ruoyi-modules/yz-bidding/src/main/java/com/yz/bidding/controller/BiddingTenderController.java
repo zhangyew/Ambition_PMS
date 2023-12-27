@@ -101,6 +101,10 @@ public class BiddingTenderController extends BaseController {
         List<BiddingTender> list = biddingTenderService.selectBiddingTenderList(biddingTender);
         return getDataTable(list);
     }
+    @GetMapping("/selBidCount")
+    public Integer selBidCount(Long tnId,Long tsId) {
+        return biddingTenderService.selBidCount(tnId,tsId);
+    }
 
     /**
      * 导出投标列表

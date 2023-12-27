@@ -113,6 +113,7 @@ public class ShoppingOrdersServiceImpl implements IShoppingOrdersService {
     public int addOrders(ShoppingOrders shoppingOrders, List<PublicAnnex> annexList) {
         shoppingOrders.setCreateTime(DateUtils.getNowDate());
         shoppingOrders.setTypeOrderState(0L);
+        shoppingOrders.setVendorState(0L);
         int row = shoppingOrdersMapper.insertShoppingOrders(shoppingOrders);
         if (row <= 0) {
             throw new RuntimeException("采购订单添加失败");
@@ -211,5 +212,15 @@ public class ShoppingOrdersServiceImpl implements IShoppingOrdersService {
     @Override
     public int updateExamine(ShoppingOrders shoppingOrders) {
         return shoppingOrdersMapper.updateExamine(shoppingOrders);
+    }
+
+    @Override
+    public List<ShoppingOrders> showOO() {
+        return shoppingOrdersMapper.showOO();
+    }
+
+    @Override
+    public int updateExamine1(ShoppingOrders shoppingOrders) {
+        return shoppingOrdersMapper.updateExamine1(shoppingOrders);
     }
 }

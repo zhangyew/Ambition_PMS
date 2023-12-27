@@ -87,4 +87,8 @@ public interface IShoppingOrdersService
     public int deleteShoppingOrdersByOrderId(Long orderId);
 
     int updateExamine(ShoppingOrders shoppingOrders);
+
+    List<ShoppingOrders> showOO();
+
+    int updateExamine1(ShoppingOrders shoppingOrders);
 }

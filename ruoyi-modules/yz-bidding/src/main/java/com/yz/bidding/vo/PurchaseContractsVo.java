@@ -15,6 +15,58 @@ public class PurchaseContractsVo extends BaseEntity{
     /** 合同明细ID */
     private Long contractdetailsId;
 
+    @Override
+    public String toString() {
+        return "PurchaseContractsVo{" +
+                "contractdetailsId=" + contractdetailsId +
+                ", tenderProjectsId=" + tenderProjectsId +
+                ", contractdetailsNumber='" + contractdetailsNumber + '\'' +
+                ", contractdetailsName='" + contractdetailsName + '\'' +
+                ", contractdetailsType=" + contractdetailsType +
+                ", openTime=" + openTime +
+                ", contractdetailsAmount=" + contractdetailsAmount +
+                ", contractdetailsLevel=" + contractdetailsLevel +
+                ", illustrate='" + illustrate + '\'' +
+                ", bidEnd=" + bidEnd +
+                ", contractdetailsState=" + contractdetailsState +
+                ", vendorId=" + vendorId +
+                ", procurementMethod=" + procurementMethod +
+                ", purchaseListId=" + purchaseListId +
+                ", tenderProjectsName='" + tenderProjectsName + '\'' +
+                ", abbreviated='" + abbreviated + '\'' +
+                ", applicant='" + applicant + '\'' +
+                ", applicantTime=" + applicantTime +
+                ", contractSector='" + contractSector + '\'' +
+                ", firm='" + firm + '\'' +
+                ", contractProjectRelated=" + contractProjectRelated +
+                ", contractProjectsId=" + contractProjectsId +
+                ", contractMaster=" + contractMaster +
+                ", contractPrimeId=" + contractPrimeId +
+                ", contractTotalBudget=" + contractTotalBudget +
+                ", contractParent=" + contractParent +
+                ", planName='" + planName + '\'' +
+                ", signatoriesNumber=" + signatoriesNumber +
+                ", signingSubject='" + signingSubject + '\'' +
+                ", signingAddress='" + signingAddress + '\'' +
+                ", signingContact='" + signingContact + '\'' +
+                ", signingContactMode='" + signingContactMode + '\'' +
+                ", signingBank='" + signingBank + '\'' +
+                ", signingBankAccount='" + signingBankAccount + '\'' +
+                ", sigingAmount=" + sigingAmount +
+                ", currency='" + currency + '\'' +
+                '}';
+    }
+
+    public Long getTenderProjectsId() {
+        return tenderProjectsId;
+    }
+
+    public void setTenderProjectsId(Long tenderProjectsId) {
+        this.tenderProjectsId = tenderProjectsId;
+    }
+
+    private Long tenderProjectsId;
+
     /** 合同编号 */
     @Excel(name = "合同编号")
     private String contractdetailsNumber;
@@ -52,6 +104,16 @@ public class PurchaseContractsVo extends BaseEntity{
     /** 合同状态（数据字典） */
     @Excel(name = "合同状态", readConverterExp = "数=据字典")
     private Long contractdetailsState;
+
+    public Long getVendorId() {
+        return vendorId;
+    }
+
+    public void setVendorId(Long vendorId) {
+        this.vendorId = vendorId;
+    }
+
+    private Long vendorId;
 
     /** 采购方式（1：招标 2：采购计划） */
     @Excel(name = "采购方式", readConverterExp = "1=：招标,2=：采购计划")
@@ -463,43 +525,4 @@ public class PurchaseContractsVo extends BaseEntity{
         this.currency = currency;
     }
 
-    @Override
-    public String toString() {
-        return "PurchaseContractsVo{" +
-                "contractdetailsId=" + contractdetailsId +
-                ", contractdetailsNumber='" + contractdetailsNumber + '\'' +
-                ", contractdetailsName='" + contractdetailsName + '\'' +
-                ", contractdetailsType=" + contractdetailsType +
-                ", openTime=" + openTime +
-                ", contractdetailsAmount=" + contractdetailsAmount +
-                ", contractdetailsLevel=" + contractdetailsLevel +
-                ", illustrate='" + illustrate + '\'' +
-                ", bidEnd=" + bidEnd +
-                ", contractdetailsState=" + contractdetailsState +
-                ", procurementMethod=" + procurementMethod +
-                ", purchaseListId=" + purchaseListId +
-                ", tenderProjectsName='" + tenderProjectsName + '\'' +
-                ", abbreviated='" + abbreviated + '\'' +
-                ", applicant='" + applicant + '\'' +
-                ", applicantTime=" + applicantTime +
-                ", contractSector='" + contractSector + '\'' +
-                ", firm='" + firm + '\'' +
-                ", contractProjectRelated=" + contractProjectRelated +
-                ", contractProjectsId=" + contractProjectsId +
-                ", contractMaster=" + contractMaster +
-                ", contractPrimeId=" + contractPrimeId +
-                ", contractTotalBudget=" + contractTotalBudget +
-                ", contractParent=" + contractParent +
-                ", planName='" + planName + '\'' +
-                ", signatoriesNumber=" + signatoriesNumber +
-                ", signingSubject='" + signingSubject + '\'' +
-                ", signingAddress='" + signingAddress + '\'' +
-                ", signingContact='" + signingContact + '\'' +
-                ", signingContactMode='" + signingContactMode + '\'' +
-                ", signingBank='" + signingBank + '\'' +
-                ", signingBankAccount='" + signingBankAccount + '\'' +
-                ", sigingAmount=" + sigingAmount +
-                ", currency='" + currency + '\'' +
-                '}';
-    }
 }

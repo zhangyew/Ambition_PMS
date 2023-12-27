@@ -79,6 +79,13 @@ public class ShoppingOrdersController extends BaseController
         List<ShoppingOrders> list = shoppingOrdersService.showOrderSupplierId(oSupplierId);
         return getDataTable(list);
     }
+    @RequiresPermissions("shopping/public:orders:showOrderSupplierId")
+    @GetMapping("/showOO")
+    public TableDataInfo showOO() {
+        List<ShoppingOrders> list = shoppingOrdersService.showOO();
+        return getDataTable(list);
+    }
+
 
     /**
      * 导出采购订单表列表
@@ -170,6 +177,12 @@ public class ShoppingOrdersController extends BaseController
     @PostMapping("/updateExamine")
     public AjaxResult updateExamine(@RequestBody ShoppingOrders shoppingOrders) {
         return toAjax(shoppingOrdersService.updateExamine(shoppingOrders));
+    }
+    @RequiresPermissions("shopping/public:orders:edit")
+    @Log(title = "采购订单表", businessType = BusinessType.UPDATE)
+    @PostMapping("/updateExamine1")
+    public AjaxResult updateExamine1(@RequestBody ShoppingOrders shoppingOrders) {
+        return toAjax(shoppingOrdersService.updateExamine1(shoppingOrders));
     }
     /**
      * 修改待收货状态

@@ -154,7 +154,8 @@
         FROM `shopping_orders` a
                  inner join public_vendor b on
             a.order_supplier_id = b.vendor_id
-        WHERE order_supplier_id = #{oSupplierId}
+        WHERE order_source = 2
+          and order_supplier_id = #{oSupplierId}
     </select>
 
     <!--    收货单（详情显示）-->
@@ -174,6 +175,14 @@
         WHERE ord.order_id = #{orderId}
           AND ord.is_delete = 0
           AND ve.is_delete = 0
+    </select>
+    <select id="showOO" resultMap="ShoppingOrdersResult">
+        SELECT a.*, b.abbreviated, b.vendor_id
+        FROM `shopping_orders` a
+                 inner join public_vendor b on
+            a.order_supplier_id = b.vendor_id
+        where a.type_order_state = 4
+        order by a.create_time desc LIMIT 5
     </select>
 
 
@@ -277,6 +286,14 @@
         SET type_order_state=5
         WHERE order_id = #{orderId};
     </update>
+    <update id="updateExamine1" parameterType="com.yz.shopping.domain.ShoppingOrders">
+        update shopping_orders
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="vendorState != null">vendor_state = #{vendorState},</if>
+        </trim>
+        where order_id = #{orderId}
+    </update>
+
 
     <delete id="deleteShoppingOrdersByOrderId" parameterType="Long">
         delete

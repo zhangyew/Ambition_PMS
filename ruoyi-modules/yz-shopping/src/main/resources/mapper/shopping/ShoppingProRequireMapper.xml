@@ -82,6 +82,8 @@
             <if test="requireType != null ">and require_type = #{requireType}</if>
             <if test="requireState != null ">and require_state = #{requireState}</if>
         </where>
+        order by a.create_time desc
+
     </select>
 
     <select id="selectShoppingProRequireByRequireId" parameterType="Long" resultMap="ShoppingProRequireResult1">

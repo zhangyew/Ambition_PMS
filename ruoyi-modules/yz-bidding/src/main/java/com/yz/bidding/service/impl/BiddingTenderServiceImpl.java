@@ -56,6 +56,11 @@ public class BiddingTenderServiceImpl implements IBiddingTenderService {
         return biddingTenderMapper.findTendersByProjectsId(pid, zt);
     }
 
+    @Override
+    public int selBidCount(Long tnId,Long tsId) {
+        return biddingTenderMapper.selBidCount(tnId,tsId);
+    }
+
     /**
      * 查询投标
      *

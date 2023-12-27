@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yz.bidding.mapper.BiddingTenderMapper">
 
-    <resultMap type="BiddingTender" id="BiddingTenderResult">
+    <resultMap type="com.yz.bidding.domain.BiddingTender" id="BiddingTenderResult">
         <result property="tenderId" column="tender_id"/>
         <result property="tenderNoticeId" column="tender_notice_id"/>
         <result property="tenderSupplierId" column="tender_supplier_id"/>
@@ -49,7 +49,8 @@
         from bidding_tender
     </sql>
 
-    <select id="selectBiddingTenderList" parameterType="BiddingTender" resultMap="BiddingTenderResult">
+    <select id="selectBiddingTenderList" parameterType="com.yz.bidding.domain.BiddingTender"
+            resultMap="BiddingTenderResult">
         <include refid="selectBiddingTenderVo"/>
         <where>
             <if test="tenderNoticeId != null ">and tender_notice_id = #{tenderNoticeId}</if>
@@ -98,8 +99,15 @@
         where n.tender_notice_projects_id = #{id}
           and t.state = 3
     </select>
+    <select id="selBidCount" resultType="java.lang.Integer" parameterType="java.lang.Long">
+        SELECT count(*)
+        FROM `bidding_tender` a
+                 inner join bidding_tender_notice b on a.tender_notice_id = b.tender_notice_id
+        WHERE a.tender_notice_id = #{tnId} and tender_supplier_id=#{tsId}
+    </select>
 
-    <insert id="insertBiddingTender" parameterType="BiddingTender" useGeneratedKeys="true" keyProperty="tenderId">
+    <insert id="insertBiddingTender" parameterType="com.yz.bidding.domain.BiddingTender" useGeneratedKeys="true"
+            keyProperty="tenderId">
         insert into bidding_tender
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="tenderNoticeId != null">tender_notice_id,</if>
@@ -133,7 +141,7 @@
         </trim>
     </insert>
 
-    <update id="updateBiddingTender" parameterType="BiddingTender">
+    <update id="updateBiddingTender" parameterType="com.yz.bidding.domain.BiddingTender">
         update bidding_tender
         <trim prefix="SET" suffixOverrides=",">
             <if test="tenderNoticeId != null">tender_notice_id = #{tenderNoticeId},</if>

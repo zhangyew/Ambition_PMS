@@ -21,7 +21,7 @@ public interface PublicContractdetailsMapper
      * @return 合同明细
      */
     public List<PurchaseContractsVo> selectContractDetailsId(Long contractdetailsId);
-
+    int upConState(Long conId);
     /**
      * 查询合同明细列表
      * 

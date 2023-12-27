@@ -44,7 +44,7 @@ public interface ShoppingOrdersMapper
      */
     public  ShoppingOrders showsDetailsReceipt(@Param("orderId") Long orderId);
 
-
+    List<ShoppingOrders> showOO();
 
     /**
      * 新增采购订单表
@@ -53,7 +53,7 @@ public interface ShoppingOrdersMapper
      * @return 结果
      */
     public int insertShoppingOrders(ShoppingOrders shoppingOrders);
-
+    int updateExamine1(ShoppingOrders shoppingOrders);
     /**
      * 修改采购订单表
      * 

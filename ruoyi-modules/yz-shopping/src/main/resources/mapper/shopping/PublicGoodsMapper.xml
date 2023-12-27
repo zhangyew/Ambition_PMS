@@ -55,6 +55,7 @@
             <if test="goodsName != null  and goodsName != ''">and g.goods_name like concat('%', #{goodsName}, '%')</if>
             <if test="categoryId != null  and categoryId != ''">and g.category_id = #{categoryId}</if>
         </where>
+        order by g.create_time desc
     </select>
 
     <select id="findGoodsList" parameterType="com.ruoyi.system.api.domain.PublicGoods"

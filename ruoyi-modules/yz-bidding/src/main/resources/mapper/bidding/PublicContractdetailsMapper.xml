@@ -43,8 +43,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="contractdetailsState"    column="contractdetails_state"    />
         <result property="procurementMethod"    column="procurement_method"    />
         <result property="purchaseListId"    column="purchase_list_id"    />
+        <result property="tenderProjectsId"    column="tender_projects_id"    />
         <result property="tenderProjectsName"    column="tender_projects_name"    />
         <result property="abbreviated" column="abbreviated"/>
+        <result property="vendorId" column="vendor_id"/>
         <result property="applicant"    column="applicant"    />
         <result property="applicantTime"    column="applicant_time"    />
         <result property="contractSector"    column="contract_sector"    />
@@ -90,11 +92,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="selectContractDetailsId"   resultMap="PurchaseContractsResult">
         SELECT co.contractdetails_id,co.contractdetails_payment_id,
                ag.applicant,ag.applicant_time,ag.contract_sector,ag.firm,ag.contract_project_related,
-               tp.tender_projects_name,
+               tp.tender_projects_name,tp.tender_projects_id,
                ag.contract_master,ag.contract_prime_id,ag.contract_total_budget,
                co.contractdetails_name,co.contractdetails_number,co.contractdetails_type,co.contractdetails_level,co.open_time,co.bid_end,co.contractdetails_amount,co.illustrate,co.procurement_method,
                si.signatories_number,si.signing_subject,
-               ve.abbreviated,
+               ve.abbreviated,ve.vendor_id,
                si.signing_address,si.signing_contact,si.signing_contact_mode,si.signing_bank,si.signing_bank_account,si.siging_amount,si.currency
         FROM public_agreement AS ag
                  INNER JOIN bidding_tender_projects AS tp ON(ag.contract_projects_id=tp.tender_projects_id)
@@ -189,6 +191,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="updateTime != null">update_time = #{updateTime},</if>
         </trim>
         where contractdetails_id = #{contractdetailsId}
+    </update>
+    <update id="upConState" parameterType="java.lang.Long">
+        update public_contractdetails set contractdetails_state = 6  where contractdetails_id = #{conId}
     </update>
 
     <delete id="deletePublicContractdetailsByContractdetailsId" parameterType="Long">

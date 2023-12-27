@@ -43,7 +43,11 @@ public interface IBiddingTenderService {
      * @return
      */
     public List<BiddingTender> findTendersByProjectsId(String pid, String zt);
-
+    /**
+     * 查询是否投标
+     * @return
+     */
+    int selBidCount(Long tnId,Long tsId);
     /**
      * 查询投标
      *
