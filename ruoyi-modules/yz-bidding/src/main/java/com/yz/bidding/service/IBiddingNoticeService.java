@@ -16,6 +16,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 public interface IBiddingNoticeService {
 
     /**
+     * 查询供应商公告信息
+     * @param id
+     * @return
+     */
+    public List<Map<String,Object>> findNotice(String id);
+
+    /**
      * 查找项目下需要发送招标通知的集合
      *
      * @param id

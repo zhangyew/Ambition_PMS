@@ -19,6 +19,11 @@ public class PublicContactsServiceImpl implements IPublicContactsService
     @Autowired
     private PublicContactsMapper publicContactsMapper;
 
+    @Override
+    public List<PublicContacts> findVendorContactById(String vid) {
+        return publicContactsMapper.findVendorContactById(vid);
+    }
+
     /**
      * 查询供应商联系人
      * 

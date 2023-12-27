@@ -46,6 +46,12 @@
         <include refid="selectPublicQualificationVo"/>
         where qualification_id = #{qualificationId}
     </select>
+    <select id="findQualificationAnnexByVendorId" resultType="java.util.Map">
+        select * from public_qualification q
+                          inner join public_annex a
+                                     on q.documents = a.annex_id
+        where q.qualification_vendor_id = #{vid}
+    </select>
 
     <insert id="insertPublicQualification" parameterType="com.ruoyi.system.api.domain.PublicQualification"
             useGeneratedKeys="true" keyProperty="qualificationId">

@@ -1,6 +1,8 @@
 package com.yz.bidding.service.impl;
 
 import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.yz.bidding.mapper.PublicQualificationMapper;
@@ -18,6 +20,11 @@ public class PublicQualificationServiceImpl implements IPublicQualificationServi
 {
     @Autowired
     private PublicQualificationMapper publicQualificationMapper;
+
+    @Override
+    public List<Map<String, Object>> findQualificationAnnexByVendorId(String vid) {
+        return publicQualificationMapper.findQualificationAnnexByVendorId(vid);
+    }
 
     /**
      * 查询供应商资质

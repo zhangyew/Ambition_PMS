@@ -1,19 +1,29 @@
 package com.yz.bidding.mapper;
 
 import java.util.List;
+import java.util.Map;
+
 import com.ruoyi.system.api.domain.PublicQualification;
 
 /**
  * 供应商资质Mapper接口
- * 
+ *
  * @author zhangye
  * @date 2023-11-21
  */
-public interface PublicQualificationMapper 
-{
+public interface PublicQualificationMapper {
+
+    /**
+     * 查询供应商证件及文件
+     *
+     * @param vid
+     * @return
+     */
+    public List<Map<String, Object>> findQualificationAnnexByVendorId(String vid);
+
     /**
      * 查询供应商资质
-     * 
+     *
      * @param qualificationId 供应商资质主键
      * @return 供应商资质
      */
@@ -21,7 +31,7 @@ public interface PublicQualificationMapper
 
     /**
      * 查询供应商资质列表
-     * 
+     *
      * @param publicQualification 供应商资质
      * @return 供应商资质集合
      */
@@ -29,7 +39,7 @@ public interface PublicQualificationMapper
 
     /**
      * 新增供应商资质
-     * 
+     *
      * @param publicQualification 供应商资质
      * @return 结果
      */
@@ -37,7 +47,7 @@ public interface PublicQualificationMapper
 
     /**
      * 修改供应商资质
-     * 
+     *
      * @param publicQualification 供应商资质
      * @return 结果
      */
@@ -45,16 +55,17 @@ public interface PublicQualificationMapper
 
     /**
      * 删除供应商资质
-     * 
+     *
      * @param qualificationId 供应商资质主键
      * @return 结果
      */
     public int deletePublicQualificationByQualificationId(Long qualificationId);
 
     public int deleteVendorId(String vid);
+
     /**
      * 批量删除供应商资质
-     * 
+     *
      * @param qualificationIds 需要删除的数据主键集合
      * @return 结果
      */

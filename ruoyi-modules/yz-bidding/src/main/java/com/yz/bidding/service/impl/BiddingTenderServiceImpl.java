@@ -52,8 +52,8 @@ public class BiddingTenderServiceImpl implements IBiddingTenderService {
     }
 
     @Override
-    public List<BiddingTender> findTendersByProjectsId(String pid, String zt) {
-        return biddingTenderMapper.findTendersByProjectsId(pid, zt);
+    public List<BiddingTender> findTendersByProjectsId(String pid, String zt,String sid) {
+        return biddingTenderMapper.findTendersByProjectsId(pid, zt,sid);
     }
 
     @Override

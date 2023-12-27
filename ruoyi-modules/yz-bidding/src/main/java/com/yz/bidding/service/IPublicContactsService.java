@@ -11,6 +11,14 @@ import com.ruoyi.system.api.domain.PublicContacts;
  */
 public interface IPublicContactsService 
 {
+
+    /**
+     * 查找供应商所有联系人
+     * @param vid
+     * @return
+     */
+    public List<PublicContacts> findVendorContactById(String vid);
+
     /**
      * 查询供应商联系人
      * 

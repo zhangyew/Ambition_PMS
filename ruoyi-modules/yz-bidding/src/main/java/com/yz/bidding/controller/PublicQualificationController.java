@@ -2,7 +2,9 @@ package com.yz.bidding.controller;
 
 import java.util.List;
 import java.io.IOException;
+import java.util.Map;
 import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,24 +26,34 @@ import com.ruoyi.common.core.web.page.TableDataInfo;
 
 /**
  * 供应商资质Controller
- * 
+ *
  * @author zhangye
  * @date 2023-11-21
  */
 @RestController
 @RequestMapping("/qualification")
-public class PublicQualificationController extends BaseController
-{
+public class PublicQualificationController extends BaseController {
     @Autowired
     private IPublicQualificationService publicQualificationService;
+
+
+    /**
+     * 查询供应商证件及文件
+     *
+     * @param vid
+     * @return
+     */
+    @PostMapping("/findQualificationAnnexByVendorId")
+    public List<Map<String, Object>> findQualificationAnnexByVendorId(String vid) {
+        return publicQualificationService.findQualificationAnnexByVendorId(vid);
+    }
 
     /**
      * 查询供应商资质列表
      */
     @RequiresPermissions("pms.public:qualification:list")
     @GetMapping("/list")
-    public TableDataInfo list(PublicQualification publicQualification)
-    {
+    public TableDataInfo list(PublicQualification publicQualification) {
         startPage();
         List<PublicQualification> list = publicQualificationService.selectPublicQualificationList(publicQualification);
         return getDataTable(list);
@@ -53,8 +65,7 @@ public class PublicQualificationController extends BaseController
     @RequiresPermissions("pms.public:qualification:export")
     @Log(title = "供应商资质", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
-    public void export(HttpServletResponse response, PublicQualification publicQualification)
-    {
+    public void export(HttpServletResponse response, PublicQualification publicQualification) {
         List<PublicQualification> list = publicQualificationService.selectPublicQualificationList(publicQualification);
         ExcelUtil<PublicQualification> util = new ExcelUtil<PublicQualification>(PublicQualification.class);
         util.exportExcel(response, list, "供应商资质数据");
@@ -65,8 +76,7 @@ public class PublicQualificationController extends BaseController
      */
     @RequiresPermissions("pms.public:qualification:query")
     @GetMapping(value = "/{qualificationId}")
-    public AjaxResult getInfo(@PathVariable("qualificationId") Long qualificationId)
-    {
+    public AjaxResult getInfo(@PathVariable("qualificationId") Long qualificationId) {
         return success(publicQualificationService.selectPublicQualificationByQualificationId(qualificationId));
     }
 
@@ -76,8 +86,7 @@ public class PublicQualificationController extends BaseController
     @RequiresPermissions("pms.public:qualification:add")
     @Log(title = "供应商资质", businessType = BusinessType.INSERT)
     @PostMapping
-    public AjaxResult add(@RequestBody PublicQualification publicQualification)
-    {
+    public AjaxResult add(@RequestBody PublicQualification publicQualification) {
         return toAjax(publicQualificationService.insertPublicQualification(publicQualification));
     }
 
@@ -87,8 +96,7 @@ public class PublicQualificationController extends BaseController
     @RequiresPermissions("pms.public:qualification:edit")
     @Log(title = "供应商资质", businessType = BusinessType.UPDATE)
     @PutMapping
-    public AjaxResult edit(@RequestBody PublicQualification publicQualification)
-    {
+    public AjaxResult edit(@RequestBody PublicQualification publicQualification) {
         return toAjax(publicQualificationService.updatePublicQualification(publicQualification));
     }
 
@@ -97,9 +105,8 @@ public class PublicQualificationController extends BaseController
      */
     @RequiresPermissions("pms.public:qualification:remove")
     @Log(title = "供应商资质", businessType = BusinessType.DELETE)
-	@DeleteMapping("/{qualificationIds}")
-    public AjaxResult remove(@PathVariable Long[] qualificationIds)
-    {
+    @DeleteMapping("/{qualificationIds}")
+    public AjaxResult remove(@PathVariable Long[] qualificationIds) {
         return toAjax(publicQualificationService.deletePublicQualificationByQualificationIds(qualificationIds));
     }
 }

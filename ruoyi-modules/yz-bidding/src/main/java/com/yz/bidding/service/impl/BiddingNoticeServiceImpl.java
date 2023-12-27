@@ -28,6 +28,11 @@ public class BiddingNoticeServiceImpl implements IBiddingNoticeService {
     private PublicCodeRulesMapper codeRulesMapper;
 
     @Override
+    public List<Map<String, Object>> findNotice(String id) {
+        return biddingNoticeMapper.findNotice(id);
+    }
+
+    @Override
     public List<Map<String, Object>> findNoticeTenderById(String id) {
         return biddingNoticeMapper.findNoticeTenderById(id);
     }

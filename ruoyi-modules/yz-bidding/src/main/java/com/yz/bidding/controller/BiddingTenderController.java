@@ -84,9 +84,9 @@ public class BiddingTenderController extends BaseController {
      * @return
      */
     @PostMapping("/findTendersByProjectsId")
-    public TableDataInfo findTendersByProjectsId(String pid, String zt) {
+    public TableDataInfo findTendersByProjectsId(String pid, String zt, String sid) {
         startPage();
-        List<BiddingTender> list = biddingTenderService.findTendersByProjectsId(pid, zt);
+        List<BiddingTender> list = biddingTenderService.findTendersByProjectsId(pid, zt, sid);
         System.out.println(list);
         return getDataTable(list);
     }

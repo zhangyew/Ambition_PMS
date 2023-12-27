@@ -14,17 +14,11 @@ import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ruoyi.common.core.utils.DateUtils;
-import com.ruoyi.system.api.domain.PublicCodeRules;
-import com.ruoyi.system.api.domain.PublicContacts;
-import com.ruoyi.system.api.domain.PublicQualification;
+import com.ruoyi.system.api.domain.*;
 import com.ruoyi.system.api.util.SnowflakeGetId;
-import com.yz.bidding.mapper.PublicCodeRulesMapper;
-import com.yz.bidding.mapper.PublicContactsMapper;
-import com.yz.bidding.mapper.PublicQualificationMapper;
+import com.yz.bidding.mapper.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.yz.bidding.mapper.PublicVendorMapper;
-import com.ruoyi.system.api.domain.PublicVendor;
 import com.yz.bidding.service.IPublicVendorService;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -47,6 +41,8 @@ public class PublicVendorServiceImpl implements IPublicVendorService {
     private PublicContactsMapper publicContactsMapper;
     @Resource
     private PublicQualificationMapper publicQualificationMapper;
+    @Resource
+    private PublicAnnexMapper annexMapper;
 
     //    @Resource
 //    private SnowflakeGetId snowflakeGetId;
@@ -116,6 +112,17 @@ public class PublicVendorServiceImpl implements IPublicVendorService {
             x = publicContactsMapper.updatePublicContacts(contacts);
         }
         String strQualification = JSON.toJSONString(map.get("qualificationList"));
+        // 文件集合
+        List<PublicAnnex> annexList = JSONUtil.toList(map.get("returnFile"), PublicAnnex.class);
+        // 添加附件表--储存附件id
+        List<String> aid = new ArrayList<>();
+        for (PublicAnnex annex : annexList) {
+            PublicAnnex a2 = annex;
+            a2.setSupplyId(vendor.getVendorId());
+            a2.setUpTime(new Date());
+            x = annexMapper.insertPublicAnnex(a2);
+            aid.add(a2.getAnnexId().toString());
+        }
 
         strQualification = strQualification.replace("\\", "");
         strQualification = strQualification.substring(strQualification.indexOf("\"") + 1);
@@ -124,20 +131,21 @@ public class PublicVendorServiceImpl implements IPublicVendorService {
         List<PublicQualification> qualificationList = null;
         JSONArray objects = JSONUtil.parseArray(strQualification);
         qualificationList = JSONUtil.toList(objects, PublicQualification.class);
-        if (map.get("vendorId") != null)
+        if (map.get("vendorId") != null) // 修改
             x = publicQualificationMapper.deleteVendorId(map.get("vendorId"));
+        int index = 0;
         for (PublicQualification q : qualificationList) {
-            q.setQualificationVendorId((long) vid);
-            if (map.get("vendorId") == null) // 添加
-            {
-                x = publicQualificationMapper.insertPublicQualification(q);
-            } else {
-                // 修改
-                x = publicQualificationMapper.insertPublicQualification(q);
-            }
+            PublicQualification q2 = q;
+            q2.setDocuments(aid.get(index));
 
+            q2.setQualificationVendorId((long) vid);
+            x = publicQualificationMapper.insertPublicQualification(q2);
+            PublicAnnex a3 = new PublicAnnex();
+            a3.setAnnexId(Long.parseLong(aid.get(index)));
+            a3.setAnnexText(q2.getQualificationId().toString());
+            x = annexMapper.updatePublicAnnex(a3);
+            index++;
         }
-
         return x;
     }
 

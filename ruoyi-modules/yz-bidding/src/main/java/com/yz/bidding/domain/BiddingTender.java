@@ -110,6 +110,17 @@ public class BiddingTender extends BaseEntity {
 
     private PublicAnnex publicAnnex;
 
+    private BiddingTenderProjects tenderProjects;
+
+    public BiddingTenderProjects getTenderProjects() {
+        return tenderProjects;
+    }
+
+    public BiddingTender setTenderProjects(BiddingTenderProjects tenderProjects) {
+        this.tenderProjects = tenderProjects;
+        return this;
+    }
+
     public String getTenderAnnexId() {
         return tenderAnnexId;
     }

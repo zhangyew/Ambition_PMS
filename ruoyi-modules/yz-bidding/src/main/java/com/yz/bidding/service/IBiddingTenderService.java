@@ -42,7 +42,7 @@ public interface IBiddingTenderService {
      * @param zt
      * @return
      */
-    public List<BiddingTender> findTendersByProjectsId(String pid, String zt);
+    public List<BiddingTender> findTendersByProjectsId(String pid, String zt,String sid);
     /**
      * 查询是否投标
      * @return

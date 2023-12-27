@@ -28,7 +28,7 @@ public interface BiddingTenderMapper {
      * @return
      */
     public List<BiddingTender> findTendersByProjectsId(@Param("pid") String pid
-            , @Param("zt") String zt);
+            , @Param("zt") String zt,@Param("sid")String sid);
 
     /**
      * 查询投标

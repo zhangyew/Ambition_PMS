@@ -3,6 +3,7 @@ package com.yz.bidding.controller;
 import java.util.List;
 import java.io.IOException;
 import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,24 +25,33 @@ import com.ruoyi.common.core.web.page.TableDataInfo;
 
 /**
  * 供应商联系人Controller
- * 
+ *
  * @author zhangye
  * @date 2023-11-21
  */
 @RestController
 @RequestMapping("/contacts")
-public class PublicContactsController extends BaseController
-{
+public class PublicContactsController extends BaseController {
     @Autowired
     private IPublicContactsService publicContactsService;
+
+    /**
+     * 查找供应商所有联系人
+     *
+     * @param vid
+     * @return
+     */
+    @PostMapping("/findVendorContactById")
+    public List<PublicContacts> findVendorContactById(String vid) {
+        return publicContactsService.findVendorContactById(vid);
+    }
 
     /**
      * 查询供应商联系人列表
      */
     @RequiresPermissions("pms.public:contacts:list")
     @GetMapping("/list")
-    public TableDataInfo list(PublicContacts publicContacts)
-    {
+    public TableDataInfo list(PublicContacts publicContacts) {
         startPage();
         List<PublicContacts> list = publicContactsService.selectPublicContactsList(publicContacts);
         return getDataTable(list);
@@ -53,8 +63,7 @@ public class PublicContactsController extends BaseController
     @RequiresPermissions("pms.public:contacts:export")
     @Log(title = "供应商联系人", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
-    public void export(HttpServletResponse response, PublicContacts publicContacts)
-    {
+    public void export(HttpServletResponse response, PublicContacts publicContacts) {
         List<PublicContacts> list = publicContactsService.selectPublicContactsList(publicContacts);
         ExcelUtil<PublicContacts> util = new ExcelUtil<PublicContacts>(PublicContacts.class);
         util.exportExcel(response, list, "供应商联系人数据");
@@ -65,8 +74,7 @@ public class PublicContactsController extends BaseController
      */
     @RequiresPermissions("pms.public:contacts:query")
     @GetMapping(value = "/{contactsId}")
-    public AjaxResult getInfo(@PathVariable("contactsId") Long contactsId)
-    {
+    public AjaxResult getInfo(@PathVariable("contactsId") Long contactsId) {
         return success(publicContactsService.selectPublicContactsByContactsId(contactsId));
     }
 
@@ -76,8 +84,7 @@ public class PublicContactsController extends BaseController
     @RequiresPermissions("pms.public:contacts:add")
     @Log(title = "供应商联系人", businessType = BusinessType.INSERT)
     @PostMapping
-    public AjaxResult add(@RequestBody PublicContacts publicContacts)
-    {
+    public AjaxResult add(@RequestBody PublicContacts publicContacts) {
         return toAjax(publicContactsService.insertPublicContacts(publicContacts));
     }
 
@@ -87,8 +94,7 @@ public class PublicContactsController extends BaseController
     @RequiresPermissions("pms.public:contacts:edit")
     @Log(title = "供应商联系人", businessType = BusinessType.UPDATE)
     @PutMapping
-    public AjaxResult edit(@RequestBody PublicContacts publicContacts)
-    {
+    public AjaxResult edit(@RequestBody PublicContacts publicContacts) {
         return toAjax(publicContactsService.updatePublicContacts(publicContacts));
     }
 
@@ -97,9 +103,8 @@ public class PublicContactsController extends BaseController
      */
     @RequiresPermissions("pms.public:contacts:remove")
     @Log(title = "供应商联系人", businessType = BusinessType.DELETE)
-	@DeleteMapping("/{contactsIds}")
-    public AjaxResult remove(@PathVariable Long[] contactsIds)
-    {
+    @DeleteMapping("/{contactsIds}")
+    public AjaxResult remove(@PathVariable Long[] contactsIds) {
         return toAjax(publicContactsService.deletePublicContactsByContactsIds(contactsIds));
     }
 }

@@ -29,6 +29,26 @@
             <result property="upTime" column="up_time"/>
             <result property="annexTitle" column="annex_title"/>
         </collection>
+        <collection property="tenderProjects" ofType="com.yz.bidding.domain.BiddingTenderProjects">
+            <result property="tenderProjectsId" column="tender_projects_id"/>
+            <result property="tenderProjectsNumber" column="tender_projects_number"/>
+            <result property="tenderProjectsName" column="tender_projects_name"/>
+            <result property="projectsType" column="projects_type"/>
+            <result property="tenderProjectsMoney" column="tender_projects_money"/>
+            <result property="tenderProjectsContact" column="tender_projects_contact"/>
+            <result property="tenderProjectsPhone" column="tender_projects_phone"/>
+            <result property="tenderProjectsAddress" column="tender_projects_address"/>
+            <result property="tenderProjectsEmail" column="tender_projects_email"/>
+            <result property="remark" column="remark"/>
+            <result property="manner" column="manner"/>
+            <result property="censor" column="censor"/>
+            <result property="must" column="must"/>
+            <result property="auditState" column="audit_state"/>
+            <result property="creatBy" column="creat_by"/>
+            <result property="creatTime" column="creat_time"/>
+            <result property="isDelete" column="is_delete"/>
+            <result property="bidAnnexId" column="bid_annex_id"/>
+        </collection>
     </resultMap>
 
     <sql id="selectBiddingTenderVo">
@@ -77,21 +97,23 @@
         where tender_id = #{tenderId}
     </select>
     <select id="findTendersByProjectsId" resultMap="BiddingTenderResult">
-        SELECT t.*,a.* FROM bidding_tender_notice n
+        SELECT t.*,a.*,p.* FROM bidding_tender_notice n
         inner join bidding_tender_projects p
         on p.tender_projects_id = n.tender_notice_projects_id
         inner join `bidding_tender` t
         on t.tender_notice_id = n.tender_notice_id
         left join public_annex a
         on t.tender_annex_id = a.annex_id
-        where p.tender_projects_id = #{pid}
+        where 1=1
+        <if test="pid!=null and pid != '' ">and p.tender_projects_id = #{pid}</if>
+        <if test="sid!=null and sid != '' ">and t.tender_supplier_id = #{sid}</if>
         <if test="zt == 'bs' ">and 1=1</if>
         <if test="zt == 'zb' ">and t.state &gt; 4</if>
         <if test="zt == 'pb' ">and t.state in (5,6,7)</if>
         <if test="zt == 'qd' ">and t.state = 6</if>
 
     </select>
-    <select id="findTendersStateByProjectsId" resultMap="BiddingTenderResult" >
+    <select id="findTendersStateByProjectsId" resultMap="BiddingTenderResult">
         SELECT t.*
         FROM `bidding_tender` t
                  inner join bidding_tender_notice n

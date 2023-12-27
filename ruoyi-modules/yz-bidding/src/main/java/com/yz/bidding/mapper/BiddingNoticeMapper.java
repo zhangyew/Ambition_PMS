@@ -14,6 +14,13 @@ import com.yz.bidding.domain.BiddingNotice;
 public interface BiddingNoticeMapper {
 
     /**
+     * 查询供应商通知信息
+     * @param id
+     * @return
+     */
+    public List<Map<String,Object>> findNotice(String id);
+
+    /**
      * 查找项目下需要发送招标通知的集合
      *
      */

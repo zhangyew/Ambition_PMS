@@ -45,12 +45,24 @@ public class BiddingNoticeController extends BaseController {
 
 
     /**
+     * 查询供应商公告信息
+     *
+     * @param id
+     * @return
+     */
+    @PostMapping("/findNotice")
+    public List<Map<String, Object>> findNotice(String vid) {
+        return biddingNoticeService.findNotice(vid);
+    }
+
+    /**
      * 查找项目下需要发送招标通知的集合
+     *
      * @param id
      * @return
      */
     @PostMapping("/findNoticeTenderById")
-    public List<Map<String,Object>> findNoticeTenderById(String id){
+    public List<Map<String, Object>> findNoticeTenderById(String id) {
         return biddingNoticeService.findNoticeTenderById(id);
     }
 

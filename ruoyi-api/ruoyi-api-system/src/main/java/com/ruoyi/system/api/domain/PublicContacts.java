@@ -55,6 +55,19 @@ public class PublicContacts extends BaseEntity {
     @Excel(name = "邮箱")
     private String mailbox;
 
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
+
+    public String getCalls() {
+        return calls;
+    }
+
+    public PublicContacts setCalls(String calls) {
+        this.calls = calls;
+        return this;
+    }
+
     public void setContactsId(Long contactsId) {
         this.contactsId = contactsId;
     }

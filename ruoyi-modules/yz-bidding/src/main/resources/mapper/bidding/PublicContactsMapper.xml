@@ -36,6 +36,13 @@
         <include refid="selectPublicContactsVo"/>
         where contacts_id = #{contactsId}
     </select>
+    <select id="findVendorContactById" resultMap="PublicContactsResult">
+        select c.*
+        from public_vendor v
+                 inner join public_contacts c
+                            on v.vendor_id = c.contacts_vendor_id
+        where v.vendor_id = #{vid}
+    </select>
 
     <insert id="insertPublicContacts" parameterType="com.ruoyi.system.api.domain.PublicContacts" useGeneratedKeys="true"
             keyProperty="contactsId">
