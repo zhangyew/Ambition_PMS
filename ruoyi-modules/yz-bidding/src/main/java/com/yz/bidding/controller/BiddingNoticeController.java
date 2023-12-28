@@ -105,7 +105,6 @@ public class BiddingNoticeController extends BaseController {
     /**
      * 查询中标公告列表
      */
-    @RequiresPermissions("pms2/bidding:notice:list")
     @GetMapping("/list")
     public TableDataInfo list(BiddingNotice biddingNotice) {
         List<PublicAnnex> l = publicAnnexService.selectPublicAnnexList(null);
@@ -115,7 +114,6 @@ public class BiddingNoticeController extends BaseController {
         return getDataTable(list);
     }
 
-    @RequiresPermissions("pms2/bidding:notice:list")
     @GetMapping("/selAll")
     public TableDataInfo selAll() {
         List<BiddingNotice> list = biddingNoticeService.selAll();
@@ -137,7 +135,6 @@ public class BiddingNoticeController extends BaseController {
     /**
      * 获取中标公告详细信息
      */
-    @RequiresPermissions("pms2/bidding:notice:query")
     @GetMapping(value = "/{noticeId}")
     public AjaxResult getInfo(@PathVariable("noticeId") Long noticeId) {
         return success(biddingNoticeService.selectBiddingNoticeByNoticeId(noticeId));
@@ -146,7 +143,6 @@ public class BiddingNoticeController extends BaseController {
     /**
      * 新增中标公告
      */
-    @RequiresPermissions("pms2/bidding:notice:add")
     @Log(title = "中标公告", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody BiddingNotice biddingNotice) {
@@ -156,7 +152,6 @@ public class BiddingNoticeController extends BaseController {
     /**
      * 修改中标公告
      */
-    @RequiresPermissions("pms2/bidding:notice:edit")
     @Log(title = "中标公告", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody BiddingNotice biddingNotice) {

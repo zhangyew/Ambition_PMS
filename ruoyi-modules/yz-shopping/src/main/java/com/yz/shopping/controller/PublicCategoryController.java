@@ -62,7 +62,6 @@ public class PublicCategoryController extends BaseController
     /**
      * 查询物料类别列表
      */
-    @RequiresPermissions("shopping/public:category:ParentCategoryList")
     @GetMapping("/ParentCategoryList")
     public TableDataInfo ParentCategoryList(Long parentCategory)
     {

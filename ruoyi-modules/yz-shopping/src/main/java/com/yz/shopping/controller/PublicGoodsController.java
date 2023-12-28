@@ -140,7 +140,6 @@ public class PublicGoodsController extends BaseController {
      *
      * @return
      */
-    @RequiresPermissions("shopping/public:goods:findCategoryList")
     @GetMapping("/findCategoryList")
     public AjaxResult selOne() {
         return success(publicCategoryService.selectTwoByOne());

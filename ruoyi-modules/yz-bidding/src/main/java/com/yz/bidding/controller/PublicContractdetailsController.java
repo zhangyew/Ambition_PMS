@@ -54,7 +54,6 @@ public class PublicContractdetailsController extends BaseController
     /**
      * 查询合同所有列表
      */
-    @RequiresPermissions("bidding/public:contractdetails:list")
     @GetMapping("/list")
     public TableDataInfo list(PublicContractdetails publicContractdetails)
     {
@@ -68,7 +67,6 @@ public class PublicContractdetailsController extends BaseController
      * @param
      * @return
      */
-    @RequiresPermissions("bidding/public:contractdetails:showsPublicVendorList")
     @GetMapping("/showsPublicVendorList")
     public TableDataInfo ShowsPublicVendorList(Long vendor_id)
     {
@@ -93,7 +91,6 @@ public class PublicContractdetailsController extends BaseController
     /**
      * 供应商首页（我的合同）
      */
-    @RequiresPermissions("bidding/public:contractdetails:VendorContractId")
     @GetMapping("/VendorContractId")
     public TableDataInfo VendorContractId(Long vendorId)
     {
@@ -106,7 +103,6 @@ public class PublicContractdetailsController extends BaseController
     /**
      * 采购合同详情信息
      */
-    @RequiresPermissions("bidding/public:contractdetails:query")
     @GetMapping(value = "/{contractdetailsId}")
     public AjaxResult getInfo(@PathVariable("contractdetailsId") Long contractdetailsId)
     {

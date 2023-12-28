@@ -40,18 +40,12 @@ public class ShoppingBuyPlanController extends BaseController {
     private IShoppingBuyPlanService shoppingBuyPlanService;
 
     @Autowired
-    private IPublicCategoryService publicCategoryService;
-
-    @Autowired
     private RemoteCodeRulesService remoteCodeRulesService;
 
-//    @Resource
-//    private SnowflakeGetId snowflakeGetId;
 
     /**
      * 查询采购计划表列表
      */
-    @RequiresPermissions("shopping/buy_plan:list")
     @GetMapping("/list")
     public TableDataInfo list(ShoppingBuyPlan shoppingBuyPlan) {
         startPage();
@@ -62,7 +56,6 @@ public class ShoppingBuyPlanController extends BaseController {
     /**
      * 导出采购计划表列表
      */
-    @RequiresPermissions("shopping/buy_plan:export")
     @Log(title = "采购计划表", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, ShoppingBuyPlan shoppingBuyPlan) {
@@ -77,7 +70,6 @@ public class ShoppingBuyPlanController extends BaseController {
      * @param buyPlanId 采购计划表
      * @return 采购计划表集合
      */
-    @RequiresPermissions("shopping/buy_plan:showBuyPlan")
     @GetMapping("/showBuyPlan")
     public TableDataInfo showBuyPlan(Long buyPlanId) {
         startPage();
@@ -89,7 +81,6 @@ public class ShoppingBuyPlanController extends BaseController {
     /**
      * 获取采购计划表详细信息
      */
-    @RequiresPermissions("shopping/buy_plan:query")
     @GetMapping(value = "/{buyPlanId}")
     public AjaxResult getInfo(@PathVariable("buyPlanId") Long buyPlanId) {
         return success(shoppingBuyPlanService.selectShoppingBuyPlanByBuyPlanId(buyPlanId));
@@ -98,7 +89,6 @@ public class ShoppingBuyPlanController extends BaseController {
     /**
      * 新增采购计划表
      */
-    @RequiresPermissions("shopping/buy_plan:add")
     @Log(title = "采购计划表", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody ShoppingBuyPlan shoppingBuyPlan) {
@@ -117,7 +107,6 @@ public class ShoppingBuyPlanController extends BaseController {
     /**
      * 修改采购计划表
      */
-    @RequiresPermissions("shopping/buy_plan:edit")
     @Log(title = "采购计划表", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody ShoppingBuyPlan shoppingBuyPlan) {
@@ -128,7 +117,7 @@ public class ShoppingBuyPlanController extends BaseController {
     /**
      * 审批修改状态
      */
-    @RequiresPermissions("shopping/public:buy_plan:edit")
+    @RequiresPermissions("shopping/buy_plan:buy_plan:examine")
     @Log(title = "采购计划表", businessType = BusinessType.UPDATE)
     @PostMapping("/updateExamine")
     public AjaxResult updateExamine(@RequestBody ShoppingBuyPlan shoppingBuyPlan) {

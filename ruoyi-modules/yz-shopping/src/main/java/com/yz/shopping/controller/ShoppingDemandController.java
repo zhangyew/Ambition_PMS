@@ -67,7 +67,6 @@ public class ShoppingDemandController extends BaseController
     /**
      * 获取采购需求物料表详细信息
      */
-    @RequiresPermissions("pms/shopping:demand:query")
     @GetMapping(value = "/{demandId}")
     public AjaxResult getInfo(@PathVariable("demandId") Long demandId)
     {
@@ -89,8 +88,6 @@ public class ShoppingDemandController extends BaseController
     /**
      * 新增采购需求物料表
      */
-    @RequiresPermissions("pms/shopping:demand:add")
-    @Log(title = "采购需求物料表", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody ShoppingDemand shoppingDemand)
     {
@@ -100,7 +97,6 @@ public class ShoppingDemandController extends BaseController
     /**
      * 修改采购需求物料表
      */
-    @RequiresPermissions("pms/shopping:demand:edit")
     @Log(title = "采购需求物料表", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody ShoppingDemand shoppingDemand)

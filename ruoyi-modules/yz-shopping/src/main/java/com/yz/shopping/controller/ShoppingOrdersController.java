@@ -61,7 +61,6 @@ public class ShoppingOrdersController extends BaseController
     /**
      * 查询采购订单表列表
      */
-    @RequiresPermissions("shopping/public:orders:list")
     @GetMapping("/list")
     public TableDataInfo list(ShoppingOrders shoppingOrders) {
         startPage();
@@ -72,14 +71,12 @@ public class ShoppingOrdersController extends BaseController
     /**
      * 供应商首页（我的订单）
      */
-    @RequiresPermissions("shopping/public:orders:showOrderSupplierId")
     @GetMapping("/showOrderSupplierId")
     public TableDataInfo showOrderSupplierId(Long oSupplierId) {
         oSupplierId = 2L;
         List<ShoppingOrders> list = shoppingOrdersService.showOrderSupplierId(oSupplierId);
         return getDataTable(list);
     }
-    @RequiresPermissions("shopping/public:orders:showOrderSupplierId")
     @GetMapping("/showOO")
     public TableDataInfo showOO() {
         List<ShoppingOrders> list = shoppingOrdersService.showOO();
@@ -102,7 +99,6 @@ public class ShoppingOrdersController extends BaseController
     /**
      * 获取采购订单表详细信息
      */
-    @RequiresPermissions("shopping/public:orders:query")
     @GetMapping(value = "/{orderId}")
     public AjaxResult getInfo(@PathVariable("orderId") Long orderId) {
         return success(shoppingOrdersService.selectShoppingOrdersByOrderId(orderId));
@@ -130,7 +126,6 @@ public class ShoppingOrdersController extends BaseController
     /**
      * 新增采购订单表
      */
-    @RequiresPermissions("shopping/public:orders:add")
     @Log(title = "采购订单表", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody ShoppingOrders shoppingOrders) {
@@ -172,7 +167,7 @@ public class ShoppingOrdersController extends BaseController
     /**
      * 审批修改状态
      */
-    @RequiresPermissions("shopping/public:orders:edit")
+    @RequiresPermissions("shopping/orders:orders:examine")
     @Log(title = "采购订单表", businessType = BusinessType.UPDATE)
     @PostMapping("/updateExamine")
     public AjaxResult updateExamine(@RequestBody ShoppingOrders shoppingOrders) {

@@ -113,14 +113,12 @@ public class BiddingTenderNoticeController extends BaseController {
     /**
      * 供应商首页（招投标信息显示）
      */
-    @RequiresPermissions("bidding/public:tender_notice:ShowsTenderNoticeList")
     @GetMapping("/ShowsTenderNoticeList")
     public TableDataInfo ShowsTenderNoticeList() {
         List<BiddingTenderNotice> list = biddingTenderNoticeService.ShowsTenderNoticeList();
         return getDataTable(list);
     }
 
-    @RequiresPermissions("bidding/public:tender_notice:showsNoticeList")
     @GetMapping("/showsNoticeList")
     public TableDataInfo showsNoticeList() {
         List<BiddingTenderNotice> list = biddingTenderNoticeService.showsNoticeList();
@@ -130,7 +128,6 @@ public class BiddingTenderNoticeController extends BaseController {
     /**
      * 供应商首页（通知公告）
      */
-    @RequiresPermissions("bidding/public:tender_notice:displayTenderNoticeList")
     @GetMapping("/displayTenderNoticeList")
     public TableDataInfo displayTenderNoticeList() {
         List<BiddingTenderNotice> list = biddingTenderNoticeService.displayTenderNoticeList();
@@ -162,7 +159,6 @@ public class BiddingTenderNoticeController extends BaseController {
     /**
      * 获取招标公告详细信息
      */
-    @RequiresPermissions("pms/bidding:tender_notice:query")
     @GetMapping(value = "/{tenderNoticeId}")
     public AjaxResult getInfo(@PathVariable("tenderNoticeId") Long tenderNoticeId) {
         return success(biddingTenderNoticeService.selectBiddingTenderNoticeByTenderNoticeId(tenderNoticeId));

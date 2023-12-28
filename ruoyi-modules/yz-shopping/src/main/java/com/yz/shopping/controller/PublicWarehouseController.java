@@ -51,7 +51,6 @@ public class PublicWarehouseController extends BaseController {
     /**
      * 查询仓库列表
      */
-    @RequiresPermissions("shopping/public:warehouse:list")
     @GetMapping("/list")
     public TableDataInfo list(PublicWarehouse publicWarehouse) {
         startPage();
@@ -64,7 +63,6 @@ public class PublicWarehouseController extends BaseController {
     /**
      * 导出仓库列表
      */
-    @RequiresPermissions("shopping/public:warehouse:export")
     @Log(title = "仓库", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, PublicWarehouse publicWarehouse) {
@@ -76,7 +74,6 @@ public class PublicWarehouseController extends BaseController {
     /**
      * 获取仓库详细信息
      */
-    @RequiresPermissions("shopping/public:warehouse:query")
     @GetMapping(value = "/{warehouseId}")
     public AjaxResult getInfo(@PathVariable("warehouseId") Long warehouseId) {
         return success(publicWarehouseService.selectPublicWarehouseByWarehouseId(warehouseId));
@@ -85,7 +82,7 @@ public class PublicWarehouseController extends BaseController {
     /**
      * 新增仓库
      */
-    @RequiresPermissions("shopping/public:warehouse:add")
+    @RequiresPermissions("shoping/public:warehouse:add")
     @Log(title = "仓库", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody PublicWarehouse publicWarehouse) throws IOException {

@@ -69,7 +69,6 @@ public class ShoppingProRequireController extends BaseController {
     /**
      * 获取采购需求表详细信息
      */
-    @RequiresPermissions("shopping/public:pro_require:query")
     @GetMapping(value = "/{requireId}")
     public AjaxResult getInfo(@PathVariable("requireId") Long requireId) {
         return success(shoppingProRequireService.selectShoppingProRequireByRequireId(requireId));
@@ -116,7 +115,7 @@ public class ShoppingProRequireController extends BaseController {
      * @param shoppingProRequire
      * @return
      */
-    @RequiresPermissions("shopping/public:pro_require:edit")
+    @RequiresPermissions("shopping/pro_require:pro_require:examine")
     @Log(title = "采购需求表", businessType = BusinessType.UPDATE)
     @PostMapping("/updateExamine")
     public AjaxResult updateExamine(@RequestBody ShoppingProRequire shoppingProRequire) {
