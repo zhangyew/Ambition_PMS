@@ -23,6 +23,46 @@ public class PublicVendor extends BaseEntity {
      */
     private Long vendorId;
 
+    @Override
+    public String toString() {
+        return "PublicVendor{" +
+                "vendorId=" + vendorId +
+                ", uid=" + uid +
+                ", vendorNumber='" + vendorNumber + '\'' +
+                ", abbreviated='" + abbreviated + '\'' +
+                ", level=" + level +
+                ", contractTypeTypeId=" + contractTypeTypeId +
+                ", vendorTypeStateId=" + vendorTypeStateId +
+                ", isBlacklist=" + isBlacklist +
+                ", ranges='" + ranges + '\'' +
+                ", causes='" + causes + '\'' +
+                ", warehouseAddress='" + warehouseAddress + '\'' +
+                ", profile='" + profile + '\'' +
+                ", delegates='" + delegates + '\'' +
+                ", addTime=" + addTime +
+                ", email='" + email + '\'' +
+                ", fax='" + fax + '\'' +
+                ", responsible='" + responsible + '\'' +
+                ", responsiblePhone='" + responsiblePhone + '\'' +
+                ", bankingName='" + bankingName + '\'' +
+                ", industrialCommercial='" + industrialCommercial + '\'' +
+                ", isExist=" + isExist +
+                ", isDelete=" + isDelete +
+                ", publicContacts=" + publicContacts +
+                ", publicContactsList=" + publicContactsList +
+                ", publicQualificationList=" + publicQualificationList +
+                '}';
+    }
+
+    public Long getUid() {
+        return uid;
+    }
+
+    public void setUid(Long uid) {
+        this.uid = uid;
+    }
+
+    private Long uid;
     /**
      * 供应商编号
      */
@@ -358,35 +398,4 @@ public class PublicVendor extends BaseEntity {
         return isDelete;
     }
 
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE)
-                .append("vendorId", getVendorId())
-                .append("vendorNumber", getVendorNumber())
-                .append("abbreviated", getAbbreviated())
-                .append("level", getLevel())
-                .append("contractTypeTypeId", getContractTypeTypeId())
-                .append("vendorTypeStateId", getVendorTypeStateId())
-                .append("isBlacklist", getIsBlacklist())
-                .append("ranges", getRanges())
-                .append("causes", getCauses())
-                .append("warehouseAddress", getWarehouseAddress())
-                .append("profile", getProfile())
-                .append("delegates", getDelegates())
-                .append("addTime", getAddTime())
-                .append("email", getEmail())
-                .append("fax", getFax())
-                .append("responsible", getResponsible())
-                .append("responsiblePhone", getResponsiblePhone())
-                .append("bankingName",getBankingName())
-                .append("industrial Commercial", getIndustrialCommercial())
-                .append("createBy", getCreateBy())
-                .append("createTime", getCreateTime())
-                .append("updateBy", getUpdateBy())
-                .append("updateTime", getUpdateTime())
-                .append("isExist", getIsExist())
-                .append("isDelete", getIsDelete())
-                .append("publicContactsList",getPublicContactsList())
-                .toString();
-    }
 }

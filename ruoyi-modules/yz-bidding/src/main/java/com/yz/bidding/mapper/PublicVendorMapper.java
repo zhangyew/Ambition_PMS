@@ -51,7 +51,8 @@ public interface PublicVendorMapper
      * @param
      */
     public List<PublicVendor> showsPublicVendorList(@Param("vendor_id") Long vendor_id);
-
+    int selCount(String vNumber);
+    int selRe(@Param("vNumber")String vNumber, @Param("phone")String phone);
     public List<PublicVendor> showAll();
     /**|
      * 根据供应商id查询所有联系人
@@ -66,7 +67,7 @@ public interface PublicVendorMapper
      * @return 结果
      */
     public int insertPublicVendor(PublicVendor publicVendor);
-
+    int updateExist(@Param("uid")Long uid,@Param("vNumber")String vNumber);
     /**
      * 注册供应商
      *

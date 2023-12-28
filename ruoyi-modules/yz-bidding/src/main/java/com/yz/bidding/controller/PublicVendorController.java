@@ -7,6 +7,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletResponse;
 
 import com.ruoyi.system.api.domain.PublicContacts;
+import com.ruoyi.system.api.util.MsgManager;
 import com.ruoyi.system.api.util.SnowflakeGetId;
 import io.swagger.models.auth.In;
 import org.apache.ibatis.annotations.Param;
@@ -22,7 +23,6 @@ import com.ruoyi.common.core.web.controller.BaseController;
 import com.ruoyi.common.core.web.domain.AjaxResult;
 import com.ruoyi.common.core.utils.poi.ExcelUtil;
 import com.ruoyi.common.core.web.page.TableDataInfo;
-import org.springframework.web.multipart.MultipartFile;
 
 /**
  * 供应商Controller
@@ -48,6 +48,7 @@ public class PublicVendorController extends BaseController {
         return publicVendorService.updateStates(id, zt);
     }
 
+
     @PostMapping("/findVendorDetailed")
     public AjaxResult findVendorDetailed(String vid) {
         PublicVendor publicVendor = publicVendorService.findVendorDetailed(Integer.parseInt(vid));
@@ -55,12 +56,7 @@ public class PublicVendorController extends BaseController {
         return success(publicVendor);
     }
 
-    //@RequiresPermissions("bidding/public:vendor:ftpFile")
-//    @PostMapping("/ftpFile")
-//    public void ftpFile(@RequestParam("file")  MultipartFile file){
-//        System.out.println(file);
-//    }
-//, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+
     @PostMapping(value = "/insertVendor")
     public int insertVendor(@RequestPart("map") Map<String, String> map) {//, @RequestParam("files") MultipartFile[] files) {
         System.out.println("1111111111");
@@ -73,6 +69,7 @@ public class PublicVendorController extends BaseController {
 
     /**
      * 根据id查询联系人列表
+     *
      * @param vendorId
      * @return
      */
@@ -81,6 +78,11 @@ public class PublicVendorController extends BaseController {
         List<PublicVendor> list = publicVendorService.showContactsList(Long.valueOf(vendorId));
         System.out.println(list);
         return getDataTable(list);
+    }
+
+    @GetMapping("/codeVa/{phone}")
+    public String codeVa(@PathVariable String phone) {
+        return MsgManager.getMsg(phone);
     }
 
     /**
@@ -94,6 +96,31 @@ public class PublicVendorController extends BaseController {
         return getDataTable(list);
     }
 
+    @GetMapping("/selCount/{vNumber}")
+    public Integer selCount(@PathVariable String vNumber) {
+        return publicVendorService.selCount(vNumber);
+    }
+
+    @GetMapping("/selRe")
+    public Integer selRe(String vNumber, String phone) {
+
+        return publicVendorService.selRe(vNumber, phone);
+    }
+
+    /**
+     * 修改id
+     *
+     * @param vNumber
+     * @return
+     */
+    @GetMapping(value = "/updateExist")
+    public AjaxResult updateExist(Long uid, String vNumber) {
+        System.out.println(uid);
+        System.out.println(vNumber);
+
+        return toAjax(publicVendorService.updateExist(uid, vNumber));
+    }
+
     /**
      * 查询供应商列表
      */
@@ -102,6 +129,7 @@ public class PublicVendorController extends BaseController {
         List<PublicVendor> list = publicVendorService.showAll();
         return getDataTable(list);
     }
+
     /**
      * 导出供应商列表
      */

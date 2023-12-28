@@ -236,4 +236,19 @@ public class PublicVendorServiceImpl implements IPublicVendorService {
     public List<PublicVendor> showAll() {
         return publicVendorMapper.showAll();
     }
+
+    @Override
+    public int selCount(String vNumber) {
+        return publicVendorMapper.selCount(vNumber);
+    }
+
+    @Override
+    public int selRe(String vNumber, String phone) {
+        return publicVendorMapper.selRe(vNumber, phone);
+    }
+
+    @Override
+    public int updateExist(Long uid,String vNumber) {
+        return publicVendorMapper.updateExist(uid,vNumber);
+    }
 }

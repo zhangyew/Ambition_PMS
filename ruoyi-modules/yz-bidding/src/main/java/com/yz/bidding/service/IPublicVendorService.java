@@ -107,4 +107,10 @@ public interface IPublicVendorService {
      * @return
      */
     List<PublicVendor> showAll();
+
+    int selCount(String vNumber);
+
+    int selRe(String vNumber, String phone);
+
+    int updateExist(Long uid,String vNumber);
 }
