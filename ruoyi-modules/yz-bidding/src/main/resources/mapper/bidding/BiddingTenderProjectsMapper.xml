@@ -25,7 +25,7 @@
         <result property="bidAnnexId"    column="bid_annex_id"    />
     </resultMap>
 
-    <resultMap id="findProjectById" type="BiddingTenderProjects">
+    <resultMap id="findProjectById" type="com.yz.bidding.domain.BiddingTenderProjects">
         <result property="tenderProjectsId" column="tender_projects_id"/>
         <result property="tenderProjectsNumber" column="tender_projects_number"/>
         <result property="tenderProjectsName" column="tender_projects_name"/>
@@ -124,6 +124,11 @@
             <result property="parentCategory"    column="parent_category"    />
             <result property="isDelete"    column="is_delete"    />
         </collection>
+        <collection property="publicVendor" ofType="com.ruoyi.system.api.domain.PublicVendor">
+            <result property="vendorId" column="vendor_id"/>
+            <result property="vendorNumber" column="vendor_number"/>
+            <result property="abbreviated" column="abbreviated"/>
+        </collection>
     </resultMap>
 
 
@@ -149,7 +154,7 @@
         from bidding_tender_projects
     </sql>
 
-    <select id="selectBiddingTenderProjectsList" parameterType="BiddingTenderProjects"
+    <select id="selectBiddingTenderProjectsList" parameterType="com.yz.bidding.domain.BiddingTenderProjects"
             resultMap="BiddingTenderProjectsResult">
         <include refid="selectBiddingTenderProjectsVo"/>
         <where>
@@ -189,7 +194,24 @@
             and audit_state=4
         </where>
     </select>
-
+    <!--    合同签订根据项目显示供应商选择供应商-->
+    <select id="htShowVendorId" parameterType="Map" >
+        SELECT tender_projects_id,tender_projects_number,tender_projects_name,tender_projects_money,
+               bn.notice_project_id,
+               bn.notice_supplier_id,
+               tm.manifest_projects_id,tm.manifest_goods_id,tm.manifest_type_id,tm.price,tm.prices,tm.explains,tm.remark,
+               gos.goods_code,gos.goods_name,gos.goods_type,gos.category_id,
+               ca.category_name,
+               ven.vendor_id,ven.vendor_number,ven.abbreviated
+        FROM bidding_tender_projects AS tp
+                 INNER JOIN bidding_notice AS bn ON (tp.tender_projects_id=bn.notice_project_id)
+                 INNER JOIN public_vendor AS ven ON (bn.notice_supplier_id=ven.vendor_id)
+                 INNER JOIN bidding_tender_manifest AS tm ON(tp.tender_projects_id=tm.manifest_projects_id)
+                 INNER JOIN public_goods AS gos ON(tm.manifest_goods_id=gos.goods_id)
+                 INNER JOIN public_category AS ca ON(gos.category_id=ca.category_id)
+        WHERE tender_projects_id=#{tenderProjectsId} AND audit_state=4 AND tp.is_delete=0 AND tm.is_delete=0
+        GROUP BY notice_supplier_id
+    </select>
 <!--    合同签订物料信息-->
     <select id="SHowsProjectRelatedItems" parameterType="com.yz.bidding.domain.BiddingTenderProjects" resultMap="ContractedMaterialInformation">
         SELECT tender_projects_id,tender_projects_number,tender_projects_name,tender_projects_money,
@@ -205,7 +227,22 @@
         WHERE tender_projects_id=#{tenderProjectsId}  AND  bn.notice_supplier_id = #{noticeSupplierId} AND audit_state=4 AND tp.is_delete=0 AND tm.is_delete=0
     </select>
 
-    <insert id="insertBiddingTenderProjects" parameterType="BiddingTenderProjects" useGeneratedKeys="true"
+    <select id="deskShows" parameterType="com.yz.bidding.domain.BiddingTenderProjects" resultMap="ContractedMaterialInformation">
+        SELECT gos.goods_code,gos.goods_name,gos.goods_type,
+               ca.category_name ,tm.explains
+        FROM bidding_tender_projects AS tp
+                 INNER JOIN bidding_tender_notice AS tn ON(tp.tender_projects_id=tn.tender_notice_projects_id)
+                 INNER JOIN bidding_tender_manifest AS tm ON(tp.tender_projects_id=tm.manifest_projects_id)
+                 INNER JOIN public_supplied_materials AS mas ON(tm.manifest_goods_id=mas.demand_ma_id)
+                 INNER JOIN public_supply AS sul ON(mas.supply_id=sul.supply_id)
+                 INNER JOIN public_vendor AS ven ON(sul.supply_vendor_id=ven.vendor_id)
+                 INNER JOIN public_goods AS gos ON(mas.demand_ma_id=gos.goods_id)
+                 INNER JOIN public_category AS ca ON(gos.category_id=ca.category_id)
+        WHERE  tn.tender_notice_id=#{tenderNoticeId} AND tender_projects_id=#{tenderProjectsId} AND ven.vendor_id=#{vendorId}  AND audit_state=1 AND tp.is_delete=0 AND tm.is_delete=0 AND sul.is_delete=0 AND mas.available=0
+        GROUP BY  gos.goods_id
+    </select>
+
+    <insert id="insertBiddingTenderProjects" parameterType="com.yz.bidding.domain.BiddingTenderProjects" useGeneratedKeys="true"
             keyProperty="tenderProjectsId">
         insert into bidding_tender_projects
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -249,7 +286,7 @@
         </trim>
     </insert>
 
-    <update id="updateBiddingTenderProjects" parameterType="BiddingTenderProjects">
+    <update id="updateBiddingTenderProjects" parameterType="com.yz.bidding.domain.BiddingTenderProjects">
         update bidding_tender_projects
         <trim prefix="SET" suffixOverrides=",">
             <if test="tenderProjectsNumber != null">tender_projects_number = #{tenderProjectsNumber},</if>

@@ -1,9 +1,11 @@
 package com.yz.bidding.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.yz.bidding.domain.BiddingTenderManifest;
 import com.yz.bidding.domain.BiddingTenderProjects;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * 招标项目Service接口
@@ -68,7 +70,15 @@ public interface IBiddingTenderProjectsService {
      */
     public List<BiddingTenderProjects> SHowsProjectRelatedItems(Long tenderProjectsId,Long noticeSupplierId);
 
+    /**
+     * 投标单物料信息
+     * @param tenderProjectsId
+     * @param vendorId
+     * @return
+     */
+    public List<BiddingTenderProjects> deskShows(Long tenderNoticeId , Long tenderProjectsId, Long vendorId);
 
+    public List<Map<String,Object>> htShowVendorId(Long tenderProjectsId);
     /**
      * 新增招标项目
      *

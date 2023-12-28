@@ -23,6 +23,11 @@ public class PublicContractdetailsServiceImpl implements IPublicContractdetailsS
     @Resource
     private PublicContractdetailsMapper publicContractdetailsMapper;
 
+    @Override
+    public PublicContractdetails selectPublicContractdetailsByContractdetailsId(Long contractdetailsId) {
+        return publicContractdetailsMapper.selectPublicContractdetailsByContractdetailsId(contractdetailsId);
+    }
+
     /**
      * 查询合同明细
      * 
@@ -46,6 +51,17 @@ public class PublicContractdetailsServiceImpl implements IPublicContractdetailsS
     public List<PublicContractdetails> selectPublicContractdetailsList(PublicContractdetails publicContractdetails)
     {
         return publicContractdetailsMapper.selectPublicContractdetailsList(publicContractdetails);
+    }
+
+    /**
+     * 供应商合同列表
+     * @param
+     * @param vendorId
+     * @return
+     */
+    @Override
+    public List<PublicContractdetails> selectVendorList(Long vendorId) {
+        return publicContractdetailsMapper.selectVendorList(vendorId);
     }
 
     /**
@@ -76,6 +92,23 @@ public class PublicContractdetailsServiceImpl implements IPublicContractdetailsS
         return publicContractdetailsMapper.ContractSum();
     }
 
+    /**
+     * 合同总数
+     * @return
+     */
+    @Override
+    public Integer ContractCounts(Long vendorId) {
+        return publicContractdetailsMapper.ContractCounts(vendorId);
+    }
+
+    /**
+     * 合同总金额
+     * @return
+     */
+    @Override
+    public Double ContractSums(Long vendorId) {
+        return publicContractdetailsMapper.ContractSums(vendorId);
+    }
     /**
      * 新增合同明细
      * 

@@ -1,6 +1,7 @@
 package com.yz.bidding.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import com.ruoyi.system.api.domain.PublicVendor;
 import com.yz.bidding.domain.BiddingTenderProjects;
@@ -60,6 +61,17 @@ public interface BiddingTenderProjectsMapper
      * @return
      */
     public List<BiddingTenderProjects> SHowsProjectRelatedItems(@Param("tenderProjectsId") Long tenderProjectsId,@Param("noticeSupplierId")Long noticeSupplierId);
+
+    /**
+     * 投标单物料信息
+     * @param tenderProjectsId
+     * @param vendorId
+     * @return
+     */
+    public List<BiddingTenderProjects> deskShows(@Param("tenderNoticeId") Long tenderNoticeId,@Param("tenderProjectsId") Long tenderProjectsId,@Param("vendorId")Long vendorId);
+
+    public List<Map<String,Object>> htShowVendorId(@Param("tenderProjectsId")Long tenderProjectsId);
+
 
     /**
      * 新增招标项目

@@ -69,8 +69,7 @@
         from bidding_tender
     </sql>
 
-    <select id="selectBiddingTenderList" parameterType="com.yz.bidding.domain.BiddingTender"
-            resultMap="BiddingTenderResult">
+    <select id="selectBiddingTenderList" parameterType="com.yz.bidding.domain.BiddingTender" resultMap="BiddingTenderResult">
         <include refid="selectBiddingTenderVo"/>
         <where>
             <if test="tenderNoticeId != null ">and tender_notice_id = #{tenderNoticeId}</if>
@@ -145,6 +144,7 @@
             <if test="recommend != null">recommend,</if>
             <if test="ranking != null">ranking,</if>
             <if test="state != null">state,</if>
+            <if test="tenderAnnexId != null">tender_annex_id,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="tenderNoticeId != null">#{tenderNoticeId},</if>
@@ -160,6 +160,7 @@
             <if test="recommend != null">#{recommend},</if>
             <if test="ranking != null">#{ranking},</if>
             <if test="state != null">#{state},</if>
+            <if test="tenderAnnexId != null">#{tenderAnnexId},</if>
         </trim>
     </insert>
 

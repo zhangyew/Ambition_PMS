@@ -71,6 +71,13 @@ public interface IBiddingTenderService {
      * @return 结果
      */
     public int insertBiddingTender(BiddingTender biddingTender);
+    /**
+     * 新增投标
+     *
+     * @param biddingTender 投标
+     * @return 结果
+     */
+    public int insertBiddingTender(BiddingTender biddingTender,List<PublicAnnex> publicAnnex);
 
     /**
      * 修改投标
