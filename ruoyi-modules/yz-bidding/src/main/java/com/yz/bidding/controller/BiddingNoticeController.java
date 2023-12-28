@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import cn.hutool.json.JSONUtil;
 import com.ruoyi.system.api.domain.PublicAnnex;
+import com.ruoyi.system.api.util.MsgManager;
 import com.yz.bidding.domain.BiddingTender;
 import com.yz.bidding.service.IPublicAnnexService;
 import org.springframework.beans.factory.annotation.Autowired;
