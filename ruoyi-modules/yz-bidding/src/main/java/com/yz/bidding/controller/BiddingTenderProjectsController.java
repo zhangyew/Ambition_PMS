@@ -90,7 +90,7 @@ public class BiddingTenderProjectsController extends BaseController {
     /**
      * 合同签订物料信息
      */
-    @RequiresPermissions("bidding/tender_projects:list")
+    @RequiresPermissions("bidding/public:contractdetails:query")
     @GetMapping("/SHowsProjectRelatedItems")
     public TableDataInfo SHowsProjectRelatedItems(Long tenderProjectsId, Long noticeSupplierId) {
         List<BiddingTenderProjects> list = biddingTenderProjectsService.SHowsProjectRelatedItems(tenderProjectsId, noticeSupplierId);
