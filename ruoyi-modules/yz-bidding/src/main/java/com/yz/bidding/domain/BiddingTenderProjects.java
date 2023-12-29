@@ -7,6 +7,7 @@ import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.ruoyi.system.api.domain.PublicCategory;
 import com.ruoyi.system.api.domain.PublicGoods;
+import com.ruoyi.system.api.domain.PublicVendor;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.core.annotation.Excel;
@@ -132,6 +133,15 @@ public class BiddingTenderProjects extends BaseEntity {
         return this;
     }
 
+    private PublicVendor publicVendor;
+
+    public PublicVendor getPublicVendor() {
+        return publicVendor;
+    }
+
+    public void setPublicVendor(PublicVendor publicVendor) {
+        this.publicVendor = publicVendor;
+    }
     private List<Map<String, Object>> list;
     private List<Map<String, Object>> list2;
 

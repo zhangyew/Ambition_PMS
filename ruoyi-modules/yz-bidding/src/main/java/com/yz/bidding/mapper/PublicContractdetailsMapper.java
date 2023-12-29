@@ -12,7 +12,7 @@ import org.apache.ibatis.annotations.Param;
  * @author zhangye
  * @date 2023-11-21
  */
-public interface PublicContractdetailsMapper 
+public interface PublicContractdetailsMapper
 {
     /**
      * 查询合同明细
@@ -21,6 +21,14 @@ public interface PublicContractdetailsMapper
      * @return 合同明细
      */
     public List<PurchaseContractsVo> selectContractDetailsId(Long contractdetailsId);
+    /**
+     * 查询合同明细
+     *
+     * @param contractdetailsId 合同明细主键
+     * @return 合同明细
+     */
+    public PublicContractdetails selectPublicContractdetailsByContractdetailsId(Long contractdetailsId);
+
     int upConState(Long conId);
     /**
      * 查询合同明细列表
@@ -29,6 +37,14 @@ public interface PublicContractdetailsMapper
      * @return 合同明细集合
      */
     public List<PublicContractdetails> selectPublicContractdetailsList(PublicContractdetails publicContractdetails);
+
+    /**
+     * 供应商合同列表
+     * @param
+     * @param vendorId
+     * @return
+     */
+    public List<PublicContractdetails> selectVendorList(@Param("vendorId")Long vendorId);
 
     /**
      * 供应商首页（我的合同）
@@ -48,6 +64,18 @@ public interface PublicContractdetailsMapper
      * @return
      */
     public Double ContractSum();
+
+    /**
+     * 合同总数
+     * @return
+     */
+    public Integer ContractCounts(@Param("vendorId")Long vendorId);
+
+    /**
+     * 合同总金额
+     * @return
+     */
+    public Double ContractSums(@Param("vendorId")Long vendorId);
 
     /**
      * 新增合同明细

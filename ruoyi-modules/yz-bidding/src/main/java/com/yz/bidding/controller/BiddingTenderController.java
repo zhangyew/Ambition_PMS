@@ -5,7 +5,7 @@ import java.io.IOException;
 import javax.servlet.http.HttpServletResponse;
 
 import cn.hutool.json.JSONUtil;
-import com.ruoyi.system.api.domain.PublicAnnex;
+import com.ruoyi.system.api.domain.*;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -130,11 +130,20 @@ public class BiddingTenderController extends BaseController {
     /**
      * 新增投标
      */
-    @RequiresPermissions("pms/bidding:tender:add")
+//    @RequiresPermissions("bidding/public:tender:add")
+//    @Log(title = "投标", businessType = BusinessType.INSERT)
+//    @PostMapping
+//    public AjaxResult add(@RequestBody BiddingTender biddingTender) {
+//        return toAjax(biddingTenderService.insertBiddingTender(biddingTender));
+//    }
+    @RequiresPermissions("bidding/public:tender:add")
     @Log(title = "投标", businessType = BusinessType.INSERT)
-    @PostMapping
-    public AjaxResult add(@RequestBody BiddingTender biddingTender) {
-        return toAjax(biddingTenderService.insertBiddingTender(biddingTender));
+    @PostMapping("/addTenders")
+    public int addAgreements(BiddingTender biddingTender,String json5){
+
+        List<PublicAnnex> publicAnnex=JSONUtil.toList(json5,PublicAnnex.class);
+
+        return biddingTenderService.insertBiddingTender(biddingTender,publicAnnex);
     }
 
     /**

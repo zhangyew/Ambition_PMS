@@ -2,6 +2,7 @@ package com.yz.bidding.controller;
 
 import java.util.List;
 import java.io.IOException;
+import java.util.Map;
 import javax.servlet.http.HttpServletResponse;
 
 import cn.hutool.json.JSONUtil;
@@ -51,8 +52,6 @@ public class BiddingTenderProjectsController extends BaseController {
     public int insertProjects(String projects, String manifest) {
         BiddingTenderProjects tenderProjects = JSONUtil.toBean(projects, BiddingTenderProjects.class);
         List<BiddingTenderManifest> list = JSONUtil.toList(manifest, BiddingTenderManifest.class);
-        System.out.println(tenderProjects);
-        System.out.println(list);
         return biddingTenderProjectsService.insertProjects(tenderProjects, list);
     }
 
@@ -95,7 +94,26 @@ public class BiddingTenderProjectsController extends BaseController {
     @GetMapping("/SHowsProjectRelatedItems")
     public TableDataInfo SHowsProjectRelatedItems(Long tenderProjectsId, Long noticeSupplierId) {
         List<BiddingTenderProjects> list = biddingTenderProjectsService.SHowsProjectRelatedItems(tenderProjectsId, noticeSupplierId);
-        System.out.println("合同签订物料信息："+list.toString());
+        return getDataTable(list);
+    }
+
+
+    /**
+     * 投标单物料信息
+     */
+    @RequiresPermissions("bidding/tender_projects:list")
+    @GetMapping("/deskShows")
+    public TableDataInfo deskShows(Long tenderNoticeId ,Long tenderProjectsId, Long vendorId) {
+        List<BiddingTenderProjects> list = biddingTenderProjectsService.deskShows(tenderNoticeId,tenderProjectsId, vendorId);
+        return getDataTable(list);
+    }
+    /**
+     * 合同签订根据项目显示供应商选择供应商
+     */
+    @RequiresPermissions("bidding/tender_projects:list")
+    @GetMapping("/htShowVendorId")
+    public TableDataInfo htShowVendorId(Long tenderProjectsId) {
+        List<Map<String,Object>> list = biddingTenderProjectsService.htShowVendorId(tenderProjectsId);
         return getDataTable(list);
     }
 

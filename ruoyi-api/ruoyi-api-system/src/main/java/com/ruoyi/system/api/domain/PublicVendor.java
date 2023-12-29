@@ -204,9 +204,6 @@ public class PublicVendor extends BaseEntity {
     private List<PublicQualification> publicQualificationList;
 
 
-
-
-
     public static long getSerialVersionUID() {
         return serialVersionUID;
     }

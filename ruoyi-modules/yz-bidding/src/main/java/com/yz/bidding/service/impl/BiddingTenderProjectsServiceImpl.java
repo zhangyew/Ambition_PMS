@@ -1,6 +1,7 @@
 package com.yz.bidding.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import com.ruoyi.system.api.domain.PublicCodeRules;
 import com.ruoyi.system.api.util.SnowflakeGetId;
@@ -111,6 +112,22 @@ public class BiddingTenderProjectsServiceImpl implements IBiddingTenderProjectsS
     @Override
     public List<BiddingTenderProjects> SHowsProjectRelatedItems(Long tenderProjectsId, Long noticeSupplierId) {
         return biddingTenderProjectsMapper.SHowsProjectRelatedItems(tenderProjectsId, noticeSupplierId);
+    }
+
+    /**
+     * 投标单物料信息
+     * @param tenderProjectsId
+     * @param vendorId
+     * @return
+     */
+    @Override
+    public List<BiddingTenderProjects> deskShows(Long tenderNoticeId , Long tenderProjectsId, Long vendorId) {
+        return biddingTenderProjectsMapper.deskShows(tenderNoticeId,tenderProjectsId, vendorId);
+    }
+
+    @Override
+    public List<Map<String,Object>> htShowVendorId(Long tenderProjectsId) {
+        return biddingTenderProjectsMapper.htShowVendorId(tenderProjectsId);
     }
 
     /**

@@ -3,7 +3,11 @@ package com.yz.bidding.service.impl;
 import java.util.Date;
 import java.util.List;
 
+import com.ruoyi.common.core.utils.DateUtils;
+import com.ruoyi.system.api.domain.PublicAgreement;
 import com.ruoyi.system.api.domain.PublicAnnex;
+import com.ruoyi.system.api.domain.PublicContractdetails;
+import com.ruoyi.system.api.domain.PublicPayment;
 import com.yz.bidding.mapper.PublicAnnexMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,6 +15,8 @@ import com.yz.bidding.mapper.BiddingTenderMapper;
 import com.yz.bidding.domain.BiddingTender;
 import com.yz.bidding.service.IBiddingTenderService;
 import org.springframework.transaction.annotation.Transactional;
+
+import javax.annotation.Resource;
 
 /**
  * 投标Service业务层处理
@@ -21,7 +27,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional
 public class BiddingTenderServiceImpl implements IBiddingTenderService {
-    @Autowired
+    @Resource
     private BiddingTenderMapper biddingTenderMapper;
     @Autowired
     private PublicAnnexMapper annexMapper;
@@ -91,7 +97,26 @@ public class BiddingTenderServiceImpl implements IBiddingTenderService {
      */
     @Override
     public int insertBiddingTender(BiddingTender biddingTender) {
+
         return biddingTenderMapper.insertBiddingTender(biddingTender);
+    }
+
+    @Override
+    public int insertBiddingTender(BiddingTender biddingTender, List<PublicAnnex> publicAnnex) {
+        biddingTender.setTenderTime(DateUtils.getNowDate());
+        BiddingTender tender = biddingTender;
+        List<PublicAnnex> annex = publicAnnex;
+        int x=0;
+        //附件上传
+        String id = "";
+        for (PublicAnnex ne : annex) {
+            ne.setUpTime(DateUtils.getNowDate());
+            x=annexMapper.insertPublicAnnex(ne);
+            id=ne.getAnnexId().toString();
+        }
+        tender.setTenderAnnexId(id);
+        x=biddingTenderMapper.insertBiddingTender(tender);
+        return x;
     }
 
     /**

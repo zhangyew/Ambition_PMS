@@ -63,6 +63,19 @@ public class PublicContractdetailsController extends BaseController
     }
 
     /**
+     * 供应商合同所有列表
+     */
+    @RequiresPermissions("bidding/public:contractdetails:list")
+    @GetMapping("/selectVendorList")
+    public TableDataInfo selectVendorList(Long vendorId)
+    {
+        vendorId=2L;
+        startPage();
+        List<PublicContractdetails> list = publicContractdetailsService.selectVendorList(vendorId);
+        return getDataTable(list);
+    }
+
+    /**
      * 显示所有供应商
      * @param
      * @return
@@ -117,6 +130,15 @@ public class PublicContractdetailsController extends BaseController
     public AjaxResult upConState(@PathVariable Long conId) {
         return toAjax(publicContractdetailsService.upConState(conId));
     }
+    /**
+     * 获取合同明细详细信息
+     */
+    @RequiresPermissions("pms.public:contractdetails:query")
+    @GetMapping(value = "Shows/{contractdetailsId}")
+    public AjaxResult Shows(@PathVariable("contractdetailsId") Long contractdetailsId)
+    {
+        return success(publicContractdetailsService.selectPublicContractdetailsByContractdetailsId(contractdetailsId));
+    }
 
     /**
      * 新增合同明细
@@ -167,6 +189,28 @@ public class PublicContractdetailsController extends BaseController
     {
         System.out.println("显示："+publicContractdetailsService.ContractSum());
         return publicContractdetailsService.ContractSum();
+    }
+    /**
+     * 合同总金额
+     * @return
+     */
+    @RequiresPermissions("bidding/public:contractdetails:ContractCounts")
+    @GetMapping("/ContractCounts")
+    public Integer ContractCounts(Long vendorId)
+    {
+        vendorId=2L;
+        return  publicContractdetailsService.ContractCounts(vendorId);
+    }
+    /**
+     * 合同总金额
+     * @return
+     */
+    @RequiresPermissions("bidding/public:contractdetails:ContractSums")
+    @GetMapping("/ContractSums")
+    public Double ContractSums(Long vendorId)
+    {
+        vendorId=2L;
+        return publicContractdetailsService.ContractSums(vendorId);
     }
 
 

@@ -111,7 +111,7 @@ public class PublicAgreementServiceImpl implements IPublicAgreementService
         //附件上传
         for (PublicAnnex ne : publicAnnex) {
             ne.setSupplyId(details);
-            ne.setUpTime(new Date());
+            ne.setUpTime(DateUtils.getNowDate());
 
             x=publicAnnexMapper.insertPublicAnnex(ne);
         }

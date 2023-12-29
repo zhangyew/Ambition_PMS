@@ -73,8 +73,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         select contractdetails_id, contract_id, contractdetails_number, contractdetails_payment_id, contractdetails_name, contractdetails_type, open_time, contractdetails_amount, contractdetails_level, illustrate, bid_end, vendor_contract_id, contractdetails_state, procurement_method, purchase_list_id, create_by, create_time, update_by, update_time from public_contractdetails
     </sql>
 
+<!--    合同显示-->
     <select id="selectPublicContractdetailsList" parameterType="com.ruoyi.system.api.domain.PublicContractdetails" resultMap="PublicContractdetailsResult">
-        SELECT co.contractdetails_id,btp.tender_projects_id,btp.tender_projects_name,co.contractdetails_name,co.contractdetails_number,ve.abbreviated,ve.vendor_id,ag.applicant,co.open_time,co.contractdetails_amount,co.contractdetails_state,co.contractdetails_payment_id
+        SELECT co.contractdetails_id,btp.tender_projects_id,btp.tender_projects_name,co.contractdetails_name,co.contractdetails_number,ve.abbreviated,ve.vendor_id,ag.applicant,co.open_time,co.contractdetails_amount,ag.applicant_time,co.contractdetails_type,co.contractdetails_state,co.contractdetails_payment_id
         FROM public_agreement AS ag
         INNER JOIN public_contractdetails AS co ON(ag.contract_id=co.contract_id)
         INNER JOIN public_vendor AS ve ON(co.vendor_contract_id=ve.vendor_id)
@@ -84,7 +85,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="contractdetailsName != null  and contractdetailsName != ''"> and co.contractdetails_name like concat('%', #{contractdetailsName}, '%')</if>
             <if test="contractdetailsState != null  and contractdetailsState != ''"> and co.contractdetails_state = #{contractdetailsState}</if>
             <if test="abbreviated != null  and abbreviated != ''"> and  ve.abbreviated like concat('%', #{abbreviated}, '%')</if>
+            <if test="vendorId != null and vendorId !=0">and ve.vendor_id=#{vendorId}</if>
         </where>
+        ORDER BY co.open_time DESC
+    </select>
+
+    <!--   供应商合同显示-->
+    <select id="selectVendorList" parameterType="com.ruoyi.system.api.domain.PublicContractdetails" resultMap="PublicContractdetailsResult">
+        SELECT co.contractdetails_id,btp.tender_projects_id,btp.tender_projects_name,co.contractdetails_name,co.contractdetails_number,ve.abbreviated,ve.vendor_id,ag.applicant,co.open_time,co.contractdetails_amount,ag.applicant_time,co.contractdetails_type,co.contractdetails_state,co.contractdetails_payment_id
+        FROM public_agreement AS ag
+        INNER JOIN public_contractdetails AS co ON(ag.contract_id=co.contract_id)
+        INNER JOIN public_vendor AS ve ON(co.vendor_contract_id=ve.vendor_id)
+        INNER JOIN bidding_tender_projects AS btp ON(ag.contract_projects_id=btp.tender_projects_id)
+        where ve.vendor_id=#{vendorId}
         ORDER BY co.open_time DESC
     </select>
 
@@ -106,16 +119,37 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where contractdetails_id = #{contractdetailsId}
     </select>
 
-
+    <select id="selectPublicContractdetailsByContractdetailsId" parameterType="Long" resultMap="PublicContractdetailsResult">
+        <include refid="selectPublicContractdetailsVo"/>
+        where contractdetails_id = #{contractdetailsId}
+    </select>
 
 <!--    合同总数量-->
     <select id="ContractCount" resultType="java.lang.Integer">
         SELECT COUNT(*) FROM public_contractdetails
-
     </select>
 <!--    合同总金额-->
     <select id="ContractSum" resultType="java.lang.Double">
         SELECT SUM(contractdetails_amount) FROM public_contractdetails WHERE contractdetails_state=5
+    </select>
+
+    <!--    供应商合同总数量-->
+    <select id="ContractCounts" resultType="java.lang.Integer">
+        SELECT COUNT(*)
+        FROM public_agreement AS ag
+                 INNER JOIN public_contractdetails AS co ON(ag.contract_id=co.contract_id)
+                 INNER JOIN public_vendor AS ve ON(co.vendor_contract_id=ve.vendor_id)
+                 INNER JOIN bidding_tender_projects AS btp ON(ag.contract_projects_id=btp.tender_projects_id)
+        where ve.vendor_id=#{vendorId}
+    </select>
+    <!--    供应商合同总金额-->
+    <select id="ContractSums" resultType="java.lang.Double">
+        SELECT SUM(contractdetails_amount)
+        FROM public_agreement AS ag
+                 INNER JOIN public_contractdetails AS co ON(ag.contract_id=co.contract_id)
+                 INNER JOIN public_vendor AS ve ON(co.vendor_contract_id=ve.vendor_id)
+                 INNER JOIN bidding_tender_projects AS btp ON(ag.contract_projects_id=btp.tender_projects_id)
+        where ve.vendor_id=#{vendorId} AND contractdetails_state=5
     </select>
 
 <!--    供应商首页（我的合同）-->
