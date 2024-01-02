@@ -38,7 +38,7 @@ public class PublicSuppliedMaterialsController extends BaseController
     /**
      * 查询供应商供货物料表列表
      */
-    @RequiresPermissions("pms.public:supplied_materials:list")
+//    @RequiresPermissions("pms.public:supplied_materials:list")
     @GetMapping("/list")
     public TableDataInfo list(PublicSuppliedMaterials publicSuppliedMaterials)
     {

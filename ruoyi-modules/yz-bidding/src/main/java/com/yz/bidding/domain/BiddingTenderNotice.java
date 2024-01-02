@@ -86,6 +86,22 @@ public class BiddingTenderNotice extends BaseEntity
     @Excel(name = "项目编号")
     private String tenderProjectsNumber;
 
+    @Excel(name = "状态")
+    private Long state;
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
+
+    public Long getState() {
+        return state;
+    }
+
+    public BiddingTenderNotice setState(Long state) {
+        this.state = state;
+        return this;
+    }
+
     @Override
     public String toString() {
         return "BiddingTenderNotice{" +

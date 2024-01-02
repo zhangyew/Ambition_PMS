@@ -36,6 +36,12 @@ public class PublicVendorController extends BaseController {
     @Autowired
     private IPublicVendorService publicVendorService;
 
+
+    @PostMapping("/findVendorIdByUserId")
+    public PublicVendor findVendorIdByUserId(String id){
+        return publicVendorService.findVendorIdByUserId(id);
+    }
+
     /**
      * 修改供应商注册状态
      *

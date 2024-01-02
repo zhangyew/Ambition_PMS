@@ -44,6 +44,11 @@ public class PublicVendorServiceImpl implements IPublicVendorService {
     @Resource
     private PublicAnnexMapper annexMapper;
 
+    @Override
+    public PublicVendor findVendorIdByUserId(String id) {
+        return publicVendorMapper.findVendorIdByUserId(id);
+    }
+
     //    @Resource
 //    private SnowflakeGetId snowflakeGetId;
     @Override

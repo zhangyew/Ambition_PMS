@@ -54,7 +54,7 @@ public class PublicSupplyController extends BaseController {
     /**
      * 查询供应商供货表列表
      */
-    @RequiresPermissions("pms.public:supply:list")
+//    @RequiresPermissions("pms.public:supply:list")
     @GetMapping("/list")
     public TableDataInfo list(PublicSupply publicSupply) {
         startPage();

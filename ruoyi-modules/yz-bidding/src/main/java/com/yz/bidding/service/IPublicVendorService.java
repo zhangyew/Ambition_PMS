@@ -17,6 +17,13 @@ import org.apache.ibatis.annotations.Param;
 public interface IPublicVendorService {
 
     /**
+     * 更具用户id查询供应商id
+     * @param id
+     * @return
+     */
+    public PublicVendor findVendorIdByUserId(String id);
+
+    /**
      * 修改供应商注册状态
      *
      * @param id
