@@ -101,9 +101,10 @@ public class BiddingTenderProjectsController extends BaseController {
     /**
      * 投标单物料信息
      */
-    @RequiresPermissions("bidding/tender_projects:list")
+//    @RequiresPermissions("bidding/tender_projects:list")
     @GetMapping("/deskShows")
     public TableDataInfo deskShows(Long tenderNoticeId ,Long tenderProjectsId, Long vendorId) {
+        System.out.println("显示："+tenderNoticeId+tenderProjectsId+vendorId);
         List<BiddingTenderProjects> list = biddingTenderProjectsService.deskShows(tenderNoticeId,tenderProjectsId, vendorId);
         return getDataTable(list);
     }

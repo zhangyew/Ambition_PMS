@@ -30,6 +30,7 @@ public interface PublicContractdetailsMapper
     public PublicContractdetails selectPublicContractdetailsByContractdetailsId(Long contractdetailsId);
 
     int upConState(Long conId);
+    int upCon(Long conId);
     /**
      * 查询合同明细列表
      * 

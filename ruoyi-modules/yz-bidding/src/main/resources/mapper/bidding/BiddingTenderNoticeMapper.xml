@@ -148,7 +148,7 @@
     <select id="displayTenderNoticeList" parameterType="com.yz.bidding.domain.BiddingTenderNotice"
             resultMap="BiddingTenderNoticeResult">
         <include refid="selectBiddingTenderNoticeVo"/>
-        WHERE state=1 AND is_delete=0
+        WHERE state=1 AND is_delete=0  ORDER BY bid_start DESC LIMIT 5
     </select>
     <select id="selAllByGys" resultMap="findNoticeById">
         SELECT a.tender_projects_name, a.tender_projects_number, a.tender_projects_id, b.*

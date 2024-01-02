@@ -71,10 +71,10 @@ public class ShoppingOrdersController extends BaseController
     /**
      * 供应商首页（我的订单）
      */
-    @RequiresPermissions("shopping/public:orders:showOrderSupplierId")
+//    @RequiresPermissions("shopping/public:orders:list")
     @GetMapping("/showOrderSupplierId")
     public TableDataInfo showOrderSupplierId(Long oSupplierId) {
-        oSupplierId = 2L;
+
         List<ShoppingOrders> list = shoppingOrdersService.showOrderSupplierId(oSupplierId);
         return getDataTable(list);
     }
