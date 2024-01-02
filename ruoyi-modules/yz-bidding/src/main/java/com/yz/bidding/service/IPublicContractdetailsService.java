@@ -106,4 +106,5 @@ public interface IPublicContractdetailsService
     public int deletePublicContractdetailsByContractdetailsId(Long contractdetailsId);
 
     int upConState(Long conId);
+    int upCon(Long conId);
 }

@@ -54,7 +54,7 @@ public class PublicContractdetailsController extends BaseController
     /**
      * 查询合同所有列表
      */
-    @RequiresPermissions("bidding/public:contractdetails:list")
+//    @RequiresPermissions("bidding/public:contractdetails:list")
     @GetMapping("/list")
     public TableDataInfo list(PublicContractdetails publicContractdetails)
     {
@@ -70,7 +70,6 @@ public class PublicContractdetailsController extends BaseController
     @GetMapping("/selectVendorList")
     public TableDataInfo selectVendorList(Long vendorId)
     {
-        vendorId=2L;
         startPage();
         List<PublicContractdetails> list = publicContractdetailsService.selectVendorList(vendorId);
         return getDataTable(list);
@@ -106,11 +105,10 @@ public class PublicContractdetailsController extends BaseController
     /**
      * 供应商首页（我的合同）
      */
-    @RequiresPermissions("bidding/public:contractdetails:VendorContractId")
+//    @RequiresPermissions("bidding/public:contractdetails:VendorContractId")
     @GetMapping("/VendorContractId")
     public TableDataInfo VendorContractId(Long vendorId)
     {
-        vendorId =2L;
         List<PublicContractdetails> list = publicContractdetailsService.VendorContractId(vendorId);
         return getDataTable(list);
     }
@@ -123,9 +121,6 @@ public class PublicContractdetailsController extends BaseController
     @GetMapping(value = "/{contractdetailsId}")
     public AjaxResult getInfo(@PathVariable("contractdetailsId") Long contractdetailsId)
     {
-        System.out.println("采购合同详情信息");
-        System.out.println("did："+contractdetailsId);
-        System.out.println("显示采购合同信息："+success(publicContractdetailsService.selectContractDetailsId(contractdetailsId)));
         return success(publicContractdetailsService.selectContractDetailsId(contractdetailsId));
     }
 
@@ -133,6 +128,12 @@ public class PublicContractdetailsController extends BaseController
     @GetMapping("/upConState/{conId}")
     public AjaxResult upConState(@PathVariable Long conId) {
         return toAjax(publicContractdetailsService.upConState(conId));
+    }
+
+    //状态5已完成
+    @GetMapping("/upCon/{conId}")
+    public AjaxResult upCon(@PathVariable Long conId){
+        return toAjax(publicContractdetailsService.upCon(conId));
     }
     /**
      * 获取合同明细详细信息
@@ -175,11 +176,10 @@ public class PublicContractdetailsController extends BaseController
      * 合同总金额
      * @return
      */
-    @RequiresPermissions("bidding/public:contractdetails:ContractCount")
+//    @RequiresPermissions("bidding/public:contractdetails:ContractCount")
     @GetMapping("/ContractCount")
     public Integer ContractCount()
     {
-        System.out.println("显示："+publicContractdetailsService.ContractCount());
         return  publicContractdetailsService.ContractCount();
     }
 
@@ -187,33 +187,30 @@ public class PublicContractdetailsController extends BaseController
      * 合同总金额
      * @return
      */
-    @RequiresPermissions("bidding/public:contractdetails:ContractSum")
+//    @RequiresPermissions("bidding/public:contractdetails:ContractSum")
     @GetMapping("/ContractSum")
     public Double ContractSum()
     {
-        System.out.println("显示："+publicContractdetailsService.ContractSum());
         return publicContractdetailsService.ContractSum();
     }
     /**
      * 合同总金额
      * @return
      */
-    @RequiresPermissions("bidding/public:contractdetails:ContractCounts")
+//    @RequiresPermissions("bidding/public:contractdetails:ContractCounts")
     @GetMapping("/ContractCounts")
     public Integer ContractCounts(Long vendorId)
     {
-        vendorId=2L;
         return  publicContractdetailsService.ContractCounts(vendorId);
     }
     /**
      * 合同总金额
      * @return
      */
-    @RequiresPermissions("bidding/public:contractdetails:ContractSums")
+//    @RequiresPermissions("bidding/public:contractdetails:ContractSums")
     @GetMapping("/ContractSums")
     public Double ContractSums(Long vendorId)
     {
-        vendorId=2L;
         return publicContractdetailsService.ContractSums(vendorId);
     }
 
@@ -221,7 +218,7 @@ public class PublicContractdetailsController extends BaseController
     /**
      * 修改合同明细
      */
-    @RequiresPermissions("bidding/public:contractdetails:edit")
+//    @RequiresPermissions("bidding/public:contractdetails:edit")
     @Log(title = "合同明细", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody PublicContractdetails publicContractdetails)

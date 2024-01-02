@@ -230,6 +230,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         update public_contractdetails set contractdetails_state = 6  where contractdetails_id = #{conId}
     </update>
 
+    <update id="upCon" parameterType="java.lang.Long">
+        update public_contractdetails set contractdetails_state = 5  where contractdetails_id = #{conId}
+    </update>
+
     <delete id="deletePublicContractdetailsByContractdetailsId" parameterType="Long">
         delete from public_contractdetails where contractdetails_id = #{contractdetailsId}
     </delete>

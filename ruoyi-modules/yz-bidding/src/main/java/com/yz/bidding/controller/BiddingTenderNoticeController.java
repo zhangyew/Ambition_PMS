@@ -113,7 +113,7 @@ public class BiddingTenderNoticeController extends BaseController {
     /**
      * 供应商首页（招投标信息显示）
      */
-    @RequiresPermissions("bidding/public:tender_notice:ShowsTenderNoticeList")
+//    @RequiresPermissions("bidding/public:tender_notice:ShowsTenderNoticeList")
     @GetMapping("/ShowsTenderNoticeList")
     public TableDataInfo ShowsTenderNoticeList() {
         List<BiddingTenderNotice> list = biddingTenderNoticeService.ShowsTenderNoticeList();
@@ -130,7 +130,7 @@ public class BiddingTenderNoticeController extends BaseController {
     /**
      * 供应商首页（通知公告）
      */
-    @RequiresPermissions("bidding/public:tender_notice:displayTenderNoticeList")
+//    @RequiresPermissions("bidding/public:tender_notice:displayTenderNoticeList")
     @GetMapping("/displayTenderNoticeList")
     public TableDataInfo displayTenderNoticeList() {
         List<BiddingTenderNotice> list = biddingTenderNoticeService.displayTenderNoticeList();

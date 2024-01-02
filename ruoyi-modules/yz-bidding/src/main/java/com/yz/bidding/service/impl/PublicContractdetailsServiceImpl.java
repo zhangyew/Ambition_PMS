@@ -163,4 +163,9 @@ public class PublicContractdetailsServiceImpl implements IPublicContractdetailsS
     public int upConState(Long conId) {
         return publicContractdetailsMapper.upConState(conId);
     }
+
+    @Override
+    public int upCon(Long conId) {
+        return publicContractdetailsMapper.upCon(conId);
+    }
 }
