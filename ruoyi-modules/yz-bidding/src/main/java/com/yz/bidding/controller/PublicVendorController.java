@@ -157,6 +157,16 @@ public class PublicVendorController extends BaseController {
     }
 
     /**
+     * 供应商uid
+     * @param uid
+     * @return
+     */
+    @GetMapping(value = "showUid/{uid}")
+    public AjaxResult showUid(@PathVariable("uid") Long uid){
+        return success(publicVendorService.showUid(uid));
+    }
+
+    /**
      * 新增供应商
      */
     @RequiresPermissions("bidding/public:vendor:add")

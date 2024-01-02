@@ -124,6 +124,18 @@ public class PublicReceipt extends BaseEntity {
     private Date datePlusThreeDays;
     public Date getDatePlusThreeDays() {return datePlusThreeDays;}
     public void setDatePlusThreeDays(Date datePlusThreeDays) {this.datePlusThreeDays = datePlusThreeDays;}
+    /** 合同id */
+    @Excel(name = "合同id")
+    private Long ordeContractId;
+
+    public Long getOrdeContractId() {
+        return ordeContractId;
+    }
+
+    public void setOrdeContractId(Long ordeContractId) {
+        this.ordeContractId = ordeContractId;
+    }
+
     /** 仓库名称 */
     @Excel(name = "仓库名称")
     private String warehouseName;

@@ -56,6 +56,13 @@ public interface IPublicVendorService {
     public PublicVendor selectPublicVendorByVendorId(Long vendorId);
 
     /**
+     * 供应商uid
+     * @param uid
+     * @return
+     */
+    public PublicVendor showUid(Long uid);
+
+    /**
      * 查询供应商列表
      *
      * @param publicVendor 供应商

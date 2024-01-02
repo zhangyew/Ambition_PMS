@@ -32,6 +32,13 @@ public interface PublicVendorMapper
     public PublicVendor selectPublicVendorByVendorId(Long vendorId);
 
     /**
+     * 供应商uid
+     * @param uid
+     * @return
+     */
+    public PublicVendor showUid(Long uid);
+
+    /**
      * 查询供应商详细信息
      * @param vid
      * @return

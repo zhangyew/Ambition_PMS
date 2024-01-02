@@ -31,6 +31,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="updateBy"    column="update_by"    />
         <result property="updateTime"    column="update_time"    />
         <result property="isDelete"    column="is_delete"    />
+        <result property="ordeContractId" column="orde_contract_id"/>
     </resultMap>
 
     <resultMap type="com.ruoyi.system.api.domain.PublicReceipt" id="FindPublicReceipt">
@@ -118,7 +119,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         ord.order_title,
         de.demand_count,
         order_material_id,
-        ord.total_money,DATE_ADD(ord.create_time, INTERVAL 3 DAY) AS DatePlusThreeDays
+        ord.total_money,DATE_ADD(ord.create_time, INTERVAL 3 DAY) AS DatePlusThreeDays,
+        ord.orde_contract_id
         FROM shopping_orders AS ord
         INNER JOIN public_vendor AS ve ON(ord.order_supplier_id=ve.vendor_id)
         INNER JOIN shopping_demand AS de ON(ord.order_material_id=de.demand_id)
