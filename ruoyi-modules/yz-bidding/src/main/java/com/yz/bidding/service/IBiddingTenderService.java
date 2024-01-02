@@ -102,4 +102,6 @@ public interface IBiddingTenderService {
      * @return 结果
      */
     public int deleteBiddingTenderByTenderId(Long tenderId);
+
+    Integer TenderSum();
 }

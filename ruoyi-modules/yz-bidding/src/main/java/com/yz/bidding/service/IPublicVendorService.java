@@ -113,4 +113,6 @@ public interface IPublicVendorService {
     int selRe(String vNumber, String phone);
 
     int updateExist(Long uid,String vNumber);
+
+    Integer VendorSum();
 }

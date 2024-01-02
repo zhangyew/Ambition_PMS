@@ -95,7 +95,12 @@ public class PublicVendorController extends BaseController {
         List<PublicVendor> list = publicVendorService.selectPublicVendorList(publicVendor);
         return getDataTable(list);
     }
-
+    //供应商数量
+    @GetMapping("/VendorSum")
+    public Integer VendorSum()
+    {
+        return publicVendorService.VendorSum();
+    }
     @GetMapping("/selCount/{vNumber}")
     public Integer selCount(@PathVariable String vNumber) {
         return publicVendorService.selCount(vNumber);

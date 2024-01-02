@@ -23,7 +23,7 @@ public interface BiddingTenderProjectsMapper
      * @return
      */
     public int updateStates(@Param("id") String id,@Param("zt") String zt);
-
+    Integer ProSum();
     /**
      * 查询招标项目详情
      * @param pid

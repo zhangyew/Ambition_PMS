@@ -19,7 +19,7 @@ public interface BiddingTenderMapper {
      * @return
      */
     public List<BiddingTender> findTendersStateByProjectsId(String id);
-
+    Integer TenderSum();
     /**
      * 根据项目Id和状态查询投标信息
      *

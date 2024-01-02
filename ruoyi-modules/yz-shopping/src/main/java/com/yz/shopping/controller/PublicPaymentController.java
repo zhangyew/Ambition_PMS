@@ -64,7 +64,7 @@ public class PublicPaymentController extends BaseController
      * 获取合同付款详细信息
      * bidding/public:contractdetails:query
      */
-    @RequiresPermissions("bidding/public:contractdetails:query")
+//    @RequiresPermissions("bidding/public:contractdetails:query")
     @GetMapping(value = "/{paymentId}")
     public AjaxResult getInfo(@PathVariable("paymentId") Long paymentId)
     {

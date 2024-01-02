@@ -103,7 +103,6 @@ public class PublicContractdetailsController extends BaseController
     /**
      * 供应商首页（我的合同）
      */
-//    @RequiresPermissions("bidding/public:contractdetails:VendorContractId")
     @GetMapping("/VendorContractId")
     public TableDataInfo VendorContractId(Long vendorId)
     {
@@ -118,6 +117,9 @@ public class PublicContractdetailsController extends BaseController
     @GetMapping(value = "/{contractdetailsId}")
     public AjaxResult getInfo(@PathVariable("contractdetailsId") Long contractdetailsId)
     {
+        System.out.println("采购合同详情信息");
+        System.out.println("did："+contractdetailsId);
+        System.out.println("显示采购合同信息："+success(publicContractdetailsService.selectContractDetailsId(contractdetailsId)));
         return success(publicContractdetailsService.selectContractDetailsId(contractdetailsId));
     }
 
@@ -215,7 +217,7 @@ public class PublicContractdetailsController extends BaseController
     /**
      * 修改合同明细
      */
-//    @RequiresPermissions("bidding/public:contractdetails:edit")
+  // @RequiresPermissions("bidding/public:contractdetails:edit")
     @Log(title = "合同明细", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody PublicContractdetails publicContractdetails)

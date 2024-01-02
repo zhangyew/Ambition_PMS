@@ -126,6 +126,9 @@
                  inner join bidding_tender_notice b on a.tender_notice_id = b.tender_notice_id
         WHERE a.tender_notice_id = #{tnId} and tender_supplier_id=#{tsId}
     </select>
+    <select id="TenderSum" resultType="java.lang.Integer">
+        SELECT count(*) FROM `bidding_tender`
+    </select>
 
     <insert id="insertBiddingTender" parameterType="com.yz.bidding.domain.BiddingTender" useGeneratedKeys="true"
             keyProperty="tenderId">

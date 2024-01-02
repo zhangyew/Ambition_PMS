@@ -225,6 +225,9 @@
         where vendor_number = #{vNumber}
           and responsible_phone = #{phone}
     </select>
+    <select id="VendorSum" resultType="java.lang.Integer">
+        SELECT count(*) FROM `public_vendor` where vendor_type_state_id=3
+    </select>
 
     <insert id="insertPublicVendor" parameterType="com.ruoyi.system.api.domain.PublicVendor" useGeneratedKeys="true"
             keyProperty="vendorId">

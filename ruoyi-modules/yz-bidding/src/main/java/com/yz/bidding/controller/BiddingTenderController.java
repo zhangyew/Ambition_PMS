@@ -42,7 +42,11 @@ public class BiddingTenderController extends BaseController {
     public int updateStateByTenderId(BiddingTender biddingTender) {
         return biddingTenderService.updateStateByTenderId(biddingTender);
     }
-
+    @GetMapping("/TenderSum")
+    public Integer TenderSum()
+    {
+        return biddingTenderService.TenderSum();
+    }
     /**
      * 评标操作
      *

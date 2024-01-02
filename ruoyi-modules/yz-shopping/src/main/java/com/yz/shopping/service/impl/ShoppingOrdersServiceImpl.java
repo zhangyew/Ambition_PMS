@@ -223,4 +223,9 @@ public class ShoppingOrdersServiceImpl implements IShoppingOrdersService {
     public int updateExamine1(ShoppingOrders shoppingOrders) {
         return shoppingOrdersMapper.updateExamine1(shoppingOrders);
     }
+
+    @Override
+    public Integer OrderSum() {
+        return shoppingOrdersMapper.OrderSum();
+    }
 }

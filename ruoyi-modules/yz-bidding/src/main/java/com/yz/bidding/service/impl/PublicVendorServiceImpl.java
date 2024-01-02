@@ -251,4 +251,9 @@ public class PublicVendorServiceImpl implements IPublicVendorService {
     public int updateExist(Long uid,String vNumber) {
         return publicVendorMapper.updateExist(uid,vNumber);
     }
+
+    @Override
+    public Integer VendorSum() {
+        return publicVendorMapper.VendorSum();
+    }
 }

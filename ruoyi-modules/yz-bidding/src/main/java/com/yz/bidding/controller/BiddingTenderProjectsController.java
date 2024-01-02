@@ -90,13 +90,17 @@ public class BiddingTenderProjectsController extends BaseController {
     /**
      * 合同签订物料信息
      */
-    @RequiresPermissions("bidding/public:contractdetails:query")
+//    @RequiresPermissions("bidding/public:contractdetails:query")
     @GetMapping("/SHowsProjectRelatedItems")
     public TableDataInfo SHowsProjectRelatedItems(Long tenderProjectsId, Long noticeSupplierId) {
         List<BiddingTenderProjects> list = biddingTenderProjectsService.SHowsProjectRelatedItems(tenderProjectsId, noticeSupplierId);
         return getDataTable(list);
     }
-
+    @GetMapping("/ProSum")
+    public Integer ProSum()
+    {
+        return biddingTenderProjectsService.ProSum();
+    }
 
     /**
      * 投标单物料信息
@@ -111,7 +115,7 @@ public class BiddingTenderProjectsController extends BaseController {
     /**
      * 合同签订根据项目显示供应商选择供应商
      */
-    @RequiresPermissions("bidding/tender_projects:list")
+    @RequiresPermissions("bidding/public:tender:query")
     @GetMapping("/htShowVendorId")
     public TableDataInfo htShowVendorId(Long tenderProjectsId) {
         List<Map<String,Object>> list = biddingTenderProjectsService.htShowVendorId(tenderProjectsId);

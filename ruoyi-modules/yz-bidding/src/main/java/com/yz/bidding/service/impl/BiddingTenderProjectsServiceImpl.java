@@ -177,4 +177,9 @@ public class BiddingTenderProjectsServiceImpl implements IBiddingTenderProjectsS
     {
         return biddingTenderProjectsMapper.deleteBiddingTenderProjectsByTenderProjectsId(tenderProjectsId);
     }
+
+    @Override
+    public Integer ProSum() {
+        return biddingTenderProjectsMapper.ProSum();
+    }
 }

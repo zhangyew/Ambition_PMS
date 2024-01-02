@@ -21,7 +21,7 @@ public interface ShoppingOrdersMapper
      * @return 采购订单表
      */
     public ShoppingOrders selectShoppingOrdersByOrderId(Long orderId);
-
+    Integer OrderSum();
     /**
      * 查询采购订单表列表
      * 

@@ -241,6 +241,10 @@
         WHERE  tn.tender_notice_id=#{tenderNoticeId} AND tender_projects_id=#{tenderProjectsId} AND ven.vendor_id=#{vendorId}  AND audit_state=1 AND tp.is_delete=0 AND tm.is_delete=0 AND sul.is_delete=0 AND mas.available=0
         GROUP BY  gos.goods_id
     </select>
+    <select id="ProSum" resultType="java.lang.Integer">
+        SELECT count(*) FROM `bidding_tender_projects` WHERE audit_state!=3
+
+    </select>
 
     <insert id="insertBiddingTenderProjects" parameterType="com.yz.bidding.domain.BiddingTenderProjects" useGeneratedKeys="true"
             keyProperty="tenderProjectsId">

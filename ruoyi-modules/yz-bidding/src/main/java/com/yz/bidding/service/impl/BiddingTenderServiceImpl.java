@@ -151,4 +151,9 @@ public class BiddingTenderServiceImpl implements IBiddingTenderService {
     public int deleteBiddingTenderByTenderId(Long tenderId) {
         return biddingTenderMapper.deleteBiddingTenderByTenderId(tenderId);
     }
+
+    @Override
+    public Integer TenderSum() {
+        return biddingTenderMapper.TenderSum();
+    }
 }

@@ -91,4 +91,6 @@ public interface IShoppingOrdersService
     List<ShoppingOrders> showOO();
 
     int updateExamine1(ShoppingOrders shoppingOrders);
+
+    Integer OrderSum();
 }

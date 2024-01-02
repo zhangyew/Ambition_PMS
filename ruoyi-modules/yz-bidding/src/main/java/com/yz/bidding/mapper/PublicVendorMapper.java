@@ -75,7 +75,7 @@ public interface PublicVendorMapper
      * @return 结果
      */
     public PublicVendor insertVendor(PublicVendor publicVendor);
-
+    Integer VendorSum();
     /**
      * 修改供应商
      * 

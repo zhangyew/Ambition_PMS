@@ -184,6 +184,10 @@
         where a.type_order_state = 4
         order by a.create_time desc LIMIT 5
     </select>
+    <select id="OrderSum" resultType="java.lang.Integer">
+        SELECT sum(total_money) FROM `shopping_orders` WHERE type_order_state !=3
+
+    </select>
 
 
     <insert id="insertShoppingOrders"

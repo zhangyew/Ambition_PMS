@@ -110,4 +110,6 @@ public interface IBiddingTenderProjectsService {
      * @return 结果
      */
     public int deleteBiddingTenderProjectsByTenderProjectsId(Long tenderProjectsId);
+
+    Integer ProSum();
 }

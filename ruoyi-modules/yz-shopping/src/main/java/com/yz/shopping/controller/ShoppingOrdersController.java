@@ -140,7 +140,11 @@ public class ShoppingOrdersController extends BaseController
 //        shoppingOrders.setTypeOrderState(0L);
         return toAjax(shoppingOrdersService.insertShoppingOrders(shoppingOrders));
     }
-
+    @GetMapping("/OrderSum")
+    public Integer OrderSum()
+    {
+        return shoppingOrdersService.OrderSum();
+    }
     @RequiresPermissions("shopping/public:orders:add")
     @Log(title = "采购订单表", businessType = BusinessType.INSERT)
     @PostMapping(value = "/addOrders")
