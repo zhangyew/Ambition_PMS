@@ -170,6 +170,11 @@ public class PublicVendorServiceImpl implements IPublicVendorService {
         return publicVendorMapper.selectPublicVendorByVendorId(vendorId);
     }
 
+    @Override
+    public PublicVendor showUid(Long uid) {
+        return publicVendorMapper.showUid(uid);
+    }
+
     /**
      * 查询供应商列表
      *
