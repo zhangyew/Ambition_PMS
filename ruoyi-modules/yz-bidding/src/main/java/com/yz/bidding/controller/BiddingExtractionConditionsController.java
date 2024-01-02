@@ -38,7 +38,7 @@ public class BiddingExtractionConditionsController extends BaseController
     /**
      * 查询抽取条件表列表
      */
-    @RequiresPermissions("bidding:conditions:list")
+//    @RequiresPermissions("bidding:conditions:list")
     @GetMapping("/list")
     public TableDataInfo list(BiddingExtractionConditions biddingExtractionConditions)
     {
@@ -50,7 +50,7 @@ public class BiddingExtractionConditionsController extends BaseController
     /**
      * 导出抽取条件表列表
      */
-    @RequiresPermissions("bidding:conditions:export")
+//    @RequiresPermissions("bidding:conditions:export")
     @Log(title = "抽取条件表", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, BiddingExtractionConditions biddingExtractionConditions)
@@ -63,7 +63,7 @@ public class BiddingExtractionConditionsController extends BaseController
     /**
      * 获取抽取条件表详细信息
      */
-    @RequiresPermissions("bidding:conditions:query")
+//    @RequiresPermissions("bidding:conditions:query")
     @GetMapping(value = "/{extractionConditionsId}")
     public AjaxResult getInfo(@PathVariable("extractionConditionsId") Long extractionConditionsId)
     {
@@ -73,7 +73,7 @@ public class BiddingExtractionConditionsController extends BaseController
     /**
      * 新增抽取条件表
      */
-    @RequiresPermissions("bidding:conditions:add")
+//    @RequiresPermissions("bidding:conditions:add")
     @Log(title = "抽取条件表", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody BiddingExtractionConditions biddingExtractionConditions)
@@ -84,7 +84,7 @@ public class BiddingExtractionConditionsController extends BaseController
     /**
      * 修改抽取条件表
      */
-    @RequiresPermissions("bidding:conditions:edit")
+//    @RequiresPermissions("bidding:conditions:edit")
     @Log(title = "抽取条件表", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody BiddingExtractionConditions biddingExtractionConditions)
@@ -95,7 +95,7 @@ public class BiddingExtractionConditionsController extends BaseController
     /**
      * 删除抽取条件表
      */
-    @RequiresPermissions("bidding:conditions:remove")
+//    @RequiresPermissions("bidding:conditions:remove")
     @Log(title = "抽取条件表", businessType = BusinessType.DELETE)
 	@DeleteMapping("/{extractionConditionsIds}")
     public AjaxResult remove(@PathVariable Long[] extractionConditionsIds)

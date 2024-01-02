@@ -38,7 +38,7 @@ public class BiddingGetExpertExtractController extends BaseController
     /**
      * 查询专家被抽取表列表
      */
-    @RequiresPermissions("bidding:extract:list")
+//    @RequiresPermissions("bidding:extract:list")
     @GetMapping("/list")
     public TableDataInfo list(BiddingGetExpertExtract biddingGetExpertExtract)
     {
@@ -50,7 +50,7 @@ public class BiddingGetExpertExtractController extends BaseController
     /**
      * 导出专家被抽取表列表
      */
-    @RequiresPermissions("bidding:extract:export")
+//    @RequiresPermissions("bidding:extract:export")
     @Log(title = "专家被抽取表", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, BiddingGetExpertExtract biddingGetExpertExtract)
@@ -63,7 +63,7 @@ public class BiddingGetExpertExtractController extends BaseController
     /**
      * 获取专家被抽取表详细信息
      */
-    @RequiresPermissions("bidding:extract:query")
+//    @RequiresPermissions("bidding:extract:query")
     @GetMapping(value = "/{getExpertExtractId}")
     public AjaxResult getInfo(@PathVariable("getExpertExtractId") Long getExpertExtractId)
     {
@@ -73,7 +73,7 @@ public class BiddingGetExpertExtractController extends BaseController
     /**
      * 新增专家被抽取表
      */
-    @RequiresPermissions("bidding:extract:add")
+//    @RequiresPermissions("bidding:extract:add")
     @Log(title = "专家被抽取表", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody BiddingGetExpertExtract biddingGetExpertExtract)
@@ -84,7 +84,7 @@ public class BiddingGetExpertExtractController extends BaseController
     /**
      * 修改专家被抽取表
      */
-    @RequiresPermissions("bidding:extract:edit")
+//    @RequiresPermissions("bidding:extract:edit")
     @Log(title = "专家被抽取表", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody BiddingGetExpertExtract biddingGetExpertExtract)
@@ -95,7 +95,7 @@ public class BiddingGetExpertExtractController extends BaseController
     /**
      * 删除专家被抽取表
      */
-    @RequiresPermissions("bidding:extract:remove")
+//    @RequiresPermissions("bidding:extract:remove")
     @Log(title = "专家被抽取表", businessType = BusinessType.DELETE)
 	@DeleteMapping("/{getExpertExtractIds}")
     public AjaxResult remove(@PathVariable Long[] getExpertExtractIds)
