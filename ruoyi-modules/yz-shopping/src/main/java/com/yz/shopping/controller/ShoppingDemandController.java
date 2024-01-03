@@ -77,7 +77,7 @@ public class ShoppingDemandController extends BaseController
     /**
      * 收货单物料信息
      */
-    @RequiresPermissions("shopping/public:demand:query")
+//    @RequiresPermissions("shopping/public:demand:query")
     @GetMapping(value = "/showDemand/{demandId}")
     public AjaxResult showDemand(@PathVariable("demandId")Long demandId)
     {

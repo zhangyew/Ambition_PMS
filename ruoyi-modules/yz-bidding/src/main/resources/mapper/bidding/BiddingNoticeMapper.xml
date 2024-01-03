@@ -83,15 +83,17 @@
                  inner join bidding_tender t
                             on n.notice_supplier_id = t.tender_supplier_id
         where n.notice_project_id = #{id}
+          and t.state = 6
+        GROUP BY notice_clod
     </select>
     <select id="findNotice" resultType="java.util.Map">
         SELECT *
         FROM `bidding_notice` n
                  inner join bidding_tender_projects p
                             on n.notice_project_id = p.tender_projects_id
-                 inner join bidding_tender t
-                            on t.tender_notice_id = n.notice_id
-        where notice_supplier_id = #{id}
+#                  inner join bidding_tender t
+#                             on t.tender_notice_id = n.notice_id
+        where n.notice_supplier_id = #{id}
     </select>
 
     <insert id="insertBiddingNotice" parameterType="com.yz.bidding.domain.BiddingNotice" useGeneratedKeys="true"

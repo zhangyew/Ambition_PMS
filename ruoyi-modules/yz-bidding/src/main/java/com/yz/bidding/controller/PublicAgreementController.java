@@ -44,7 +44,7 @@ public class PublicAgreementController extends BaseController
     private IBiddingTenderProjectsService bidTenderProjectsService;
 
 
-    @RequiresPermissions("bidding/public:agreement:add")
+//    @RequiresPermissions("bidding/public:agreement:add")
     @Log(title = "合同申请表", businessType = BusinessType.INSERT)
     @PostMapping("/addAgreements")
     public int addAgreements(String json,String json2,String json3,String json4,String json5){
@@ -61,7 +61,7 @@ public class PublicAgreementController extends BaseController
     /**
      * 查询合同申请表列表
      */
-    @RequiresPermissions("bidding/public:agreement:list")
+//    @RequiresPermissions("bidding/public:agreement:list")
     @GetMapping("/list")
     public TableDataInfo list(PublicAgreement publicAgreement)
     {
@@ -73,7 +73,7 @@ public class PublicAgreementController extends BaseController
     /**
      * 查询相关项目
      */
-    @RequiresPermissions("bidding/public:agreement:agreementTenderProjects")
+//    @RequiresPermissions("bidding/public:agreement:agreementTenderProjects")
     @GetMapping("/agreementTenderProjects")
     public TableDataInfo agreementTenderProjects(String tenderProjectsNumber)
     {
@@ -87,7 +87,7 @@ public class PublicAgreementController extends BaseController
      * @param contractParent
      * @return
      */
-    @RequiresPermissions("bidding/public:agreement:ShowPublicAgreement")
+//    @RequiresPermissions("bidding/public:agreement:ShowPublicAgreement")
     @GetMapping("/ShowPublicAgreement")
     public TableDataInfo ShowPublicAgreement(Long contractParent)
     {

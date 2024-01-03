@@ -117,7 +117,7 @@ public class ShoppingOrdersController extends BaseController
     /**
      * 收货单（详情显示）
      */
-    @RequiresPermissions("shopping/public:orders:query")
+//    @RequiresPermissions("shopping/public:orders:query")
     @GetMapping(value = "showsDetailsReceipt/{orderId}")
     public AjaxResult showsDetailsReceipt(@PathVariable("orderId") Long orderId)
     {
@@ -145,7 +145,6 @@ public class ShoppingOrdersController extends BaseController
     {
         return shoppingOrdersService.OrderSum();
     }
-    @RequiresPermissions("shopping/public:orders:add")
     @Log(title = "采购订单表", businessType = BusinessType.INSERT)
     @PostMapping(value = "/addOrders")
     public AjaxResult addOrders(@RequestBody ShoppingOrders shoppingOrders) {
@@ -163,7 +162,6 @@ public class ShoppingOrdersController extends BaseController
     /**
      * 修改采购订单表
      */
-    @RequiresPermissions("shopping/public:orders:edit")
     @Log(title = "采购订单表", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody ShoppingOrders shoppingOrders) {
@@ -187,7 +185,7 @@ public class ShoppingOrdersController extends BaseController
     /**
      * 修改待收货状态
      */
-    @RequiresPermissions("shopping/public:orders:edit")
+//    @RequiresPermissions("shopping/public:orders:edit")
     @Log(title = "采购订单表", businessType = BusinessType.UPDATE)
     @PutMapping("updateOrderState/{orderId}")
     public AjaxResult updateOrderState(@PathVariable("orderId") Long orderId) {

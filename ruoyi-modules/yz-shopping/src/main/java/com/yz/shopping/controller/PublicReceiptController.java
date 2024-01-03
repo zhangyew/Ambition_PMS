@@ -47,7 +47,7 @@ public class PublicReceiptController extends BaseController
     /**
      * 查询待货单列表
      */
-    @RequiresPermissions("shopping/public:receipt:list")
+//    @RequiresPermissions("shopping/public:receipt:list")
     @GetMapping("/list")
     public TableDataInfo list(PublicReceipt publicReceipt)
     {
@@ -59,7 +59,7 @@ public class PublicReceiptController extends BaseController
     /**
      * 查询收货单列表
      */
-    @RequiresPermissions("shopping/public:receipt:list")
+//    @RequiresPermissions("shopping/public:receipt:list")
     @GetMapping("/ShowsPublicReceiptList")
     public TableDataInfo ShowsPublicReceiptList(PublicReceipt publicReceipt)
     {
@@ -84,7 +84,7 @@ public class PublicReceiptController extends BaseController
     /**
      * 获取收货单详细信息
      */
-    @RequiresPermissions("shopping/public:receipt:query")
+//    @RequiresPermissions("shopping/public:receipt:query")
     @GetMapping(value = "/{receiptId}")
     public AjaxResult getInfo(@PathVariable("receiptId") Long receiptId)
     {
@@ -115,7 +115,7 @@ public class PublicReceiptController extends BaseController
     /**
      * 修改收货单
      */
-    @RequiresPermissions("shopping/public:receipt:edit")
+//    @RequiresPermissions("shopping/public:receipt:edit")
     @Log(title = "收货单", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody PublicReceipt publicReceipt)
@@ -126,7 +126,7 @@ public class PublicReceiptController extends BaseController
     /**
      * 删除收货单
      */
-    @RequiresPermissions("shopping/public:receipt:remove")
+//    @RequiresPermissions("shopping/public:receipt:remove")
     @Log(title = "收货单", businessType = BusinessType.DELETE)
     @DeleteMapping("/{receiptIds}")
     public AjaxResult remove(@PathVariable Long[] receiptIds)

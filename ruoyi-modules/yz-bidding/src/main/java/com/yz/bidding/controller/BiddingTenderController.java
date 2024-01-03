@@ -98,7 +98,7 @@ public class BiddingTenderController extends BaseController {
     /**
      * 查询投标列表
      */
-    @RequiresPermissions("pms/bidding:tender:list")
+//    @RequiresPermissions("pms/bidding:tender:list")
     @GetMapping("/list")
     public TableDataInfo list(BiddingTender biddingTender) {
         startPage();
@@ -113,7 +113,7 @@ public class BiddingTenderController extends BaseController {
     /**
      * 导出投标列表
      */
-    @RequiresPermissions("pms/bidding:tender:export")
+//    @RequiresPermissions("pms/bidding:tender:export")
     @Log(title = "投标", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, BiddingTender biddingTender) {
@@ -125,7 +125,7 @@ public class BiddingTenderController extends BaseController {
     /**
      * 获取投标详细信息
      */
-    @RequiresPermissions("pms/bidding:tender:query")
+//    @RequiresPermissions("pms/bidding:tender:query")
     @GetMapping(value = "/{tenderId}")
     public AjaxResult getInfo(@PathVariable("tenderId") Long tenderId) {
         return success(biddingTenderService.selectBiddingTenderByTenderId(tenderId));
@@ -140,7 +140,7 @@ public class BiddingTenderController extends BaseController {
 //    public AjaxResult add(@RequestBody BiddingTender biddingTender) {
 //        return toAjax(biddingTenderService.insertBiddingTender(biddingTender));
 //    }
-    @RequiresPermissions("bidding/public:tender:add")
+//    @RequiresPermissions("bidding/public:tender:add")
     @Log(title = "投标", businessType = BusinessType.INSERT)
     @PostMapping("/addTenders")
     public int addAgreements(BiddingTender biddingTender,String json5){
@@ -153,7 +153,7 @@ public class BiddingTenderController extends BaseController {
     /**
      * 修改投标
      */
-    @RequiresPermissions("pms/bidding:tender:edit")
+//    @RequiresPermissions("pms/bidding:tender:edit")
     @Log(title = "投标", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody BiddingTender biddingTender) {
@@ -163,7 +163,7 @@ public class BiddingTenderController extends BaseController {
     /**
      * 删除投标
      */
-    @RequiresPermissions("pms/bidding:tender:remove")
+//    @RequiresPermissions("pms/bidding:tender:remove")
     @Log(title = "投标", businessType = BusinessType.DELETE)
     @DeleteMapping("/{tenderIds}")
     public AjaxResult remove(@PathVariable Long[] tenderIds) {
