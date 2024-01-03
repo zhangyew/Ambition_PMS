@@ -68,7 +68,7 @@ public interface BiddingTenderProjectsMapper
      * @param vendorId
      * @return
      */
-    public List<BiddingTenderProjects> deskShows(@Param("tenderNoticeId") Long tenderNoticeId,@Param("tenderProjectsId") Long tenderProjectsId,@Param("vendorId")Long vendorId);
+    public List<BiddingTenderProjects> deskShows(@Param("tenderNoticeId") Long tenderNoticeId,@Param("tenderProjectsId") Long tenderProjectsId,@Param("vendorId")String vendorId);
 
     public List<Map<String,Object>> htShowVendorId(@Param("tenderProjectsId")Long tenderProjectsId);
 

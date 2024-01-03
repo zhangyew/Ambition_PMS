@@ -58,7 +58,7 @@ public class BiddingTenderProjectsController extends BaseController {
     /**
      * 查询招标项目列表
      */
-    @RequiresPermissions("bidding/tender_projects:list")
+//    @RequiresPermissions("bidding/tender_projects:list")
     @GetMapping("/list")
     public TableDataInfo list(BiddingTenderProjects biddingTenderProjects) {
         startPage();
@@ -81,7 +81,7 @@ public class BiddingTenderProjectsController extends BaseController {
     /**
      * 获取招标项目详细信息
      */
-    @RequiresPermissions("bidding/tender_projects:query")
+//    @RequiresPermissions("bidding/tender_projects:query")
     @GetMapping(value = "/{tenderProjectsId}")
     public AjaxResult getInfo(@PathVariable("tenderProjectsId") Long tenderProjectsId) {
         return success(biddingTenderProjectsService.selectBiddingTenderProjectsByTenderProjectsId(tenderProjectsId));
@@ -107,7 +107,7 @@ public class BiddingTenderProjectsController extends BaseController {
      */
 //    @RequiresPermissions("bidding/tender_projects:list")
     @GetMapping("/deskShows")
-    public TableDataInfo deskShows(Long tenderNoticeId ,Long tenderProjectsId, Long vendorId) {
+    public TableDataInfo deskShows(Long tenderNoticeId ,Long tenderProjectsId, String vendorId) {
         System.out.println("显示："+tenderNoticeId+tenderProjectsId+vendorId);
         List<BiddingTenderProjects> list = biddingTenderProjectsService.deskShows(tenderNoticeId,tenderProjectsId, vendorId);
         return getDataTable(list);
@@ -115,7 +115,7 @@ public class BiddingTenderProjectsController extends BaseController {
     /**
      * 合同签订根据项目显示供应商选择供应商
      */
-    @RequiresPermissions("bidding/public:tender:query")
+//    @RequiresPermissions("bidding/public:tender:query")
     @GetMapping("/htShowVendorId")
     public TableDataInfo htShowVendorId(Long tenderProjectsId) {
         List<Map<String,Object>> list = biddingTenderProjectsService.htShowVendorId(tenderProjectsId);

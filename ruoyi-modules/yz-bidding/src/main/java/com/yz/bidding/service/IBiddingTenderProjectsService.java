@@ -76,7 +76,7 @@ public interface IBiddingTenderProjectsService {
      * @param vendorId
      * @return
      */
-    public List<BiddingTenderProjects> deskShows(Long tenderNoticeId , Long tenderProjectsId, Long vendorId);
+    public List<BiddingTenderProjects> deskShows(Long tenderNoticeId , Long tenderProjectsId, String vendorId);
 
     public List<Map<String,Object>> htShowVendorId(Long tenderProjectsId);
     /**

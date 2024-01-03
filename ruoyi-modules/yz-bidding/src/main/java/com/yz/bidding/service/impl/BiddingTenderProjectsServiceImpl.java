@@ -121,7 +121,7 @@ public class BiddingTenderProjectsServiceImpl implements IBiddingTenderProjectsS
      * @return
      */
     @Override
-    public List<BiddingTenderProjects> deskShows(Long tenderNoticeId , Long tenderProjectsId, Long vendorId) {
+    public List<BiddingTenderProjects> deskShows(Long tenderNoticeId , Long tenderProjectsId, String vendorId) {
         return biddingTenderProjectsMapper.deskShows(tenderNoticeId,tenderProjectsId, vendorId);
     }
 

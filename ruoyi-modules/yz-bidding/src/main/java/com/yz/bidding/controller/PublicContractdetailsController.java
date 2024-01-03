@@ -65,7 +65,7 @@ public class PublicContractdetailsController extends BaseController
     /**
      * 供应商合同所有列表
      */
-    @RequiresPermissions("bidding/public:contractdetails:list")
+//    @RequiresPermissions("bidding/public:contractdetails:list")
     @GetMapping("/selectVendorList")
     public TableDataInfo selectVendorList(Long vendorId)
     {
@@ -90,7 +90,7 @@ public class PublicContractdetailsController extends BaseController
     /**
      * 导出合同明细列表
      */
-    @RequiresPermissions("bidding/public:contractdetails:export")
+//    @RequiresPermissions("bidding/public:contractdetails:export")
     @Log(title = "合同明细", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, PublicContractdetails publicContractdetails)
@@ -137,7 +137,7 @@ public class PublicContractdetailsController extends BaseController
     /**
      * 获取合同明细详细信息
      */
-    @RequiresPermissions("pms.public:contractdetails:query")
+//    @RequiresPermissions("pms.public:contractdetails:query")
     @GetMapping(value = "Shows/{contractdetailsId}")
     public AjaxResult Shows(@PathVariable("contractdetailsId") Long contractdetailsId)
     {
@@ -147,7 +147,7 @@ public class PublicContractdetailsController extends BaseController
     /**
      * 新增合同明细
      */
-    @RequiresPermissions("bidding/public:contractdetails:add")
+//    @RequiresPermissions("bidding/public:contractdetails:add")
     @Log(title = "合同明细", businessType = BusinessType.INSERT)
     @PostMapping("/add")
     public AjaxResult add(@RequestBody PublicContractdetails publicContractdetails)
@@ -163,7 +163,7 @@ public class PublicContractdetailsController extends BaseController
     /**
      * 新增签署执行状态表
      */
-    @RequiresPermissions("bidding/public:contractdetails:signingAdd")
+//    @RequiresPermissions("bidding/public:contractdetails:signingAdd")
     @Log(title = "签署执行状态表", businessType = BusinessType.INSERT)
     @PostMapping("/signingAdd")
     public AjaxResult signingAdd(@RequestBody PublicSignings publicSignings)
@@ -228,7 +228,7 @@ public class PublicContractdetailsController extends BaseController
     /**
      * 删除合同明细
      */
-    @RequiresPermissions("bidding/public:contractdetails:remove")
+//    @RequiresPermissions("bidding/public:contractdetails:remove")
     @Log(title = "合同明细", businessType = BusinessType.DELETE)
 	@DeleteMapping("/{contractdetailsIds}")
     public AjaxResult remove(@PathVariable Long[] contractdetailsIds)

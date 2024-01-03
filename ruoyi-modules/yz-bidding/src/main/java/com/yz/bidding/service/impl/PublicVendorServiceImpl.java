@@ -71,8 +71,11 @@ public class PublicVendorServiceImpl implements IPublicVendorService {
         vendor.setRanges(map.get("ranges"));
         vendor.setVendorNumber(vendorNumber); // 编号
         vendor.setCauses(map.get("causes"));
-        vendor.setContractTypeTypeId(Long.parseLong(map.get("contractTypeTypeId")));
-        vendor.setVendorTypeStateId(Long.parseLong(map.get("vendorTypeStateId")));
+
+        vendor.setContractTypeTypeId(Long.parseLong(map.get("contractTypeTypeId").toString()));
+        if (map.get("vendorTypeStateId") != null &&
+                !map.get("vendorTypeStateId").toString().equals("null"))
+            vendor.setVendorTypeStateId(Long.parseLong(map.get("vendorTypeStateId").toString()));
         vendor.setCreateBy(map.get("createBy"));
         vendor.setWarehouseAddress(map.get("warehouseAddress"));
         vendor.setDelegates(map.get("delegates"));
@@ -258,8 +261,8 @@ public class PublicVendorServiceImpl implements IPublicVendorService {
     }
 
     @Override
-    public int updateExist(Long uid,String vNumber) {
-        return publicVendorMapper.updateExist(uid,vNumber);
+    public int updateExist(Long uid, String vNumber) {
+        return publicVendorMapper.updateExist(uid, vNumber);
     }
 
     @Override
