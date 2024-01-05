@@ -9,7 +9,7 @@ import com.ruoyi.system.api.domain.PublicWarehouse;
  * @author zhangye
  * @date 2023-11-21
  */
-public interface IPublicWarehouseService 
+public interface IPublicWarehouseService
 {
     /**
      * 查询仓库
@@ -26,6 +26,7 @@ public interface IPublicWarehouseService
      * @return 仓库集合
      */
     public List<PublicWarehouse> selectPublicWarehouseList(PublicWarehouse publicWarehouse);
+
 
     /**
      * 新增仓库

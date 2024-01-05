@@ -16,6 +16,12 @@
     </description>
 
     <dependencies>
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-all</artifactId>
+            <version>5.8.16</version>
+        </dependency>
+
 
         <!-- SpringCloud Alibaba Nacos -->
         <dependency>
@@ -76,6 +82,12 @@
         <dependency>
             <groupId>com.ruoyi</groupId>
             <artifactId>ruoyi-common-swagger</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.ruoyi</groupId>
+            <artifactId>ruoyi-modules-file</artifactId>
+            <version>3.6.3</version>
+            <scope>compile</scope>
         </dependency>
 
     </dependencies>

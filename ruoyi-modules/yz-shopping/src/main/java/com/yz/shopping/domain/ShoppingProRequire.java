@@ -1,9 +1,12 @@
 package com.yz.shopping.domain;
 
+import com.ruoyi.system.api.domain.PublicGoods;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.core.annotation.Excel;
 import com.ruoyi.common.core.web.domain.BaseEntity;
+
+import java.util.List;
 
 /**
  * 采购需求表对象 shopping_pro_require
@@ -20,7 +23,10 @@ public class ShoppingProRequire extends BaseEntity
 
     /** 需求物料id（外键） */
     @Excel(name = "需求物料id", readConverterExp = "外=键")
-    private Long requireDemandId;
+    private String requireDemandId;
+
+    @Excel(name = "需求物料id", readConverterExp = "外=键")
+    private List<String> publicGoodsList;
 
     /** 需求编号 */
     @Excel(name = "需求编号")
@@ -38,9 +44,68 @@ public class ShoppingProRequire extends BaseEntity
     @Excel(name = "需求类型", readConverterExp = "字=典外键")
     private Long requireType;
 
+    @Excel(name = "是否转成招标项目")
+    private Long isTender;
+
+    @Override
+    public String toString() {
+        return "ShoppingProRequire{" +
+                "requireId=" + requireId +
+                ", requireDemandId='" + requireDemandId + '\'' +
+                ", publicGoodsList=" + publicGoodsList +
+                ", requireNumber='" + requireNumber + '\'' +
+                ", requirePerson='" + requirePerson + '\'' +
+                ", requireDept='" + requireDept + '\'' +
+                ", requireType=" + requireType +
+                ", isTender=" + isTender +
+                ", requireVendor=" + requireVendor +
+                ", vendorName='" + vendorName + '\'' +
+                ", totalMoney=" + totalMoney +
+                ", requireContact='" + requireContact + '\'' +
+                ", mainPurpose='" + mainPurpose + '\'' +
+                ", requireAddress='" + requireAddress + '\'' +
+                ", requirePhone='" + requirePhone + '\'' +
+                ", requireState=" + requireState +
+                ", isDelete=" + isDelete +
+                ", shoppingDemands=" + shoppingDemands +
+                ", bcglXiangXiList=" + bcglXiangXiList +
+                '}';
+    }
+
+    public Long getIsTender() {
+        return isTender;
+    }
+
+    public void setIsTender(Long isTender) {
+        this.isTender = isTender;
+    }
+
+    @Excel(name = "供应商")
+    /**
+     * 需求供应商
+     */
+    private Long requireVendor;
+    private String vendorName;
+
+    public String getVendorName() {
+        return vendorName;
+    }
+
+    public void setVendorName(String vendorName) {
+        this.vendorName = vendorName;
+    }
+
+    public Long getRequireVendor() {
+        return requireVendor;
+    }
+
+    public void setRequireVendor(Long requireVendor) {
+        this.requireVendor = requireVendor;
+    }
+
     /** 总金额 */
     @Excel(name = "总金额")
-    private Long totalMoney;
+    private Double totalMoney;
 
     /** 收货联系人 */
     @Excel(name = "收货联系人")
@@ -66,7 +131,42 @@ public class ShoppingProRequire extends BaseEntity
     @Excel(name = "删除")
     private Long isDelete;
 
-    public void setRequireId(Long requireId) 
+    /**
+     * 采购需求物料
+     */
+    private List<ShoppingDemand> shoppingDemands;
+
+    public List<ShoppingDemand> getShoppingDemands() {
+        return shoppingDemands;
+    }
+
+    public void setShoppingDemands(List<ShoppingDemand> shoppingDemands) {
+        this.shoppingDemands = shoppingDemands;
+    }
+
+    /**
+     * 物料集合
+     * @return
+     */
+    public List<ShoppingDemand> getBcglXiangXiList() {
+        return bcglXiangXiList;
+    }
+
+    public void setBcglXiangXiList(List<ShoppingDemand> bcglXiangXiList) {
+        this.bcglXiangXiList = bcglXiangXiList;
+    }
+
+    private List<ShoppingDemand> bcglXiangXiList;
+
+    public List<String> getPublicGoodsList() {
+        return publicGoodsList;
+    }
+
+    public void setPublicGoodsList(List<String> publicGoodsList) {
+        this.publicGoodsList = publicGoodsList;
+    }
+
+    public void setRequireId(Long requireId)
     {
         this.requireId = requireId;
     }
@@ -75,12 +175,12 @@ public class ShoppingProRequire extends BaseEntity
     {
         return requireId;
     }
-    public void setRequireDemandId(Long requireDemandId) 
+    public void setRequireDemandId(String requireDemandId)
     {
         this.requireDemandId = requireDemandId;
     }
 
-    public Long getRequireDemandId() 
+    public String getRequireDemandId()
     {
         return requireDemandId;
     }
@@ -120,12 +220,12 @@ public class ShoppingProRequire extends BaseEntity
     {
         return requireType;
     }
-    public void setTotalMoney(Long totalMoney) 
+    public void setTotalMoney(Double totalMoney)
     {
         this.totalMoney = totalMoney;
     }
 
-    public Long getTotalMoney() 
+    public Double getTotalMoney()
     {
         return totalMoney;
     }
@@ -184,26 +284,4 @@ public class ShoppingProRequire extends BaseEntity
         return isDelete;
     }
 
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
-            .append("requireId", getRequireId())
-            .append("requireDemandId", getRequireDemandId())
-            .append("requireNumber", getRequireNumber())
-            .append("requirePerson", getRequirePerson())
-            .append("requireDept", getRequireDept())
-            .append("requireType", getRequireType())
-            .append("totalMoney", getTotalMoney())
-            .append("requireContact", getRequireContact())
-            .append("mainPurpose", getMainPurpose())
-            .append("requireAddress", getRequireAddress())
-            .append("requirePhone", getRequirePhone())
-            .append("requireState", getRequireState())
-            .append("createBy", getCreateBy())
-            .append("createTime", getCreateTime())
-            .append("updateBy", getUpdateBy())
-            .append("updateTime", getUpdateTime())
-            .append("isDelete", getIsDelete())
-            .toString();
-    }
 }

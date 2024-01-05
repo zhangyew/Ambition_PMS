@@ -20,8 +20,8 @@ public class BiddingDownloadLogs extends BaseEntity
     /** 主键 */
     private Long downloadLogsId;
 
-    /** 公告正文主键 */
-    @Excel(name = "公告正文主键")
+    /** 公告主键 */
+    @Excel(name = "公告主键")
     private Long noticeTextId;
 
     /** 投标人名称 */

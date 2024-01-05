@@ -25,6 +25,8 @@ public class PublicGoods extends BaseEntity {
     @Excel(name = "类别ID")
     private Long categoryId;
 
+    private String categoryName;
+
     /**
      * 商品名称
      */
@@ -36,6 +38,20 @@ public class PublicGoods extends BaseEntity {
      */
     @Excel(name = "字典外键")
     private Long goodsType;
+
+    /**
+     * 物料编码
+     */
+    @Excel(name = "物料编码")
+    private String goodsCode;
+
+    public String getGoodsCode() {
+        return goodsCode;
+    }
+
+    public void setGoodsCode(String goodsCode) {
+        this.goodsCode = goodsCode;
+    }
 
     /**
      * 规格
@@ -84,6 +100,24 @@ public class PublicGoods extends BaseEntity {
      */
     @Excel(name = "状态")
     private Long state;
+
+    private String parentCategory;
+
+    public String getParentCategory() {
+        return parentCategory;
+    }
+
+    public void setParentCategory(String parentCategory) {
+        this.parentCategory = parentCategory;
+    }
+
+    public String getCategoryName() {
+        return categoryName;
+    }
+
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
+    }
 
     public void setGoodsId(Long goodsId) {
         this.goodsId = goodsId;

@@ -1,6 +1,10 @@
 package com.yz.shopping.service.impl;
 
 import java.util.List;
+
+import com.ruoyi.system.api.domain.PublicCodeRules;
+import com.ruoyi.system.api.util.SnowflakeGetId;
+import com.yz.bidding.mapper.PublicCodeRulesMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.yz.shopping.mapper.PublicWarehouseMapper;

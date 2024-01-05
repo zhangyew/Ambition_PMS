@@ -2,6 +2,8 @@ package com.yz.bidding.service;
 
 import java.util.List;
 import com.ruoyi.system.api.domain.PublicContractdetails;
+import com.yz.bidding.vo.PurchaseContractsVo;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * 合同明细Service接口
@@ -13,11 +15,18 @@ public interface IPublicContractdetailsService
 {
     /**
      * 查询合同明细
-     * 
+     *
      * @param contractdetailsId 合同明细主键
      * @return 合同明细
      */
     public PublicContractdetails selectPublicContractdetailsByContractdetailsId(Long contractdetailsId);
+    /**
+     * 查询合同明细
+     * 
+     * @param contractdetailsId 合同明细主键
+     * @return 合同明细
+     */
+    public List<PurchaseContractsVo> selectContractDetailsId(Long contractdetailsId);
 
     /**
      * 查询合同明细列表
@@ -26,6 +35,43 @@ public interface IPublicContractdetailsService
      * @return 合同明细集合
      */
     public List<PublicContractdetails> selectPublicContractdetailsList(PublicContractdetails publicContractdetails);
+    /**
+     * 供应商合同列表
+     * @param
+     * @param vendorId
+     * @return
+     */
+    public List<PublicContractdetails> selectVendorList(Long vendorId);
+
+    /**
+     * 供应商首页（我的合同）
+     * @param vendorId
+     * @return
+     */
+    public List<PublicContractdetails> VendorContractId(Long vendorId);
+
+    /**
+     * 合同总数
+     * @return
+     */
+    public Integer ContractCount();
+
+    /**
+     * 合同总金额
+     * @return
+     */
+    public Double ContractSum();
+    /**
+     * 合同总数
+     * @return
+     */
+    public Integer ContractCounts(Long vendorId);
+
+    /**
+     * 合同总金额
+     * @return
+     */
+    public Double ContractSums(Long vendorId);
 
     /**
      * 新增合同明细
@@ -58,4 +104,7 @@ public interface IPublicContractdetailsService
      * @return 结果
      */
     public int deletePublicContractdetailsByContractdetailsId(Long contractdetailsId);
+
+    int upConState(Long conId);
+    int upCon(Long conId);
 }

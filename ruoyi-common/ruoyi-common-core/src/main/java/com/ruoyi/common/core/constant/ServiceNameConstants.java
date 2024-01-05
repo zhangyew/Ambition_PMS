@@ -21,4 +21,14 @@ public class ServiceNameConstants
      * 文件服务的serviceid
      */
     public static final String FILE_SERVICE = "ruoyi-file";
+
+    /**
+     * 招标模块
+     */
+    public static final String BIDDING_SERVICE = "bidding-system";
+
+    /**
+     * 采购模块
+     */
+    public static final String SHOPPING_SERVICE = "shopping-system";
 }

@@ -2,7 +2,14 @@ package com.yz.shopping.controller;
 
 import java.util.List;
 import java.io.IOException;
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
+
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.ruoyi.system.api.RemoteCodeRulesService;
+import com.ruoyi.system.api.domain.PublicCodeRules;
+import com.ruoyi.system.api.util.SnowflakeGetId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -34,11 +41,16 @@ public class PublicCategoryController extends BaseController
 {
     @Autowired
     private IPublicCategoryService publicCategoryService;
+    @Autowired
+    private RemoteCodeRulesService remoteCodeRulesService;
+//    @Resource
+//    private SnowflakeGetId snowflakeGetId;
+
 
     /**
      * 查询物料类别列表
      */
-    @RequiresPermissions("pms.public:category:list")
+    @RequiresPermissions("shopping/public:category:list")
     @GetMapping("/list")
     public TableDataInfo list(PublicCategory publicCategory)
     {
@@ -48,9 +60,21 @@ public class PublicCategoryController extends BaseController
     }
 
     /**
+     * 查询物料类别列表
+     */
+    @GetMapping("/ParentCategoryList")
+    public TableDataInfo ParentCategoryList(Long parentCategory)
+    {
+        startPage();
+        List<PublicCategory> list = publicCategoryService.selectPublicParentCategoryList(parentCategory);
+        System.out.println("222222222222");
+        return getDataTable(list);
+    }
+
+    /**
      * 导出物料类别列表
      */
-    @RequiresPermissions("pms.public:category:export")
+    @RequiresPermissions("shopping/public:category:export")
     @Log(title = "物料类别", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, PublicCategory publicCategory)
@@ -63,7 +87,7 @@ public class PublicCategoryController extends BaseController
     /**
      * 获取物料类别详细信息
      */
-    @RequiresPermissions("pms.public:category:query")
+    @RequiresPermissions("shopping/public:category:query")
     @GetMapping(value = "/{categoryId}")
     public AjaxResult getInfo(@PathVariable("categoryId") Long categoryId)
     {
@@ -73,18 +97,25 @@ public class PublicCategoryController extends BaseController
     /**
      * 新增物料类别
      */
-    @RequiresPermissions("pms.public:category:add")
+    @RequiresPermissions("shopping/public:category:add")
     @Log(title = "物料类别", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody PublicCategory publicCategory)
     {
+        AjaxResult ajaxResult = remoteCodeRulesService.getInfo(9L);
+        Object obj = ajaxResult.get("data");
+        String str = JSON.toJSONString(obj);
+        PublicCodeRules p = JSONObject.parseObject(str,PublicCodeRules.class);
+        String id = SnowflakeGetId.getCode(p);
+        publicCategory.setCategoryNumber(id);
+        publicCategory.setIsDelete(0L);
         return toAjax(publicCategoryService.insertPublicCategory(publicCategory));
     }
 
     /**
      * 修改物料类别
      */
-    @RequiresPermissions("pms.public:category:edit")
+    @RequiresPermissions("shopping/public:category:edit")
     @Log(title = "物料类别", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody PublicCategory publicCategory)
@@ -95,7 +126,7 @@ public class PublicCategoryController extends BaseController
     /**
      * 删除物料类别
      */
-    @RequiresPermissions("pms.public:category:remove")
+    @RequiresPermissions("shopping/public:category:remove")
     @Log(title = "物料类别", businessType = BusinessType.DELETE)
 	@DeleteMapping("/{categoryIds}")
     public AjaxResult remove(@PathVariable Long[] categoryIds)

@@ -2,11 +2,14 @@ package com.yz.bidding.service.impl;
 
 import java.util.List;
 import com.ruoyi.common.core.utils.DateUtils;
+import com.yz.bidding.vo.PurchaseContractsVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.yz.bidding.mapper.PublicContractdetailsMapper;
 import com.ruoyi.system.api.domain.PublicContractdetails;
 import com.yz.bidding.service.IPublicContractdetailsService;
+
+import javax.annotation.Resource;
 
 /**
  * 合同明细Service业务层处理
@@ -17,8 +20,13 @@ import com.yz.bidding.service.IPublicContractdetailsService;
 @Service
 public class PublicContractdetailsServiceImpl implements IPublicContractdetailsService 
 {
-    @Autowired
+    @Resource
     private PublicContractdetailsMapper publicContractdetailsMapper;
+
+    @Override
+    public PublicContractdetails selectPublicContractdetailsByContractdetailsId(Long contractdetailsId) {
+        return publicContractdetailsMapper.selectPublicContractdetailsByContractdetailsId(contractdetailsId);
+    }
 
     /**
      * 查询合同明细
@@ -27,13 +35,14 @@ public class PublicContractdetailsServiceImpl implements IPublicContractdetailsS
      * @return 合同明细
      */
     @Override
-    public PublicContractdetails selectPublicContractdetailsByContractdetailsId(Long contractdetailsId)
+    public List<PurchaseContractsVo> selectContractDetailsId(Long contractdetailsId)
     {
-        return publicContractdetailsMapper.selectPublicContractdetailsByContractdetailsId(contractdetailsId);
+        System.out.println(publicContractdetailsMapper.selectContractDetailsId(contractdetailsId));
+        return publicContractdetailsMapper.selectContractDetailsId(contractdetailsId);
     }
 
     /**
-     * 查询合同明细列表
+     * 查询合同所有列表
      * 
      * @param publicContractdetails 合同明细
      * @return 合同明细
@@ -44,6 +53,62 @@ public class PublicContractdetailsServiceImpl implements IPublicContractdetailsS
         return publicContractdetailsMapper.selectPublicContractdetailsList(publicContractdetails);
     }
 
+    /**
+     * 供应商合同列表
+     * @param
+     * @param vendorId
+     * @return
+     */
+    @Override
+    public List<PublicContractdetails> selectVendorList(Long vendorId) {
+        return publicContractdetailsMapper.selectVendorList(vendorId);
+    }
+
+    /**
+     * 供应商首页（我的合同）
+     * @param vendorId
+     * @return
+     */
+    @Override
+    public List<PublicContractdetails> VendorContractId(Long vendorId) {
+        return publicContractdetailsMapper.VendorContractId(vendorId);
+    }
+
+    /**
+     * 合同总数
+     * @return
+     */
+    @Override
+    public Integer ContractCount() {
+        return publicContractdetailsMapper.ContractCount();
+    }
+
+    /**
+     * 合同总金额
+     * @return
+     */
+    @Override
+    public Double ContractSum() {
+        return publicContractdetailsMapper.ContractSum();
+    }
+
+    /**
+     * 合同总数
+     * @return
+     */
+    @Override
+    public Integer ContractCounts(Long vendorId) {
+        return publicContractdetailsMapper.ContractCounts(vendorId);
+    }
+
+    /**
+     * 合同总金额
+     * @return
+     */
+    @Override
+    public Double ContractSums(Long vendorId) {
+        return publicContractdetailsMapper.ContractSums(vendorId);
+    }
     /**
      * 新增合同明细
      * 
@@ -92,5 +157,15 @@ public class PublicContractdetailsServiceImpl implements IPublicContractdetailsS
     public int deletePublicContractdetailsByContractdetailsId(Long contractdetailsId)
     {
         return publicContractdetailsMapper.deletePublicContractdetailsByContractdetailsId(contractdetailsId);
+    }
+
+    @Override
+    public int upConState(Long conId) {
+        return publicContractdetailsMapper.upConState(conId);
+    }
+
+    @Override
+    public int upCon(Long conId) {
+        return publicContractdetailsMapper.upCon(conId);
     }
 }

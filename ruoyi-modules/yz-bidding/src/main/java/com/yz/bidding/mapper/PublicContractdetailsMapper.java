@@ -2,6 +2,9 @@ package com.yz.bidding.mapper;
 
 import java.util.List;
 import com.ruoyi.system.api.domain.PublicContractdetails;
+import com.yz.bidding.vo.PurchaseContractsVo;
+import io.swagger.models.auth.In;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * 合同明细Mapper接口
@@ -9,7 +12,7 @@ import com.ruoyi.system.api.domain.PublicContractdetails;
  * @author zhangye
  * @date 2023-11-21
  */
-public interface PublicContractdetailsMapper 
+public interface PublicContractdetailsMapper
 {
     /**
      * 查询合同明细
@@ -17,8 +20,17 @@ public interface PublicContractdetailsMapper
      * @param contractdetailsId 合同明细主键
      * @return 合同明细
      */
+    public List<PurchaseContractsVo> selectContractDetailsId(Long contractdetailsId);
+    /**
+     * 查询合同明细
+     *
+     * @param contractdetailsId 合同明细主键
+     * @return 合同明细
+     */
     public PublicContractdetails selectPublicContractdetailsByContractdetailsId(Long contractdetailsId);
 
+    int upConState(Long conId);
+    int upCon(Long conId);
     /**
      * 查询合同明细列表
      * 
@@ -26,6 +38,45 @@ public interface PublicContractdetailsMapper
      * @return 合同明细集合
      */
     public List<PublicContractdetails> selectPublicContractdetailsList(PublicContractdetails publicContractdetails);
+
+    /**
+     * 供应商合同列表
+     * @param
+     * @param vendorId
+     * @return
+     */
+    public List<PublicContractdetails> selectVendorList(@Param("vendorId")Long vendorId);
+
+    /**
+     * 供应商首页（我的合同）
+     * @param vendorId
+     * @return
+     */
+    public List<PublicContractdetails> VendorContractId(@Param("vendorId") Long vendorId);
+
+    /**
+     * 合同总数
+     * @return
+     */
+    public Integer ContractCount();
+
+    /**
+     * 合同总金额
+     * @return
+     */
+    public Double ContractSum();
+
+    /**
+     * 合同总数
+     * @return
+     */
+    public Integer ContractCounts(@Param("vendorId")Long vendorId);
+
+    /**
+     * 合同总金额
+     * @return
+     */
+    public Double ContractSums(@Param("vendorId")Long vendorId);
 
     /**
      * 新增合同明细

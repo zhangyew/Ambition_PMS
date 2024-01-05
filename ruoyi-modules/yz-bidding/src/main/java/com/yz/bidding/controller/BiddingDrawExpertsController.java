@@ -2,7 +2,12 @@ package com.yz.bidding.controller;
 
 import java.util.List;
 import java.io.IOException;
+import java.util.Map;
 import javax.servlet.http.HttpServletResponse;
+
+import cn.hutool.json.JSONUtil;
+import com.ruoyi.system.api.domain.PublicExpert;
+import com.yz.bidding.domain.BiddingExtractionConditions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,24 +29,52 @@ import com.ruoyi.common.core.web.page.TableDataInfo;
 
 /**
  * 抽取专家Controller
- * 
+ *
  * @author zhangye
  * @date 2023-11-21
  */
 @RestController
 @RequestMapping("/draw_experts")
-public class BiddingDrawExpertsController extends BaseController
-{
+public class BiddingDrawExpertsController extends BaseController {
     @Autowired
     private IBiddingDrawExpertsService biddingDrawExpertsService;
+
+
+    /**
+     * 查找当前项目下被抽取的专家
+     *
+     * @param pid
+     * @return
+     */
+    @PostMapping("/findExpertsByProjectsId")
+    public List<Map<String, Object>> findExpertsByProjectsId(String pid) {
+        return biddingDrawExpertsService.findExpertsByProjectsId(pid);
+    }
+
+    /**
+     * 抽取专家操作
+     *
+     * @param data
+     * @param tj
+     * @param zj
+     * @return
+     */
+    @PostMapping("/addDrawExperts")
+    public int addDrawExperts(String data, String tj, String zj) {
+        BiddingDrawExperts drawExperts = JSONUtil.toBean(data, BiddingDrawExperts.class);
+        List<BiddingExtractionConditions> conditions = JSONUtil.toList(tj, BiddingExtractionConditions.class);
+        List<PublicExpert> experts = JSONUtil.toList(zj, PublicExpert.class);
+
+        return biddingDrawExpertsService.addDrawExperts(drawExperts, conditions, experts);
+    }
+
 
     /**
      * 查询抽取专家列表
      */
     @RequiresPermissions("pms/bidding:draw_experts:list")
     @GetMapping("/list")
-    public TableDataInfo list(BiddingDrawExperts biddingDrawExperts)
-    {
+    public TableDataInfo list(BiddingDrawExperts biddingDrawExperts) {
         startPage();
         List<BiddingDrawExperts> list = biddingDrawExpertsService.selectBiddingDrawExpertsList(biddingDrawExperts);
         return getDataTable(list);
@@ -53,8 +86,7 @@ public class BiddingDrawExpertsController extends BaseController
     @RequiresPermissions("pms/bidding:draw_experts:export")
     @Log(title = "抽取专家", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
-    public void export(HttpServletResponse response, BiddingDrawExperts biddingDrawExperts)
-    {
+    public void export(HttpServletResponse response, BiddingDrawExperts biddingDrawExperts) {
         List<BiddingDrawExperts> list = biddingDrawExpertsService.selectBiddingDrawExpertsList(biddingDrawExperts);
         ExcelUtil<BiddingDrawExperts> util = new ExcelUtil<BiddingDrawExperts>(BiddingDrawExperts.class);
         util.exportExcel(response, list, "抽取专家数据");
@@ -65,8 +97,7 @@ public class BiddingDrawExpertsController extends BaseController
      */
     @RequiresPermissions("pms/bidding:draw_experts:query")
     @GetMapping(value = "/{drawExpertsId}")
-    public AjaxResult getInfo(@PathVariable("drawExpertsId") Long drawExpertsId)
-    {
+    public AjaxResult getInfo(@PathVariable("drawExpertsId") Long drawExpertsId) {
         return success(biddingDrawExpertsService.selectBiddingDrawExpertsByDrawExpertsId(drawExpertsId));
     }
 
@@ -76,8 +107,7 @@ public class BiddingDrawExpertsController extends BaseController
     @RequiresPermissions("pms/bidding:draw_experts:add")
     @Log(title = "抽取专家", businessType = BusinessType.INSERT)
     @PostMapping
-    public AjaxResult add(@RequestBody BiddingDrawExperts biddingDrawExperts)
-    {
+    public AjaxResult add(@RequestBody BiddingDrawExperts biddingDrawExperts) {
         return toAjax(biddingDrawExpertsService.insertBiddingDrawExperts(biddingDrawExperts));
     }
 
@@ -87,8 +117,7 @@ public class BiddingDrawExpertsController extends BaseController
     @RequiresPermissions("pms/bidding:draw_experts:edit")
     @Log(title = "抽取专家", businessType = BusinessType.UPDATE)
     @PutMapping
-    public AjaxResult edit(@RequestBody BiddingDrawExperts biddingDrawExperts)
-    {
+    public AjaxResult edit(@RequestBody BiddingDrawExperts biddingDrawExperts) {
         return toAjax(biddingDrawExpertsService.updateBiddingDrawExperts(biddingDrawExperts));
     }
 
@@ -97,9 +126,8 @@ public class BiddingDrawExpertsController extends BaseController
      */
     @RequiresPermissions("pms/bidding:draw_experts:remove")
     @Log(title = "抽取专家", businessType = BusinessType.DELETE)
-	@DeleteMapping("/{drawExpertsIds}")
-    public AjaxResult remove(@PathVariable Long[] drawExpertsIds)
-    {
+    @DeleteMapping("/{drawExpertsIds}")
+    public AjaxResult remove(@PathVariable Long[] drawExpertsIds) {
         return toAjax(biddingDrawExpertsService.deleteBiddingDrawExpertsByDrawExpertsIds(drawExpertsIds));
     }
 }

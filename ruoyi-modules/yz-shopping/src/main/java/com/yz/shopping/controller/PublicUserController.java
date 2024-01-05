@@ -36,6 +36,14 @@ public class PublicUserController extends BaseController
     private IPublicUserService publicUserService;
 
     /**
+     * 采购部登录
+     * @return
+     */
+    @PostMapping("login")
+    public PublicUser login(String username,String password){
+        return publicUserService.login(username,password);
+    }
+    /**
      * 查询用户表列表
      */
     @RequiresPermissions("pms.public:user:list")

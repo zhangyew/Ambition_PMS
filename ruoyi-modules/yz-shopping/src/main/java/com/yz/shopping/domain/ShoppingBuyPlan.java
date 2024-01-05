@@ -5,6 +5,8 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.core.annotation.Excel;
 import com.ruoyi.common.core.web.domain.BaseEntity;
 
+import java.util.List;
+
 /**
  * 采购计划表对象 shopping_buy_plan
  * 
@@ -19,16 +21,75 @@ public class ShoppingBuyPlan extends BaseEntity
     private Long buyPlanId;
 
     /** 采购计划编码（转订单编码，不需要修改） */
-    @Excel(name = "采购计划编码", readConverterExp = "转=订单编码，不需要修改")
+    @Excel(name = "采购计划编码", readConverterExp = "转订单编码，不需要修改")
     private String planClod;
 
+    public String getPlanName() {
+        return planName;
+    }
+
+    public void setPlanName(String planName) {
+        this.planName = planName;
+    }
+
+    /**
+     * 采购计划名称
+     */
+    @Excel(name = "采购计划名称")
+    private String planName;
     /** 供应商主键 */
     @Excel(name = "供应商主键")
     private Long buyPlanVendorId;
 
+    private String vendorName;
+
     /** 仓库主键 */
     @Excel(name = "仓库主键")
     private Long buyPlanWarehouseId;
+
+    private String warehouseName;
+
+    public String getVendorName() {
+        return vendorName;
+    }
+
+    public void setVendorName(String vendorName) {
+        this.vendorName = vendorName;
+    }
+
+    public String getWarehouseName() {
+        return warehouseName;
+    }
+
+    public void setWarehouseName(String warehouseName) {
+        this.warehouseName = warehouseName;
+    }
+
+    /**
+     * 采购计划物料id
+     */
+    private String buyPlanDemandId;
+
+    /**
+     * 采购计划物料
+     */
+    private List<ShoppingDemand> shoppingDemands;
+
+    public List<ShoppingDemand> getShoppingDemands() {
+        return shoppingDemands;
+    }
+
+    public void setShoppingDemands(List<ShoppingDemand> shoppingDemands) {
+        this.shoppingDemands = shoppingDemands;
+    }
+
+    public String getBuyPlanDemandId() {
+        return buyPlanDemandId;
+    }
+
+    public void setBuyPlanDemandId(String buyPlanDemandId) {
+        this.buyPlanDemandId = buyPlanDemandId;
+    }
 
     /** 采购类型 */
     @Excel(name = "采购类型")
@@ -36,7 +97,7 @@ public class ShoppingBuyPlan extends BaseEntity
 
     /** 状态 */
     @Excel(name = "状态")
-    private Long state;
+    private Long planState;
 
     /** 删除 */
     @Excel(name = "删除")
@@ -87,14 +148,14 @@ public class ShoppingBuyPlan extends BaseEntity
     {
         return buyTypeId;
     }
-    public void setState(Long state) 
+    public void setPlanState(Long planState)
     {
-        this.state = state;
+        this.planState = planState;
     }
 
-    public Long getState() 
+    public Long getPlanState()
     {
-        return state;
+        return planState;
     }
     public void setIsDelete(Long isDelete) 
     {
@@ -111,10 +172,11 @@ public class ShoppingBuyPlan extends BaseEntity
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
             .append("buyPlanId", getBuyPlanId())
             .append("planClod", getPlanClod())
+            .append("planName",getPlanName())
             .append("buyPlanVendorId", getBuyPlanVendorId())
             .append("buyPlanWarehouseId", getBuyPlanWarehouseId())
             .append("buyTypeId", getBuyTypeId())
-            .append("state", getState())
+            .append("planState", getPlanState())
             .append("createBy", getCreateBy())
             .append("createTime", getCreateTime())
             .append("updateBy", getUpdateBy())

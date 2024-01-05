@@ -1,6 +1,7 @@
 package com.ruoyi.system.api.domain;
 
 import java.util.Date;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -22,6 +23,46 @@ public class PublicVendor extends BaseEntity {
      */
     private Long vendorId;
 
+    @Override
+    public String toString() {
+        return "PublicVendor{" +
+                "vendorId=" + vendorId +
+                ", uid=" + uid +
+                ", vendorNumber='" + vendorNumber + '\'' +
+                ", abbreviated='" + abbreviated + '\'' +
+                ", level=" + level +
+                ", contractTypeTypeId=" + contractTypeTypeId +
+                ", vendorTypeStateId=" + vendorTypeStateId +
+                ", isBlacklist=" + isBlacklist +
+                ", ranges='" + ranges + '\'' +
+                ", causes='" + causes + '\'' +
+                ", warehouseAddress='" + warehouseAddress + '\'' +
+                ", profile='" + profile + '\'' +
+                ", delegates='" + delegates + '\'' +
+                ", addTime=" + addTime +
+                ", email='" + email + '\'' +
+                ", fax='" + fax + '\'' +
+                ", responsible='" + responsible + '\'' +
+                ", responsiblePhone='" + responsiblePhone + '\'' +
+                ", bankingName='" + bankingName + '\'' +
+                ", industrialCommercial='" + industrialCommercial + '\'' +
+                ", isExist=" + isExist +
+                ", isDelete=" + isDelete +
+                ", publicContacts=" + publicContacts +
+                ", publicContactsList=" + publicContactsList +
+                ", publicQualificationList=" + publicQualificationList +
+                '}';
+    }
+
+    public Long getUid() {
+        return uid;
+    }
+
+    public void setUid(Long uid) {
+        this.uid = uid;
+    }
+
+    private Long uid;
     /**
      * 供应商编号
      */
@@ -62,13 +103,13 @@ public class PublicVendor extends BaseEntity {
      * 服务范围
      */
     @Excel(name = "服务范围")
-    private String range;
+    private String ranges;
 
     /**
      * 原因
      */
     @Excel(name = "原因")
-    private String cause;
+    private String causes;
 
     /**
      * 仓库地址
@@ -120,9 +161,15 @@ public class PublicVendor extends BaseEntity {
     private String responsiblePhone;
 
     /**
-     * 工商注册号
+     * 银行名称
      */
-    @Excel(name = "工商注册号")
+    @Excel(name = "银行名称")
+    private String bankingName;
+
+    /**
+     * 银行卡号
+     */
+    @Excel(name = "银行卡号")
     private String industrialCommercial;
 
     /**
@@ -136,6 +183,57 @@ public class PublicVendor extends BaseEntity {
      */
     @Excel(name = "删除")
     private Long isDelete;
+
+    @Excel(name = "供应商联系人")
+    private PublicContacts publicContacts;
+
+    public List<PublicContacts> getPublicContactsList() {
+        return publicContactsList;
+    }
+
+    public void setPublicContactsList(List<PublicContacts> publicContactsList) {
+        this.publicContactsList = publicContactsList;
+    }
+
+    /**
+     * 供应商联系人集合
+     */
+    private List<PublicContacts> publicContactsList;
+
+    @Excel(name = "供应商资质")
+    private List<PublicQualification> publicQualificationList;
+
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
+
+    public String getBankingName() {
+        return bankingName;
+    }
+
+    public PublicVendor setBankingName(String bankingName) {
+        this.bankingName = bankingName;
+        return this;
+    }
+
+    public PublicContacts getPublicContacts() {
+        return publicContacts;
+    }
+
+    public PublicVendor setPublicContacts(PublicContacts publicContacts) {
+        this.publicContacts = publicContacts;
+        return this;
+    }
+
+    public List<PublicQualification> getPublicQualificationList() {
+        return publicQualificationList;
+    }
+
+    public PublicVendor setPublicQualificationList(List<PublicQualification> publicQualificationList) {
+        this.publicQualificationList = publicQualificationList;
+        return this;
+    }
 
     public void setVendorId(Long vendorId) {
         this.vendorId = vendorId;
@@ -193,20 +291,20 @@ public class PublicVendor extends BaseEntity {
         return isBlacklist;
     }
 
-    public void setRange(String range) {
-        this.range = range;
+    public void setRanges(String ranges) {
+        this.ranges = ranges;
     }
 
-    public String getRange() {
-        return range;
+    public String getRanges() {
+        return ranges;
     }
 
-    public void setCause(String cause) {
-        this.cause = cause;
+    public void setCauses(String causes) {
+        this.causes = causes;
     }
 
-    public String getCause() {
-        return cause;
+    public String getCauses() {
+        return causes;
     }
 
     public void setWarehouseAddress(String warehouseAddress) {
@@ -297,33 +395,4 @@ public class PublicVendor extends BaseEntity {
         return isDelete;
     }
 
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE)
-                .append("vendorId", getVendorId())
-                .append("vendorNumber", getVendorNumber())
-                .append("abbreviated", getAbbreviated())
-                .append("level", getLevel())
-                .append("contractTypeTypeId", getContractTypeTypeId())
-                .append("vendorTypeStateId", getVendorTypeStateId())
-                .append("isBlacklist", getIsBlacklist())
-                .append("range", getRange())
-                .append("cause", getCause())
-                .append("warehouseAddress", getWarehouseAddress())
-                .append("profile", getProfile())
-                .append("delegates", getDelegates())
-                .append("addTime", getAddTime())
-                .append("email", getEmail())
-                .append("fax", getFax())
-                .append("responsible", getResponsible())
-                .append("responsiblePhone", getResponsiblePhone())
-                .append("industrial Commercial", getIndustrialCommercial())
-                .append("createBy", getCreateBy())
-                .append("createTime", getCreateTime())
-                .append("updateBy", getUpdateBy())
-                .append("updateTime", getUpdateTime())
-                .append("isExist", getIsExist())
-                .append("isDelete", getIsDelete())
-                .toString();
-    }
 }

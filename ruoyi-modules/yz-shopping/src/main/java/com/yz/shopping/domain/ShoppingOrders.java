@@ -1,9 +1,17 @@
 package com.yz.shopping.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.ruoyi.system.api.domain.PublicAnnex;
+import com.ruoyi.system.api.domain.PublicVendor;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.core.annotation.Excel;
 import com.ruoyi.common.core.web.domain.BaseEntity;
+
+import java.util.Date;
+
+
+import java.util.List;
 
 /**
  * 采购订单表对象 shopping_orders
@@ -34,6 +42,16 @@ public class ShoppingOrders extends BaseEntity
     @Excel(name = "订单来源")
     private Long orderSource;
 
+    @Excel(name = "供应商联系人")
+    private Long vendorContacts;
+    public Long getVendorContacts() {
+        return vendorContacts;
+    }
+
+    public void setVendorContacts(Long vendorContacts) {
+        this.vendorContacts = vendorContacts;
+    }
+
     /** 订单编号 */
     @Excel(name = "订单编号")
     private String orderNumber;
@@ -60,7 +78,7 @@ public class ShoppingOrders extends BaseEntity
 
     /** 合同id */
     @Excel(name = "合同id")
-    private Long 合同ID;
+    private Long ordeContractId;
 
     /** 订单说明 */
     @Excel(name = "订单说明")
@@ -74,19 +92,115 @@ public class ShoppingOrders extends BaseEntity
     @Excel(name = "供应商")
     private Long orderSupplierId;
 
+    public String getVendorName() {
+        return vendorName;
+    }
+
+    public void setVendorName(String vendorName) {
+        this.vendorName = vendorName;
+    }
+
+    @Excel(name = "供应商名称")
+    private String vendorName;
+
     /** 订单物料信息 */
     @Excel(name = "订单物料信息")
-    private Long orderMaterialId;
+    private String orderMaterialId;
 
+    /**
+     * 物料集合
+     * @return
+     */
+    public List<ShoppingDemand> getShoppingDemands() {
+        return shoppingDemands;
+    }
+
+    public void setShoppingDemands(List<ShoppingDemand> shoppingDemands) {
+        this.shoppingDemands = shoppingDemands;
+    }
+
+    private List<ShoppingDemand> shoppingDemands;
     /** 字典类型外键 */
     @Excel(name = "字典类型外键")
     private Long typeOrderState;
+
+    /**
+     * 供应商端订单状态
+     */
+    private Long vendorState;
+
 
     /** 删除 */
     @Excel(name = "删除")
     private Long isDelete;
 
-    public void setOrderId(Long orderId) 
+    private List<PublicAnnex> publicAnnexs;
+
+    public List<PublicAnnex> getPublicAnnexs() {
+        return publicAnnexs;
+    }
+
+    public void setPublicAnnex(List<PublicAnnex> publicAnnexs) {
+        this.publicAnnexs = publicAnnexs;
+    }
+
+    @Override
+    public String toString() {
+        return "ShoppingOrders{" +
+                "orderId=" + orderId +
+                ", requireId=" + requireId +
+                ", buyPlanId=" + buyPlanId +
+                ", orderTitle='" + orderTitle + '\'' +
+                ", orderSource=" + orderSource +
+                ", vendorContacts=" + vendorContacts +
+                ", orderNumber='" + orderNumber + '\'' +
+                ", orderPurchaser='" + orderPurchaser + '\'' +
+                ", totalMoney=" + totalMoney +
+                ", isZt=" + isZt +
+                ", carNumber='" + carNumber + '\'' +
+                ", driverPhone='" + driverPhone + '\'' +
+                ", ordeContractId=" + ordeContractId +
+                ", orderContext='" + orderContext + '\'' +
+                ", contractdetailsAmount=" + contractdetailsAmount +
+                ", orderSupplierId=" + orderSupplierId +
+                ", vendorName='" + vendorName + '\'' +
+                ", orderMaterialId='" + orderMaterialId + '\'' +
+                ", shoppingDemands=" + shoppingDemands +
+                ", typeOrderState=" + typeOrderState +
+                ", vendorState=" + vendorState +
+                ", isDelete=" + isDelete +
+                ", publicAnnexs=" + publicAnnexs +
+                ", publicVendor=" + publicVendor +
+                ", datePlusThreeDays=" + datePlusThreeDays +
+                '}';
+    }
+
+    public Long getVendorState() {
+        return vendorState;
+    }
+
+    public void setVendorState(Long vendorState) {
+        this.vendorState = vendorState;
+    }
+
+    @Excel(name = "供应商资质")
+    private PublicVendor publicVendor;
+
+    /** 发货日期 */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private Date datePlusThreeDays;
+    public Date getDatePlusThreeDays() {return datePlusThreeDays;}
+    public void setDatePlusThreeDays(Date datePlusThreeDays) {this.datePlusThreeDays = datePlusThreeDays;}
+
+    public PublicVendor getPublicVendor() {
+        return publicVendor;
+    }
+
+    public void setPublicVendor(PublicVendor publicVendor) {
+        this.publicVendor = publicVendor;
+    }
+
+    public void setOrderId(Long orderId)
     {
         this.orderId = orderId;
     }
@@ -185,21 +299,21 @@ public class ShoppingOrders extends BaseEntity
     {
         return driverPhone;
     }
-    public void set合同ID(Long 合同ID) 
-    {
-        this.合同ID = 合同ID;
-    }
 
-    public Long get合同ID() 
-    {
-        return 合同ID;
-    }
     public void setOrderContext(String orderContext) 
     {
         this.orderContext = orderContext;
     }
 
-    public String getOrderContext() 
+    public Long getOrdeContractId() {
+        return ordeContractId;
+    }
+
+    public void setOrdeContractId(Long ordeContractId) {
+        this.ordeContractId = ordeContractId;
+    }
+
+    public String getOrderContext()
     {
         return orderContext;
     }
@@ -221,12 +335,12 @@ public class ShoppingOrders extends BaseEntity
     {
         return orderSupplierId;
     }
-    public void setOrderMaterialId(Long orderMaterialId) 
+    public void setOrderMaterialId(String orderMaterialId)
     {
         this.orderMaterialId = orderMaterialId;
     }
 
-    public Long getOrderMaterialId() 
+    public String getOrderMaterialId()
     {
         return orderMaterialId;
     }
@@ -249,31 +363,4 @@ public class ShoppingOrders extends BaseEntity
         return isDelete;
     }
 
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
-            .append("orderId", getOrderId())
-            .append("requireId", getRequireId())
-            .append("buyPlanId", getBuyPlanId())
-            .append("orderTitle", getOrderTitle())
-            .append("orderSource", getOrderSource())
-            .append("orderNumber", getOrderNumber())
-            .append("orderPurchaser", getOrderPurchaser())
-            .append("totalMoney", getTotalMoney())
-            .append("isZt", getIsZt())
-            .append("carNumber", getCarNumber())
-            .append("driverPhone", getDriverPhone())
-            .append("合同ID", get合同ID())
-            .append("orderContext", getOrderContext())
-            .append("contractdetailsAmount", getContractdetailsAmount())
-            .append("orderSupplierId", getOrderSupplierId())
-            .append("orderMaterialId", getOrderMaterialId())
-            .append("typeOrderState", getTypeOrderState())
-            .append("createBy", getCreateBy())
-            .append("createTime", getCreateTime())
-            .append("updateBy", getUpdateBy())
-            .append("updateTime", getUpdateTime())
-            .append("isDelete", getIsDelete())
-            .toString();
-    }
 }

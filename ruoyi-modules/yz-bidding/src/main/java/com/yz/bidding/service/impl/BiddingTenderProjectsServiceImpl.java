@@ -1,23 +1,73 @@
 package com.yz.bidding.service.impl;
 
 import java.util.List;
+import java.util.Map;
+
+import com.ruoyi.system.api.domain.PublicCodeRules;
+import com.ruoyi.system.api.util.SnowflakeGetId;
+import com.yz.bidding.domain.BiddingTenderManifest;
+import com.yz.bidding.mapper.BiddingTenderManifestMapper;
+import com.yz.bidding.mapper.PublicCodeRulesMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.yz.bidding.mapper.BiddingTenderProjectsMapper;
 import com.yz.bidding.domain.BiddingTenderProjects;
 import com.yz.bidding.service.IBiddingTenderProjectsService;
+import org.springframework.transaction.annotation.Transactional;
+
+import javax.annotation.Resource;
 
 /**
  * 招标项目Service业务层处理
- * 
+ *
  * @author zhangye
  * @date 2023-11-21
  */
 @Service
-public class BiddingTenderProjectsServiceImpl implements IBiddingTenderProjectsService 
-{
-    @Autowired
+@Transactional
+public class BiddingTenderProjectsServiceImpl implements IBiddingTenderProjectsService {
+    @Resource
     private BiddingTenderProjectsMapper biddingTenderProjectsMapper;
+    @Resource
+    private BiddingTenderManifestMapper manifestMapper;
+    @Resource
+    private PublicCodeRulesMapper publicCodeRulesMapper;
+//    @Resource
+//    private SnowflakeGetId snowflakeGetId;
+    @Override
+    public int updateStates(String id, String zt) {
+        return biddingTenderProjectsMapper.updateStates(id, zt);
+    }
+
+    @Override
+    public BiddingTenderProjects findProjectById(String pid) {
+        return biddingTenderProjectsMapper.findProjectById(pid);
+    }
+
+    @Override
+    public int insertProjects(BiddingTenderProjects projects, List<BiddingTenderManifest> list) {
+        int x = 0;
+        BiddingTenderProjects projects1 = projects;
+
+
+        PublicCodeRules rules = publicCodeRulesMapper.selectPublicCodeRulesByCodeRulesId(12L);
+        projects1.setTenderProjectsNumber(SnowflakeGetId.getCode(rules));
+
+
+
+
+        if (projects1.getTenderProjectsId() == null) {
+            x = biddingTenderProjectsMapper.insertBiddingTenderProjects(projects1);
+        } else {
+            x = biddingTenderProjectsMapper.updateBiddingTenderProjects(projects1);
+            x = manifestMapper.deleteByProjectId(projects1.getTenderProjectsId());
+        }
+        for (BiddingTenderManifest b : list) {
+            b.setManifestProjectsId(projects1.getTenderProjectsId());
+            x = manifestMapper.insertBiddingTenderManifest(b);
+        }
+        return x;
+    }
 
     /**
      * 查询招标项目
@@ -41,6 +91,43 @@ public class BiddingTenderProjectsServiceImpl implements IBiddingTenderProjectsS
     public List<BiddingTenderProjects> selectBiddingTenderProjectsList(BiddingTenderProjects biddingTenderProjects)
     {
         return biddingTenderProjectsMapper.selectBiddingTenderProjectsList(biddingTenderProjects);
+    }
+
+    /**
+     * 项目显示（合同签订）
+     * @param tenderProjectsNumber
+     * @return
+     */
+    @Override
+    public List<BiddingTenderProjects> agreementTenderProjects(String tenderProjectsNumber) {
+        return biddingTenderProjectsMapper.agreementTenderProjects(tenderProjectsNumber);
+    }
+
+    /**
+     * 合同签订物料信息
+     * @param tenderProjectsId
+     * @param noticeSupplierId
+     * @return
+     */
+    @Override
+    public List<BiddingTenderProjects> SHowsProjectRelatedItems(Long tenderProjectsId, Long noticeSupplierId) {
+        return biddingTenderProjectsMapper.SHowsProjectRelatedItems(tenderProjectsId, noticeSupplierId);
+    }
+
+    /**
+     * 投标单物料信息
+     * @param tenderProjectsId
+     * @param vendorId
+     * @return
+     */
+    @Override
+    public List<BiddingTenderProjects> deskShows(Long tenderNoticeId , Long tenderProjectsId, String vendorId) {
+        return biddingTenderProjectsMapper.deskShows(tenderNoticeId,tenderProjectsId, vendorId);
+    }
+
+    @Override
+    public List<Map<String,Object>> htShowVendorId(Long tenderProjectsId) {
+        return biddingTenderProjectsMapper.htShowVendorId(tenderProjectsId);
     }
 
     /**
@@ -89,5 +176,10 @@ public class BiddingTenderProjectsServiceImpl implements IBiddingTenderProjectsS
     public int deleteBiddingTenderProjectsByTenderProjectsId(Long tenderProjectsId)
     {
         return biddingTenderProjectsMapper.deleteBiddingTenderProjectsByTenderProjectsId(tenderProjectsId);
+    }
+
+    @Override
+    public Integer ProSum() {
+        return biddingTenderProjectsMapper.ProSum();
     }
 }

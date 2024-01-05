@@ -44,6 +44,16 @@ public class ShoppingDemandServiceImpl implements IShoppingDemandService
     }
 
     /**
+     * 收货单物料信息
+     * @param demandId
+     * @return
+     */
+    @Override
+    public ShoppingDemand showDemand(Long demandId) {
+        return shoppingDemandMapper.showDemand(demandId);
+    }
+
+    /**
      * 新增采购需求物料表
      * 
      * @param shoppingDemand 采购需求物料表

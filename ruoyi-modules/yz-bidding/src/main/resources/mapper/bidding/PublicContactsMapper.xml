@@ -1,65 +1,75 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
-PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yz.bidding.mapper.PublicContactsMapper">
-    
+
     <resultMap type="com.ruoyi.system.api.domain.PublicContacts" id="PublicContactsResult">
-        <result property="contactsId"    column="contacts_id"    />
-        <result property="contactsVendorId"    column="contacts_vendor_id"    />
-        <result property="call"    column="call"    />
-        <result property="job"    column="job"    />
-        <result property="division"    column="division"    />
-        <result property="phone"    column="phone"    />
-        <result property="mailbox"    column="mailbox"    />
+        <result property="contactsId" column="contacts_id"/>
+        <result property="contactsVendorId" column="contacts_vendor_id"/>
+        <result property="calls" column="calls"/>
+        <result property="job" column="job"/>
+        <result property="division" column="division"/>
+        <result property="phone" column="phone"/>
+        <result property="mailbox" column="mailbox"/>
     </resultMap>
 
     <sql id="selectPublicContactsVo">
-        select contacts_id, contacts_vendor_id, call, job, division, phone, mailbox from public_contacts
+        select contacts_id, contacts_vendor_id, calls, job, division, phone, mailbox
+        from public_contacts
     </sql>
 
-    <select id="selectPublicContactsList" parameterType="com.ruoyi.system.api.domain.PublicContacts" resultMap="PublicContactsResult">
+    <select id="selectPublicContactsList" parameterType="com.ruoyi.system.api.domain.PublicContacts"
+            resultMap="PublicContactsResult">
         <include refid="selectPublicContactsVo"/>
-        <where>  
-            <if test="contactsVendorId != null "> and contacts_vendor_id = #{contactsVendorId}</if>
-            <if test="call != null  and call != ''"> and call = #{call}</if>
-            <if test="job != null  and job != ''"> and job = #{job}</if>
-            <if test="division != null  and division != ''"> and division = #{division}</if>
-            <if test="phone != null  and phone != ''"> and phone = #{phone}</if>
-            <if test="mailbox != null  and mailbox != ''"> and mailbox = #{mailbox}</if>
+        <where>
+            <if test="contactsVendorId != null ">and contacts_vendor_id = #{contactsVendorId}</if>
+            <if test="calls != null  and calls != ''">and calls = #{calls}</if>
+            <if test="job != null  and job != ''">and job = #{job}</if>
+            <if test="division != null  and division != ''">and division = #{division}</if>
+            <if test="phone != null  and phone != ''">and phone = #{phone}</if>
+            <if test="mailbox != null  and mailbox != ''">and mailbox = #{mailbox}</if>
         </where>
     </select>
-    
+
     <select id="selectPublicContactsByContactsId" parameterType="Long" resultMap="PublicContactsResult">
         <include refid="selectPublicContactsVo"/>
         where contacts_id = #{contactsId}
     </select>
-        
-    <insert id="insertPublicContacts" parameterType="com.ruoyi.system.api.domain.PublicContacts" useGeneratedKeys="true" keyProperty="contactsId">
+    <select id="findVendorContactById" resultMap="PublicContactsResult">
+        select c.*
+        from public_vendor v
+                 inner join public_contacts c
+                            on v.vendor_id = c.contacts_vendor_id
+        where v.vendor_id = #{vid}
+    </select>
+
+    <insert id="insertPublicContacts" parameterType="com.ruoyi.system.api.domain.PublicContacts" useGeneratedKeys="true"
+            keyProperty="contactsId">
         insert into public_contacts
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="contactsVendorId != null">contacts_vendor_id,</if>
-            <if test="call != null">call,</if>
-            <if test="job != null">job,</if>
-            <if test="division != null">division,</if>
-            <if test="phone != null">phone,</if>
-            <if test="mailbox != null">mailbox,</if>
-         </trim>
+            <if test="contactsVendorId != null and contactsVendorId != ''">contacts_vendor_id,</if>
+            <if test="calls != null  and calls != ''">calls,</if>
+            <if test="job != null  and job != ''">job,</if>
+            <if test="division != null  and division != ''">division,</if>
+            <if test="phone != null  and phone != ''">phone,</if>
+            <if test="mailbox != null  and mailbox != ''">mailbox,</if>
+        </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="contactsVendorId != null">#{contactsVendorId},</if>
-            <if test="call != null">#{call},</if>
-            <if test="job != null">#{job},</if>
-            <if test="division != null">#{division},</if>
-            <if test="phone != null">#{phone},</if>
-            <if test="mailbox != null">#{mailbox},</if>
-         </trim>
+            <if test="contactsVendorId != null  and contactsVendorId != ''">#{contactsVendorId},</if>
+            <if test="calls != null  and calls != ''">#{calls},</if>
+            <if test="job != null  and job != ''">#{job},</if>
+            <if test="division != null  and division != ''">#{division},</if>
+            <if test="phone != null  and phone != ''">#{phone},</if>
+            <if test="mailbox != null  and mailbox != ''">#{mailbox},</if>
+        </trim>
     </insert>
 
     <update id="updatePublicContacts" parameterType="com.ruoyi.system.api.domain.PublicContacts">
         update public_contacts
         <trim prefix="SET" suffixOverrides=",">
             <if test="contactsVendorId != null">contacts_vendor_id = #{contactsVendorId},</if>
-            <if test="call != null">call = #{call},</if>
+            <if test="calls != null">calls = #{calls},</if>
             <if test="job != null">job = #{job},</if>
             <if test="division != null">division = #{division},</if>
             <if test="phone != null">phone = #{phone},</if>
@@ -69,11 +79,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </update>
 
     <delete id="deletePublicContactsByContactsId" parameterType="Long">
-        delete from public_contacts where contacts_id = #{contactsId}
+        delete
+        from public_contacts
+        where contacts_id = #{contactsId}
     </delete>
 
     <delete id="deletePublicContactsByContactsIds" parameterType="String">
-        delete from public_contacts where contacts_id in 
+        delete from public_contacts where contacts_id in
         <foreach item="contactsId" collection="array" open="(" separator="," close=")">
             #{contactsId}
         </foreach>

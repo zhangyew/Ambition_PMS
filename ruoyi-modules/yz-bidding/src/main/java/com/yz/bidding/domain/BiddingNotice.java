@@ -24,6 +24,10 @@ public class BiddingNotice extends BaseEntity
     @Excel(name = "招标公告ID")
     private Long tenderNoticeId;
 
+    /** 公示编号 */
+    @Excel(name = "公示编号")
+    private String noticeClod;
+
     /** 公告日期 */
     @JsonFormat(pattern = "yyyy-MM-dd")
     @Excel(name = "公告日期", width = 30, dateFormat = "yyyy-MM-dd")
@@ -40,6 +44,58 @@ public class BiddingNotice extends BaseEntity
     /** 公告内容 */
     @Excel(name = "公告内容")
     private String noticeContext;
+
+    @Excel(name = "招标项目外键")
+    private Long noticeProjectId;
+
+    public Long getNoticeProjectId() {
+        return noticeProjectId;
+    }
+
+    public void setNoticeProjectId(Long noticeProjectId) {
+        this.noticeProjectId = noticeProjectId;
+    }
+
+    public String getVendorName() {
+        return vendorName;
+    }
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
+
+    public String getNoticeClod() {
+        return noticeClod;
+    }
+
+    public BiddingNotice setNoticeClod(String noticeClod) {
+        this.noticeClod = noticeClod;
+        return this;
+    }
+
+    @Override
+    public String toString() {
+        return "BiddingNotice{" +
+                "noticeId=" + noticeId +
+                ", tenderNoticeId=" + tenderNoticeId +
+                ", noticeDate=" + noticeDate +
+                ", noticeClod=" + noticeClod +
+                ", buyer='" + buyer + '\'' +
+                ", noticeTitle='" + noticeTitle + '\'' +
+                ", noticeContext='" + noticeContext + '\'' +
+                ", vendorName='" + vendorName + '\'' +
+                ", bidMoney=" + bidMoney +
+                ", noticeProjectId=" + noticeProjectId +
+                ", noticeSupplierId=" + noticeSupplierId +
+                '}';
+    }
+
+    public void setVendorName(String vendorName) {
+        this.vendorName = vendorName;
+    }
+
+    @Excel(name = "供应商")
+    private String vendorName;
 
     /** 中标金额 */
     @Excel(name = "中标金额")
@@ -122,17 +178,4 @@ public class BiddingNotice extends BaseEntity
         return noticeSupplierId;
     }
 
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
-            .append("noticeId", getNoticeId())
-            .append("tenderNoticeId", getTenderNoticeId())
-            .append("noticeDate", getNoticeDate())
-            .append("buyer", getBuyer())
-            .append("noticeTitle", getNoticeTitle())
-            .append("noticeContext", getNoticeContext())
-            .append("bidMoney", getBidMoney())
-            .append("noticeSupplierId", getNoticeSupplierId())
-            .toString();
-    }
 }

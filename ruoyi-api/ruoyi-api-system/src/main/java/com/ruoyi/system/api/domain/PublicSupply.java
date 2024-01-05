@@ -5,6 +5,9 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.core.annotation.Excel;
 import com.ruoyi.common.core.web.domain.BaseEntity;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * 供应商供货表对象 public_supply
  *
@@ -42,6 +45,21 @@ public class PublicSupply extends BaseEntity {
      */
     @Excel(name = "删除")
     private Long isDelete;
+
+    private List<Map<String,Object>> suppliedMaterialsList;
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
+
+    public List<Map<String, Object>> getSuppliedMaterialsList() {
+        return suppliedMaterialsList;
+    }
+
+    public PublicSupply setSuppliedMaterialsList(List<Map<String, Object>> suppliedMaterialsList) {
+        this.suppliedMaterialsList = suppliedMaterialsList;
+        return this;
+    }
 
     public void setSupplyId(Long supplyId) {
         this.supplyId = supplyId;

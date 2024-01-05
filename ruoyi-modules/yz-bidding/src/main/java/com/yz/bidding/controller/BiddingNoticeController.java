@@ -3,9 +3,13 @@ package com.yz.bidding.controller;
 import java.util.ArrayList;
 import java.util.List;
 import java.io.IOException;
+import java.util.Map;
 import javax.servlet.http.HttpServletResponse;
 
+import cn.hutool.json.JSONUtil;
 import com.ruoyi.system.api.domain.PublicAnnex;
+import com.ruoyi.system.api.util.MsgManager;
+import com.yz.bidding.domain.BiddingTender;
 import com.yz.bidding.service.IPublicAnnexService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -40,16 +44,79 @@ public class BiddingNoticeController extends BaseController {
     @Autowired
     private IPublicAnnexService publicAnnexService;
 
+
+    /**
+     * 查询供应商公告信息
+     *
+     * @param id
+     * @return
+     */
+    @PostMapping("/findNotice")
+    public List<Map<String, Object>> findNotice(String vid) {
+        return biddingNoticeService.findNotice(vid);
+    }
+
+    /**
+     * 查找项目下需要发送招标通知的集合
+     *
+     * @param id
+     * @return
+     */
+    @PostMapping("/findNoticeTenderById")
+    public List<Map<String, Object>> findNoticeTenderById(String id) {
+        return biddingNoticeService.findNoticeTenderById(id);
+    }
+
+    /**
+     * 查询项目下的中标结果公示
+     *
+     * @param id
+     * @return
+     */
+    @PostMapping("/findNoticeAllById")
+    public List<BiddingNotice> findNoticeAllById(String id) {
+        return biddingNoticeService.findNoticeAllById(id);
+    }
+
+    /**
+     * 添加中标公告
+     *
+     * @param notice
+     * @return
+     */
+    @PostMapping("/updateNotice")
+    public int updateNotice(String notice) {
+        List<BiddingNotice> biddingNotice = JSONUtil.toList(notice, BiddingNotice.class);
+        return biddingNoticeService.updateNotice(biddingNotice);
+    }
+
+    /**
+     * 添加中标公告
+     *
+     * @param notice
+     * @return
+     */
+    @PostMapping("/addNotice")
+    public int addNotice(String notice) {
+        List<BiddingTender> biddingNotice = JSONUtil.toList(notice, BiddingTender.class);
+        return biddingNoticeService.addNotice(biddingNotice);
+    }
+
     /**
      * 查询中标公告列表
      */
-    @RequiresPermissions("pms2/bidding:notice:list")
     @GetMapping("/list")
     public TableDataInfo list(BiddingNotice biddingNotice) {
         List<PublicAnnex> l = publicAnnexService.selectPublicAnnexList(null);
         System.out.println(l.size());
         startPage();
         List<BiddingNotice> list = biddingNoticeService.selectBiddingNoticeList(biddingNotice);
+        return getDataTable(list);
+    }
+
+    @GetMapping("/selAll")
+    public TableDataInfo selAll() {
+        List<BiddingNotice> list = biddingNoticeService.selAll();
         return getDataTable(list);
     }
 
@@ -68,7 +135,6 @@ public class BiddingNoticeController extends BaseController {
     /**
      * 获取中标公告详细信息
      */
-    @RequiresPermissions("pms2/bidding:notice:query")
     @GetMapping(value = "/{noticeId}")
     public AjaxResult getInfo(@PathVariable("noticeId") Long noticeId) {
         return success(biddingNoticeService.selectBiddingNoticeByNoticeId(noticeId));
@@ -77,7 +143,6 @@ public class BiddingNoticeController extends BaseController {
     /**
      * 新增中标公告
      */
-    @RequiresPermissions("pms2/bidding:notice:add")
     @Log(title = "中标公告", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody BiddingNotice biddingNotice) {
@@ -87,7 +152,6 @@ public class BiddingNoticeController extends BaseController {
     /**
      * 修改中标公告
      */
-    @RequiresPermissions("pms2/bidding:notice:edit")
     @Log(title = "中标公告", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody BiddingNotice biddingNotice) {

@@ -1,6 +1,8 @@
 package com.yz.bidding.service;
 
 import java.util.List;
+import java.util.Map;
+
 import com.ruoyi.system.api.domain.PublicQualification;
 
 /**
@@ -11,6 +13,15 @@ import com.ruoyi.system.api.domain.PublicQualification;
  */
 public interface IPublicQualificationService 
 {
+
+    /**
+     * 查询供应商证件及文件
+     *
+     * @param vid
+     * @return
+     */
+    public List<Map<String, Object>> findQualificationAnnexByVendorId(String vid);
+
     /**
      * 查询供应商资质
      * 

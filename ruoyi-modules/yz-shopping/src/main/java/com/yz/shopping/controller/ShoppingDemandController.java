@@ -1,8 +1,12 @@
 package com.yz.shopping.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.io.IOException;
 import javax.servlet.http.HttpServletResponse;
+
+import com.alibaba.fastjson.JSON;
+import com.ruoyi.system.api.domain.PublicReceipt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -63,18 +67,27 @@ public class ShoppingDemandController extends BaseController
     /**
      * 获取采购需求物料表详细信息
      */
-    @RequiresPermissions("pms/shopping:demand:query")
     @GetMapping(value = "/{demandId}")
     public AjaxResult getInfo(@PathVariable("demandId") Long demandId)
     {
         return success(shoppingDemandService.selectShoppingDemandByDemandId(demandId));
     }
 
+
+    /**
+     * 收货单物料信息
+     */
+//    @RequiresPermissions("shopping/public:demand:query")
+    @GetMapping(value = "/showDemand/{demandId}")
+    public AjaxResult showDemand(@PathVariable("demandId")Long demandId)
+    {
+        System.out.println("收货单物料信息："+demandId);
+        return success(shoppingDemandService.showDemand(demandId));
+    }
+
     /**
      * 新增采购需求物料表
      */
-    @RequiresPermissions("pms/shopping:demand:add")
-    @Log(title = "采购需求物料表", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody ShoppingDemand shoppingDemand)
     {
@@ -84,7 +97,6 @@ public class ShoppingDemandController extends BaseController
     /**
      * 修改采购需求物料表
      */
-    @RequiresPermissions("pms/shopping:demand:edit")
     @Log(title = "采购需求物料表", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody ShoppingDemand shoppingDemand)

@@ -1,67 +1,199 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
-PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yz.shopping.mapper.ShoppingOrdersMapper">
-    
-    <resultMap type="ShoppingOrders" id="ShoppingOrdersResult">
-        <result property="orderId"    column="order_id"    />
-        <result property="requireId"    column="require_id"    />
-        <result property="buyPlanId"    column="buy_plan_id"    />
-        <result property="orderTitle"    column="order_title"    />
-        <result property="orderSource"    column="order_source"    />
-        <result property="orderNumber"    column="order_number"    />
-        <result property="orderPurchaser"    column="order_purchaser"    />
-        <result property="totalMoney"    column="total_money"    />
-        <result property="isZt"    column="is_zt"    />
-        <result property="carNumber"    column="car_number"    />
-        <result property="driverPhone"    column="driver_phone"    />
-        <result property="合同ID"    column="合同ID"    />
-        <result property="orderContext"    column="order_context"    />
-        <result property="contractdetailsAmount"    column="contractdetails_amount"    />
-        <result property="orderSupplierId"    column="order_supplier_id"    />
-        <result property="orderMaterialId"    column="order_material_id"    />
-        <result property="typeOrderState"    column="type_order_state"    />
-        <result property="createBy"    column="create_by"    />
-        <result property="createTime"    column="create_time"    />
-        <result property="updateBy"    column="update_by"    />
-        <result property="updateTime"    column="update_time"    />
-        <result property="isDelete"    column="is_delete"    />
+
+    <resultMap type="com.yz.shopping.domain.ShoppingOrders" id="ShoppingOrdersResult">
+        <result property="orderId" column="order_id"/>
+        <result property="requireId" column="require_id"/>
+        <result property="buyPlanId" column="buy_plan_id"/>
+        <result property="orderTitle" column="order_title"/>
+        <result property="orderSource" column="order_source"/>
+        <result property="orderNumber" column="order_number"/>
+        <result property="orderPurchaser" column="order_purchaser"/>
+        <result property="totalMoney" column="total_money"/>
+        <result property="isZt" column="is_zt"/>
+        <result property="carNumber" column="car_number"/>
+        <result property="driverPhone" column="driver_phone"/>
+        <result property="ordeContractId" column="orde_contract_id"/>
+        <result property="orderContext" column="order_context"/>
+        <result property="contractdetailsAmount" column="contractdetails_amount"/>
+        <result property="orderSupplierId" column="order_supplier_id"/>
+        <result property="vendorContacts" column="vendor_contacts"/>
+        <result property="orderMaterialId" column="order_material_id"/>
+        <result property="typeOrderState" column="type_order_state"/>
+        <result property="vendorState" column="vendor_state"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="isDelete" column="is_delete"/>
+        <result property="vendorName" column="abbreviated"/>
+    </resultMap>
+
+    <resultMap type="com.yz.shopping.domain.ShoppingOrders" id="ShowsOrdersResult">
+        <result property="orderId" column="order_id"/>
+        <result property="requireId" column="require_id"/>
+        <result property="buyPlanId" column="buy_plan_id"/>
+        <result property="orderTitle" column="order_title"/>
+        <result property="orderSource" column="order_source"/>
+        <result property="orderNumber" column="order_number"/>
+        <result property="orderPurchaser" column="order_purchaser"/>
+        <result property="totalMoney" column="total_money"/>
+        <result property="isZt" column="is_zt"/>
+        <result property="carNumber" column="car_number"/>
+        <result property="driverPhone" column="driver_phone"/>
+        <result property="ordeContractId" column="orde_contract_id"/>
+        <result property="orderContext" column="order_context"/>
+        <result property="contractdetailsAmount" column="contractdetails_amount"/>
+        <result property="orderSupplierId" column="order_supplier_id"/>
+        <result property="vendorContacts" column="vendor_contacts"/>
+        <result property="orderMaterialId" column="order_material_id"/>
+        <result property="typeOrderState" column="type_order_state"/>
+        <result property="vendorState" column="vendor_state"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="isDelete" column="is_delete"/>
+        <result property="datePlusThreeDays" column="DatePlusThreeDays"/>
+        <collection property="publicAnnexs" ofType="com.ruoyi.system.api.domain.PublicAnnex">
+            <result property="annexId" column="annex_id"/>
+            <result property="annexTypeId" column="annex_type_id"/>
+            <result property="annexText" column="annex_text"/>
+            <result property="annexUrl" column="annex_url"/>
+            <result property="upTime" column="up_time"/>
+            <result property="annexTitle" column="annex_title"/>
+        </collection>
+        <collection property="publicVendor" ofType="com.ruoyi.system.api.domain.PublicVendor">
+            <result property="vendorId" column="vendor_id"/>
+            <result property="vendorNumber" column="vendor_number"/>
+            <result property="abbreviated" column="abbreviated"/>
+            <result property="contractTypeTypeId" column="contract_type_type_id"/>
+            <result property="vendorTypeStateId" column="vendor_type_state_id"/>
+            <result property="isBlacklist" column="is_blacklist"/>
+            <result property="ranges" column="ranges"/>
+            <result property="causes" column="causes"/>
+            <result property="warehouseAddress" column="warehouse_address"/>
+            <result property="profile" column="profile"/>
+            <result property="delegates" column="delegates"/>
+            <result property="addTime" column="add_time"/>
+            <result property="email" column="email"/>
+            <result property="fax" column="fax"/>
+            <result property="responsible" column="responsible"/>
+            <result property="responsiblePhone" column="responsible_phone"/>
+            <result property="bankingName" column="banking_name"/>
+            <result property="industrialCommercial" column="industrial_commercial"/>
+            <result property="createBy" column="create_by"/>
+            <result property="createTime" column="create_time"/>
+            <result property="updateBy" column="update_by"/>
+            <result property="updateTime" column="update_time"/>
+            <result property="isExist" column="is_exist"/>
+            <result property="isDelete" column="is_delete"/>
+        </collection>
     </resultMap>
 
     <sql id="selectShoppingOrdersVo">
-        select order_id, require_id, buy_plan_id, order_title, order_source, order_number, order_purchaser, total_money, is_zt, car_number, driver_phone, 合同ID, order_context, contractdetails_amount, order_supplier_id, order_material_id, type_order_state, create_by, create_time, update_by, update_time, is_delete from shopping_orders
+        select order_id,
+               require_id,
+               buy_plan_id,
+               order_title,
+               order_source,
+               order_number,
+               order_purchaser,
+               total_money,
+               is_zt,
+               car_number,
+               driver_phone,
+               orde_contract_id,
+               order_context,
+               contractdetails_amount,
+               order_supplier_id,
+               vendor_contacts,
+               order_material_id,
+               type_order_state,
+               vendor_state,
+               create_by,
+               create_time,
+               update_by,
+               update_time,
+               is_delete,
+               vendorName
+        from shopping_orders
     </sql>
 
-    <select id="selectShoppingOrdersList" parameterType="ShoppingOrders" resultMap="ShoppingOrdersResult">
-        <include refid="selectShoppingOrdersVo"/>
-        <where>  
-            <if test="requireId != null "> and require_id = #{requireId}</if>
-            <if test="buyPlanId != null "> and buy_plan_id = #{buyPlanId}</if>
-            <if test="orderTitle != null  and orderTitle != ''"> and order_title = #{orderTitle}</if>
-            <if test="orderSource != null "> and order_source = #{orderSource}</if>
-            <if test="orderNumber != null  and orderNumber != ''"> and order_number = #{orderNumber}</if>
-            <if test="orderPurchaser != null  and orderPurchaser != ''"> and order_purchaser = #{orderPurchaser}</if>
-            <if test="totalMoney != null "> and total_money = #{totalMoney}</if>
-            <if test="isZt != null "> and is_zt = #{isZt}</if>
-            <if test="carNumber != null  and carNumber != ''"> and car_number = #{carNumber}</if>
-            <if test="driverPhone != null  and driverPhone != ''"> and driver_phone = #{driverPhone}</if>
-            <if test="合同ID != null "> and 合同ID = #{合同ID}</if>
-            <if test="orderContext != null  and orderContext != ''"> and order_context = #{orderContext}</if>
-            <if test="contractdetailsAmount != null "> and contractdetails_amount = #{contractdetailsAmount}</if>
-            <if test="orderSupplierId != null "> and order_supplier_id = #{orderSupplierId}</if>
-            <if test="orderMaterialId != null "> and order_material_id = #{orderMaterialId}</if>
-            <if test="typeOrderState != null "> and type_order_state = #{typeOrderState}</if>
-            <if test="isDelete != null "> and is_delete = #{isDelete}</if>
+    <select id="selectShoppingOrdersList" parameterType="com.yz.shopping.domain.ShoppingOrders"
+            resultMap="ShoppingOrdersResult">
+        SELECT a.*,b.abbreviated,b.vendor_id FROM `shopping_orders`a inner join public_vendor b on
+        a.order_supplier_id=b.vendor_id
+        <where>
+            <if test="orderTitle != null  and orderTitle != ''">and order_title like concat('%', #{orderTitle}, '%')
+            </if>
+            <if test="orderNumber != null  and orderNumber != ''">and order_number like concat('%', #{orderNumber},
+                '%')
+            </if>
+            <if test="orderSource != null ">and order_source = #{orderSource}</if>
+            <if test="typeOrderState != null ">and type_order_state = #{typeOrderState}</if>
         </where>
+        order by a.create_time desc
     </select>
-    
+
     <select id="selectShoppingOrdersByOrderId" parameterType="Long" resultMap="ShoppingOrdersResult">
-        <include refid="selectShoppingOrdersVo"/>
-        where order_id = #{orderId}
+        SELECT a.*, b.abbreviated, b.vendor_id, c.*
+        FROM `shopping_orders` a
+                 inner join public_vendor b on a.order_supplier_id = b.vendor_id
+                 inner join public_annex c on a.order_id = c.supply_id
+        where c.annex_type_id = 5
+          and a.order_id = #{orderId}
     </select>
-        
-    <insert id="insertShoppingOrders" parameterType="ShoppingOrders" useGeneratedKeys="true" keyProperty="orderId">
+
+    <!--    供应商首页（我的订单）-->
+    <select id="showOrderSupplierId" resultMap="ShoppingOrdersResult">
+        SELECT a.*, b.abbreviated, b.vendor_id
+        FROM `shopping_orders` a
+                 inner join public_vendor b on
+            a.order_supplier_id = b.vendor_id
+        WHERE order_source = 2
+          and order_supplier_id = #{oSupplierId}
+    </select>
+
+    <!--    收货单（详情显示）-->
+    <select id="showsDetailsReceipt" resultMap="ShowsOrdersResult">
+        SELECT DATE_ADD(ord.create_time, INTERVAL 3 DAY) AS DatePlusThreeDays,
+               order_material_id,
+               ord.total_money,
+               order_purchaser,
+               order_supplier_id,
+               ve.abbreviated,
+               ve.responsible,
+               ve.responsible_phone,
+               ord.type_order_state
+        FROM shopping_orders AS ord
+                 INNER JOIN public_vendor AS ve ON (ord.order_supplier_id = ve.vendor_id)
+                 INNER JOIN shopping_demand AS de ON (ord.order_material_id = de.demand_id)
+        WHERE ord.order_id = #{orderId}
+          AND ord.is_delete = 0
+          AND ve.is_delete = 0
+    </select>
+    <select id="showOO" resultMap="ShoppingOrdersResult">
+        SELECT a.*, b.abbreviated, b.vendor_id
+        FROM `shopping_orders` a
+                 inner join public_vendor b on
+            a.order_supplier_id = b.vendor_id
+        where a.type_order_state = 4
+        order by a.create_time desc LIMIT 5
+    </select>
+    <select id="OrderSum" resultType="java.lang.Integer">
+        SELECT sum(total_money) FROM `shopping_orders` WHERE type_order_state !=3
+
+    </select>
+
+
+    <insert id="insertShoppingOrders"
+            parameterType="com.yz.shopping.domain.ShoppingOrders"
+            useGeneratedKeys="true"
+            keyProperty="orderId">
         insert into shopping_orders
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="requireId != null">require_id,</if>
@@ -74,18 +206,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="isZt != null">is_zt,</if>
             <if test="carNumber != null">car_number,</if>
             <if test="driverPhone != null">driver_phone,</if>
-            <if test="合同ID != null">合同ID,</if>
+            <if test="ordeContractId!= null">orde_contract_id,</if>
             <if test="orderContext != null">order_context,</if>
             <if test="contractdetailsAmount != null">contractdetails_amount,</if>
             <if test="orderSupplierId != null">order_supplier_id,</if>
+            <if test="vendorContacts != null">vendor_contacts,</if>
             <if test="orderMaterialId != null">order_material_id,</if>
             <if test="typeOrderState != null">type_order_state,</if>
+            <if test="vendorState != null">vendor_state,</if>
             <if test="createBy != null">create_by,</if>
             <if test="createTime != null">create_time,</if>
             <if test="updateBy != null">update_by,</if>
             <if test="updateTime != null">update_time,</if>
             <if test="isDelete != null">is_delete,</if>
-         </trim>
+        </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="requireId != null">#{requireId},</if>
             <if test="buyPlanId != null">#{buyPlanId},</if>
@@ -97,21 +231,23 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="isZt != null">#{isZt},</if>
             <if test="carNumber != null">#{carNumber},</if>
             <if test="driverPhone != null">#{driverPhone},</if>
-            <if test="合同ID != null">#{合同ID},</if>
+            <if test="ordeContractId!= null">#{ordeContractId},</if>
             <if test="orderContext != null">#{orderContext},</if>
             <if test="contractdetailsAmount != null">#{contractdetailsAmount},</if>
             <if test="orderSupplierId != null">#{orderSupplierId},</if>
+            <if test="vendorContacts != null">#{vendorContacts},</if>
             <if test="orderMaterialId != null">#{orderMaterialId},</if>
             <if test="typeOrderState != null">#{typeOrderState},</if>
+            <if test="vendorState != null">#{vendorState},</if>
             <if test="createBy != null">#{createBy},</if>
             <if test="createTime != null">#{createTime},</if>
             <if test="updateBy != null">#{updateBy},</if>
             <if test="updateTime != null">#{updateTime},</if>
             <if test="isDelete != null">#{isDelete},</if>
-         </trim>
+        </trim>
     </insert>
 
-    <update id="updateShoppingOrders" parameterType="ShoppingOrders">
+    <update id="updateShoppingOrders" parameterType="com.yz.shopping.domain.ShoppingOrders">
         update shopping_orders
         <trim prefix="SET" suffixOverrides=",">
             <if test="requireId != null">require_id = #{requireId},</if>
@@ -124,12 +260,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="isZt != null">is_zt = #{isZt},</if>
             <if test="carNumber != null">car_number = #{carNumber},</if>
             <if test="driverPhone != null">driver_phone = #{driverPhone},</if>
-            <if test="合同ID != null">合同ID = #{合同ID},</if>
+            <if test="ordeContractId!= null">orde_contract_id = #{ordeContractId},</if>
             <if test="orderContext != null">order_context = #{orderContext},</if>
             <if test="contractdetailsAmount != null">contractdetails_amount = #{contractdetailsAmount},</if>
             <if test="orderSupplierId != null">order_supplier_id = #{orderSupplierId},</if>
+            <if test="vendorContacts != null">vendor_contacts = #{vendorContacts},</if>
             <if test="orderMaterialId != null">order_material_id = #{orderMaterialId},</if>
             <if test="typeOrderState != null">type_order_state = #{typeOrderState},</if>
+            <if test="vendorState != null">vendor_state = #{vendorState},</if>
             <if test="createBy != null">create_by = #{createBy},</if>
             <if test="createTime != null">create_time = #{createTime},</if>
             <if test="updateBy != null">update_by = #{updateBy},</if>
@@ -138,13 +276,37 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </trim>
         where order_id = #{orderId}
     </update>
+    <update id="updateExamine" parameterType="com.yz.shopping.domain.ShoppingOrders">
+        update shopping_orders
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="typeOrderState != null">type_order_state = #{typeOrderState},</if>
+        </trim>
+        where order_id = #{orderId}
+    </update>
+
+    <!--    待收货单   -->
+    <update id="updateOrderState" parameterType="com.yz.shopping.domain.ShoppingOrders">
+        UPDATE shopping_orders
+        SET type_order_state=5
+        WHERE order_id = #{orderId};
+    </update>
+    <update id="updateExamine1" parameterType="com.yz.shopping.domain.ShoppingOrders">
+        update shopping_orders
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="vendorState != null">vendor_state = #{vendorState},</if>
+        </trim>
+        where order_id = #{orderId}
+    </update>
+
 
     <delete id="deleteShoppingOrdersByOrderId" parameterType="Long">
-        delete from shopping_orders where order_id = #{orderId}
+        delete
+        from shopping_orders
+        where order_id = #{orderId}
     </delete>
 
     <delete id="deleteShoppingOrdersByOrderIds" parameterType="String">
-        delete from shopping_orders where order_id in 
+        delete from shopping_orders where order_id in
         <foreach item="orderId" collection="array" open="(" separator="," close=")">
             #{orderId}
         </foreach>

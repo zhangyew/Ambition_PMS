@@ -1,7 +1,11 @@
 package com.yz.bidding.mapper;
 
 import java.util.List;
+import java.util.Map;
+
+import com.ruoyi.system.api.domain.PublicVendor;
 import com.yz.bidding.domain.BiddingTenderProjects;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * 招标项目Mapper接口
@@ -11,6 +15,22 @@ import com.yz.bidding.domain.BiddingTenderProjects;
  */
 public interface BiddingTenderProjectsMapper 
 {
+
+    /**
+     * 修改招标项目审核状态
+     * @param id
+     * @param zt
+     * @return
+     */
+    public int updateStates(@Param("id") String id,@Param("zt") String zt);
+    Integer ProSum();
+    /**
+     * 查询招标项目详情
+     * @param pid
+     * @return
+     */
+    public BiddingTenderProjects findProjectById(String pid);
+
     /**
      * 查询招标项目
      * 
@@ -26,6 +46,32 @@ public interface BiddingTenderProjectsMapper
      * @return 招标项目集合
      */
     public List<BiddingTenderProjects> selectBiddingTenderProjectsList(BiddingTenderProjects biddingTenderProjects);
+
+    /**
+     * 项目显示（合同签订）
+     * @param tenderProjectsNumber
+     * @return
+     */
+    public List<BiddingTenderProjects> agreementTenderProjects(String tenderProjectsNumber);
+
+    /**
+     * 合同签订物料信息
+     * @param tenderProjectsId
+     * @param noticeSupplierId
+     * @return
+     */
+    public List<BiddingTenderProjects> SHowsProjectRelatedItems(@Param("tenderProjectsId") Long tenderProjectsId,@Param("noticeSupplierId")Long noticeSupplierId);
+
+    /**
+     * 投标单物料信息
+     * @param tenderProjectsId
+     * @param vendorId
+     * @return
+     */
+    public List<BiddingTenderProjects> deskShows(@Param("tenderNoticeId") Long tenderNoticeId,@Param("tenderProjectsId") Long tenderProjectsId,@Param("vendorId")String vendorId);
+
+    public List<Map<String,Object>> htShowVendorId(@Param("tenderProjectsId")Long tenderProjectsId);
+
 
     /**
      * 新增招标项目

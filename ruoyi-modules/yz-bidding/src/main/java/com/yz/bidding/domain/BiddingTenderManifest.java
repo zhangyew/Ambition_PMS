@@ -44,7 +44,7 @@ public class BiddingTenderManifest extends BaseEntity
 
     /** 需求 */
     @Excel(name = "需求")
-    private String explain;
+    private String explains;
 
     /** 删除 */
     @Excel(name = "删除")
@@ -113,14 +113,14 @@ public class BiddingTenderManifest extends BaseEntity
     {
         return prices;
     }
-    public void setExplain(String explain) 
+    public void setExplains(String explain)
     {
-        this.explain = explain;
+        this.explains = explain;
     }
 
-    public String getExplain() 
+    public String getExplains()
     {
-        return explain;
+        return explains;
     }
     public void setIsDelete(Long isDelete) 
     {
@@ -142,7 +142,7 @@ public class BiddingTenderManifest extends BaseEntity
             .append("manifestTypeId", getManifestTypeId())
             .append("price", getPrice())
             .append("prices", getPrices())
-            .append("explain", getExplain())
+            .append("explain", getExplains())
             .append("remark", getRemark())
             .append("isDelete", getIsDelete())
             .toString();

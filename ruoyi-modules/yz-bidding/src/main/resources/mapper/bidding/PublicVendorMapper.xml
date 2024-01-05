@@ -1,69 +1,247 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
-PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yz.bidding.mapper.PublicVendorMapper">
-    
+
     <resultMap type="com.ruoyi.system.api.domain.PublicVendor" id="PublicVendorResult">
-        <result property="vendorId"    column="vendor_id"    />
-        <result property="vendorNumber"    column="vendor_number"    />
-        <result property="abbreviated"    column="abbreviated"    />
-        <result property="contractTypeTypeId"    column="contract_type_type_id"    />
-        <result property="vendorTypeStateId"    column="vendor_type_state_id"    />
-        <result property="isBlacklist"    column="is_blacklist"    />
-        <result property="range"    column="range"    />
-        <result property="cause"    column="cause"    />
-        <result property="warehouseAddress"    column="warehouse_address"    />
-        <result property="profile"    column="profile"    />
-        <result property="delegates"    column="delegates"    />
-        <result property="addTime"    column="add_time"    />
-        <result property="email"    column="email"    />
-        <result property="fax"    column="fax"    />
-        <result property="responsible"    column="responsible"    />
-        <result property="responsiblePhone"    column="responsible_phone"    />
-        <result property="industrialCommercial"    column="industrial_commercial"    />
-        <result property="createBy"    column="create_by"    />
-        <result property="createTime"    column="create_time"    />
-        <result property="updateBy"    column="update_by"    />
-        <result property="updateTime"    column="update_time"    />
-        <result property="isExist"    column="is_exist"    />
-        <result property="isDelete"    column="is_delete"    />
+        <result property="vendorId" column="vendor_id"/>
+        <result property="vendorNumber" column="vendor_number"/>
+        <result property="abbreviated" column="abbreviated"/>
+        <result property="contractTypeTypeId" column="contract_type_type_id"/>
+        <result property="vendorTypeStateId" column="vendor_type_state_id"/>
+        <result property="isBlacklist" column="is_blacklist"/>
+        <result property="ranges" column="ranges"/>
+        <result property="causes" column="causes"/>
+        <result property="warehouseAddress" column="warehouse_address"/>
+        <result property="profile" column="profile"/>
+        <result property="delegates" column="delegates"/>
+        <result property="addTime" column="add_time"/>
+        <result property="email" column="email"/>
+        <result property="fax" column="fax"/>
+        <result property="responsible" column="responsible"/>
+        <result property="responsiblePhone" column="responsible_phone"/>
+        <result property="bankingName" column="banking_name"/>
+        <result property="industrialCommercial" column="industrial_commercial"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="isExist" column="is_exist"/>
+        <result property="isDelete" column="is_delete"/>
+        <result property="uid" column="uid"/>
     </resultMap>
 
+    <resultMap id="findVendorDetailed" type="com.ruoyi.system.api.domain.PublicVendor">
+        <result property="vendorId" column="vendor_id"/>
+        <result property="vendorNumber" column="vendor_number"/>
+        <result property="abbreviated" column="abbreviated"/>
+        <result property="contractTypeTypeId" column="contract_type_type_id"/>
+        <result property="vendorTypeStateId" column="vendor_type_state_id"/>
+        <result property="isBlacklist" column="is_blacklist"/>
+        <result property="ranges" column="ranges"/>
+        <result property="causes" column="causes"/>
+        <result property="warehouseAddress" column="warehouse_address"/>
+        <result property="profile" column="profile"/>
+        <result property="delegates" column="delegates"/>
+        <result property="addTime" column="add_time"/>
+        <result property="email" column="email"/>
+        <result property="fax" column="fax"/>
+        <result property="responsible" column="responsible"/>
+        <result property="responsiblePhone" column="responsible_phone"/>
+        <result property="bankingName" column="banking_name"/>
+
+        <result property="industrialCommercial" column="industrial_commercial"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="isExist" column="is_exist"/>
+        <result property="isDelete" column="is_delete"/>
+        <collection property="publicContacts" ofType="com.ruoyi.system.api.domain.PublicContacts">
+            <result property="contactsId" column="contacts_id"/>
+            <result property="contactsVendorId" column="contacts_vendor_id"/>
+            <result property="calls" column="calls"/>
+            <result property="job" column="job"/>
+            <result property="division" column="division"/>
+            <result property="phone" column="phone"/>
+            <result property="mailbox" column="mailbox"/>
+        </collection>
+        <collection property="publicQualificationList" ofType="com.ruoyi.system.api.domain.PublicQualification">
+            <result property="qualificationId" column="qualification_id"/>
+            <result property="qualificationVendorId" column="qualification_vendor_id"/>
+            <result property="qualificationName" column="qualification_name"/>
+            <result property="startTime" column="start_time"/>
+            <result property="stopTime" column="stop_time"/>
+            <result property="documents" column="documents"/>
+            <result property="remark" column="remark"/>
+            <result property="isDelete" column="is_delete"/>
+        </collection>
+    </resultMap>
+
+    <resultMap id="selContact" type="com.ruoyi.system.api.domain.PublicVendor">
+        <id property="vendorId" column="vendor_id"/>
+        <!--        <result property="vendorId" column="vendor_id"/>-->
+        <result property="vendorNumber" column="vendor_number"/>
+        <result property="abbreviated" column="abbreviated"/>
+        <collection property="publicContactsList" ofType="com.ruoyi.system.api.domain.PublicContacts">
+            <id property="contactsId" column="contacts_id"/>
+            <result property="contactsVendorId" column="contacts_vendor_id"/>
+            <result property="calls" column="calls"/>
+            <result property="job" column="job"/>
+            <result property="division" column="division"/>
+            <result property="phone" column="phone"/>
+            <result property="mailbox" column="mailbox"/>
+        </collection>
+    </resultMap>
     <sql id="selectPublicVendorVo">
-        select vendor_id, vendor_number, abbreviated, contract_type_type_id, vendor_type_state_id, is_blacklist, range, cause, warehouse_address, profile, delegates, add_time, email, fax, responsible, responsible_phone, industrial_commercial, create_by, create_time, update_by, update_time, is_exist, is_delete from public_vendor
+        select vendor_id,
+               vendor_number,
+               abbreviated,
+               contract_type_type_id,
+               vendor_type_state_id,
+               is_blacklist,
+               ranges,
+               causes,
+               warehouse_address,
+               profile,
+               delegates,
+               add_time,
+               email,
+               fax,
+               responsible,
+               responsible_phone,
+               banking_name,
+               industrial_commercial,
+               create_by,
+               create_time,
+               update_by,
+               update_time,
+               is_exist,
+               is_delete,
+               uid
+        from public_vendor
     </sql>
 
-    <select id="selectPublicVendorList" parameterType="com.ruoyi.system.api.domain.PublicVendor" resultMap="PublicVendorResult">
+    <select id="selectPublicVendorList" parameterType="com.ruoyi.system.api.domain.PublicVendor"
+            resultMap="PublicVendorResult">
         <include refid="selectPublicVendorVo"/>
-        <where>  
-            <if test="vendorNumber != null  and vendorNumber != ''"> and vendor_number = #{vendorNumber}</if>
-            <if test="abbreviated != null  and abbreviated != ''"> and abbreviated = #{abbreviated}</if>
-            <if test="contractTypeTypeId != null "> and contract_type_type_id = #{contractTypeTypeId}</if>
-            <if test="vendorTypeStateId != null "> and vendor_type_state_id = #{vendorTypeStateId}</if>
-            <if test="isBlacklist != null "> and is_blacklist = #{isBlacklist}</if>
-            <if test="range != null  and range != ''"> and range = #{range}</if>
-            <if test="cause != null  and cause != ''"> and cause = #{cause}</if>
-            <if test="warehouseAddress != null  and warehouseAddress != ''"> and warehouse_address = #{warehouseAddress}</if>
-            <if test="profile != null  and profile != ''"> and profile = #{profile}</if>
-            <if test="delegates != null  and delegates != ''"> and delegates = #{delegates}</if>
-            <if test="addTime != null "> and add_time = #{addTime}</if>
-            <if test="email != null  and email != ''"> and email = #{email}</if>
-            <if test="fax != null  and fax != ''"> and fax = #{fax}</if>
-            <if test="responsible != null  and responsible != ''"> and responsible = #{responsible}</if>
-            <if test="responsiblePhone != null  and responsiblePhone != ''"> and responsible_phone = #{responsiblePhone}</if>
-            <if test="industrialCommercial != null  and industrialCommercial != ''"> and industrial_commercial = #{industrialCommercial}</if>
-            <if test="isExist != null "> and is_exist = #{isExist}</if>
-            <if test="isDelete != null "> and is_delete = #{isDelete}</if>
+        <where>
+            <if test="vendorNumber != null  and vendorNumber != ''">and vendor_number like concat('%', #{vendorNumber},
+                '%')
+            </if>
+            <if test="abbreviated != null  and abbreviated != ''">and abbreviated like concat('%', #{abbreviated},
+                '%')
+            </if>
+            <if test="contractTypeTypeId != null ">and contract_type_type_id = #{contractTypeTypeId}</if>
+            <if test="vendorTypeStateId != null ">and vendor_type_state_id = #{vendorTypeStateId}</if>
+            <if test="isBlacklist != null ">and is_blacklist = #{isBlacklist}</if>
+            <if test="ranges != null  and ranges != ''">and ranges like concat('%', #{ranges}, '%')</if>
+            <if test="params.beginAddTime != null and params.beginAddTime != '' and params.endAddTime != null and params.endAddTime != ''">
+                and add_time between #{params.beginAddTime} and #{params.endAddTime}
+            </if>
+            <if test="industrialCommercial != null  and industrialCommercial != ''">and industrial_commercial like
+                concat('%', #{industrialCommercial}, '%')
+            </if>
+            <if test="isDelete != null  and isDelete != ''">and is_delete = #{isDelete}</if>
         </where>
     </select>
-    
+
     <select id="selectPublicVendorByVendorId" parameterType="Long" resultMap="PublicVendorResult">
         <include refid="selectPublicVendorVo"/>
         where vendor_id = #{vendorId}
     </select>
-        
-    <insert id="insertPublicVendor" parameterType="com.ruoyi.system.api.domain.PublicVendor" useGeneratedKeys="true" keyProperty="vendorId">
+
+    <select id="showUid" parameterType="Long" resultMap="PublicVendorResult">
+        <include refid="selectPublicVendorVo"/>
+        where uid=#{uid}
+    </select>
+
+    <select id="showsPublicVendorList" resultMap="PublicVendorResult"
+            parameterType="com.ruoyi.system.api.domain.PublicVendor">
+        <include refid="selectPublicVendorVo"/>
+        <where>
+            <if test="vendor_id != null ">vendor_id like concat('%', #{vendor_id}, '%')</if>
+            and is_delete=0 and vendor_type_state_id=3
+        </where>
+    </select>
+
+    <!--    <insert id="insertPublicVendor" parameterType="com.ruoyi.system.api.domain.PublicVendor" useGeneratedKeys="true" keyProperty="vendorId">-->
+    <select id="findVendorDetailed" resultMap="findVendorDetailed">
+        SELECT *
+        FROM `public_vendor` v
+                 inner join public_qualification q
+                            on v.vendor_id = q.qualification_vendor_id
+                 inner join public_contacts c
+                            on v.vendor_id = c.contacts_vendor_id
+        where vendor_id = #{vid}
+    </select>
+
+    <select id="showContactsList" resultMap="selContact">
+        SELECT contacts_id,
+               contacts_vendor_id,
+               calls,
+               job,
+               division,
+               phone,
+               mailbox,
+               b.vendor_id,
+               b.abbreviated,
+               b.vendor_number
+        FROM `public_contacts` a,
+             public_vendor b
+        where a.contacts_vendor_id = b.vendor_id
+          and b.vendor_id = #{vendor_id}
+    </select>
+    <select id="showAll" resultMap="PublicVendorResult">
+        select vendor_id,
+               vendor_number,
+               abbreviated,
+               contract_type_type_id,
+               vendor_type_state_id,
+               is_blacklist,
+               ranges,
+               causes,
+               warehouse_address,
+               profile,
+               delegates,
+               add_time,
+               email,
+               fax,
+               responsible,
+               responsible_phone,
+               banking_name,
+               industrial_commercial,
+               create_by,
+               create_time,
+               is_exist
+        from public_vendor
+        ORDER BY create_time
+        LIMIT 5
+    </select>
+    <select id="selCount" resultType="java.lang.Integer" parameterType="java.lang.String">
+        SELECT count(*)
+        FROM `public_vendor`
+        where is_delete = 0
+          and vendor_number = #{vNumber}
+    </select>
+    <select id="selRe" resultType="java.lang.Integer">
+        SELECT count(*)
+        FROM `public_vendor`
+        where vendor_number = #{vNumber}
+          and responsible_phone = #{phone}
+    </select>
+    <select id="VendorSum" resultType="java.lang.Integer">
+        SELECT count(*) FROM `public_vendor` where vendor_type_state_id=3
+    </select>
+    <select id="findVendorIdByUserId"  resultMap="PublicVendorResult" >
+        select *
+        from `public_vendor`
+        where uid = #{id}
+    </select>
+
+    <insert id="insertPublicVendor" parameterType="com.ruoyi.system.api.domain.PublicVendor" useGeneratedKeys="true"
+            keyProperty="vendorId">
         insert into public_vendor
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="vendorNumber != null">vendor_number,</if>
@@ -71,8 +249,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="contractTypeTypeId != null">contract_type_type_id,</if>
             <if test="vendorTypeStateId != null">vendor_type_state_id,</if>
             <if test="isBlacklist != null">is_blacklist,</if>
-            <if test="range != null">range,</if>
-            <if test="cause != null">cause,</if>
+            <if test="ranges != null">ranges,</if>
+            <if test="causes != null">causes,</if>
             <if test="warehouseAddress != null">warehouse_address,</if>
             <if test="profile != null">profile,</if>
             <if test="delegates != null">delegates,</if>
@@ -81,6 +259,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="fax != null">fax,</if>
             <if test="responsible != null">responsible,</if>
             <if test="responsiblePhone != null">responsible_phone,</if>
+            <if test="bankingName != null">banking_name,</if>
             <if test="industrialCommercial != null">industrial_commercial,</if>
             <if test="createBy != null">create_by,</if>
             <if test="createTime != null">create_time,</if>
@@ -88,15 +267,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="updateTime != null">update_time,</if>
             <if test="isExist != null">is_exist,</if>
             <if test="isDelete != null">is_delete,</if>
-         </trim>
+        </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="vendorNumber != null">#{vendorNumber},</if>
             <if test="abbreviated != null">#{abbreviated},</if>
             <if test="contractTypeTypeId != null">#{contractTypeTypeId},</if>
             <if test="vendorTypeStateId != null">#{vendorTypeStateId},</if>
             <if test="isBlacklist != null">#{isBlacklist},</if>
-            <if test="range != null">#{range},</if>
-            <if test="cause != null">#{cause},</if>
+            <if test="ranges != null">#{ranges},</if>
+            <if test="causes != null">#{causes},</if>
             <if test="warehouseAddress != null">#{warehouseAddress},</if>
             <if test="profile != null">#{profile},</if>
             <if test="delegates != null">#{delegates},</if>
@@ -105,6 +284,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="fax != null">#{fax},</if>
             <if test="responsible != null">#{responsible},</if>
             <if test="responsiblePhone != null">#{responsiblePhone},</if>
+            <if test="bankingName != null">banking_name,</if>
             <if test="industrialCommercial != null">#{industrialCommercial},</if>
             <if test="createBy != null">#{createBy},</if>
             <if test="createTime != null">#{createTime},</if>
@@ -112,7 +292,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="updateTime != null">#{updateTime},</if>
             <if test="isExist != null">#{isExist},</if>
             <if test="isDelete != null">#{isDelete},</if>
-         </trim>
+        </trim>
     </insert>
 
     <update id="updatePublicVendor" parameterType="com.ruoyi.system.api.domain.PublicVendor">
@@ -123,8 +303,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="contractTypeTypeId != null">contract_type_type_id = #{contractTypeTypeId},</if>
             <if test="vendorTypeStateId != null">vendor_type_state_id = #{vendorTypeStateId},</if>
             <if test="isBlacklist != null">is_blacklist = #{isBlacklist},</if>
-            <if test="range != null">range = #{range},</if>
-            <if test="cause != null">cause = #{cause},</if>
+            <if test="ranges != null">ranges = #{ranges},</if>
+            <if test="causes != null">causes = #{causes},</if>
             <if test="warehouseAddress != null">warehouse_address = #{warehouseAddress},</if>
             <if test="profile != null">profile = #{profile},</if>
             <if test="delegates != null">delegates = #{delegates},</if>
@@ -133,6 +313,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="fax != null">fax = #{fax},</if>
             <if test="responsible != null">responsible = #{responsible},</if>
             <if test="responsiblePhone != null">responsible_phone = #{responsiblePhone},</if>
+            <if test="bankingName != null">banking_name,</if>
             <if test="industrialCommercial != null">industrial_commercial = #{industrialCommercial},</if>
             <if test="createBy != null">create_by = #{createBy},</if>
             <if test="createTime != null">create_time = #{createTime},</if>
@@ -143,13 +324,25 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </trim>
         where vendor_id = #{vendorId}
     </update>
+    <update id="updateStates">
+        update public_vendor
+        set vendor_type_state_id=#{zt}
+        where vendor_id = #{id}
+    </update>
+    <update id="updateExist">
+        UPDATE public_vendor
+        set uid=#{uid}
+        where vendor_number = #{vNumber}
+    </update>
 
     <delete id="deletePublicVendorByVendorId" parameterType="Long">
-        delete from public_vendor where vendor_id = #{vendorId}
+        delete
+        from public_vendor
+        where vendor_id = #{vendorId}
     </delete>
 
     <delete id="deletePublicVendorByVendorIds" parameterType="String">
-        delete from public_vendor where vendor_id in 
+        delete from public_vendor where vendor_id in
         <foreach item="vendorId" collection="array" open="(" separator="," close=")">
             #{vendorId}
         </foreach>

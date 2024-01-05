@@ -29,7 +29,7 @@ public class PublicContacts extends BaseEntity {
      * 称呼
      */
     @Excel(name = "称呼")
-    private String call;
+    private String calls;
 
     /**
      * 岗位
@@ -55,6 +55,19 @@ public class PublicContacts extends BaseEntity {
     @Excel(name = "邮箱")
     private String mailbox;
 
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
+
+    public String getCalls() {
+        return calls;
+    }
+
+    public PublicContacts setCalls(String calls) {
+        this.calls = calls;
+        return this;
+    }
+
     public void setContactsId(Long contactsId) {
         this.contactsId = contactsId;
     }
@@ -72,11 +85,11 @@ public class PublicContacts extends BaseEntity {
     }
 
     public void setCall(String call) {
-        this.call = call;
+        this.calls = call;
     }
 
     public String getCall() {
-        return call;
+        return calls;
     }
 
     public void setJob(String job) {

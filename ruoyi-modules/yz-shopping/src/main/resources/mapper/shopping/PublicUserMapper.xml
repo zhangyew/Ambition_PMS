@@ -1,70 +1,87 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
-PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yz.shopping.mapper.PublicUserMapper">
-    
+
     <resultMap type="com.ruoyi.system.api.domain.PublicUser" id="PublicUserResult">
-        <result property="userId"    column="user_id"    />
-        <result property="account"    column="account"    />
-        <result property="password"    column="password"    />
-        <result property="job"    column="job"    />
-        <result property="phone"    column="phone"    />
-        <result property="lastLogintime"    column="last_logintime"    />
-        <result property="createBy"    column="create_by"    />
-        <result property="createTime"    column="create_time"    />
-        <result property="updateBy"    column="update_by"    />
-        <result property="updateTime"    column="update_time"    />
-        <result property="identity"    column="identity"    />
+        <result property="userId" column="user_id"/>
+        <result property="account" column="account"/>
+        <result property="password" column="password"/>
+        <result property="job" column="job"/>
+        <result property="phone" column="phone"/>
+        <result property="lastLogintime" column="last_logintime"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="identity" column="identity"/>
     </resultMap>
 
     <sql id="selectPublicUserVo">
-        select user_id, account, password, job, phone, last_logintime, create_by, create_time, update_by, update_time, identity from public_user
+        select user_id,
+               account,
+               password,
+               job,
+               phone,
+               last_logintime,
+               create_by,
+               create_time,
+               update_by,
+               update_time, identity
+        from public_user
     </sql>
 
-    <select id="selectPublicUserList" parameterType="com.ruoyi.system.api.domain.PublicUser" resultMap="PublicUserResult">
+    <select id="selectPublicUserList" parameterType="com.ruoyi.system.api.domain.PublicUser"
+            resultMap="PublicUserResult">
         <include refid="selectPublicUserVo"/>
-        <where>  
-            <if test="account != null  and account != ''"> and account = #{account}</if>
-            <if test="password != null  and password != ''"> and password = #{password}</if>
-            <if test="job != null  and job != ''"> and job = #{job}</if>
-            <if test="phone != null  and phone != ''"> and phone = #{phone}</if>
-            <if test="lastLogintime != null "> and last_logintime = #{lastLogintime}</if>
-            <if test="identity != null "> and identity = #{identity}</if>
+        <where>
+            <if test="account != null  and account != ''">and account = #{account}</if>
+            <if test="password != null  and password != ''">and password = #{password}</if>
+            <if test="job != null  and job != ''">and job = #{job}</if>
+            <if test="phone != null  and phone != ''">and phone = #{phone}</if>
+            <if test="lastLogintime != null ">and last_logintime = #{lastLogintime}</if>
+            <if test="identity != null ">and identity = #{identity}</if>
         </where>
     </select>
-    
+
     <select id="selectPublicUserByUserId" parameterType="Long" resultMap="PublicUserResult">
         <include refid="selectPublicUserVo"/>
         where user_id = #{userId}
     </select>
-        
-    <insert id="insertPublicUser" parameterType="com.ruoyi.system.api.domain.PublicUser" useGeneratedKeys="true" keyProperty="userId">
-        insert into public_user
-        <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="account != null">account,</if>
-            <if test="password != null">password,</if>
-            <if test="job != null">job,</if>
-            <if test="phone != null">phone,</if>
-            <if test="lastLogintime != null">last_logintime,</if>
-            <if test="createBy != null">create_by,</if>
-            <if test="createTime != null">create_time,</if>
-            <if test="updateBy != null">update_by,</if>
-            <if test="updateTime != null">update_time,</if>
-            <if test="identity != null">identity,</if>
-         </trim>
-        <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="account != null">#{account},</if>
-            <if test="password != null">#{password},</if>
-            <if test="job != null">#{job},</if>
-            <if test="phone != null">#{phone},</if>
-            <if test="lastLogintime != null">#{lastLogintime},</if>
-            <if test="createBy != null">#{createBy},</if>
-            <if test="createTime != null">#{createTime},</if>
-            <if test="updateBy != null">#{updateBy},</if>
-            <if test="updateTime != null">#{updateTime},</if>
-            <if test="identity != null">#{identity},</if>
-         </trim>
+    <select id="login" resultType="com.ruoyi.system.api.domain.PublicUser">
+        <include refid="selectPublicUserVo"/>
+        where account=#{account} and password=#{password} and identity=0
+    </select>
+
+
+    <insert id="insertPublicUser" parameterType="com.ruoyi.system.api.domain.PublicUser" useGeneratedKeys="true"
+            keyProperty="userId">
+        INSERT INTO public_user(account,`password`, job,phone,last_logintime,create_by,create_time,update_by,update_time,identity) VALUES(#{account},#{password},"销售部",#{phone},NULL,"admin",NOW(),NULL,NULL,1);
+<!--        <trim prefix="(" suffix=")" suffixOverrides=",">-->
+<!--            <if test="account != null">account,</if>-->
+<!--            <if test="password != null">password,</if>-->
+<!--            <if test="job != null">job,</if>-->
+<!--            <if test="phone != null">phone,</if>-->
+<!--            <if test="lastLogintime != null">last_logintime,</if>-->
+<!--            <if test="createBy != null">create_by,</if>-->
+<!--            <if test="createTime != null">create_time,</if>-->
+<!--            <if test="updateBy != null">update_by,</if>-->
+<!--            <if test="updateTime != null">update_time,</if>-->
+<!--            <if test="identity != null">identity,</if>-->
+<!--        </trim>-->
+<!--        <trim prefix="values (" suffix=")" suffixOverrides=",">-->
+<!--            <if test="account != null">#{account},</if>-->
+<!--            <if test="password != null">#{password},</if>-->
+<!--            <if test="job != null">#{job},</if>-->
+<!--            <if test="phone != null">#{phone},</if>-->
+<!--            <if test="lastLogintime != null">#{lastLogintime},</if>-->
+<!--            <if test="createBy != null">#{createBy},</if>-->
+<!--            <if test="createTime != null"> NOW(),</if>-->
+<!--            <if test="updateBy != null">#{updateBy},</if>-->
+<!--            <if test="updateTime != null">#{updateTime},</if>-->
+<!--            <if test="identity != null">#{identity},</if>-->
+<!--        </trim>-->
     </insert>
 
     <update id="updatePublicUser" parameterType="com.ruoyi.system.api.domain.PublicUser">
@@ -85,11 +102,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </update>
 
     <delete id="deletePublicUserByUserId" parameterType="Long">
-        delete from public_user where user_id = #{userId}
+        delete
+        from public_user
+        where user_id = #{userId}
     </delete>
 
     <delete id="deletePublicUserByUserIds" parameterType="String">
-        delete from public_user where user_id in 
+        delete from public_user where user_id in
         <foreach item="userId" collection="array" open="(" separator="," close=")">
             #{userId}
         </foreach>

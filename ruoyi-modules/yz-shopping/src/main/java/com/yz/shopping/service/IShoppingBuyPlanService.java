@@ -20,6 +20,14 @@ public interface IShoppingBuyPlanService
     public ShoppingBuyPlan selectShoppingBuyPlanByBuyPlanId(Long buyPlanId);
 
     /**
+     * 采购计划（合同签订
+     *
+     * @param buyPlanId 采购计划表
+     * @return 采购计划表集合
+     */
+    public List<ShoppingBuyPlan> showBuyPlan(Long buyPlanId);
+
+    /**
      * 查询采购计划表列表
      * 
      * @param shoppingBuyPlan 采购计划表
@@ -58,4 +66,8 @@ public interface IShoppingBuyPlanService
      * @return 结果
      */
     public int deleteShoppingBuyPlanByBuyPlanId(Long buyPlanId);
+
+    int updateExamine(ShoppingBuyPlan shoppingBuyPlan);
+
+    int upState(Long bid);
 }

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yz.bidding.mapper.BiddingGetExpertExtractMapper">
+
+    <resultMap type="BiddingGetExpertExtract" id="BiddingGetExpertExtractResult">
+        <result property="getExpertExtractId" column="get_expert_extract_id"/>
+        <result property="getTenderId" column="get_tender_id"/>
+        <result property="getExpertId" column="get_expert_id"/>
+        <result property="getPoolId" column="get_pool_id"/>
+        <result property="creationTime" column="creation_time"/>
+    </resultMap>
+
+    <sql id="selectBiddingGetExpertExtractVo">
+        select get_expert_extract_id, get_tender_id, get_expert_id, get_pool_id, creation_time
+        from bidding_get_expert_extract
+    </sql>
+
+    <select id="selectBiddingGetExpertExtractList" parameterType="BiddingGetExpertExtract"
+            resultMap="BiddingGetExpertExtractResult">
+        <include refid="selectBiddingGetExpertExtractVo"/>
+        <where>
+            <if test="getTenderId != null ">and get_tender_id = #{getTenderId}</if>
+            <if test="getExpertId != null ">and get_expert_id = #{getExpertId}</if>
+            <if test="getPoolId != null ">and get_pool_id = #{getPoolId}</if>
+            <if test="creationTime != null ">and creation_time = #{creationTime}</if>
+        </where>
+    </select>
+
+    <select id="selectBiddingGetExpertExtractByGetExpertExtractId" parameterType="Long"
+            resultMap="BiddingGetExpertExtractResult">
+        <include refid="selectBiddingGetExpertExtractVo"/>
+        where get_expert_extract_id = #{getExpertExtractId}
+    </select>
+
+    <insert id="insertBiddingGetExpertExtract" parameterType="BiddingGetExpertExtract"
+            useGeneratedKeys="true"
+            keyProperty="getExpertExtractId">
+        insert into bidding_get_expert_extract
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="getExpertExtractId != null">get_expert_extract_id,</if>
+            <if test="getTenderId != null">get_tender_id,</if>
+            <if test="getExpertId != null">get_expert_id,</if>
+            <if test="getPoolId != null">get_pool_id,</if>
+            <if test="creationTime != null">creation_time,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="getExpertExtractId != null">#{getExpertExtractId},</if>
+            <if test="getTenderId != null">#{getTenderId},</if>
+            <if test="getExpertId != null">#{getExpertId},</if>
+            <if test="getPoolId != null">#{getPoolId},</if>
+            <if test="creationTime != null">#{creationTime},</if>
+        </trim>
+    </insert>
+
+    <update id="updateBiddingGetExpertExtract" parameterType="BiddingGetExpertExtract">
+        update bidding_get_expert_extract
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="getTenderId != null">get_tender_id = #{getTenderId},</if>
+            <if test="getExpertId != null">get_expert_id = #{getExpertId},</if>
+            <if test="getPoolId != null">get_pool_id = #{getPoolId},</if>
+            <if test="creationTime != null">creation_time = #{creationTime},</if>
+        </trim>
+        where get_expert_extract_id = #{getExpertExtractId}
+    </update>
+
+    <delete id="deleteBiddingGetExpertExtractByGetExpertExtractId" parameterType="Long">
+        delete
+        from bidding_get_expert_extract
+        where get_expert_extract_id = #{getExpertExtractId}
+    </delete>
+
+    <delete id="deleteBiddingGetExpertExtractByGetExpertExtractIds" parameterType="String">
+        delete from bidding_get_expert_extract where get_expert_extract_id in
+        <foreach item="getExpertExtractId" collection="array" open="(" separator="," close=")">
+            #{getExpertExtractId}
+        </foreach>
+    </delete>
+</mapper>

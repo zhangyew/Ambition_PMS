@@ -17,10 +17,52 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="createTime"    column="create_time"    />
         <result property="updateBy"    column="update_by"    />
         <result property="updateTime"    column="update_time"    />
+        <result property="isDelete" column="is_delete" />
+    </resultMap>
+    <resultMap type="com.ruoyi.system.api.domain.PublicPayment" id="FindPaymentResult">
+        <result property="paymentId"    column="payment_id"    />
+        <result property="content"    column="content"    />
+        <result property="payTime"    column="pay_time"    />
+        <result property="unit"    column="unit"    />
+        <result property="paymentVendorId"    column="payment_vendor_id"    />
+        <result property="terms"    column="terms"    />
+        <result property="sum"    column="sum"    />
+        <result property="duty"    column="duty"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="isDelete" column="is_delete" />
+        <collection property="publicVendor" ofType="com.ruoyi.system.api.domain.PublicVendor">
+            <result property="vendorId" column="vendor_id"/>
+            <result property="vendorNumber" column="vendor_number"/>
+            <result property="abbreviated" column="abbreviated"/>
+            <result property="contractTypeTypeId" column="contract_type_type_id"/>
+            <result property="vendorTypeStateId" column="vendor_type_state_id"/>
+            <result property="isBlacklist" column="is_blacklist"/>
+            <result property="ranges" column="ranges"/>
+            <result property="causes" column="causes"/>
+            <result property="warehouseAddress" column="warehouse_address"/>
+            <result property="profile" column="profile"/>
+            <result property="delegates" column="delegates"/>
+            <result property="addTime" column="add_time"/>
+            <result property="email" column="email"/>
+            <result property="fax" column="fax"/>
+            <result property="responsible" column="responsible"/>
+            <result property="responsiblePhone" column="responsible_phone"/>
+            <result property="bankingName" column="banking_name"/>
+            <result property="industrialCommercial" column="industrial_commercial"/>
+            <result property="createBy" column="create_by"/>
+            <result property="createTime" column="create_time"/>
+            <result property="updateBy" column="update_by"/>
+            <result property="updateTime" column="update_time"/>
+            <result property="isExist" column="is_exist"/>
+            <result property="isDelete" column="is_delete"/>
+        </collection>
     </resultMap>
 
     <sql id="selectPublicPaymentVo">
-        select payment_id, content, pay_time, unit, payment_vendor_id, terms, sum, duty, create_by, create_time, update_by, update_time from public_payment
+        select payment_id, content, pay_time, unit, payment_vendor_id, terms, sum, duty, create_by, create_time, update_by, update_time , is_delete from public_payment
     </sql>
 
     <select id="selectPublicPaymentList" parameterType="com.ruoyi.system.api.domain.PublicPayment" resultMap="PublicPaymentResult">
@@ -36,9 +78,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </where>
     </select>
     
-    <select id="selectPublicPaymentByPaymentId" parameterType="Long" resultMap="PublicPaymentResult">
-        <include refid="selectPublicPaymentVo"/>
-        where payment_id = #{paymentId}
+    <select id="selectPublicPaymentByPaymentId" parameterType="Long" resultMap="FindPaymentResult">
+        SELECT pay.payment_id, pay.content, pay.pay_time,pay.unit, pay.payment_vendor_id, pay.terms, pay.sum, pay.duty,ve.abbreviated
+        FROM public_payment AS pay
+        INNER JOIN public_vendor AS ve ON(pay.payment_vendor_id=ve.vendor_id)
+        where payment_id = #{paymentId} AND pay.is_delete =0
     </select>
         
     <insert id="insertPublicPayment" parameterType="com.ruoyi.system.api.domain.PublicPayment" useGeneratedKeys="true" keyProperty="paymentId">

@@ -1,80 +1,134 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
-PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yz.shopping.mapper.ShoppingBuyPlanMapper">
-    
-    <resultMap type="ShoppingBuyPlan" id="ShoppingBuyPlanResult">
-        <result property="buyPlanId"    column="buy_plan_id"    />
-        <result property="planClod"    column="plan_clod"    />
-        <result property="buyPlanVendorId"    column="buy_plan_vendor_id"    />
-        <result property="buyPlanWarehouseId"    column="buy_plan_warehouse_id"    />
-        <result property="buyTypeId"    column="buy_type_id"    />
-        <result property="state"    column="state"    />
-        <result property="createBy"    column="create_by"    />
-        <result property="createTime"    column="create_time"    />
-        <result property="updateBy"    column="update_by"    />
-        <result property="updateTime"    column="update_time"    />
-        <result property="isDelete"    column="is_delete"    />
+
+    <resultMap type="com.yz.shopping.domain.ShoppingBuyPlan" id="ShoppingBuyPlanResult">
+        <result property="buyPlanId" column="buy_plan_id"/>
+        <result property="planClod" column="plan_clod"/>
+        <result property="planName" column="plan_name"/>
+        <result property="buyPlanVendorId" column="buy_plan_vendor_id"/>
+        <result property="buyPlanWarehouseId" column="buy_plan_warehouse_id"/>
+        <result property="buyTypeId" column="buy_type_id"/>
+        <result property="buyPlanDemandId" column="buy_plan_demand_id"/>
+        <result property="planState" column="plan_state"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="isDelete" column="is_delete"/>
     </resultMap>
 
     <sql id="selectShoppingBuyPlanVo">
-        select buy_plan_id, plan_clod, buy_plan_vendor_id, buy_plan_warehouse_id, buy_type_id, state, create_by, create_time, update_by, update_time, is_delete from shopping_buy_plan
+        select buy_plan_id,
+               plan_clod,
+               plan_name,
+               buy_plan_vendor_id,
+               buy_plan_warehouse_id,
+               buy_type_id,
+               buy_plan_demand_id,
+               plan_state,
+               create_by,
+               create_time,
+               update_by,
+               update_time,
+               is_delete
+        from shopping_buy_plan
     </sql>
 
-    <select id="selectShoppingBuyPlanList" parameterType="ShoppingBuyPlan" resultMap="ShoppingBuyPlanResult">
-        <include refid="selectShoppingBuyPlanVo"/>
-        <where>  
-            <if test="planClod != null  and planClod != ''"> and plan_clod = #{planClod}</if>
-            <if test="buyPlanVendorId != null "> and buy_plan_vendor_id = #{buyPlanVendorId}</if>
-            <if test="buyPlanWarehouseId != null "> and buy_plan_warehouse_id = #{buyPlanWarehouseId}</if>
-            <if test="buyTypeId != null "> and buy_type_id = #{buyTypeId}</if>
-            <if test="state != null "> and state = #{state}</if>
-            <if test="isDelete != null "> and is_delete = #{isDelete}</if>
+    <resultMap type="com.yz.shopping.domain.ShoppingBuyPlan" id="ShoppingBuyPlanResult1">
+        <result property="buyPlanId" column="buy_plan_id"/>
+        <result property="planClod" column="plan_clod"/>
+        <result property="planName" column="plan_name"/>
+        <result property="buyPlanVendorId" column="buy_plan_vendor_id"/>
+        <result property="buyPlanWarehouseId" column="buy_plan_warehouse_id"/>
+        <result property="buyTypeId" column="buy_type_id"/>
+        <result property="buyPlanDemandId" column="buy_plan_demand_id"/>
+        <result property="planState" column="plan_state"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+        <result property="vendorName" column="abbreviated"/>
+        <result property="warehouseName" column="warehouse_name"/>
+    </resultMap>
+
+    <select id="selectShoppingBuyPlanList" parameterType="com.yz.shopping.domain.ShoppingBuyPlan"
+            resultMap="ShoppingBuyPlanResult1">
+        select sbp.buy_plan_id, sbp.plan_clod,sbp.plan_name,sbp.buy_plan_vendor_id,
+        sbp.buy_plan_warehouse_id,sbp.buy_plan_demand_id,sbp.buy_type_id, sbp.plan_state, sbp.create_by,
+        sbp.create_time, pv.abbreviated,pw.warehouse_name
+        from shopping_buy_plan sbp
+        left join public_vendor pv on pv.vendor_id = sbp.buy_plan_vendor_id
+        left join public_warehouse pw on pw.warehouse_id = sbp.buy_plan_warehouse_id
+        <where>
+            <if test="planClod != null  and planClod != ''">and plan_clod like concat('%', #{planClod}, '%')</if>
+            <if test="buyPlanVendorId != null ">and buy_plan_vendor_id = #{buyPlanVendorId}</if>
+            <if test="buyPlanWarehouseId != null ">and buy_plan_warehouse_id = #{buyPlanWarehouseId}</if>
+            <if test="buyTypeId != null ">and buy_type_id = #{buyTypeId}</if>
+            <if test="planState != null ">and plan_state = #{planState}</if>
+            <if test="planName != null  and planName != ''">and plan_name like concat('%', #{planName}, '%')</if>
         </where>
+        order by sbp.create_time desc
     </select>
-    
+
+    <!--    采购计划（合同签订）-->
+    <select id="showBuyPlan" parameterType="com.yz.shopping.domain.ShoppingBuyPlan" resultMap="ShoppingBuyPlanResult">
+        <include refid="selectShoppingBuyPlanVo"/>
+        <where>
+            <if test="buyPlanId !=null ">buy_plan_id = #{buyPlanId}</if>
+            and state=1
+        </where>
+
+    </select>
+
     <select id="selectShoppingBuyPlanByBuyPlanId" parameterType="Long" resultMap="ShoppingBuyPlanResult">
         <include refid="selectShoppingBuyPlanVo"/>
         where buy_plan_id = #{buyPlanId}
     </select>
-        
-    <insert id="insertShoppingBuyPlan" parameterType="ShoppingBuyPlan" useGeneratedKeys="true" keyProperty="buyPlanId">
+
+    <insert id="insertShoppingBuyPlan" parameterType="com.yz.shopping.domain.ShoppingBuyPlan" useGeneratedKeys="true"
+            keyProperty="buyPlanId">
         insert into shopping_buy_plan
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="planClod != null">plan_clod,</if>
+            <if test="planName != null">plan_name,</if>
             <if test="buyPlanVendorId != null">buy_plan_vendor_id,</if>
             <if test="buyPlanWarehouseId != null">buy_plan_warehouse_id,</if>
             <if test="buyTypeId != null">buy_type_id,</if>
-            <if test="state != null">state,</if>
+            <if test="buyPlanDemandId != null">buy_plan_demand_id,</if>
+            <if test="planState != null">plan_state,</if>
             <if test="createBy != null">create_by,</if>
             <if test="createTime != null">create_time,</if>
             <if test="updateBy != null">update_by,</if>
             <if test="updateTime != null">update_time,</if>
             <if test="isDelete != null">is_delete,</if>
-         </trim>
+        </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="planClod != null">#{planClod},</if>
+            <if test="planName != null">#{planName},</if>
             <if test="buyPlanVendorId != null">#{buyPlanVendorId},</if>
             <if test="buyPlanWarehouseId != null">#{buyPlanWarehouseId},</if>
             <if test="buyTypeId != null">#{buyTypeId},</if>
-            <if test="state != null">#{state},</if>
+            <if test="buyPlanDemandId != null">#{buyPlanDemandId},</if>
+            <if test="planState != null">#{planState},</if>
             <if test="createBy != null">#{createBy},</if>
             <if test="createTime != null">#{createTime},</if>
             <if test="updateBy != null">#{updateBy},</if>
             <if test="updateTime != null">#{updateTime},</if>
             <if test="isDelete != null">#{isDelete},</if>
-         </trim>
+        </trim>
     </insert>
 
-    <update id="updateShoppingBuyPlan" parameterType="ShoppingBuyPlan">
+    <update id="updateShoppingBuyPlan" parameterType="com.yz.shopping.domain.ShoppingBuyPlan">
         update shopping_buy_plan
         <trim prefix="SET" suffixOverrides=",">
             <if test="planClod != null">plan_clod = #{planClod},</if>
+            <if test="planName != null">plan_name= #{planName},</if>
             <if test="buyPlanVendorId != null">buy_plan_vendor_id = #{buyPlanVendorId},</if>
             <if test="buyPlanWarehouseId != null">buy_plan_warehouse_id = #{buyPlanWarehouseId},</if>
             <if test="buyTypeId != null">buy_type_id = #{buyTypeId},</if>
-            <if test="state != null">state = #{state},</if>
+            <if test="buyPlanDemandId != null">buy_plan_demand_id=#{buyPlanDemandId},</if>
+            <if test="planState != null">plan_state = #{planState},</if>
             <if test="createBy != null">create_by = #{createBy},</if>
             <if test="createTime != null">create_time = #{createTime},</if>
             <if test="updateBy != null">update_by = #{updateBy},</if>
@@ -83,13 +137,27 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </trim>
         where buy_plan_id = #{buyPlanId}
     </update>
+    <update id="updateExamine" parameterType="com.yz.shopping.domain.ShoppingBuyPlan">
+        update shopping_buy_plan
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="planState != null">plan_state = #{planState},</if>
+        </trim>
+        where buy_plan_id = #{buyPlanId}
+    </update>
+    <update id="upState" parameterType="com.yz.shopping.domain.ShoppingBuyPlan">
+        update shopping_buy_plan
+        set plan_state =3
+        where buy_plan_id = #{bid}
+    </update>
 
     <delete id="deleteShoppingBuyPlanByBuyPlanId" parameterType="Long">
-        delete from shopping_buy_plan where buy_plan_id = #{buyPlanId}
+        delete
+        from shopping_buy_plan
+        where buy_plan_id = #{buyPlanId}
     </delete>
 
     <delete id="deleteShoppingBuyPlanByBuyPlanIds" parameterType="String">
-        delete from shopping_buy_plan where buy_plan_id in 
+        delete from shopping_buy_plan where buy_plan_id in
         <foreach item="buyPlanId" collection="array" open="(" separator="," close=")">
             #{buyPlanId}
         </foreach>

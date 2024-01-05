@@ -2,6 +2,7 @@ package com.yz.shopping.mapper;
 
 import java.util.List;
 import com.yz.shopping.domain.ShoppingDemand;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * 采购需求物料表Mapper接口
@@ -26,6 +27,13 @@ public interface ShoppingDemandMapper
      * @return 采购需求物料表集合
      */
     public List<ShoppingDemand> selectShoppingDemandList(ShoppingDemand shoppingDemand);
+
+    /**
+     * 收货单物料信息
+     * @param demandId
+     * @return
+     */
+    public ShoppingDemand showDemand(@Param("demandId")Long demandId);
 
     /**
      * 新增采购需求物料表

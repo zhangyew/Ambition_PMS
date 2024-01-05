@@ -15,39 +15,126 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="receiptVendorId"    column="receipt_vendor_id"    />
         <result property="contact"    column="contact"    />
         <result property="receiptPhone"    column="receipt_phone"    />
-        <result property="state"    column="state"    />
+        <result property="receiptState"    column="receipt_state"    />
+        <result property="orderId"    column="order_id"    />
+        <result property="orderNumber"    column="order_number"    />
+        <result property="orderNumber"    column="order_number"    />
+        <result property="orderTitle"    column="order_title"    />
+        <result property="abbreviated"    column="abbreviated"    />
+        <result property="demandCount"    column="demand_count"    />
+        <result property="totalMoney"    column="total_money"    />
+        <result property="datePlusThreeDays"    column="DatePlusThreeDays"    />
+        <result property="warehouseName"    column="warehouse_name"    />
+        <result property="orderMaterialId" column="order_material_id" />
         <result property="createBy"    column="create_by"    />
         <result property="createTime"    column="create_time"    />
         <result property="updateBy"    column="update_by"    />
         <result property="updateTime"    column="update_time"    />
         <result property="isDelete"    column="is_delete"    />
+        <result property="ordeContractId" column="orde_contract_id"/>
+    </resultMap>
+
+    <resultMap type="com.ruoyi.system.api.domain.PublicReceipt" id="FindPublicReceipt">
+        <result property="receiptId"    column="receipt_id"    />
+        <result property="receiptClod"    column="receipt_clod"    />
+        <result property="receiptTime"    column="receipt_time"    />
+        <result property="receiptBy"    column="receipt_by"    />
+        <result property="receiptNumber"    column="receipt_number"    />
+        <result property="receiptMoney"    column="receipt_money"    />
+        <result property="remark"    column="remark"    />
+        <result property="receiptVendorId"    column="receipt_vendor_id"    />
+        <result property="contact"    column="contact"    />
+        <result property="receiptPhone"    column="receipt_phone"    />
+        <result property="receiptState"    column="receipt_state"    />
+        <result property="orderId"    column="order_id"    />
+        <result property="orderNumber"    column="order_number"    />
+        <result property="orderNumber"    column="order_number"    />
+        <result property="orderTitle"    column="order_title"    />
+        <result property="abbreviated"    column="abbreviated"    />
+        <result property="demandCount"    column="demand_count"    />
+        <result property="totalMoney"    column="total_money"    />
+        <result property="datePlusThreeDays"    column="DatePlusThreeDays"    />
+        <result property="warehouseName"    column="warehouse_name"    />
+        <result property="orderMaterialId" column="order_material_id" />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="isDelete"    column="is_delete"    />
+        <collection property="publicVendor" ofType="com.ruoyi.system.api.domain.PublicVendor">
+            <result property="vendorId" column="vendor_id"/>
+            <result property="vendorNumber" column="vendor_number"/>
+            <result property="abbreviated" column="abbreviated"/>
+            <result property="contractTypeTypeId" column="contract_type_type_id"/>
+            <result property="vendorTypeStateId" column="vendor_type_state_id"/>
+            <result property="isBlacklist" column="is_blacklist"/>
+            <result property="ranges" column="ranges"/>
+            <result property="causes" column="causes"/>
+            <result property="warehouseAddress" column="warehouse_address"/>
+            <result property="profile" column="profile"/>
+            <result property="delegates" column="delegates"/>
+            <result property="addTime" column="add_time"/>
+            <result property="email" column="email"/>
+            <result property="fax" column="fax"/>
+            <result property="responsible" column="responsible"/>
+            <result property="responsiblePhone" column="responsible_phone"/>
+            <result property="bankingName" column="banking_name"/>
+            <result property="industrialCommercial" column="industrial_commercial"/>
+            <result property="createBy" column="create_by"/>
+            <result property="createTime" column="create_time"/>
+            <result property="updateBy" column="update_by"/>
+            <result property="updateTime" column="update_time"/>
+            <result property="isExist" column="is_exist"/>
+            <result property="isDelete" column="is_delete"/>
+        </collection>
+        <collection property="publicWarehouse" ofType="com.ruoyi.system.api.domain.PublicWarehouse">
+            <result property="warehouseId" column="warehouse_id"/>
+            <result property="warehouseAddress" column="warehouse_address"/>
+            <result property="warehouseNumber" column="warehouse_number"/>
+            <result property="warehouseName" column="warehouse_name"/>
+        </collection>
     </resultMap>
 
     <sql id="selectPublicReceiptVo">
-        select receipt_id, receipt_clod, receipt_time, receipt_by, receipt_number, receipt_money, remark, receipt_vendor_id, contact, receipt_phone, state, create_by, create_time, update_by, update_time, is_delete from public_receipt
+        select receipt_id, receipt_clod, receipt_time, receipt_by, receipt_number, receipt_money, remark, receipt_vendor_id, contact, receipt_phone, receipt_state, receipt_orders_id, create_by, create_time, update_by, update_time, is_delete from public_receipt
     </sql>
 
-    <select id="selectPublicReceiptList" parameterType="com.ruoyi.system.api.domain.PublicReceipt" resultMap="PublicReceiptResult">
-        <include refid="selectPublicReceiptVo"/>
-        <where>  
-            <if test="receiptClod != null  and receiptClod != ''"> and receipt_clod = #{receiptClod}</if>
-            <if test="receiptTime != null "> and receipt_time = #{receiptTime}</if>
-            <if test="receiptBy != null  and receiptBy != ''"> and receipt_by = #{receiptBy}</if>
-            <if test="receiptNumber != null "> and receipt_number = #{receiptNumber}</if>
-            <if test="receiptMoney != null "> and receipt_money = #{receiptMoney}</if>
-            <if test="receiptVendorId != null "> and receipt_vendor_id = #{receiptVendorId}</if>
-            <if test="contact != null  and contact != ''"> and contact = #{contact}</if>
-            <if test="receiptPhone != null  and receiptPhone != ''"> and receipt_phone = #{receiptPhone}</if>
-            <if test="state != null "> and state = #{state}</if>
-            <if test="isDelete != null "> and is_delete = #{isDelete}</if>
+    <!--    收货列表-->
+    <select id="ShowsPublicReceiptList" parameterType="com.ruoyi.system.api.domain.PublicReceipt" resultMap="FindPublicReceipt">
+        SELECT res.receipt_clod,ve.abbreviated,res.receipt_number,res.receipt_money,res.receipt_time,res.receipt_by,wa.warehouse_name,res.receipt_state
+        FROM public_receipt AS res
+        INNER JOIN public_vendor AS ve ON(res.receipt_vendor_id=ve.vendor_id)
+        INNER JOIN public_warehouse AS wa ON(res.receipt_warehouse_id =wa.warehouse_id)
+        <where>
+            <if test="receiptClod != null  and receiptClod != ''"> AND res.receipt_clod like concat('%', #{receiptClod}, '%') </if>
+            <if test="abbreviated != null  and abbreviated != ''"> AND ve.abbreviated like concat('%', #{abbreviated}, '%') </if>
+            AND res.is_delete=0 AND ve.is_delete=0 AND ve.is_exist=0
         </where>
     </select>
-    
+
+    <!--    待收货列表-->
+    <select id="selectPublicReceiptList" parameterType="com.ruoyi.system.api.domain.PublicReceipt" resultMap="PublicReceiptResult">
+        SELECT ord.order_id,ord.order_number,
+        ve.abbreviated,
+        ord.order_title,
+        de.demand_count,
+        order_material_id,
+        ord.total_money,DATE_ADD(ord.create_time, INTERVAL 3 DAY) AS DatePlusThreeDays,
+        ord.orde_contract_id
+        FROM shopping_orders AS ord
+        INNER JOIN public_vendor AS ve ON(ord.order_supplier_id=ve.vendor_id)
+        INNER JOIN shopping_demand AS de ON(ord.order_material_id=de.demand_id)
+        <where>
+            <if test="orderNumber != null  and orderNumber != ''"> and order_number like concat('%', #{orderNumber}, '%') </if>
+            and ord.type_order_state=6 and ord.is_delete=0
+        </where>
+    </select>
+
     <select id="selectPublicReceiptByReceiptId" parameterType="Long" resultMap="PublicReceiptResult">
         <include refid="selectPublicReceiptVo"/>
         where receipt_id = #{receiptId}
     </select>
-        
+
     <insert id="insertPublicReceipt" parameterType="com.ruoyi.system.api.domain.PublicReceipt" useGeneratedKeys="true" keyProperty="receiptId">
         insert into public_receipt
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -60,13 +147,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="receiptVendorId != null">receipt_vendor_id,</if>
             <if test="contact != null">contact,</if>
             <if test="receiptPhone != null">receipt_phone,</if>
-            <if test="state != null">state,</if>
+            <if test="receiptState != null">receipt_state,</if>
+            <if test="receiptOrdersId != null">receipt_orders_id,</if>
+            <if test="receiptWarehouseId != null">receipt_warehouse_id,</if>
             <if test="createBy != null">create_by,</if>
             <if test="createTime != null">create_time,</if>
             <if test="updateBy != null">update_by,</if>
             <if test="updateTime != null">update_time,</if>
             <if test="isDelete != null">is_delete,</if>
-         </trim>
+        </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="receiptClod != null">#{receiptClod},</if>
             <if test="receiptTime != null">#{receiptTime},</if>
@@ -77,13 +166,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="receiptVendorId != null">#{receiptVendorId},</if>
             <if test="contact != null">#{contact},</if>
             <if test="receiptPhone != null">#{receiptPhone},</if>
-            <if test="state != null">#{state},</if>
+            <if test="receiptState != null">#{receiptState},</if>
+            <if test="receiptOrdersId != null">#{receiptOrdersId},</if>
+            <if test="receiptWarehouseId != null">#{receiptWarehouseId},</if>
             <if test="createBy != null">#{createBy},</if>
             <if test="createTime != null">#{createTime},</if>
             <if test="updateBy != null">#{updateBy},</if>
             <if test="updateTime != null">#{updateTime},</if>
             <if test="isDelete != null">#{isDelete},</if>
-         </trim>
+        </trim>
     </insert>
 
     <update id="updatePublicReceipt" parameterType="com.ruoyi.system.api.domain.PublicReceipt">
@@ -98,7 +189,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="receiptVendorId != null">receipt_vendor_id = #{receiptVendorId},</if>
             <if test="contact != null">contact = #{contact},</if>
             <if test="receiptPhone != null">receipt_phone = #{receiptPhone},</if>
-            <if test="state != null">state = #{state},</if>
+            <if test="receiptState != null">receipt_state = #{receiptState},</if>
+            <if test="receiptOrdersId != null">receipt_orders_id = #{receiptOrdersId},</if>
+            <if test="receiptWarehouseId != null">receipt_warehouse_id = #{receiptWarehouseId},</if>
             <if test="createBy != null">create_by = #{createBy},</if>
             <if test="createTime != null">create_time = #{createTime},</if>
             <if test="updateBy != null">update_by = #{updateBy},</if>
@@ -113,7 +206,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </delete>
 
     <delete id="deletePublicReceiptByReceiptIds" parameterType="String">
-        delete from public_receipt where receipt_id in 
+        delete from public_receipt where receipt_id in
         <foreach item="receiptId" collection="array" open="(" separator="," close=")">
             #{receiptId}
         </foreach>

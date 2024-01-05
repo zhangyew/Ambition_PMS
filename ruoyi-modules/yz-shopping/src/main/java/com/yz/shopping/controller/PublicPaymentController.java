@@ -38,7 +38,7 @@ public class PublicPaymentController extends BaseController
     /**
      * 查询合同付款列表
      */
-    @RequiresPermissions("pms.public:payment:list")
+    @RequiresPermissions("shopping/public:payment:list")
     @GetMapping("/list")
     public TableDataInfo list(PublicPayment publicPayment)
     {
@@ -50,7 +50,7 @@ public class PublicPaymentController extends BaseController
     /**
      * 导出合同付款列表
      */
-    @RequiresPermissions("pms.public:payment:export")
+    @RequiresPermissions("shopping/public:payment:export")
     @Log(title = "合同付款", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, PublicPayment publicPayment)
@@ -62,8 +62,9 @@ public class PublicPaymentController extends BaseController
 
     /**
      * 获取合同付款详细信息
+     * bidding/public:contractdetails:query
      */
-    @RequiresPermissions("pms.public:payment:query")
+//    @RequiresPermissions("bidding/public:contractdetails:query")
     @GetMapping(value = "/{paymentId}")
     public AjaxResult getInfo(@PathVariable("paymentId") Long paymentId)
     {
@@ -73,18 +74,20 @@ public class PublicPaymentController extends BaseController
     /**
      * 新增合同付款
      */
-    @RequiresPermissions("pms.public:payment:add")
+    @RequiresPermissions("shopping/public:payment:add")
     @Log(title = "合同付款", businessType = BusinessType.INSERT)
     @PostMapping
-    public AjaxResult add(@RequestBody PublicPayment publicPayment)
+    public PublicPayment add(@RequestBody PublicPayment publicPayment)
     {
-        return toAjax(publicPaymentService.insertPublicPayment(publicPayment));
+        PublicPayment payment=publicPayment;
+        publicPaymentService.insertPublicPayment(payment);
+        return payment;
     }
 
     /**
      * 修改合同付款
      */
-    @RequiresPermissions("pms.public:payment:edit")
+    @RequiresPermissions("shopping/public:payment:edit")
     @Log(title = "合同付款", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody PublicPayment publicPayment)
@@ -95,7 +98,7 @@ public class PublicPaymentController extends BaseController
     /**
      * 删除合同付款
      */
-    @RequiresPermissions("pms.public:payment:remove")
+    @RequiresPermissions("shopping/public:payment:remove")
     @Log(title = "合同付款", businessType = BusinessType.DELETE)
 	@DeleteMapping("/{paymentIds}")
     public AjaxResult remove(@PathVariable Long[] paymentIds)

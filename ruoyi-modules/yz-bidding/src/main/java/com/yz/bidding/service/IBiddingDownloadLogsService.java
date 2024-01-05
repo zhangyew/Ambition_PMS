@@ -11,6 +11,14 @@ import com.yz.bidding.domain.BiddingDownloadLogs;
  */
 public interface IBiddingDownloadLogsService 
 {
+
+    /**
+     * 查询招标项目下的所有标书下载记录
+     * @param nid
+     * @return
+     */
+    public List<BiddingDownloadLogs> findDownloadLogsByTenderId(String nid);
+
     /**
      * 查询标书下载记录表
      * 

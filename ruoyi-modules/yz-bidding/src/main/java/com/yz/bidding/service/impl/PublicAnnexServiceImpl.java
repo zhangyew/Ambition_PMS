@@ -1,93 +1,61 @@
 package com.yz.bidding.service.impl;
 
-import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import com.yz.bidding.mapper.PublicAnnexMapper;
 import com.ruoyi.system.api.domain.PublicAnnex;
+import com.yz.bidding.mapper.PublicAnnexMapper;
 import com.yz.bidding.service.IPublicAnnexService;
+import org.springframework.stereotype.Service;
 
-/**
- * 公告附件Service业务层处理
- * 
- * @author zhangye
- * @date 2023-11-21
- */
+import javax.annotation.Resource;
+import java.util.List;
+import java.util.Map;
+
 @Service
-public class PublicAnnexServiceImpl implements IPublicAnnexService 
-{
-    @Autowired
-    private PublicAnnexMapper publicAnnexMapper;
+public class PublicAnnexServiceImpl implements IPublicAnnexService {
+    @Resource
+    private PublicAnnexMapper annexMapper;
 
-    /**
-     * 查询公告附件
-     * 
-     * @param annexId 公告附件主键
-     * @return 公告附件
-     */
     @Override
-    public PublicAnnex selectPublicAnnexByAnnexId(Long annexId)
-    {
-        return publicAnnexMapper.selectPublicAnnexByAnnexId(annexId);
+    public List<PublicAnnex> findAnnexByPbId(String id) {
+        return annexMapper.findAnnexByPbId(id);
     }
 
-    /**
-     * 查询公告附件列表
-     * 
-     * @param publicAnnex 公告附件
-     * @return 公告附件
-     */
     @Override
-    public List<PublicAnnex> selectPublicAnnexList(PublicAnnex publicAnnex)
-    {
-        return publicAnnexMapper.selectPublicAnnexList(publicAnnex);
+    public List<Map<String, Object>> findAnnexByTenderProjectsId(String pid) {
+        return annexMapper.findAnnexByTenderProjectsId(pid);
     }
 
-    /**
-     * 新增公告附件
-     * 
-     * @param publicAnnex 公告附件
-     * @return 结果
-     */
     @Override
-    public int insertPublicAnnex(PublicAnnex publicAnnex)
-    {
-        return publicAnnexMapper.insertPublicAnnex(publicAnnex);
+    public PublicAnnex selectPublicAnnexByAnnexId(Long annexId) {
+        return annexMapper.selectPublicAnnexByAnnexId(annexId);
     }
 
-    /**
-     * 修改公告附件
-     * 
-     * @param publicAnnex 公告附件
-     * @return 结果
-     */
     @Override
-    public int updatePublicAnnex(PublicAnnex publicAnnex)
-    {
-        return publicAnnexMapper.updatePublicAnnex(publicAnnex);
+    public List<PublicAnnex> selectPublicAnnexList(PublicAnnex publicAnnex) {
+        return annexMapper.selectPublicAnnexList(publicAnnex);
     }
 
-    /**
-     * 批量删除公告附件
-     * 
-     * @param annexIds 需要删除的公告附件主键
-     * @return 结果
-     */
     @Override
-    public int deletePublicAnnexByAnnexIds(Long[] annexIds)
-    {
-        return publicAnnexMapper.deletePublicAnnexByAnnexIds(annexIds);
+    public int insertPublicAnnex(PublicAnnex publicAnnex) {
+        return annexMapper.insertPublicAnnex(publicAnnex);
     }
 
-    /**
-     * 删除公告附件信息
-     * 
-     * @param annexId 公告附件主键
-     * @return 结果
-     */
     @Override
-    public int deletePublicAnnexByAnnexId(Long annexId)
-    {
-        return publicAnnexMapper.deletePublicAnnexByAnnexId(annexId);
+    public int updatePublicAnnex(PublicAnnex publicAnnex) {
+        return annexMapper.updatePublicAnnex(publicAnnex);
+    }
+
+    @Override
+    public int deletePublicAnnexByAnnexIds(Long[] annexIds) {
+        return annexMapper.deletePublicAnnexByAnnexIds(annexIds);
+    }
+
+    @Override
+    public int deletePublicAnnexByAnnexId(Long annexId) {
+        return annexMapper.deletePublicAnnexByAnnexId(annexId);
+    }
+
+    @Override
+    public List<PublicAnnex> findAnnexByOrder(Long oid) {
+        return annexMapper.findAnnexByOrder(oid);
     }
 }

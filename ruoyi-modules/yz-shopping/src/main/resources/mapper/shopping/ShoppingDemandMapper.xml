@@ -4,7 +4,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yz.shopping.mapper.ShoppingDemandMapper">
     
-    <resultMap type="ShoppingDemand" id="ShoppingDemandResult">
+    <resultMap type="com.yz.shopping.domain.ShoppingDemand" id="ShoppingDemandResult">
         <result property="demandId"    column="demand_id"    />
         <result property="demandMaId"    column="demand_ma_id"    />
         <result property="demandCount"    column="demand_count"    />
@@ -15,11 +15,52 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="warehousingCount"    column="warehousing_count"    />
     </resultMap>
 
+    <resultMap id="FindShoppingDemandResult" type="com.yz.shopping.domain.ShoppingDemand">
+        <result property="demandId"    column="demand_id"    />
+        <result property="demandMaId"    column="demand_ma_id"    />
+        <result property="demandCount"    column="demand_count"    />
+        <result property="demandTime"    column="demand_time"    />
+        <result property="remark"    column="remark"    />
+        <result property="budgetAmount"    column="budget_amount"    />
+        <result property="orderCount"    column="order_count"    />
+        <result property="warehousingCount"    column="warehousing_count"    />
+        <collection property="publicGoods" ofType="com.ruoyi.system.api.domain.PublicGoods">
+            <result property="goodsId" column="goods_id"/>
+            <result property="categoryId" column="category_id"/>
+            <result property="goodsName" column="goods_name"/>
+            <result property="goodsCode" column="goods_code"/>
+            <result property="goodsType" column="goods_type"/>
+            <result property="specs" column="specs"/>
+            <result property="model" column="model"/>
+            <result property="brand" column="brand"/>
+            <result property="weight" column="weight"/>
+            <result property="goodsNumber" column="goods_number"/>
+            <result property="volume" column="volume"/>
+            <result property="buyer" column="buyer"/>
+            <result property="state" column="state"/>
+            <result property="createBy" column="create_by"/>
+            <result property="createTime" column="create_time"/>
+            <result property="updateBy" column="update_by"/>
+            <result property="updateTime" column="update_time"/>
+        </collection>
+        <collection property="publicCategory" ofType="com.ruoyi.system.api.domain.PublicCategory">
+            <result property="categoryId"    column="category_id"    />
+            <result property="categoryNumber"    column="category_number"    />
+            <result property="categoryName"    column="category_name"    />
+            <result property="parentCategory"    column="parent_category"    />
+            <result property="createBy"    column="create_by"    />
+            <result property="createTime"    column="create_time"    />
+            <result property="updateBy"    column="update_by"    />
+            <result property="updateTime"    column="update_time"    />
+            <result property="isDelete"    column="is_delete"    />
+        </collection>
+    </resultMap>
+
     <sql id="selectShoppingDemandVo">
         select demand_id, demand_ma_id, demand_count, demand_time, remark, budget_amount, order_count, warehousing_count from shopping_demand
     </sql>
 
-    <select id="selectShoppingDemandList" parameterType="ShoppingDemand" resultMap="ShoppingDemandResult">
+    <select id="selectShoppingDemandList" parameterType="com.yz.shopping.domain.ShoppingDemand" resultMap="ShoppingDemandResult">
         <include refid="selectShoppingDemandVo"/>
         <where>  
             <if test="demandMaId != null "> and demand_ma_id = #{demandMaId}</if>
@@ -31,12 +72,45 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </where>
     </select>
     
-    <select id="selectShoppingDemandByDemandId" parameterType="Long" resultMap="ShoppingDemandResult">
-        <include refid="selectShoppingDemandVo"/>
+    <select id="selectShoppingDemandByDemandId" parameterType="Long" resultMap="ShoppingDemandResult1">
+        select demand_id, demand_ma_id, demand_count, demand_time,
+               remark, budget_amount, order_count,
+               warehousing_count,pg.category_id,pg.goods_code,
+               pg.goods_id,
+               pg.goods_name,pc.category_name,pg.goods_type
+        from shopping_demand sd
+        left join public_goods pg on sd.demand_ma_id = pg.goods_id
+        left join public_category pc on pc.category_id = pg.category_id
         where demand_id = #{demandId}
     </select>
+    <resultMap type="com.yz.shopping.domain.ShoppingDemand" id="ShoppingDemandResult1">
+        <result property="demandId"    column="demand_id"    />
+        <result property="demandMaId"    column="demand_ma_id"    />
+        <result property="demandCount"    column="demand_count"    />
+        <result property="demandTime"    column="demand_time"    />
+        <result property="remark"    column="remark"    />
+        <result property="budgetAmount"    column="budget_amount"    />
+        <result property="orderCount"    column="order_count"    />
+        <result property="warehousingCount"    column="warehousing_count"    />
+        <association property="publicGoods" javaType="com.ruoyi.system.api.domain.PublicGoods">
+            <result property="categoryId" column="category_id"/>
+            <result property="goodsCode" column="goods_code"/>
+            <result property="goodsName" column="goods_name"/>
+            <result property="goodsId" column="goods_id"/>
+            <result property="categoryName" column="category_name"/>
+            <result property="goodsType" column="goods_type"/>
+        </association>
+    </resultMap>
+
+    <select id="showDemand" parameterType="Long" resultMap="FindShoppingDemandResult">
+        SELECT * FROM shopping_demand AS de
+                          INNER JOIN public_goods AS gos ON(de.demand_ma_id=goods_id)
+                          INNER JOIN public_category AS cat ON(gos.category_id=cat.category_id)
+        WHERE  de.demand_id=#{demandId}
+
+    </select>
         
-    <insert id="insertShoppingDemand" parameterType="ShoppingDemand" useGeneratedKeys="true" keyProperty="demandId">
+    <insert id="insertShoppingDemand" parameterType="com.yz.shopping.domain.ShoppingDemand" useGeneratedKeys="true" keyProperty="demandId">
         insert into shopping_demand
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="demandMaId != null">demand_ma_id,</if>
@@ -58,7 +132,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
          </trim>
     </insert>
 
-    <update id="updateShoppingDemand" parameterType="ShoppingDemand">
+    <update id="updateShoppingDemand" parameterType="com.yz.shopping.domain.ShoppingDemand">
         update shopping_demand
         <trim prefix="SET" suffixOverrides=",">
             <if test="demandMaId != null">demand_ma_id = #{demandMaId},</if>

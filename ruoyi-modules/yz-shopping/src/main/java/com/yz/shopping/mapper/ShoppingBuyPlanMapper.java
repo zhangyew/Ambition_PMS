@@ -2,6 +2,7 @@ package com.yz.shopping.mapper;
 
 import java.util.List;
 import com.yz.shopping.domain.ShoppingBuyPlan;
+import com.yz.shopping.domain.ShoppingProRequire;
 
 /**
  * 采购计划表Mapper接口
@@ -18,10 +19,18 @@ public interface ShoppingBuyPlanMapper
      * @return 采购计划表
      */
     public ShoppingBuyPlan selectShoppingBuyPlanByBuyPlanId(Long buyPlanId);
+    int upState(Long bid);
+    /**
+     * 采购计划（合同签订
+     *
+     * @param buyPlanId 采购计划表
+     * @return 采购计划表集合
+     */
+    public List<ShoppingBuyPlan> showBuyPlan(Long buyPlanId);
 
     /**
      * 查询采购计划表列表
-     * 
+     *
      * @param shoppingBuyPlan 采购计划表
      * @return 采购计划表集合
      */
@@ -43,6 +52,7 @@ public interface ShoppingBuyPlanMapper
      */
     public int updateShoppingBuyPlan(ShoppingBuyPlan shoppingBuyPlan);
 
+    public int updateExamine(ShoppingBuyPlan shoppingBuyPlan);
     /**
      * 删除采购计划表
      * 
