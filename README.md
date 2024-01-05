@@ -1,6 +1,5 @@
 
-	<img alt="logo" src="https://oscimg.oschina.net/oscnet/up-b99b286755aef70355a7084753f89cdb7c9.png">
-</p>
+
 <h1 align="center" style="margin: 30px 0 30px; font-weight: bold;">RuoYi v3.6.3</h1>
 <h4 align="center">基于 Vue/Element UI 和 Spring Boot/Spring Cloud & Alibaba 前后端分离的分布式微服务架构</h4>
 <p align="center">
@@ -88,7 +87,8 @@ com.ruoyi
 
 <table>
     <tr>
-        <td><img src="https://oscimg.oschina.net/oscnet/cd1f90be5f2684f4560c9519c0f2a232ee8.jpg"/></td>
+        <td>![20240102160655](https://github.com/zhangyew/Ambition_PMS/assets/103418184/72891d70-bc1e-4fed-b6f3-ca265ee0b647)
+</td>
         <td><img src="https://oscimg.oschina.net/oscnet/1cbcf0e6f257c7d3a063c0e3f2ff989e4b3.jpg"/></td>
     </tr>
     <tr>
