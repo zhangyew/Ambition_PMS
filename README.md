@@ -48,28 +48,16 @@ com.ruoyi
 ├──pom.xml                // 公共依赖
 ~~~
 
-## 架构图
+## 业务流程图
 ![image](https://github.com/zhangyew/Ambition_PMS/assets/103418184/a7faea1a-ae8e-41a9-84a2-c5a806328034)
 
-## 内置功能
+## 基础功能
 
-1.  用户管理：用户是系统操作者，该功能主要完成系统用户配置。
-2.  部门管理：配置系统组织机构（公司、部门、小组），树结构展现支持数据权限。
-3.  岗位管理：配置系统用户所属担任职务。
-4.  菜单管理：配置系统菜单，操作权限，按钮权限标识等。
-5.  角色管理：角色菜单权限分配、设置角色按机构进行数据范围权限划分。
-6.  字典管理：对系统中经常使用的一些较为固定的数据进行维护。
-7.  参数管理：对系统动态配置常用参数。
-8.  通知公告：系统通知公告信息发布维护。
-9.  操作日志：系统正常操作日志记录和查询；系统异常信息日志记录和查询。
-10. 登录日志：系统登录日志记录查询包含登录异常。
-11. 在线用户：当前系统中活跃用户状态监控。
-12. 定时任务：在线（添加、修改、删除)任务调度包含执行结果日志。
-13. 代码生成：前后端代码的生成（java、html、xml、sql）支持CRUD下载 。
-14. 系统接口：根据业务代码自动生成相关的api接口文档。
-15. 服务监控：监视当前系统CPU、内存、磁盘、堆栈等相关信息。
-16. 在线构建器：拖动表单元素生成相应的HTML代码。
-17. 连接池监视：监视当前系统数据库连接池状态，可进行分析SQL找出系统性能瓶颈。
+1.  采购管理：包含采购主流程、采购需求、采购计划、采购订单
+2.  招投标管理：招投标流程、发布招标项目、招标公告、投标、评标、开标、
+3.  合同签订：招标结束后与供应商进行合同签订、合同管理
+4.  基础资料管理：包含物品、专家、仓库等等信息录入以及编码规则
+5.  注：系统其他功能均使用ruoyi-clod框架 http://doc.ruoyi.vip
 
 ## 在线体验
 
@@ -77,43 +65,17 @@ com.ruoyi
 文档地址：http://doc.ruoyi.vip
 
 ## 演示图
+![image](https://github.com/zhangyew/Ambition_PMS/assets/103418184/2149c735-becf-4c05-ac02-d5b72352774e)
+![image](https://github.com/zhangyew/Ambition_PMS/assets/103418184/f77eacd6-ef79-4697-a4bd-7df7db1cbfad)
+![image](https://github.com/zhangyew/Ambition_PMS/assets/103418184/aa709840-f295-402b-81e2-99526b022743)
+![image](https://github.com/zhangyew/Ambition_PMS/assets/103418184/f51624c2-0953-41c6-bc8e-0ae1a8971f90)
+![image](https://github.com/zhangyew/Ambition_PMS/assets/103418184/e6caa79b-9f07-40c5-af18-0464ac33d12b)
+![image](https://github.com/zhangyew/Ambition_PMS/assets/103418184/e0ded410-468c-4776-99e8-bc5706856101)
+![image](https://github.com/zhangyew/Ambition_PMS/assets/103418184/6ad38db8-7063-4003-8a7e-69f5f55961f9)
+![image](https://github.com/zhangyew/Ambition_PMS/assets/103418184/52c35aa1-ccad-4f43-85f8-6c317f7691a1)
+![image](https://github.com/zhangyew/Ambition_PMS/assets/103418184/93d6d252-8dc5-41f7-9cbb-3e1bc2581627)
+![image](https://github.com/zhangyew/Ambition_PMS/assets/103418184/25ff5927-70ab-42ad-97e2-24d06bc359e1)
+![image](https://github.com/zhangyew/Ambition_PMS/assets/103418184/f5c5f81b-f8c5-4aea-b9a4-6cbf370e98b2)
+![image](https://github.com/zhangyew/Ambition_PMS/assets/103418184/f71a1f8c-1737-4649-a590-27f4f6633411)
 
-<table>
-    <tr>
-        <td>![20240102160655](https://github.com/zhangyew/Ambition_PMS/assets/103418184/72891d70-bc1e-4fed-b6f3-ca265ee0b647)
-</td>
-        <td><img src="https://oscimg.oschina.net/oscnet/1cbcf0e6f257c7d3a063c0e3f2ff989e4b3.jpg"/></td>
-    </tr>
-    <tr>
-        <td><img src="https://oscimg.oschina.net/oscnet/up-8074972883b5ba0622e13246738ebba237a.png"/></td>
-        <td><img src="https://oscimg.oschina.net/oscnet/up-9f88719cdfca9af2e58b352a20e23d43b12.png"/></td>
-    </tr>
-    <tr>
-        <td><img src="https://oscimg.oschina.net/oscnet/up-39bf2584ec3a529b0d5a3b70d15c9b37646.png"/></td>
-        <td><img src="https://oscimg.oschina.net/oscnet/up-4148b24f58660a9dc347761e4cf6162f28f.png"/></td>
-    </tr>
-	<tr>
-        <td><img src="https://oscimg.oschina.net/oscnet/up-b2d62ceb95d2dd9b3fbe157bb70d26001e9.png"/></td>
-        <td><img src="https://oscimg.oschina.net/oscnet/up-d67451d308b7a79ad6819723396f7c3d77a.png"/></td>
-    </tr>	 
-    <tr>
-        <td><img src="https://oscimg.oschina.net/oscnet/5e8c387724954459291aafd5eb52b456f53.jpg"/></td>
-        <td><img src="https://oscimg.oschina.net/oscnet/644e78da53c2e92a95dfda4f76e6d117c4b.jpg"/></td>
-    </tr>
-	<tr>
-        <td><img src="https://oscimg.oschina.net/oscnet/up-8370a0d02977eebf6dbf854c8450293c937.png"/></td>
-        <td><img src="https://oscimg.oschina.net/oscnet/up-49003ed83f60f633e7153609a53a2b644f7.png"/></td>
-    </tr>
-	<tr>
-        <td><img src="https://oscimg.oschina.net/oscnet/up-d4fe726319ece268d4746602c39cffc0621.png"/></td>
-        <td><img src="https://oscimg.oschina.net/oscnet/up-c195234bbcd30be6927f037a6755e6ab69c.png"/></td>
-    </tr>
-	<tr>
-        <td><img src="https://oscimg.oschina.net/oscnet/up-ece3fd37a3d4bb75a3926e905a3c5629055.png"/></td>
-        <td><img src="https://oscimg.oschina.net/oscnet/up-92ffb7f3835855cff100fa0f754a6be0d99.png"/></td>
-    </tr>
-    <tr>
-        <td><img src="https://oscimg.oschina.net/oscnet/up-ff9e3066561574aca73005c5730c6a41f15.png"/></td>
-        <td><img src="https://oscimg.oschina.net/oscnet/up-5e4daac0bb59612c5038448acbcef235e3a.png"/></td>
-    </tr>
-</table>
+
